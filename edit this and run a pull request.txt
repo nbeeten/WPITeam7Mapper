@@ -1,5 +1,12 @@
 add some text and then make a pull request to add the edit into the main doc.
 
-did a thing, it was silly
-eggs are pretty neat (Kelly)
 
+ ______________________________ 
+< eggs are pretty neat (Kelly) >
+ ------------------------------ 
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+did a thing, it was silly
