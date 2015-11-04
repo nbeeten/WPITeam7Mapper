@@ -1,0 +1,50 @@
+Node file structure
+
+Binary? Plaintext?
+Plaintext seems better at this stage
+Will result in larger filesizes and loading times, but we wont have more than 1000 points and 10000 edges, so it wont be a major issue
+
+
+Binary:
+	Header:
+		magic number/version
+		Num of nodes
+		offset to nodes
+		num of edges
+		offset to edges
+	//for list of attribs i might have to have another section, with each edge including an offset to the start of its attribs
+	//if each edge has a static number of attribs (bitfield or something), i can just put that in the edge
+
+Plaintext:
+	Header:
+		Version number
+	node: n float float float;
+	edge: e int int list of attribs?; 
+
+
+Node:
+	float x, float y, float z;
+
+Edge:
+	int Node 1;
+	int Node 2;
+	list of attribs?
+
+
+
+Node in memory
+
+Big list of nodes
+Big list of edges
+
+Quadtree of nodes? (for rendering a bajillion nodes)
+
+Node:
+	float x, float y, float z;
+	int numconnected;
+	list of connected edges; (might be list of ints, i dunno)
+Edge:
+	int Node 1;
+	int Node 2;
+	float len; //compute when loading or adding/moving
+	list of attribs?
