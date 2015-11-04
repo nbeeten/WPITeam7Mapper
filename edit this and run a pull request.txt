@@ -1,6 +1,14 @@
 add some text and then make a pull request to add the edit into the main doc.
 
-did a thing, it was silly
-eggs are pretty neat (Kelly)
-I like potatos
 
+broke a thing maybe?
+ ______________________________ 
+< eggs are pretty neat (Kelly) >
+ ------------------------------ 
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+did a thing, it was silly
+I like potatos
