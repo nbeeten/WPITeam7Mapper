@@ -1,11 +1,14 @@
 add some text and then make a pull request to add the edit into the main doc.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 did a thing, it was silly
 eggs are pretty neat (Kelly)
 pepe did nothing wrong (that's a lie)
 =======
 >>>>>>> 00167130344c4e8955370240343d3d60943e723a
+=======
+>>>>>>> upstream/master
 
  ______________________________ 
 < eggs are pretty neat (Kelly) >
