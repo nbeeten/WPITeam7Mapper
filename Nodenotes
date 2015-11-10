@@ -48,3 +48,22 @@ Edge:
 	int Node 2;
 	float len; //compute when loading or adding/moving
 	list of attribs?
+
+
+
+
+
+
+
+ID SYSTEM: (maybe)
+each node (and edge) will have an id. This id will be made up of two ints (or two 16 bit ints shoved into one 32 bit int).
+One of the ints will be the nodes position in whatever list it is in. The other int will be the number in which the int was added.
+If we delete a node and then replace it, it is impossible for other things to mistake  it for the deleted one, as the number added int will be different.
+
+Edges can reference nodes this way. Nodes can reference edges. If a node tries to refernce something and it returns an error, the node can then delete that reference from its list.
+Edges can do the same, but they will probably delete the entire edge if a reference fails.
+That way, when we delete a node, we dont even have to delete the connected edges. They will automatically delete themselves!
+
+
+You can find this method used https://github.com/roboman2444/enaengine/blob/master/entitymanager.c
+in returnById =, add and etc. Its in C, and uses two ints shoved into one, but it works the same.
