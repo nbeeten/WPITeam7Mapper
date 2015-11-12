@@ -1,4 +1,4 @@
 
-public class graph {
+public class Graph {
 
 }

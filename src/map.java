@@ -1,4 +1,4 @@
 
-public class map {
+public class Map {
 
 }

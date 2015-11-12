@@ -15,16 +15,16 @@ import java.util.List;
  */
 
 
-public class fileio {
-	static void parsepointline(String[] args, display dpy){
+public class FileIO {
+	static void parsepointline(String[] args, Display dpy){
 		if(args.length < 5) return;
 		//dpy.points.addPoint(Float.parseFloat(args[0]), Float.parseFloat(args[1]), Float.parseFloat(args[2]), etc);
 	}
-	static void parseedgeline(String[] args, display dpy){
+	static void parseedgeline(String[] args, Display dpy){
 		if(args.length < 3) return;
 		//dpy.edges.addEdge(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Float.parseFloat(args[2]), etc);
 	}
-	static void parseline(String line, display dpy){
+	static void parseline(String line, Display dpy){
 		//get ready for some obviously dont know how to parse strings in java so im doing it manually stuff
 		int i;
 		int len = line.length();
@@ -43,9 +43,9 @@ public class fileio {
 	}
 
 	//when calling load, you should ALWAYS keep track of the return display. It may create a new one.
-	public static display load(String inpath, display indpy){
-		display curdpy = indpy;
-		if(curdpy == null) curdpy = new display(); //CONTRUCTOOOOOOOOOR needed plz
+	public static Display load(String inpath, Display indpy){
+		Display curdpy = indpy;
+		if(curdpy == null) curdpy = new Display(); //CONTRUCTOOOOOOOOOR needed plz
 
 		//read in all lines
 		Path pty = Paths.get(inpath);
