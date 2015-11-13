@@ -1,4 +1,4 @@
 
-public class gui {
+public class GUI {
 
 }

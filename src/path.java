@@ -1,4 +1,4 @@
 
-public class path {
+public class Path {
 
 }

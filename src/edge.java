@@ -1,4 +1,4 @@
 
-public class edge {
+public class Edge {
 
 }
