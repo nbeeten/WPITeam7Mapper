@@ -1,3 +1,4 @@
+package edu.wpi.off.by.one.errors.code;
 import java.util.Collection;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
