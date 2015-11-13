@@ -1,3 +1,4 @@
+package dataclasses;
 
 public class Coordinate {
 	/* The X part of the coordinate */
@@ -30,4 +31,34 @@ public class Coordinate {
 		y = value;
 		z = value;
 	}
+	
+	/* 
+	 * Getter for the x-coordinate
+	 * @return x The x-coordinate
+	 * */
+	public float getX(){
+		return this.x;
+	}
+	
+	/* 
+	 * Getter for the y-coordinate
+	 * @return y The y-coordinate
+	 * */
+	public float getY(){
+		return this.y;
+	}
+	
+	/* 
+	 * Getter for the z-coordinate
+	 * @return z The z-coordinate
+	 * */
+	public float getZ(){
+		return this.x;
+	}
+	
+	
+	
+	
+	
+	
 }
