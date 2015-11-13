@@ -1,3 +1,4 @@
+package edu.wpi.off.by.one.errors.code;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
