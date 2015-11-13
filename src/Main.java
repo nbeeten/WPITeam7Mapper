@@ -108,7 +108,7 @@ public class Main extends Application{
 
 	//Gets the map image, sets properties, returns a usable node by JavaFX
 	private ImageView GetMapView(){
-		Image map = new Image("map.png");
+		Image map = new Image("/userinterface/resources/map.png");
 		ImageView mapIV = new ImageView();
 		mapIV.setImage(map);
 		mapIV.setFitWidth(scene.widthProperty().get() / 2);
