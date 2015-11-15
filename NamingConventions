@@ -1,0 +1,16 @@
+Classes -> Classes usually are nouns like Car or Person and use CamelCase starting with an upperCase letter.
+	EX: public class Node{ } or public class ClassWithMultipleWord{ }
+
+Interfaces -> Interfaces are usually adverbs/adjectives and Use CamelCase starting with an uppercase letter. An
+		interface can also be seen Starting with an I
+	ex: public interface Comparable{ } or public interface IComparable{ }
+
+Methods -> Methods Usually is/starts with a verb and use camelCase starting with a lowercase letter.
+	ex: public draw(){ } or public addEdge(){ }
+
+
+Variables -> Variables and instances of classes use camelCase starting with a lowercase letter.
+	ex: public int a; public Node node1; public Edge firstEdge;
+
+Constants -> Constants are in all caps and spaces are replaced with an "_"
+	ex: public final int MIN_WIDTH = 5; public final float HEIGHT;
