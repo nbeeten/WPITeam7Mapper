@@ -1,5 +1,7 @@
-package dataclasses;
-
+package edu.wpi.off.by.one.errors.code;
+/*
+ * This class represents a 3 dimensional coordinate point
+ */
 public class Coordinate {
 	/* The X part of the coordinate */
 	private float x;
@@ -11,7 +13,7 @@ public class Coordinate {
 	private float z;
 	
 	/* Constructor 1
-	 * This constructor takes three floats values and initializes the x, y and z coordinates 
+	 * This constructor takes 3 float values and initializes the x, y and z coordinates 
 	 * @param x The given x-coordinate
 	 * @param y The given y-coordinate
 	 * @param z The given z-coordinate
@@ -32,33 +34,29 @@ public class Coordinate {
 		z = value;
 	}
 	
-	/* 
-	 * Getter for the x-coordinate
-	 * @return x The x-coordinate
-	 * */
+	/*
+	 * Gets the x coordinate
+	 * @return The x coordinate.
+	 */
 	public float getX(){
-		return this.x;
+		return x;
 	}
 	
-	/* 
-	 * Getter for the y-coordinate
-	 * @return y The y-coordinate
-	 * */
+	/*
+	 * Gets the y coordinate
+	 * @return The y coordinate.
+	 */
 	public float getY(){
-		return this.y;
+		return y;
 	}
 	
-	/* 
-	 * Getter for the z-coordinate
-	 * @return z The z-coordinate
-	 * */
+	/*
+	 * Gets the z coordinate
+	 * @return The z coordinate.
+	 */
 	public float getZ(){
-		return this.x;
+		return z;
 	}
-	
-	
-	
-	
-	
+		
 	
 }

@@ -1,3 +1,4 @@
+package edu.wpi.off.by.one.errors.code;
 import java.util.Collection;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -108,7 +109,7 @@ public class Main extends Application{
 
 	//Gets the map image, sets properties, returns a usable node by JavaFX
 	private ImageView GetMapView(){
-		Image map = new Image("/userinterface/resources/map.png");
+		Image map = new Image("/map.png");
 		ImageView mapIV = new ImageView();
 		mapIV.setImage(map);
 		mapIV.setFitWidth(scene.widthProperty().get() / 2);

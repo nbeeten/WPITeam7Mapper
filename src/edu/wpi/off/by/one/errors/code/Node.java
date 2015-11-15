@@ -1,4 +1,4 @@
-package dataclasses;
+package edu.wpi.off.by.one.errors.code;
 
 public class Node {
 	private Coordinate coord;
