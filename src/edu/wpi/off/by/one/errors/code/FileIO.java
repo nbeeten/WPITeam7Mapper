@@ -1,4 +1,5 @@
 package edu.wpi.off.by.one.errors.code;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,74 +25,87 @@ import java.util.List;
 //flush node buffer, get node ids
 //flush edge buffer, use edge-node indices to look up ids, add edge using those ids (needs node to already be flushed)
 
-
 public class FileIO {
 	static ArrayList<String[]> nodebuf;
 	static ArrayList<String[]> edgebuf;
-	static void flush(Display dpy){
+
+	static void flush(Display dpy) {
 		ArrayList<Integer> nodeids = new ArrayList<>();
 		int i;
-		for(i = 0; i < nodebuf.size(); i++){
+		for (i = 0; i < nodebuf.size(); i++) {
 			String[] args = nodebuf.get(i);
 			nodeids.add(parsepointline(args, dpy));
 		}
-		for(i = 0; i < edgebuf.size(); i++){
+		for (i = 0; i < edgebuf.size(); i++) {
 			String[] args = edgebuf.get(i);
 			parseedgeline(args, dpy, nodeids);
 		}
-		nodeids = null;//best i can do to "free" it
+		nodeids = null;// best i can do to "free" it
 	}
-	static int parsepointline(String[] args, Display dpy){
-		if(args.length < 5) return -1;
-		//int ret = dpy.points.addPoint(Float.parseFloat(args[0]), Float.parseFloat(args[1]), Float.parseFloat(args[2]), etc);
-		return 0; //todo
+
+	static int parsepointline(String[] args, Display dpy) {
+		if (args.length < 5)
+			return -1;
+		// int ret = dpy.points.addPoint(Float.parseFloat(args[0]),
+		// Float.parseFloat(args[1]), Float.parseFloat(args[2]), etc);
+		return 0; // todo
 	}
-	static int parseedgeline(String[] args, Display dpy, ArrayList<Integer> nodeids){
-		if(args.length < 3) return -1;
+
+	static int parseedgeline(String[] args, Display dpy, ArrayList<Integer> nodeids) {
+		if (args.length < 3)
+			return -1;
 		int indice1 = Integer.parseInt(args[0]);
 		int indice2 = Integer.parseInt(args[1]);
-		if(indice1 < 0 || indice1 > nodeids.size()-1 || indice2 < 0 || indice2 > nodeids.size()-1) return -1;
+		if (indice1 < 0 || indice1 > nodeids.size() - 1 || indice2 < 0 || indice2 > nodeids.size() - 1)
+			return -1;
 		int id1 = nodeids.get(indice1);
 		int id2 = nodeids.get(indice2);
-		if(id1 < 0 || id2 < 0) return -1;
-		//dpy.edges.addEdge(id1, id2, Float.parseFloat(args[2]), etc);
-		return 0; //todo
+		if (id1 < 0 || id2 < 0)
+			return -1;
+		// dpy.edges.addEdge(id1, id2, Float.parseFloat(args[2]), etc);
+		return 0; // todo
 	}
-	static void parseline(String line, Display dpy){
-		//get ready for some obviously dont know how to parse strings in java so im doing it manually stuff
+
+	static void parseline(String line, Display dpy) {
+		// get ready for some obviously dont know how to parse strings in java
+		// so im doing it manually stuff
 		int i;
 		int len = line.length();
 		char s = Character.toLowerCase(line.charAt(0));
-		for(i = 0; i < len && Character.isWhitespace(s); i++) s = Character.toLowerCase(line.charAt(i)); // get rid of whitespace in front
-		switch(s){
-			case 'p':	// point;
-				nodebuf.add(line.substring(i+1).split("\\s"));
-				break;
-			case 'e':	//edge;
-				edgebuf.add(line.substring(i+1).split("\\s"));
-				break;
-			case 'm':	//map;
-				//todo
-				break;
-			default:	//some sorta error, or unrecognized element type
-				break;
+		for (i = 0; i < len && Character.isWhitespace(s); i++)
+			s = Character.toLowerCase(line.charAt(i)); // get rid of whitespace
+														// in front
+		switch (s) {
+		case 'p': // point;
+			nodebuf.add(line.substring(i + 1).split("\\s"));
+			break;
+		case 'e': // edge;
+			edgebuf.add(line.substring(i + 1).split("\\s"));
+			break;
+		case 'm': // map;
+			// todo
+			break;
+		default: // some sorta error, or unrecognized element type
+			break;
 		}
 	}
 
-	//when calling load, you should ALWAYS keep track of the return display. It may create a new one.
-	public static Display load(String inpath, Display indpy){
+	// when calling load, you should ALWAYS keep track of the return display. It
+	// may create a new one.
+	public static Display load(String inpath, Display indpy) {
 		Display curdpy = indpy;
-		if(curdpy == null) curdpy = new Display(); //CONTRUCTOOOOOOOOOR needed plz
+		if (curdpy == null)
+			curdpy = new Display(); // CONTRUCTOOOOOOOOOR needed plz
 
-		//read in all lines
+		// read in all lines
 		Path pty = Paths.get(inpath);
-		if(!Files.exists(pty)){
+		if (!Files.exists(pty)) {
 			System.out.printf("File %s does not exist, unable to load\n", inpath);
 		}
 		edgebuf = new ArrayList<String[]>();
 		nodebuf = new ArrayList<String[]>();
 		List<String> lines = null;
-		//todo should fix this try catch BS
+		// todo should fix this try catch BS
 		try {
 			lines = Files.readAllLines(pty, Charset.defaultCharset());
 		} catch (IOException e) {
@@ -99,18 +113,19 @@ public class FileIO {
 			e.printStackTrace();
 		}
 		int i = 0;
-		for(String line : lines){
+		for (String line : lines) {
 			parseline(line, curdpy);
 			i++;
 		}
 		flush(curdpy);
 		System.out.printf("Read %i lines\n", i);
 		edgebuf = null;
-		nodebuf = null; //best i can do to "free" it
+		nodebuf = null; // best i can do to "free" it
 		return curdpy;
 	}
-	public static int save(String inpath, Display indpy){
-		//todo fix this try catch BS
+
+	public static int save(String inpath, Display indpy) {
+		// todo fix this try catch BS
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(inpath, "UTF-8");
@@ -122,13 +137,14 @@ public class FileIO {
 			e.printStackTrace();
 		}
 		/*
-		Graph g = indpy.getGraph(); // i need dis
-		*/
-		//loop through nodes, print em
-		//loop through edges, print em
-		//loop through maps, print em
-		//todo
-		if(writer != null)writer.close();
+		 * Graph g = indpy.getGraph(); // i need dis
+		 */
+		// loop through nodes, print em
+		// loop through edges, print em
+		// loop through maps, print em
+		// todo
+		if (writer != null)
+			writer.close();
 		return 0;
 	}
 
