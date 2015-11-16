@@ -17,6 +17,11 @@ public class Display extends Pane{
 		this.currentMap = currentMap == null ? new Map() : currentMap;
 		this.currentGraph = currentGraph == null ? new Graph() : currentGraph;
 	}
+	
+	/**
+	 * Default constructor
+	 * 
+	 */
 	public Display(){
 		this.currentMap = new Map();
 		this.currentGraph = new Graph();
