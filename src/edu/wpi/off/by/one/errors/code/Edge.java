@@ -5,38 +5,47 @@ public class Edge {
 	private int nodeB;
 	private int id;
 	private float length;
-	
-	public Edge(int nodeAIn, int nodeBIn, int idIn){
+
+	public Edge(int nodeAIn, int nodeBIn, int idIn) {
 		int nodeA = nodeAIn;
 		int nodeB = nodeBIn;
 		int id = idIn;
-		//can't set length until we can access the nodes through the ID system
+		// can't set length until we can access the nodes through the ID system
 		float length;
-		
+
 	}
-	public int getNodeA(){
+
+	public int getNodeA() {
 		return nodeA;
 	}
-	public int getNodeB(){
+
+	public int getNodeB() {
 		return nodeB;
 	}
-	public int getId(){
+
+	public int getId() {
 		return id;
 	}
-	public float getLength(){
+
+	public float getLength() {
 		return length;
 	}
-	public void setNodeA(int nodeAIn){
+
+	public void setNodeA(int nodeAIn) {
 		nodeA = nodeAIn;
 	}
-	public void setNodeB(int nodeBIn){
+
+	public void setNodeB(int nodeBIn) {
 		nodeB = nodeBIn;
 	}
-	public void setId(int idIn){
+
+	public void setId(int idIn) {
 		id = idIn;
 	}
-	public void updateLength(){
-		//We need the ID system implemented before we can get nodes properly for edge length updating
+
+	public void updateLength() {
+		// We need the ID system implemented before we can get nodes properly
+		// for edge length updating
 	}
 
 }

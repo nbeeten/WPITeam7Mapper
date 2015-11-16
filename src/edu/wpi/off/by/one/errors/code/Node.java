@@ -4,28 +4,33 @@ public class Node {
 	private Coordinate coord;
 	private int[] edges;
 	private int id;
-	
-	public Node(Coordinate coordIn, int idIn)
-	{
+
+	public Node(Coordinate coordIn, int idIn) {
 		Coordinate coord = coordIn;
 		int id = idIn;
 	}
-	public Coordinate getCoordinate(){
+
+	public Coordinate getCoordinate() {
 		return coord;
 	}
-	public void setCoordinate(Coordinate newCoord){
+
+	public void setCoordinate(Coordinate newCoord) {
 		coord = newCoord;
 	}
-	public int[] getEdgelist(){
+
+	public int[] getEdgelist() {
 		return edges;
 	}
-	public void setEdgeList(int[] newEdgeList){
+
+	public void setEdgeList(int[] newEdgeList) {
 		edges = newEdgeList;
 	}
-	public int getId(){
+
+	public int getId() {
 		return id;
 	}
-	public void setId(int idIn){
+
+	public void setId(int idIn) {
 		id = idIn;
 	}
 }
