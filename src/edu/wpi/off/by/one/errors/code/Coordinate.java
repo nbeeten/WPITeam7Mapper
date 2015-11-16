@@ -25,9 +25,15 @@ public class Coordinate {
 		this.y = y;
 		this.z = z;
 	}
+	
+	public Coordinate(float x, float y){
+		this.x = x;
+		this.y = y;
+		this.z = 0;
+	}
 
 	/*
-	 * Constructor 2 This constructor takes in 1 float value and initializes the
+	 * Constructor 3 This constructor takes in 1 float value and initializes the
 	 * x, y and z coordinates with the given value
 	 * 
 	 * @param value Single float number to initialize x, y and z

@@ -14,8 +14,12 @@ public class Display extends Pane{
 	 * @param currentGraph
 	 */
 	public Display(Map currentMap, Graph currentGraph){
-		this.currentMap = currentMap;
-		this.currentGraph = currentGraph;
+		this.currentMap = currentMap == null ? new Map() : currentMap;
+		this.currentGraph = currentGraph == null ? new Graph() : currentGraph;
+	}
+	public Display(){
+		this.currentMap = new Map();
+		this.currentGraph = new Graph();
 	}
 	
 	public void setMap(Map m){ this.currentMap = m; }
