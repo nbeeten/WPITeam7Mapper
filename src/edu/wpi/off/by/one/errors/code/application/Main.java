@@ -1,6 +1,8 @@
 package edu.wpi.off.by.one.errors.code.application;
 
 import java.util.Collection;
+
+import edu.wpi.off.by.one.errors.code.*;
 import javafx.application.Application;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -90,6 +92,14 @@ public class Main extends Application {
 		Button addEdge = new Button("Add Edge");
 		Button editEdge = new Button("Edit Edge");
 		Button saveNodes = new Button("Save All");
+		
+		//This was to test the Dialog box, feel free to delete it.
+		editNode.setOnAction(e ->{
+			Coordinate testing = new Coordinate(1, 2, 3);
+			CoordinateDialogBox box = new CoordinateDialogBox(testing);
+			box.display("Edit Node");
+			System.out.println(String.valueOf(testing.getX()));
+		});
 		
 		//Button addGraph = new Button("Add Graph");
 		
