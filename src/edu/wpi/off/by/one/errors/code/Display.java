@@ -1,58 +1,44 @@
 package edu.wpi.off.by.one.errors.code;
 
-import java.util.ArrayList;
-import java.util.List;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 
-public class Display{
-	/*
-	 * Holds the list of maps to be displayed
-	 */
-	private ArrayList<Map> listOfMaps;
+public class Display extends Pane{
 	
-	/*
-	 * A graph for the maps
+	Map currentMap;
+	Graph currentGraph;
+
+	/**
+	 * Display Constructor
+	 * @param currentMap
+	 * @param currentGraph
 	 */
-	private Graph graph;
-	
-	/*
-	 * Default constructor
-	 * Initiales the list of maps with an empty list and the graph with a new graph object
-	 */
+	public Display(Map currentMap, Graph currentGraph){
+		this.currentMap = currentMap == null ? new Map() : currentMap;
+		this.currentGraph = currentGraph == null ? new Graph() : currentGraph;
+	}
 	public Display(){
-		listOfMaps = new ArrayList<Map>();
-		graph = new Graph();
+		this.currentMap = new Map();
+		this.currentGraph = new Graph();
 	}
 	
-	/*
-	 * Initializes the list of maps and the graph with the given list and graph;
-	 * @param listOfMaps The given list of maps to initialize this list with.
-	 * @param graph The given graph to initialize this graph with.
+	public void setMap(Map m){ this.currentMap = m; }
+	public void setGraph(Graph g) { this.currentGraph = g; }
+	public Map getMap() { return currentMap; }
+	public Graph getGraph() { return currentGraph; }
+	/**
+	 * Draws a graphical path between two nodes on the map
+	 * @param a First node
+	 * @param b Second node
 	 */
-	public Display(ArrayList<Map> listOfMaps, Graph graph){
-		this.listOfMaps = listOfMaps;
-		this.graph = graph;
+	public void drawPath(Node a, Node b) {
+		Coordinate aLoc = a.getCoordinate();
+		Coordinate bLoc = b.getCoordinate();
+		
+		Line l = new Line(aLoc.getX(), aLoc.getY(), bLoc.getX(), bLoc.getY());
+		
+		//TODO: Add code to actually draw the line on the map
 	}
 	
-	/*
-	 * Sets the graph to the given graph
-	 * @param graph The new graph for the display
-	 */
-	public void setGraph(Graph graph){
-		this.graph = graph;
-	}
 	
-	/*
-	 * Adds a Map to the list of maps
-	 * @param map The map to be added to the list.
-	 */
-	public void addMap(Map newMap){
-		listOfMaps.add(newMap);
-	}
-	
-	/*
-	 * Draws the path in between two node
-	 */
-	public void drawPath(Node initNode, Node finalNode){
-		//Draw a straight line.
-	}
 }
