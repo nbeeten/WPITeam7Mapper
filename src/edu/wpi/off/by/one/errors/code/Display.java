@@ -8,6 +8,16 @@ public class Display extends Pane{
 	Map currentMap;
 	Graph currentGraph;
 
+	/**
+	 * Display Constructor
+	 * @param currentMap
+	 * @param currentGraph
+	 */
+	public Display(Map currentMap, Graph currentGraph){
+		this.currentMap = currentMap;
+		this.currentGraph = currentGraph;
+	}
+	
 	public void setMap(Map m){ this.currentMap = m; }
 	public void setGraph(Graph g) { this.currentGraph = g; }
 	public Map getMap() { return currentMap; }
