@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -43,15 +44,6 @@ public class Main extends Application {
 	Label coord = new Label("coordinates:");
 	Text text = new Text();
 	
-	Button newDest = new Button("add Destination");
-	Button addNode = new Button("Add Node");
-	Button editNode = new Button("Edit Node");
-	Button addEdge = new Button("Add Edge");
-	Button editEdge = new Button("Edit Edge");
-	Button saveNodes = new Button("Save All");
-	Button showMap = new Button("Show map");
-	
-	ImageView imgpic = new ImageView();
 	final SimpleDoubleProperty zoomProperty = new SimpleDoubleProperty(200);
 
 	public static void main(String[] args) {
@@ -79,6 +71,7 @@ public class Main extends Application {
 		// SettingsBox contains AddPane and StackPane
 		VBox settingsBox = new VBox();
 		VBox addPane = new VBox(5);
+		VBox infoBox = new VBox(2);
 		settingsBox.setPrefSize(scene.getWidth() * 0.3, 600);
 		settingsBox.setPadding(new Insets(0, 0, 0, 10));
 		addPane.setPadding(new Insets(0, 0, 100, 0));
@@ -91,74 +84,31 @@ public class Main extends Application {
 		VBox directionsBox = new VBox(10);
 
 		// Add/Edit Buttons
+		/* IN PROGRESS PLIS WAIT */
 		Button addNode = new Button("Add Node");
 		Button editNode = new Button("Edit Node");
 		Button addEdge = new Button("Add Edge");
 		Button editEdge = new Button("Edit Edge");
 		Button saveNodes = new Button("Save All");
-
+		
+		//Button addGraph = new Button("Add Graph");
+		
 		Button clearNodes = new Button("Clear All");
 
 		Label show = new Label("Show");
 		CheckBox showNodes = new CheckBox("Nodes");
 		CheckBox showEdges = new CheckBox("Edges");
 
-		/*
-		addNode.setOnMouseReleased(e -> {
-			Dialog d = new Dialog();
-			d.initOwner(primaryStage);
-			d.initStyle(StageStyle.UTILITY);
-			d.initModality(Modality.NONE);
-			d.setTitle("Add Node");
-
-			Label mainLabel = new Label("Set Coordinates");
-			Label xLabel = new Label("X\t");
-			Label yLabel = new Label("Y\t");
-			Label zLabel = new Label("Z\t");
-
-			TextField xField = new TextField("0");
-			TextField yField = new TextField("0");
-			TextField zField = new TextField("0");
-
-			Button addButton = new Button("Add");
-			Button cancelButton = new Button("Cancel");
-			cancelButton.setOnMouseClicked(ev -> {
-				d.close();
-			});
-
-			GridPane grid = new GridPane();
-			grid.add(mainLabel, 1, 1);
-			grid.add(xLabel, 1, 2);
-			grid.add(yLabel, 1, 3);
-			grid.add(zLabel, 1, 4);
-
-			grid.add(xField, 2, 2);
-			grid.add(yField, 2, 3);
-			grid.add(zField, 2, 4);
-
-			grid.add(addButton, 2, 5);
-			grid.add(cancelButton, 2, 5);
-
-			HBox buttonPane = new HBox(10);
-			buttonPane.getChildren().addAll(addButton, cancelButton);
-
-			VBox pane = new VBox(10);
-			pane.getChildren().addAll(grid, buttonPane);
-
-			d.getDialogPane().setContent(pane);
-			d.show();
-
-		});
-		*/
-		addPane.getChildren().addAll(nodeLabel, sep, addNode, editNode, addEdge, editEdge, saveNodes, clearNodes, show,
-				showNodes, showEdges);
+				addPane.getChildren().addAll(nodeLabel, sep, addNode, editNode, addEdge, editEdge, 
+						saveNodes, clearNodes, show,						
+						showNodes, showEdges);
 
 		settingsBox.getChildren().addAll(addPane, settingsLabel, sep1);
 
 		mapPane = new StackPane();
 		mapView = GetMapView();
 		scroll = createScrollPane(mapPane);
-
+		// Create Menu Bar
 		MenuBar menuBar = new MenuBar();
 		menuBar.autosize();
 		Menu fileMenu = new Menu("File");
@@ -176,11 +126,12 @@ public class Main extends Application {
 
 		borderPane.setCenter(scroll);
 		borderPane.setRight(settingsBox);
+		borderPane.setBottom(infoBox);
 
 		//mapPane.scaleXProperty().bind(zoomProperty);
 		//mapPane.scaleYProperty().bind(zoomProperty);
 		mapPane.getChildren().add(mapView);
-
+		
 		root.setTop(menuBar);
 		root.setCenter(borderPane);
 
@@ -189,6 +140,8 @@ public class Main extends Application {
 		window.setScene(scene);
 		window.show();
 
+		scroll.setCenterShape(true);
+		
 		scroll.prefWidthProperty().bind(scene.widthProperty());
 		scroll.prefHeightProperty().bind(scene.widthProperty());
 
@@ -201,6 +154,7 @@ public class Main extends Application {
 	}
 
 	// Gets the map image, sets properties, returns a usable node by JavaFX
+	// Should be getting it from Display instead (?)
 	private ImageView GetMapView() {
 		Image map = new Image("campusmap.png");
 		ImageView mapIV = new ImageView();
@@ -219,9 +173,6 @@ public class Main extends Application {
 		scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		scroll.setPannable(true);
 		scroll.setPrefSize(600, 600);
-		//scroll.setVmax(mapPane.getHeight());
-		//scroll.setHmax(mapPane.getWidth());
-		//scroll.setFitToHeight(true);
 		scroll.setContent(layout);
 		return scroll;
 	}
@@ -249,22 +200,18 @@ public class Main extends Application {
 				}
 			}
 		});
-
-		mapView.setOnMouseDragged(e -> {
-			System.out.println("I'm being dragged");
-		});
 		
 		// Listens to clicks on the map
 		mapView.setOnMouseClicked(e -> {
-			// Data where user has clicked relative to map, scene, and screen
-			// Delete later
 			if(e.isStillSincePress()) {
-				//
+				// If user did not click-drag the map 
+				// Data to show coordinates of where user has clicked on map, delete later
+				String msg = "(x: " + e.getX() + ", y: " + e.getY() + ") -- " + "(sceneX: " + e.getSceneX() + ", sceneY: "
+						+ e.getSceneY() + ") -- " + "(screenX: " + e.getScreenX() + ", screenY: " + e.getScreenY() + ")";
+				System.out.println(msg);
 			}
-			String msg = "(x: " + e.getX() + ", y: " + e.getY() + ") -- " + "(sceneX: " + e.getSceneX() + ", sceneY: "
-					+ e.getSceneY() + ") -- " + "(screenX: " + e.getScreenX() + ", screenY: " + e.getScreenY() + ")";
-
-			System.out.println(msg);
+			
+			// If double-click
 			if (e.getClickCount() == 2) {
 				// Replace this with a node object
 				Button roundButton = new Button("a");
@@ -296,44 +243,5 @@ public class Main extends Application {
 				mapPane.getChildren().add(roundButton);
 			}
 		});		
-		/*
-		mapView.setOnScroll(e -> {
-			double delta = 1.2;
-
-            double scale = zoomProperty.get(); // currently we only use Y, same value is used for X
-            double oldScale = scale;
-
-            if (e.getDeltaY() < 0)
-                scale /= delta;
-            else
-                scale *= delta;
-
-            scale = clamp( scale, 0.1d, 10.0d);
-
-            double f = (scale / oldScale)-1;
-
-            double dx = (e.getSceneX() - (mapPane.getBoundsInParent().getWidth()/2 + mapView.getBoundsInParent().getMinX()));
-            double dy = (e.getSceneY() - (mapView.getBoundsInParent().getHeight()/2 + mapView.getBoundsInParent().getMinY()));
-
-            zoomProperty.set(scale);
-
-            // note: pivot value must be untransformed, i. e. without scaling
-            mapView.setTranslateX(mapView.getTranslateX()-f*dx);
-            mapView.setTranslateY(mapView.getTranslateY()-f*dy);
-
-            e.consume();
-		});
-		*/
-	}
-	
-	public static double clamp( double value, double min, double max) {
-
-        if( Double.compare(value, min) < 0)
-            return min;
-
-        if( Double.compare(value, max) > 0)
-            return max;
-
-        return value;
-    }
+	}	
 }
