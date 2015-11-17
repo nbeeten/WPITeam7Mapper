@@ -7,14 +7,18 @@ public class Graph {
 	private Vector<Node> listOfNodes = new Vector<Node>(); //array list of nodes
 	private Vector<Edge> listOfEdges = new Vector<Edge>(); //array list of edges
 	
-	public Node addNode(Coordinate coordIn, int idIn){//adds a node to the list
-		Node n = new Node(coordIn, idIn);
+	public Node addNode(Coordinate coordIn){//adds a node to the list
+		Node n = new Node(coordIn);
+		n.setId(listOfNodes.size());
 		listOfNodes.add(n);
 		return n;
 	}
 	
-	public Edge addEdge(int nodeAIn, int nodeBIn, int idIn){//adds an edge to the list
-		Edge e = new Edge(nodeAIn, nodeBIn);
+
+	public Edge addEdge(int nodeAIn, int nodeBIn){//adds an edge to the list
+		Edge e = new Edge(nodeAIn, nodeBIn); 
+		e.setId(listOfEdges.size());
+
 		listOfEdges.add(e);
 		return e;
 	}

@@ -55,7 +55,7 @@ public class FileIO {
 		if (args.length < 5)
 			return -1;
 		Coordinate c = new Coordinate(Float.parseFloat(args[0]), Float.parseFloat(args[1]), Float.parseFloat(args[2]));
-		Node ret = g.addNode(c, 0); //should return an id, not require one.
+		Node ret = g.addNode(c); //should return an id, not require one.
 		return ret.getId();
 	}
 
@@ -70,7 +70,7 @@ public class FileIO {
 		int id2 = nodeids.get(indice2);
 		if (id1 < 0 || id2 < 0)
 			return -1;
-		Edge ret = g.addEdge(id1, id2, 0); // should not require an id... should set it when it adds
+		Edge ret = g.addEdge(id1, id2); // should not require an id... should set it when it adds
 		return ret.getId();
 	}
 

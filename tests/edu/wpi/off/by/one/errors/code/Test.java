@@ -42,9 +42,9 @@ public class Test extends TestCase{
         Graph g = new Graph();
         Coordinate c1 = new Coordinate(400);
         Coordinate c2 = new Coordinate(100,0,0);
-        g.addNode(c1, 1);
-        g.addNode(c2, 2);
-        g.addEdge(1, 2, 1);
+        g.addNode(c1);
+        g.addNode(c2);
+        g.addEdge(1, 2);
         Vector<Node> lon = g.getNodes();
         assertEquals(lon.get(0).getId(), 1);
         assertEquals(lon.get(1).getId(), 2);

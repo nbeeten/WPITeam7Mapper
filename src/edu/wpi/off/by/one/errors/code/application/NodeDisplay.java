@@ -15,12 +15,17 @@ import javafx.scene.input.MouseEvent;
  */
 public class NodeDisplay extends Button{
 	
+	Display display;
 	NodeDisplay self = this;
 	Node node;
+	public boolean isSelected = false;
 	
-	public NodeDisplay(Number x, Number y, Number z){
-		Node node = new Node(
-				new Coordinate(x.floatValue(), y.floatValue(), z.floatValue()), -1);
+
+	public NodeDisplay(Display display, Number x, Number y, Number z){
+		this.display = display;
+		this.node = display.getGraph().addNode(
+				new Coordinate(x.floatValue(), y.floatValue(), z.floatValue()));
+
 		setCss();
 		setHandlers();
 	}
@@ -28,7 +33,17 @@ public class NodeDisplay extends Button{
 	public void setNode(Node node) { this.node = node; }
 	public Node getNode() { return this.node; }
 	
+	public void selectNode() {
+		this.isSelected = true;
+		String style = self.getStyle();
+		self.setStyle(style + "-fx-background-color: purple;"
+				+ "-fx-border-radius: none;" + "-fx-border-color: none;"
+				+ "-fx-border-width: none;" + "-fx-border-style: none;");
+	}
+	
 	/* Event handling */
+	
+	
 	
 	private EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
 		
@@ -41,20 +56,24 @@ public class NodeDisplay extends Button{
 	private EventHandler<MouseEvent> onMouseEnteredEventHandler = new EventHandler<MouseEvent>() {
 		
 		public void handle(MouseEvent e){
-			String style = self.getStyle();
-			self.setStyle(style + "-fx-background-color: yellow;"
-					+ "-fx-border-radius: 5em;" + "-fx-border-color:black;"
-					+ "-fx-border-width: 1px;" + "-fx-border-style: solid;");
+			if(!isSelected) {
+				String style = self.getStyle();
+				self.setStyle(style + "-fx-background-color: yellow;"
+						+ "-fx-border-radius: 5em;" + "-fx-border-color:black;"
+						+ "-fx-border-width: 1px;" + "-fx-border-style: solid;");
+			}
 		}
 	};
 	
 	private EventHandler<MouseEvent> onMouseExitedEventHandler = new EventHandler<MouseEvent>() {
 		
 		public void handle(MouseEvent e){
-			String style = self.getStyle();
-			self.setStyle(style + "-fx-background-color: blue;"
-					+ "-fx-border-radius: none;" + "-fx-border-color: none;"
-					+ "-fx-border-width: none;" + "-fx-border-style: none;");
+			if(!isSelected){
+				String style = self.getStyle();
+				self.setStyle(style + "-fx-background-color: blue;"
+						+ "-fx-border-radius: none;" + "-fx-border-color: none;"
+						+ "-fx-border-width: none;" + "-fx-border-style: none;");
+			}
 		}
 	};
 	

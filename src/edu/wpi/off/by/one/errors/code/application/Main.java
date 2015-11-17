@@ -1,6 +1,7 @@
 package edu.wpi.off.by.one.errors.code.application;
 
-import java.util.Vector;
+import java.awt.Paint;
+import java.util.*;
 
 import edu.wpi.off.by.one.errors.code.*;
 import edu.wpi.off.by.one.errors.code.application.event.*;
@@ -9,11 +10,11 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 /**
@@ -41,6 +42,7 @@ public class Main extends Application {
 	final SimpleDoubleProperty zoomProperty = new SimpleDoubleProperty(200);
 	
 	private MarkerDisplay marker = null;
+	Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -60,7 +62,7 @@ public class Main extends Application {
 		// Set main scene
 		root = new BorderPane();
 		scene = new Scene(root, 1600, 1000);
-		
+		display = new Display();
 		/* root BorderPane
 		 * TOP: MenuBar
 		 * BOTTOM: Editor logger (Maybe?????)
@@ -100,6 +102,27 @@ public class Main extends Application {
 		Button addEdge = new Button("Add Edge");
 		Button editEdge = new Button("Edit Edge");
 		Button saveNodes = new Button("Save All");
+		
+		addEdge.setOnAction(e -> {
+			if(!nodeQueue.isEmpty()){
+				System.out.println(nodeQueue.size());
+				while(nodeQueue.size() > 1){
+					Node a = nodeQueue.poll().getNode();
+					Node b = nodeQueue.peek().getNode();
+					Coordinate aLoc = a.getCoordinate();
+					Coordinate bLoc = b.getCoordinate();
+					Graph g = display.getGraph();
+					g.addEdge(a.getId(), b.getId());
+					Line l = new Line(aLoc.getX(), aLoc.getY(), 
+							bLoc.getX(), bLoc.getY());
+					Bounds localBounds = l.localToScene(mapView.getBoundsInLocal());
+					l.setTranslateX((aLoc.getX() + bLoc.getX())/2 - localBounds.getMaxX() / 2);
+					l.setTranslateY((aLoc.getY() + bLoc.getY())/2 - localBounds.getMaxY() / 2);
+					mapPane.getChildren().add(l);
+				}
+				nodeQueue.remove();
+			}
+		});
 		
 		//This was to test the Dialog box, feel free to delete it.
 		addNode.setOnAction(e -> {
@@ -207,8 +230,7 @@ public class Main extends Application {
 	
 	private void AddSceneListeners() {
 		
-		Vector<NodeDisplay> nodeQueue = new Vector<NodeDisplay>();
-	
+
 		// TODO oh my god please i need to clean this up
 		
 		//increases the value of the zoomProperty to be added to scroll pane for magnification
@@ -245,19 +267,26 @@ public class Main extends Application {
 				System.out.println(msg);
 				/*
 				if(marker == null){
+					System.out.println("LNMAO");
 					marker = new MarkerDisplay(e.getX(), e.getY());
+					Bounds localBounds = marker.localToScene(mapView.getBoundsInLocal());
+					marker.setTranslateX(e.getX() - localBounds.getMaxX() / 2);
+					marker.setTranslateY(e.getY() - localBounds.getMaxY() / 2);
 					mapPane.getChildren().add(marker);
+				} else {
+					double x = marker.getTranslateX();
+					double y = marker.getTranslateY();
+					Bounds localBounds = marker.localToScene(mapView.getBoundsInLocal());
+					marker.setTranslateX(e.getX() - x - localBounds.getMaxX() / 2);
+					marker.setTranslateY(e.getY() - y - localBounds.getMaxY() / 2);
 				}
-				Bounds localBounds = marker.localToScene(mapView.getBoundsInLocal());
-				marker.setTranslateX(e.getX() - localBounds.getMaxX() / 2);
-				marker.setTranslateY(e.getY() - localBounds.getMaxY() / 2);
-				*/
+				*/		
 			}
 			
 			// If double-click
 			if (e.getClickCount() == 2) {
 				// Creates a NodeDisplay that contains the node object
-				NodeDisplay newNode = new NodeDisplay(e.getX(), e.getY(), 0);
+				NodeDisplay newNode = new NodeDisplay(display, e.getX(), e.getY(), 0);
 
 				// Shift coordinates for node so that it is placed where user
 				// clicks
@@ -267,6 +296,7 @@ public class Main extends Application {
 				
 				newNode.addEventFilter(SelectNode.NODE_SELECTED, event -> {
 					System.out.println("Node Selected");
+					newNode.selectNode();
 					nodeQueue.add(newNode);
 					// Add selected node to selected ndoe queue
 					
@@ -283,6 +313,6 @@ public class Main extends Application {
 				// Add to the scene
 				mapPane.getChildren().add(newNode);
 			}
-		});		
+		});
 	}
 }

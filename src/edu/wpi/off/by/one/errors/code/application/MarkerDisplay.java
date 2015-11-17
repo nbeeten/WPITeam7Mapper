@@ -4,7 +4,7 @@ import javafx.scene.image.*;
 
 public class MarkerDisplay extends ImageView{
 	
-	double x, y;
+	public double x, y;
 	boolean isOnNode = false;
 	
 	static String imgPath = "marker.png";
