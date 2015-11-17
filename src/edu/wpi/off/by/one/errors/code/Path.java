@@ -13,6 +13,7 @@ public class Path {
 	private Vector<Edge> edges;
 	
 	public Path(int startNodeIn, int endNodeIn){
+		this.route = new ArrayList<Integer>();
 		startNode = startNodeIn;
 		endNode = endNodeIn;
 	}
@@ -25,8 +26,8 @@ public class Path {
 	public void runAStar(Vector<Node> nodesIn, Vector<Edge> edgesIn){
 		ArrayList<Integer> visited = new ArrayList<Integer>();	//These nodes we have already seen
 		ArrayList<Integer> open = new ArrayList<Integer>();		//These are the next nodes we will visit
-		nodes = nodesIn;	//the list of Node objects to search
-		edges = edgesIn;	//the list of the associated edges for the Nodes
+		this.nodes = nodesIn;	//the list of Node objects to search
+		this.edges = edgesIn;	//the list of the associated edges for the Nodes
 		int current; 		//the ID for the node we are currently examining
 		HashMap cameFrom = new HashMap<Integer, Integer>();		//The map of current optimum path to a node
 		HashMap<Integer, Float> gScore = new HashMap<Integer, Float>();	//The map of the nodeID to its path finding score, the lower the better

@@ -34,10 +34,12 @@ public class Map {
 		this.scale = scale;
 	}
 	
+	public void setName(String name) { this.name = name; }
 	public void setImgUrl(String path) { this.imagePath = path; }
 	public void setCenter(Coordinate coordinate) { this.center = coordinate; }
 	public void setRotation(float rotation) { this.rotation = rotation; }
 	public void setScale(float scale) { this.scale = scale; }
+	public String getName() { return this.name; }
 	public String getImgUrl() { return this.imagePath; }
 	public Coordinate getCenter() { return this.center;}
 	public float getRotation() { return this.rotation; }

@@ -124,7 +124,7 @@ public class FileIO {
 			i++;
 		}
 		flush(curdpy);
-		System.out.printf("Read %i lines\n", i);
+		System.out.printf("Read %d lines\n", i);
 		edgebuf = null;
 		nodebuf = null; // best i can do to "free" it
 		return curdpy;
@@ -159,7 +159,7 @@ public class FileIO {
 			if(e == null) continue;
 			int indice1 = ids.get(e.getNodeA());
 			int indice2 = ids.get(e.getNodeB());
-			writer.printf("e %i %i\n", indice1, indice2);
+			writer.printf("e %d %d\n", indice1, indice2);
 		}
 		ids = null;
 		//will change this over to iterate over a list later
