@@ -36,6 +36,7 @@ public class Node {
 	 * @return edges: the list of connected edges 
 	 */
 	public int[] getEdgelist() {
+		System.out.println(edges);
 		return edges;
 	}
 
