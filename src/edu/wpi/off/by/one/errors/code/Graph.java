@@ -8,13 +8,15 @@ public class Graph {
 	private Vector<Edge> listOfEdges = new Vector<Edge>(); //array list of edges
 	
 	public Node addNode(Coordinate coordIn){//adds a node to the list
-		Node n = new Node(coordIn, listOfNodes.size());
+		Node n = new Node(coordIn);
+		n.setId(listOfNodes.size());
 		listOfNodes.add(n);
 		return n;
 	}
 	
 	public Edge addEdge(int nodeAIn, int nodeBIn){//adds an edge to the list
-		Edge e = new Edge(nodeAIn, nodeBIn, listOfEdges.size());
+		Edge e = new Edge(nodeAIn, nodeBIn); 
+		e.setId(listOfEdges.size());
 		listOfEdges.add(e);
 		return e;
 	}
