@@ -1,52 +1,46 @@
 package edu.wpi.off.by.one.errors.code.application;
 
-import java.util.Collection;
+import java.util.Vector;
 
 import edu.wpi.off.by.one.errors.code.*;
+import edu.wpi.off.by.one.errors.code.application.event.*;
 import javafx.application.Application;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.stage.Modality;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+/**
+ * This Main class launches the application and sets up all the GUI interactions
+ * Mainly talks to the Display class to send manipulate data in some way to the
+ * underlying data.
+ * 
+ * p.s. whoever is going to be working on GUI feel free to add your name to this?
+ * @author kezhang
+ *
+ */
 public class Main extends Application {
+	
+	Display display;
 
-	private Scene scene;
-	private ImageView mapView;
-	private StackPane mapPane;
 	private Stage window;
+	private Scene scene;
+	
 	private BorderPane root;
 	private ScrollPane scroll;
 	
-	double x;
-	double y;
-	
-	Label location = new Label("Mouse location");
-	Label coord = new Label("coordinates:");
-	Text text = new Text();
+	private ImageView mapView;
+	private StackPane mapPane;
 	
 	final SimpleDoubleProperty zoomProperty = new SimpleDoubleProperty(200);
+	
+	private MarkerDisplay marker = null;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -61,21 +55,33 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 
-		window = primaryStage;
+		window = primaryStage; //Main window
 
 		// Set main scene
 		root = new BorderPane();
-		scene = new Scene(root, 1000, 800);
+		scene = new Scene(root, 1600, 1000);
+		
+		/* root BorderPane
+		 * TOP: MenuBar
+		 * BOTTOM: Editor logger (Maybe?????)
+		 * CENTER: Inner BorderPane
+		 * 
+		 * Inner BorderPane will contain
+		 * CENTER: Map component
+		 * RIGHT: Editor section/Logo + Directions
+		 * 
+		 */
+		BorderPane innerBorderPane = new BorderPane();
+		innerBorderPane.setPadding(new Insets(20, 20, 20, 20));
 
-		BorderPane borderPane = new BorderPane();
-		borderPane.setPadding(new Insets(20, 20, 20, 20));
 
-		// SettingsBox contains AddPane and StackPane
-		VBox settingsBox = new VBox();
-		VBox addPane = new VBox(5);
 		VBox infoBox = new VBox(2);
-		settingsBox.setPrefSize(scene.getWidth() * 0.3, 600);
-		settingsBox.setPadding(new Insets(0, 0, 0, 10));
+		
+		// START: BORDERPANE RIGHT COMPONENTS --------------------------------------------
+		VBox editorBox = new VBox();
+		VBox addPane = new VBox(5);
+		editorBox.setPrefSize(scene.getWidth() * 0.3, 600);
+		editorBox.setPadding(new Insets(0, 0, 0, 10));
 		addPane.setPadding(new Insets(0, 0, 100, 0));
 
 		Label nodeLabel = new Label("Editor");
@@ -84,7 +90,9 @@ public class Main extends Application {
 		Separator sep1 = new Separator();
 
 		VBox directionsBox = new VBox(10);
-
+		Button setStart = new Button("Set Start");
+		Button setEnd = new Button("Set End");
+		Button drawPathButton = new Button("Draw Path");
 		// Add/Edit Buttons
 		/* IN PROGRESS PLIS WAIT */
 		Button addNode = new Button("Add Node");
@@ -94,6 +102,9 @@ public class Main extends Application {
 		Button saveNodes = new Button("Save All");
 		
 		//This was to test the Dialog box, feel free to delete it.
+		addNode.setOnAction(e -> {
+			//Set up coord dialog bog to add node
+		});
 		editNode.setOnAction(e ->{
 			Coordinate testing = new Coordinate(1, 2, 3);
 			CoordinateDialogBox box = new CoordinateDialogBox(testing);
@@ -102,7 +113,6 @@ public class Main extends Application {
 		});
 		
 		//Button addGraph = new Button("Add Graph");
-		
 		Button clearNodes = new Button("Clear All");
 
 		Label show = new Label("Show");
@@ -113,11 +123,16 @@ public class Main extends Application {
 						saveNodes, clearNodes, show,						
 						showNodes, showEdges);
 
-		settingsBox.getChildren().addAll(addPane, settingsLabel, sep1);
-
+		editorBox.getChildren().addAll(addPane, settingsLabel, sep1);
+		
+		// END: BORDERPANE RIGHT COMPONENTS --------------------------------------------
+		
+		// START: BORDERPANE CENTER COMPONENTS -----------------------------------------
+		// AKA - Map stuff
+		
 		mapPane = new StackPane();
 		mapView = GetMapView();
-		scroll = createScrollPane(mapPane);
+		
 		// Create Menu Bar
 		MenuBar menuBar = new MenuBar();
 		menuBar.autosize();
@@ -133,17 +148,21 @@ public class Main extends Application {
 		viewMenu.getItems().add(setEditorMode);
 		addPane.visibleProperty().bind(setEditorMode.selectedProperty());
 		menuBar.getMenus().addAll(fileMenu, viewMenu, helpMenu);
+		
+		scroll = createScrollPane(mapPane);
+		innerBorderPane.setCenter(scroll);
+		innerBorderPane.setRight(editorBox);
 
-		borderPane.setCenter(scroll);
-		borderPane.setRight(settingsBox);
-		borderPane.setBottom(infoBox);
-
+		/* SOMEWHERE AROUND HERE DO STUFF WITH DISPLAY CLASS */
+		/* OR! Leave map empty and wait for file loading */
+		
 		//mapPane.scaleXProperty().bind(zoomProperty);
 		//mapPane.scaleYProperty().bind(zoomProperty);
 		mapPane.getChildren().add(mapView);
 		
 		root.setTop(menuBar);
-		root.setCenter(borderPane);
+		root.setCenter(innerBorderPane);
+		root.setBottom(infoBox);
 
 		AddSceneListeners();
 		window.setTitle("WPI Map Application");
@@ -161,19 +180,18 @@ public class Main extends Application {
 
 		//mapPane.setMaxSize(1000, 1000);
 		
-	}
-
+	} 
+	
 	// Gets the map image, sets properties, returns a usable node by JavaFX
 	// Should be getting it from Display instead (?)
+	// TODO delegate this to Map????? or even Display???????????
 	private ImageView GetMapView() {
 		Image map = new Image("campusmap.png");
 		ImageView mapIV = new ImageView();
 		mapIV.setImage(map);
-		// mapIV.setFitWidth(scene.widthProperty().get() / 2);
 		mapIV.setPreserveRatio(true);
 		mapIV.setSmooth(true);
 		mapIV.setCache(true);
-
 		return mapIV;
 	}
 
@@ -186,11 +204,17 @@ public class Main extends Application {
 		scroll.setContent(layout);
 		return scroll;
 	}
-
 	
 	private void AddSceneListeners() {
 		
+		Vector<NodeDisplay> nodeQueue = new Vector<NodeDisplay>();
+	
+		// TODO oh my god please i need to clean this up
+		
 		//increases the value of the zoomProperty to be added to scroll pane for magnification
+		/*
+		 * TODO Fix this up so that nodes scale based on zoom and that
+		 * node coordinates don't mess up
 		zoomProperty.addListener(new InvalidationListener(){
 			@Override
 			public void invalidated(Observable arg){
@@ -210,7 +234,7 @@ public class Main extends Application {
 				}
 			}
 		});
-		
+		*/
 		// Listens to clicks on the map
 		mapView.setOnMouseClicked(e -> {
 			if(e.isStillSincePress()) {
@@ -219,39 +243,46 @@ public class Main extends Application {
 				String msg = "(x: " + e.getX() + ", y: " + e.getY() + ") -- " + "(sceneX: " + e.getSceneX() + ", sceneY: "
 						+ e.getSceneY() + ") -- " + "(screenX: " + e.getScreenX() + ", screenY: " + e.getScreenY() + ")";
 				System.out.println(msg);
+				/*
+				if(marker == null){
+					marker = new MarkerDisplay(e.getX(), e.getY());
+					mapPane.getChildren().add(marker);
+				}
+				Bounds localBounds = marker.localToScene(mapView.getBoundsInLocal());
+				marker.setTranslateX(e.getX() - localBounds.getMaxX() / 2);
+				marker.setTranslateY(e.getY() - localBounds.getMaxY() / 2);
+				*/
 			}
 			
 			// If double-click
 			if (e.getClickCount() == 2) {
-				// Replace this with a node object
-				Button roundButton = new Button("a");
+				// Creates a NodeDisplay that contains the node object
+				NodeDisplay newNode = new NodeDisplay(e.getX(), e.getY(), 0);
 
 				// Shift coordinates for node so that it is placed where user
 				// clicks
-				Bounds localBounds = roundButton.localToScene(mapView.getBoundsInLocal());
-				roundButton.setTranslateX(e.getX() - localBounds.getMaxX() / 2);
-				roundButton.setTranslateY(e.getY() - localBounds.getMaxY() / 2);
-
-				// Set CSS Style of the node
-				roundButton
-						.setStyle("-fx-background-color:blue;" + "-fx-background-radius: 5em;" + "-fx-min-width: 8px;"
-								+ "-fx-min-height: 8px;" + "-fx-max-width: 8px;" + "-fx-max-height: 8px;");
-
-				roundButton.setOnMouseEntered(be -> {
-					String style = roundButton.getStyle();
-					roundButton.setStyle(style + "-fx-border-radius: 5em;" + "-fx-border-color:black;"
-							+ "-fx-border-width: 1px;" + "-fx-border-style: solid;");
+				Bounds localBounds = newNode.localToScene(mapView.getBoundsInLocal());
+				newNode.setTranslateX(e.getX() - localBounds.getMaxX() / 2);
+				newNode.setTranslateY(e.getY() - localBounds.getMaxY() / 2);
+				
+				newNode.addEventFilter(SelectNode.NODE_SELECTED, event -> {
+					System.out.println("Node Selected");
+					nodeQueue.add(newNode);
+					// Add selected node to selected ndoe queue
+					
+					//TODO stuff regarding info about the node clicked
+					//if double-clicked
+					//if in edit mode
+					//if in add edge mode
+					//	if 2 nodes are already selected when add edge is pressed,
+					//	then create an edge between those two nodes
+					//	if >2 nodes are selected, then edges will be added in order
+					//	of selection
 				});
-
-				roundButton.setOnMouseExited(be -> {
-					String style = roundButton.getStyle();
-					roundButton.setStyle(style + "-fx-border-radius: none;" + "-fx-border-color: none;"
-							+ "-fx-border-width: none;" + "-fx-border-style: none;");
-				});
-
+				
 				// Add to the scene
-				mapPane.getChildren().add(roundButton);
+				mapPane.getChildren().add(newNode);
 			}
 		});		
-	}	
+	}
 }
