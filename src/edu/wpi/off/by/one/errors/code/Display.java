@@ -1,5 +1,6 @@
 package edu.wpi.off.by.one.errors.code;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javafx.scene.image.Image;
@@ -46,8 +47,8 @@ public class Display extends Pane{
 		Vector<Node> nodes = currentGraph.getNodes();
 		Path p = new Path(start.getId(), end.getId());
 		p.runAStar(null, null); //Change this later??
-		int[] idList = p.getRoute();
-		while(idx < idList.length){
+		ArrayList<Integer> idList = p.getRoute();
+		while(idx < idList.size()){
 			Node a = nodes.get(idx);
 			Node b = nodes.get(idx++);
 			Coordinate aLoc = a.getCoordinate();
