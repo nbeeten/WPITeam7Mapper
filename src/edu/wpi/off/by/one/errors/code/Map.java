@@ -7,6 +7,12 @@ public class Map {
 	Coordinate center;
 	float rotation;
 	float scale;
+	public Map(String path, Coordinate coordinate, float rotation, float scale){
+		this.imagePath = path;
+		this.center = coordinate;
+		this.rotation = rotation;
+		this.scale = scale;
+	}
 	
 	public Map(){
 		
