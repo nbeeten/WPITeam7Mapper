@@ -20,10 +20,12 @@ public class NodeDisplay extends Button{
 	Node node;
 	public boolean isSelected = false;
 	
+
 	public NodeDisplay(Display display, Number x, Number y, Number z){
 		this.display = display;
 		this.node = display.getGraph().addNode(
 				new Coordinate(x.floatValue(), y.floatValue(), z.floatValue()));
+
 		setCss();
 		setHandlers();
 	}

@@ -14,9 +14,11 @@ public class Graph {
 		return n;
 	}
 	
+
 	public Edge addEdge(int nodeAIn, int nodeBIn){//adds an edge to the list
 		Edge e = new Edge(nodeAIn, nodeBIn); 
 		e.setId(listOfEdges.size());
+
 		listOfEdges.add(e);
 		return e;
 	}
