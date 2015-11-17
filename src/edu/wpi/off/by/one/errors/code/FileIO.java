@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /* file format
@@ -143,16 +144,36 @@ public class FileIO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*
-		 * Graph g = indpy.getGraph(); // i need dis
-		 */
-		// loop through nodes, print em
-		// loop through edges, print em
-		// loop through maps, print em
-		// todo
-		if (writer != null)
-			writer.close();
-		return 0;
+		if(writer == null) return -1;
+		Graph g = indpy.getGraph();
+		if(g == null) return -1;
+		//will change this to ID, Integer
+		HashMap<Integer, Integer> ids = new HashMap<Integer, Integer>();
+		int i = 0;
+		for( Node n : g.getNodes()){
+			if(n == null) continue;
+			ids.put(n.getId(), i);
+			Coordinate c = n.getCoordinate();
+			writer.printf("p %f %f %f\n", c.getX(), c.getY(), c.getZ());
+			i++;
+		}
+		for( Edge e : g.getEdges()){
+			if(e == null) continue;
+			int indice1 = ids.get(e.getNodeA());
+			int indice2 = ids.get(e.getNodeB());
+			writer.printf("e %i %i\n", indice1, indice2);
+		}
+		ids = null;
+		//will change this over to iterate over a list later
+		Map m = indpy.getMap();
+		if(m == null){//continue;
+			
+		} else {
+			Coordinate c = m.center; // should this be a getter?
+			writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
+		}
+		if (writer != null) writer.close();
+		return i;
 	}
 
 }
