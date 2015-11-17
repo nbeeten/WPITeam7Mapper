@@ -13,6 +13,7 @@ public class Path {
 	private Vector<Edge> edges;
 	
 	public Path(int startNodeIn, int endNodeIn){
+		this.route = new ArrayList<Integer>();
 		startNode = startNodeIn;
 		endNode = endNodeIn;
 		route = new ArrayList<Integer>();
@@ -27,9 +28,11 @@ public class Path {
 		System.out.println("started a*");
 		ArrayList<Integer> visited = new ArrayList<Integer>();	//These nodes we have already seen
 		ArrayList<Integer> open = new ArrayList<Integer>();		//These are the next nodes we will visit
+
 		open.add(startNode);
-		nodes = nodesIn;	//the list of Node objects to search
-		edges = edgesIn;	//the list of the associated edges for the Nodes
+		this.nodes = nodesIn;	//the list of Node objects to search
+		this.edges = edgesIn;	//the list of the associated edges for the Nodes
+
 		int current; 		//the ID for the node we are currently examining
 		HashMap cameFrom = new HashMap<Integer, Integer>();		//The map of current optimum path to a node
 		HashMap<Integer, Float> gScore = new HashMap<Integer, Float>();	//The map of the nodeID to its path finding score, the lower the better
@@ -129,7 +132,8 @@ public class Path {
 	 * @return the list of nodes that we visited in order from first to last
 	 */
 	private ArrayList<Integer> reconstructPath(HashMap<Integer, Integer> parentList, int currentNode){
-		ArrayList<Integer> totalPath = null;	//initialize a variable that will hold the path as we back through it
+		ArrayList<Integer> totalPath = new ArrayList<Integer>();	//initialize a variable that will hold the path as we back through it
+		System.out.println(currentNode);
 		totalPath.add(currentNode); //start with the node we ended at
 		while(currentNode != startNode){	//while we haven't gotten back to the start
 			currentNode = parentList.get(currentNode); //keep adding the parent node of the current node to the path

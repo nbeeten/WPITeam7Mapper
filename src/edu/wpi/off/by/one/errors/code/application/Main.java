@@ -1,11 +1,13 @@
 package edu.wpi.off.by.one.errors.code.application;
 
 import java.awt.Paint;
+import java.io.File;
 import java.util.*;
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 
 import edu.wpi.off.by.one.errors.code.*;
+import edu.wpi.off.by.one.errors.code.Map;
 import edu.wpi.off.by.one.errors.code.application.event.*;
 import javafx.application.Application;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -18,6 +20,8 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 /**
@@ -178,6 +182,7 @@ public class Main extends Application {
 		/* ADD EVENT LISTENERS AND HANDLERS HERE */
 		AddSceneListeners();
 		setEditorButtons();
+		setMenuButtons();
 		
 		window.setTitle("WPI Map Application");
 		window.setScene(scene);
@@ -188,6 +193,12 @@ public class Main extends Application {
 	// Should be getting it from Display instead (?)
 	// TODO delegate this to Map????? or even Display???????????
 	private ImageView GetMapView() {
+		Map m = display.getMap();
+		m.setName("Campus Map");
+		m.setCenter(new Coordinate(0));
+		m.setImgUrl("campusmap.png");
+		m.setRotation(0);
+		m.setScale(0); //CHANGE THIS LATER
 		Image map = new Image("campusmap.png");
 		ImageView mapIV = new ImageView();
 		mapIV.setImage(map);
@@ -315,6 +326,37 @@ public class Main extends Application {
 		
 	}
 	
+	private void setMenuButtons(){
+		loadMenuItem.setOnAction(e -> {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Open Map File");
+			fileChooser.getExtensionFilters().addAll(
+			         new ExtensionFilter("Text Files", "*.txt"),
+			         new ExtensionFilter("All Files", "*.*"));
+			 File selectedFile = fileChooser.showOpenDialog(window);
+			 if (selectedFile != null) {
+				 String inpath = selectedFile.getPath();
+				 System.out.println(inpath);
+				 FileIO.load(inpath, display);
+				 //window.display(selectedFile);
+			 }
+			//Redisplay to appropriate map
+			//Add nodes and edges to the map
+			System.out.println(display.getGraph().returnEdgeById(0));
+		});
+		saveMenuItem.setOnAction(e -> {
+			String path;
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Save Map File");
+			fileChooser.getExtensionFilters().addAll(
+			         new ExtensionFilter("Text Files", "*.txt"),
+			         new ExtensionFilter("All Files", "*.*"));
+			File selectedFile = fileChooser.showSaveDialog(window);
+			//selectedFile.getAbsolutePath();
+			FileIO.save(selectedFile.getAbsolutePath(), display);
+		});
+	}
+	
 	/**
 	 * Setup listeners/event handlers for editor buttons
 	 */
@@ -325,7 +367,7 @@ public class Main extends Application {
 		addEdge.setOnAction(e -> {
 			SelectNode selectNodeEvent = new SelectNode(SelectNode.NODE_DESELECTED);
 			if(!nodeQueue.isEmpty()){
-				System.out.println(nodeQueue.size());
+				//System.out.println(nodeQueue.size());
 				while(nodeQueue.size() > 1){
 					NodeDisplay n = nodeQueue.poll();
 					Node a = n.getNode();
@@ -334,6 +376,7 @@ public class Main extends Application {
 					Coordinate bLoc = b.getCoordinate();
 					Graph g = display.getGraph();
 					g.addEdge(a.getId(), b.getId());
+					System.out.println("Edge size" + g.getEdges().size());
 					Line l = new Line(aLoc.getX(), aLoc.getY(), 
 							bLoc.getX(), bLoc.getY());
 					l.setStroke(Color.POWDERBLUE);
@@ -348,6 +391,7 @@ public class Main extends Application {
 		addNode.setOnAction(e -> {
 			
 		});
+		
 		editNode.setOnAction(e ->{
 			Coordinate testing = new Coordinate(1, 2, 3);
 			CoordinateDialogBox box = new CoordinateDialogBox(testing);
@@ -361,13 +405,14 @@ public class Main extends Application {
 			//display.drawPath(startNode.node.getId(), endNode.node.getId());
 			int idx = 0;
 			Vector<Node> nodes = display.getGraph().getNodes();
-			System.out.println(nodes.size());
+			//System.out.println(nodes.size());
 			Path p = new Path(startNode.node.getId(), endNode.node.getId());
 			Graph g = display.getGraph();
-			p.runAStar(g.getNodes(), g.getEdges()); //Change this later??
+			//System.out.println("Size graph " + g.getEdges().size());
+			p.runAStar(nodes, g.getEdges()); //Change this later??
 			ArrayList<Integer> idList = p.getRoute();
-			System.out.println(idList);
-			while(idx < idList.size() - 2){
+			System.out.println("Route size " + idList);
+			while(idx < idList.size() - 1){
 				Node a = nodes.get(idx);
 				Node b = nodes.get(++idx);
 				Coordinate aLoc = a.getCoordinate();
