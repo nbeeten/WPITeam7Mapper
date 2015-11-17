@@ -4,7 +4,7 @@ public class Node {
 	private Coordinate coord;
 	private int[] edges;//list of indexes of edges
 	private int id;
-
+	
 	/**
 	 * 
 	 * @param coordIn: The given coordinate
@@ -15,7 +15,7 @@ public class Node {
 	}
 
 	public Coordinate getCoordinate() {
-		return coord;
+		return this.coord;
 	}
 
 	/**
@@ -23,7 +23,7 @@ public class Node {
 	 * @param newCoord: The new Coordinate
 	 */
 	public void setCoordinate(Coordinate newCoord) {
-		coord = newCoord;
+		this.coord = newCoord;
 	}
 
 	public int[] getEdgelist() {
@@ -35,7 +35,7 @@ public class Node {
 	 * @param newEdgeList: The new list of edges
 	 */
 	public void setEdgeList(int[] newEdgeList) {
-		edges = newEdgeList;
+		this.edges = newEdgeList;
 	}
 	
 	public int getId() {
