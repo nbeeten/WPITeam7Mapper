@@ -32,18 +32,14 @@ public class NodeDisplay extends Button{
 	
 	/* Event handling */
 	
-	EventType<SelectNode> NODE_SELECTED = new EventType<>("NODE_SELECTED");
-	
-	@SuppressWarnings("unused")
 	private EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
 		
 		public void handle(MouseEvent e){
-			SelectNode selectNodeEvent = new SelectNode(NODE_SELECTED);
+			SelectNode selectNodeEvent = new SelectNode();
 			self.fireEvent(selectNodeEvent);
 		}
 	};
 	
-	@SuppressWarnings("unused")
 	private EventHandler<MouseEvent> onMouseEnteredEventHandler = new EventHandler<MouseEvent>() {
 		
 		public void handle(MouseEvent e){
@@ -54,7 +50,6 @@ public class NodeDisplay extends Button{
 		}
 	};
 	
-	@SuppressWarnings("unused")
 	private EventHandler<MouseEvent> onMouseExitedEventHandler = new EventHandler<MouseEvent>() {
 		
 		public void handle(MouseEvent e){

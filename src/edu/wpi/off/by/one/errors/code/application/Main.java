@@ -1,38 +1,20 @@
 package edu.wpi.off.by.one.errors.code.application;
 
-import java.util.Collection;
+import java.util.Vector;
 
-<<<<<<< HEAD
-import edu.wpi.off.by.one.errors.code.Display;
-=======
 import edu.wpi.off.by.one.errors.code.*;
->>>>>>> 48c24583a027b026cad697a94b87598a3c2d594a
+import edu.wpi.off.by.one.errors.code.application.event.*;
 import javafx.application.Application;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.stage.Modality;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * This Main class launches the application and sets up all the GUI interactions
@@ -57,6 +39,8 @@ public class Main extends Application {
 	private StackPane mapPane;
 	
 	final SimpleDoubleProperty zoomProperty = new SimpleDoubleProperty(200);
+	
+	private MarkerDisplay marker = null;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -118,6 +102,9 @@ public class Main extends Application {
 		Button saveNodes = new Button("Save All");
 		
 		//This was to test the Dialog box, feel free to delete it.
+		addNode.setOnAction(e -> {
+			//Set up coord dialog bog to add node
+		});
 		editNode.setOnAction(e ->{
 			Coordinate testing = new Coordinate(1, 2, 3);
 			CoordinateDialogBox box = new CoordinateDialogBox(testing);
@@ -219,11 +206,15 @@ public class Main extends Application {
 	}
 	
 	private void AddSceneListeners() {
+		
+		Vector<NodeDisplay> nodeQueue = new Vector<NodeDisplay>();
 	
 		// TODO oh my god please i need to clean this up
 		
 		//increases the value of the zoomProperty to be added to scroll pane for magnification
 		/*
+		 * TODO Fix this up so that nodes scale based on zoom and that
+		 * node coordinates don't mess up
 		zoomProperty.addListener(new InvalidationListener(){
 			@Override
 			public void invalidated(Observable arg){
@@ -252,6 +243,15 @@ public class Main extends Application {
 				String msg = "(x: " + e.getX() + ", y: " + e.getY() + ") -- " + "(sceneX: " + e.getSceneX() + ", sceneY: "
 						+ e.getSceneY() + ") -- " + "(screenX: " + e.getScreenX() + ", screenY: " + e.getScreenY() + ")";
 				System.out.println(msg);
+				/*
+				if(marker == null){
+					marker = new MarkerDisplay(e.getX(), e.getY());
+					mapPane.getChildren().add(marker);
+				}
+				Bounds localBounds = marker.localToScene(mapView.getBoundsInLocal());
+				marker.setTranslateX(e.getX() - localBounds.getMaxX() / 2);
+				marker.setTranslateY(e.getY() - localBounds.getMaxY() / 2);
+				*/
 			}
 			
 			// If double-click
@@ -264,9 +264,10 @@ public class Main extends Application {
 				Bounds localBounds = newNode.localToScene(mapView.getBoundsInLocal());
 				newNode.setTranslateX(e.getX() - localBounds.getMaxX() / 2);
 				newNode.setTranslateY(e.getY() - localBounds.getMaxY() / 2);
-
-				newNode.addEventFilter(newNode.NODE_SELECTED, event -> {
+				
+				newNode.addEventFilter(SelectNode.NODE_SELECTED, event -> {
 					System.out.println("Node Selected");
+					nodeQueue.add(newNode);
 					// Add selected node to selected ndoe queue
 					
 					//TODO stuff regarding info about the node clicked
@@ -283,5 +284,5 @@ public class Main extends Application {
 				mapPane.getChildren().add(newNode);
 			}
 		});		
-	}	
+	}
 }
