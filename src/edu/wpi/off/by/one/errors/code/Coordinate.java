@@ -1,19 +1,18 @@
 package edu.wpi.off.by.one.errors.code;
-
+/**
+ * This class represents a 3 dimensional coordinate point
+ */
 public class Coordinate {
-	/* The X part of the coordinate */
+	/** The X part of the coordinate */
 	private float x;
 
-	/* The Y part of the coordinate */
+	/** The Y part of the coordinate */
 	private float y;
 
-	/* The Z part of the coordinate */
+	/** The Z part of the coordinate */
 	private float z;
 
-	/*
-	 * Constructor 1 This constructor takes three floats values and initializes
-	 * the x, y and z coordinates
-	 * 
+	/**
 	 * @param x The given x-coordinate
 	 * 
 	 * @param y The given y-coordinate
@@ -32,7 +31,7 @@ public class Coordinate {
 		this.z = 0;
 	}
 
-	/*
+	/**
 	 * Constructor 3 This constructor takes in 1 float value and initializes the
 	 * x, y and z coordinates with the given value
 	 * 
@@ -44,7 +43,33 @@ public class Coordinate {
 		z = value;
 	}
 	
-	public float getX() { return x; }
-	public float getY() { return y; }
-	public float getZ() { return z; }
+	/**
+	 * Gets the x coordinate
+	 * @return The x coordinate.
+	 */
+	public float getX(){
+		return x;
+	}
+	
+	/**
+	 * Gets the y coordinate
+	 * @return The y coordinate.
+	 */
+	public float getY(){
+		return y;
+	}
+	
+	/**
+	 * Gets the z coordinate
+	 * @return The z coordinate.
+	 */
+	public float getZ(){
+		return z;
+	}
+	
+	public void setAll(float newX, float newY, float newZ){
+		x = newX;
+		y = newY;
+		z = newZ;
+	}
 }
