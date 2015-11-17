@@ -14,7 +14,7 @@ public class Graph {
 	}
 	
 	public Edge addEdge(int nodeAIn, int nodeBIn, int idIn){//adds an edge to the list
-		Edge e = new Edge(nodeAIn, nodeBIn, idIn);
+		Edge e = new Edge(nodeAIn, nodeBIn);
 		listOfEdges.add(e);
 		return e;
 	}

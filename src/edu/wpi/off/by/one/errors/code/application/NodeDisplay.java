@@ -20,9 +20,7 @@ public class NodeDisplay extends Button{
 	
 	public NodeDisplay(Number x, Number y, Number z){
 		Node node = new Node(
-				new Coordinate(x.floatValue(), y.floatValue(), z.floatValue()), 
-				Integer.parseInt("123")
-				);
+				new Coordinate(x.floatValue(), y.floatValue(), z.floatValue()), -1);
 		setCss();
 		setHandlers();
 	}
