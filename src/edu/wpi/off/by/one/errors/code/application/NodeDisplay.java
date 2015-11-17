@@ -43,13 +43,17 @@ public class NodeDisplay extends Button{
 	
 	/* Event handling */
 	
-	
-	
 	private EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
 		
 		public void handle(MouseEvent e){
-			SelectNode selectNodeEvent = new SelectNode();
-			self.fireEvent(selectNodeEvent);
+			if(!isSelected){
+				SelectNode selectNodeEvent = new SelectNode(SelectNode.NODE_SELECTED);
+				self.fireEvent(selectNodeEvent);
+			} else {
+				SelectNode selectNodeEvent = new SelectNode(SelectNode.NODE_DESELECTED);
+				self.fireEvent(selectNodeEvent);
+			}
+			
 		}
 	};
 	
@@ -77,10 +81,21 @@ public class NodeDisplay extends Button{
 		}
 	};
 	
+	private void onDeselectEventHandler(){
+		this.addEventFilter(SelectNode.NODE_DESELECTED, event -> {
+			String style = self.getStyle();
+			self.setStyle(style + "-fx-background-color: blue;"
+					+ "-fx-border-radius: none;" + "-fx-border-color: none;"
+					+ "-fx-border-width: none;" + "-fx-border-style: none;");
+			this.isSelected = false;
+		});
+	}
+	
 	private void setHandlers() {
 		this.setOnMouseEntered(onMouseEnteredEventHandler);
 		this.setOnMouseExited(onMouseExitedEventHandler);
 		this.setOnMouseClicked(onMouseClickedEventHandler);
+		this.onDeselectEventHandler();
 	}
 	
 	private void setCss(){
