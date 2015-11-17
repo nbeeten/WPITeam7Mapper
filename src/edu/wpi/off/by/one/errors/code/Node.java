@@ -2,18 +2,26 @@ package edu.wpi.off.by.one.errors.code;
 
 public class Node {
 	private Coordinate coord;
-	private int[] edges;
+	private int[] edges;//list of indexes of edges
 	private int id;
 
-	public Node(Coordinate coordIn, int idIn) {
+	/**
+	 * 
+	 * @param coordIn: The given coordinate
+	 */
+	public Node(Coordinate coordIn) {
 		coord = coordIn;
-		int id = idIn;
+		id = -1;//default, set when added
 	}
 
 	public Coordinate getCoordinate() {
 		return coord;
 	}
 
+	/**
+	 * 
+	 * @param newCoord: The new Coordinate
+	 */
 	public void setCoordinate(Coordinate newCoord) {
 		coord = newCoord;
 	}
@@ -22,14 +30,23 @@ public class Node {
 		return edges;
 	}
 
+	/**
+	 * 
+	 * @param newEdgeList: The new list of edges
+	 */
 	public void setEdgeList(int[] newEdgeList) {
 		edges = newEdgeList;
 	}
-
+	
 	public int getId() {
+		System.out.println(this.id);
 		return id;
 	}
 
+	/**
+	 * 
+	 * @param idIn: the new id
+	 */
 	public void setId(int idIn) {
 		id = idIn;
 	}
