@@ -123,7 +123,8 @@ public class Main extends Application {
 					mapPane.getChildren().add(l);
 					n.fireEvent(selectNodeEvent);
 				}
-				nodeQueue.remove();
+				nodeQueue.remove().fireEvent(selectNodeEvent);;
+				
 				
 			}
 		});
