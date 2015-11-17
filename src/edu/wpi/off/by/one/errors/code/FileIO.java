@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /* file format
@@ -31,27 +32,33 @@ public class FileIO {
 
 	static void flush(Display dpy) {
 		ArrayList<Integer> nodeids = new ArrayList<>();
+		Graph g = dpy.getGraph();
 		int i;
 		for (i = 0; i < nodebuf.size(); i++) {
 			String[] args = nodebuf.get(i);
-			nodeids.add(parsepointline(args, dpy));
+			nodeids.add(parsepointline(args, g));
 		}
 		for (i = 0; i < edgebuf.size(); i++) {
 			String[] args = edgebuf.get(i);
-			parseedgeline(args, dpy, nodeids);
+			parseedgeline(args, g, nodeids);
 		}
 		nodeids = null;// best i can do to "free" it
 	}
-
-	static int parsepointline(String[] args, Display dpy) {
-		if (args.length < 5)
-			return -1;
-		// int ret = dpy.points.addPoint(Float.parseFloat(args[0]),
-		// Float.parseFloat(args[1]), Float.parseFloat(args[2]), etc);
-		return 0; // todo
+	static int parsemapline(String[] args, Display dpy){
+		Coordinate c = new Coordinate(Float.parseFloat(args[1]), Float.parseFloat(args[2]), Float.parseFloat(args[3]));
+		Map m = new Map(args[0], c, Float.parseFloat(args[4]), Float.parseFloat(args[5]));
+		dpy.setMap(m);
+		return 1;
 	}
 
-	static int parseedgeline(String[] args, Display dpy, ArrayList<Integer> nodeids) {
+	static int parsepointline(String[] args, Graph g) {
+		if (args.length < 5)
+			return -1;
+		Coordinate c = new Coordinate(Float.parseFloat(args[0]), Float.parseFloat(args[1]), Float.parseFloat(args[2]));
+		return g.addNodeRint(c);
+	}
+
+	static int parseedgeline(String[] args, Graph g, ArrayList<Integer> nodeids) {
 		if (args.length < 3)
 			return -1;
 		int indice1 = Integer.parseInt(args[0]);
@@ -62,8 +69,7 @@ public class FileIO {
 		int id2 = nodeids.get(indice2);
 		if (id1 < 0 || id2 < 0)
 			return -1;
-		// dpy.edges.addEdge(id1, id2, Float.parseFloat(args[2]), etc);
-		return 0; // todo
+		return g.addEdgeRint(id1, id2); 
 	}
 
 	static void parseline(String line, Display dpy) {
@@ -83,7 +89,7 @@ public class FileIO {
 			edgebuf.add(line.substring(i + 1).split("\\s"));
 			break;
 		case 'm': // map;
-			// todo
+			parsemapline(line.substring(i + 1).split("\\s"), dpy);
 			break;
 		default: // some sorta error, or unrecognized element type
 			break;
@@ -118,7 +124,7 @@ public class FileIO {
 			i++;
 		}
 		flush(curdpy);
-		System.out.printf("Read %i lines\n", i);
+		System.out.printf("Read %d lines\n", i);
 		edgebuf = null;
 		nodebuf = null; // best i can do to "free" it
 		return curdpy;
@@ -136,16 +142,38 @@ public class FileIO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*
-		 * Graph g = indpy.getGraph(); // i need dis
-		 */
-		// loop through nodes, print em
-		// loop through edges, print em
-		// loop through maps, print em
-		// todo
-		if (writer != null)
-			writer.close();
-		return 0;
+		if(writer == null) return -1;
+		Graph g = indpy.getGraph();
+		if(g == null) return -1;
+		//will change this to ID, Integer
+		HashMap<Integer, Integer> ids = new HashMap<Integer, Integer>();
+		int i = 0;
+		for( Node n : g.getNodes()){
+			if(n == null) continue;
+			ids.put(n.getId(), i);
+			Coordinate c = n.getCoordinate();
+			writer.printf("p %f %f %f\n", c.getX(), c.getY(), c.getZ());
+			i++;
+		}
+		for( Edge e : g.getEdges()){
+			if(e == null) continue;
+			int indice1 = ids.get(e.getNodeA());
+			int indice2 = ids.get(e.getNodeB());
+			writer.printf("e %d %d\n", indice1, indice2);
+		}
+		ids = null;
+		//will change this over to iterate over a list later
+		Map m = indpy.getMap();
+		if(m == null){//continue;
+			
+		} else {
+			Coordinate c = m.center; // should this be a getter?
+			//writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
+			writer.println("m " + m.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + m.rotation + " " + m.scale);
+
+		}
+		if (writer != null) writer.close();
+		return i;
 	}
 
 }
