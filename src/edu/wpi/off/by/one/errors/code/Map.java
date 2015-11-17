@@ -5,6 +5,12 @@ public class Map {
 	Coordinate center;
 	float rotation;
 	float scale;
+	public Map(String path, Coordinate coordinate, float rotation, float scale){
+		this.imagePath = path;
+		this.center = coordinate;
+		this.rotation = rotation;
+		this.scale = scale;
+	}
 	
 	public void setImgUrl(String path) { this.imagePath = path; }
 	public void setCoordinate(Coordinate coordinate) { this.center = coordinate; }
