@@ -6,16 +6,16 @@ public class Node {
 	private int id;
 
 	public Node(Coordinate coordIn, int idIn) {
-		Coordinate coord = coordIn;
-		int id = idIn;
+		this.coord = coordIn;
+		this.id = idIn;
 	}
 
 	public Coordinate getCoordinate() {
-		return coord;
+		return this.coord;
 	}
 
 	public void setCoordinate(Coordinate newCoord) {
-		coord = newCoord;
+		this.coord = newCoord;
 	}
 
 	public int[] getEdgelist() {
@@ -23,7 +23,7 @@ public class Node {
 	}
 
 	public void setEdgeList(int[] newEdgeList) {
-		edges = newEdgeList;
+		this.edges = newEdgeList;
 	}
 
 	public int getId() {
