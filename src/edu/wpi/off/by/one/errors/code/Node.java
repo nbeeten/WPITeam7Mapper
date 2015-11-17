@@ -42,7 +42,9 @@ public class Node {
 	 * get the list of connected edges for the node
 	 * @return edges: the list of connected edges 
 	 */
+
 	public Vector<Integer> getEdgelist() {
+
 		return edges;
 	}
 
