@@ -30,8 +30,11 @@ public class Graph {
 
 	public Edge addEdge(int nodeAIn, int nodeBIn){//adds an edge to the list
 		Edge e = new Edge(nodeAIn, nodeBIn); 
-		e.setId(listOfEdges.size());
+		int id = listOfEdges.size();
+		e.setId(id);
 		listOfEdges.add(e);
+		listOfNodes.get(nodeAIn).addEdgeId(id);
+		listOfNodes.get(nodeBIn).addEdgeId(id);
 		return e;
 	}
 	public int addEdgeRint(int nodeAIn, int nodeBIn){//adds an edge to the list, returns ID instead of edge

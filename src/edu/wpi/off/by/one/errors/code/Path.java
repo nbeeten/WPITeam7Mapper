@@ -3,15 +3,17 @@ package edu.wpi.off.by.one.errors.code;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Vector;
 
 public class Path {
 	private int startNode;
 	private int endNode;
 	private ArrayList<Integer> route;
-	private Node[] nodes;
-	private Edge[] edges;
+	private Vector<Node> nodes;
+	private Vector<Edge> edges;
 	
 	public Path(int startNodeIn, int endNodeIn){
+		this.route = new ArrayList<Integer>();
 		startNode = startNodeIn;
 		endNode = endNodeIn;
 	}
@@ -21,11 +23,11 @@ public class Path {
 	 * @param nodesIn
 	 * @param edgesIn
 	 */
-	public void runAStar(Node[] nodesIn, Edge[] edgesIn){
+	public void runAStar(Vector<Node> nodesIn, Vector<Edge> edgesIn){
 		ArrayList<Integer> visited = new ArrayList<Integer>();	//These nodes we have already seen
 		ArrayList<Integer> open = new ArrayList<Integer>();		//These are the next nodes we will visit
-		nodes = nodesIn;	//the list of Node objects to search
-		edges = edgesIn;	//the list of the associated edges for the Nodes
+		this.nodes = nodesIn;	//the list of Node objects to search
+		this.edges = edgesIn;	//the list of the associated edges for the Nodes
 		int current; 		//the ID for the node we are currently examining
 		HashMap cameFrom = new HashMap<Integer, Integer>();		//The map of current optimum path to a node
 		HashMap<Integer, Float> gScore = new HashMap<Integer, Float>();	//The map of the nodeID to its path finding score, the lower the better
@@ -45,8 +47,8 @@ public class Path {
 			}
 			open.remove(current);	//take the current node out of nodes to visit
 			visited.add(current);	//then add it to the list of already visited nodes
-			for(int elem : nodes[current].getEdgelist()){	//find all the edges attached to the node
-				Edge neighborEdge = edges[elem];	//pull one edge from the list at a time
+			for(int elem : nodes.get(current).getEdgelist()){	//find all the edges attached to the node
+				Edge neighborEdge = edges.get(elem);	//pull one edge from the list at a time
 				int neighborId;	//the ID of the node at the other end of the edge
 				if (neighborEdge.getNodeA() == current){	//if we try and get the ID for the node and it's the same ID
 					neighborId = neighborEdge.getNodeB();	//then it must be the other node in the edge
@@ -54,7 +56,7 @@ public class Path {
 				else {
 					neighborId = neighborEdge.getNodeA();	//otherwise this one must be the neighbor
 				}	
-				float tentativeGScore = gScore.get(current)+edges[elem].getLength();	//calculate the distance needed to get to the current point	
+				float tentativeGScore = gScore.get(current)+edges.get(elem).getLength();	//calculate the distance needed to get to the current point	
 				if(visited.contains(neighborId)){				//if we have already been to this neighbor
 					if(gScore.get(neighborId)>tentativeGScore){	//and this route is better than the existing one
 						gScore.put(neighborId, tentativeGScore);//then make this the current best route to this point
