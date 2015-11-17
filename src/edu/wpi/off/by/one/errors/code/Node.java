@@ -6,7 +6,7 @@ public class Node {
 	private int id;
 
 	public Node(Coordinate coordIn, int idIn) {
-		Coordinate coord = coordIn;
+		coord = coordIn;
 		int id = idIn;
 	}
 
