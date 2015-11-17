@@ -7,6 +7,7 @@ import javafx.event.EventType;
 public class SelectNode extends Event{
 
 	public static final EventType<SelectNode> NODE_SELECTED = new EventType<>(ANY, "NODE_SELECTED");
+	public static final EventType<SelectNode> NODE_DESELECTED = new EventType<>(ANY, "NODE_DESELECTED");
 	
 	public SelectNode() { this(NODE_SELECTED); }
 

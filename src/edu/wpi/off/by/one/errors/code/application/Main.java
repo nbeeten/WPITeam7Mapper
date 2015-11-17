@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
@@ -104,10 +105,12 @@ public class Main extends Application {
 		Button saveNodes = new Button("Save All");
 		
 		addEdge.setOnAction(e -> {
+			SelectNode selectNodeEvent = new SelectNode(SelectNode.NODE_DESELECTED);
 			if(!nodeQueue.isEmpty()){
 				System.out.println(nodeQueue.size());
 				while(nodeQueue.size() > 1){
-					Node a = nodeQueue.poll().getNode();
+					NodeDisplay n = nodeQueue.poll();
+					Node a = n.getNode();
 					Node b = nodeQueue.peek().getNode();
 					Coordinate aLoc = a.getCoordinate();
 					Coordinate bLoc = b.getCoordinate();
@@ -115,12 +118,13 @@ public class Main extends Application {
 					g.addEdge(a.getId(), b.getId());
 					Line l = new Line(aLoc.getX(), aLoc.getY(), 
 							bLoc.getX(), bLoc.getY());
-					Bounds localBounds = l.localToScene(mapView.getBoundsInLocal());
-					l.setTranslateX((aLoc.getX() + bLoc.getX())/2 - localBounds.getMaxX() / 2);
-					l.setTranslateY((aLoc.getY() + bLoc.getY())/2 - localBounds.getMaxY() / 2);
+					l.setStroke(Color.POWDERBLUE);
+					move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
 					mapPane.getChildren().add(l);
+					n.fireEvent(selectNodeEvent);
 				}
 				nodeQueue.remove();
+				
 			}
 		});
 		
@@ -287,12 +291,7 @@ public class Main extends Application {
 			if (e.getClickCount() == 2) {
 				// Creates a NodeDisplay that contains the node object
 				NodeDisplay newNode = new NodeDisplay(display, e.getX(), e.getY(), 0);
-
-				// Shift coordinates for node so that it is placed where user
-				// clicks
-				Bounds localBounds = newNode.localToScene(mapView.getBoundsInLocal());
-				newNode.setTranslateX(e.getX() - localBounds.getMaxX() / 2);
-				newNode.setTranslateY(e.getY() - localBounds.getMaxY() / 2);
+				move(newNode, e.getX(),e.getY());
 				
 				newNode.addEventFilter(SelectNode.NODE_SELECTED, event -> {
 					System.out.println("Node Selected");
@@ -310,9 +309,25 @@ public class Main extends Application {
 					//	of selection
 				});
 				
+				newNode.addEventFilter(SelectNode.NODE_DESELECTED, event -> {
+					nodeQueue.remove(newNode);
+				});
+				
 				// Add to the scene
 				mapPane.getChildren().add(newNode);
 			}
 		});
+	}
+	
+	/**
+	 * Re-translates whatever object to it's intended place on the map
+	 * @param x
+	 * @param y
+	 */
+	private void move(javafx.scene.Node obj, double x, double y){
+		Bounds localBounds = obj.localToScene(mapView.getBoundsInLocal());
+		obj.setTranslateX(x - localBounds.getMaxX() / 2);
+		obj.setTranslateY(y - localBounds.getMaxY() / 2);
+		
 	}
 }
