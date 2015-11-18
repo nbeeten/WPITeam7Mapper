@@ -38,6 +38,7 @@ public class Graph {
 		listOfEdges.add(e);
 		listOfNodes.get(nodeAIn).addEdgeId(id);
 		listOfNodes.get(nodeBIn).addEdgeId(id);
+		e.updateLength((float) Math.sqrt(Math.pow((listOfNodes.get(nodeAIn).getCoordinate().getX()-listOfNodes.get(nodeBIn).getCoordinate().getX()), 2)+Math.pow((listOfNodes.get(nodeAIn).getCoordinate().getY()-listOfNodes.get(nodeBIn).getCoordinate().getY()), 2)+Math.pow((listOfNodes.get(nodeAIn).getCoordinate().getZ()-listOfNodes.get(nodeBIn).getCoordinate().getZ()), 2)));
 		return e;
 	}
 	public int addEdgeRint(int nodeAIn, int nodeBIn){//adds an edge to the list, returns ID instead of edge
@@ -47,6 +48,10 @@ public class Graph {
 		this.listOfEdges.add(e);
 		listOfNodes.get(nodeAIn).addEdgeId(id);
 		listOfNodes.get(nodeBIn).addEdgeId(id);
+		float xDist = listOfNodes.get(nodeAIn).getCoordinate().getX()-listOfNodes.get(nodeBIn).getCoordinate().getX();
+		float yDist = listOfNodes.get(nodeAIn).getCoordinate().getY()-listOfNodes.get(nodeBIn).getCoordinate().getY();
+		float zDist = listOfNodes.get(nodeAIn).getCoordinate().getZ()-listOfNodes.get(nodeBIn).getCoordinate().getZ();
+		e.updateLength((float) Math.sqrt(xDist*xDist+yDist*yDist+zDist*zDist));
 		return id;
 	}
 	public Edge returnEdgeById(int id){
