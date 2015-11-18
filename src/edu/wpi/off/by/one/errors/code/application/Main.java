@@ -12,6 +12,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
@@ -95,6 +96,7 @@ public class Main extends Application {
 	ScrollPane scroll;
 	ImageView mapView;
 	StackPane mapPane;
+	StackPane pathPane = new StackPane();
 	private MarkerDisplay marker = null;
 	final SimpleDoubleProperty zoomProperty = new SimpleDoubleProperty(200);
 
@@ -135,15 +137,21 @@ public class Main extends Application {
 		editorBox.setPrefSize(scene.getWidth() * 0.3, 600);
 		editorBox.setPadding(new Insets(0, 0, 0, 10));
 		editPane.setPadding(new Insets(0, 0, 100, 0));				
+		/*
 		editPane.getChildren().addAll(nodeLabel, new Separator(), addNode, editNode, addEdge, editEdge, 
 				saveNodes, clearNodes, show,						
 				showNodes, showEdges);
+		*/
+		editPane.getChildren().addAll(nodeLabel, new Separator(), addEdge);
+		
 		editorBox.getChildren().addAll(editPane, settingsLabel, 
 				new Separator(), drawPathButton);
 		// END: BORDERPANE RIGHT COMPONENTS --------------------------------------------
 		
 		// START: BORDERPANE CENTER COMPONENTS -----------------------------------------
 		// AKA - Map stuff		
+		Label preLoadLabel = new Label("Please load a map file");
+		preLoadLabel.setAlignment(Pos.CENTER);
 		mapPane = new StackPane();
 		mapView = GetMapView();
 		
@@ -159,7 +167,7 @@ public class Main extends Application {
 		// center the scroll contents.
 		scroll.setHvalue(scroll.getHmin() + (scroll.getHmax() - scroll.getHmin()) / 2);
 		scroll.setVvalue(scroll.getVmin() + (scroll.getVmax() - scroll.getVmin()) / 2);
-		mapPane.getChildren().add(mapView);
+		mapPane.getChildren().addAll(pathPane, preLoadLabel, mapView);
 		// END: BORDERPANE CENTER COMPONENTS -------------------------------------------
 		
 		// START: BORDERPANE TOP COMPONENTS --------------------------------------------
@@ -195,14 +203,16 @@ public class Main extends Application {
 	// TODO delegate this to Map????? or even Display???????????
 	private ImageView GetMapView() {
 		Map m = display.getMap();
+		/*
 		m.setName("Campus Map");
 		m.setCenter(new Coordinate(0));
 		m.setImgUrl("campusmap.png");
 		m.setRotation(0);
 		m.setScale(0); //CHANGE THIS LATER
 		Image map = new Image("campusmap.png");
+		*/
 		ImageView mapIV = new ImageView();
-		mapIV.setImage(map);
+		//mapIV.setImage(map);
 		mapIV.setPreserveRatio(true);
 		mapIV.setSmooth(true);
 		mapIV.setCache(true);
@@ -344,10 +354,9 @@ public class Main extends Application {
 				 display.setMap(newmap);
 				 mapView.setImage(new Image(inpath));
 				 mapPane.getChildren().clear();
-				 mapPane.getChildren().add(mapView);
+				 mapPane.getChildren().addAll(pathPane, mapView);
 				 //window.display(selectedFile);
 			 }
-			
 		});
 		
 		loadNewMenuItem.setOnAction(e -> {
@@ -370,7 +379,7 @@ public class Main extends Application {
 				mapView.setImage(new Image(m.getImgUrl()));
 				display = newdisp;
 				mapPane.getChildren().clear();
-				mapPane.getChildren().add(mapView);
+				mapPane.getChildren().addAll(pathPane, mapView);
 			}
 			//Add nodes and edges to the map
 			Vector<Node> nodes = display.getGraph().getNodes(); 
@@ -401,7 +410,7 @@ public class Main extends Application {
 				//System.out.println("Edge size" + g.getEdges().size());
 				Line l = new Line(aLoc.getX(), aLoc.getY(), 
 						bLoc.getX(), bLoc.getY());
-				l.setStroke(Color.POWDERBLUE);
+				l.setStroke(Color.BLUE);
 				move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
 				mapPane.getChildren().add(l);
 			}
@@ -458,7 +467,7 @@ public class Main extends Application {
 				//System.out.println("Edge size" + g.getEdges().size());
 				Line l = new Line(aLoc.getX(), aLoc.getY(), 
 						bLoc.getX(), bLoc.getY());
-				l.setStroke(Color.POWDERBLUE);
+				l.setStroke(Color.BLUE);
 				move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
 				mapPane.getChildren().add(l);
 			}
@@ -509,7 +518,7 @@ public class Main extends Application {
 					System.out.println("Edge size" + g.getEdges().size());
 					Line l = new Line(aLoc.getX(), aLoc.getY(), 
 							bLoc.getX(), bLoc.getY());
-					l.setStroke(Color.POWDERBLUE);
+					l.setStroke(Color.BLUE);
 					move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
 					mapPane.getChildren().add(l);
 					n.fireEvent(selectNodeEvent);
@@ -530,33 +539,40 @@ public class Main extends Application {
 		});
 		
 		drawPathButton.setOnAction(e -> {
+			pathPane.getChildren().clear();
 			NodeDisplay startNode = nodeQueue.poll();
 			NodeDisplay endNode = nodeQueue.poll();
-			//display.drawPath(startNode.node.getId(), endNode.node.getId());
-			int idx = 0;
-			Vector<Node> nodes = display.getGraph().getNodes();
-			//System.out.println(nodes.size());
+			if(startNode != null && endNode != null){
+				//display.drawPath(startNode.node.getId(), endNode.node.getId());
+				int idx = 0;
+				Vector<Node> nodes = display.getGraph().getNodes();
+				//System.out.println(nodes.size());
+				
+				Path p = new Path(startNode.node, endNode.node);
+				Graph g = display.getGraph();
+				//System.out.println("Size graph " + g.getEdges().size());
+				p.runAStar(nodes, g.getEdges()); //Change this later??
+				ArrayList<Integer> idList = p.getRoute();
+				System.out.println("Route size " + idList.size());
+				while(idx < idList.size() - 1){
+					Node a = nodes.get(idList.get(idx));
+					Node b = nodes.get(idList.get(++idx));
+					Coordinate aLoc = a.getCoordinate();
+					Coordinate bLoc = b.getCoordinate();
+					Line l = new Line(aLoc.getX(), aLoc.getY(), 
+							bLoc.getX(), bLoc.getY());
+					l.setStrokeWidth(3.0);
+					move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);
 
-			Path p = new Path(startNode.node, endNode.node);
-			Graph g = display.getGraph();
-			//System.out.println("Size graph " + g.getEdges().size());
-			p.runAStar(nodes, g.getEdges()); //Change this later??
-			ArrayList<Integer> idList = p.getRoute();
-			System.out.println("Route size " + idList.size());
-			while(idx < idList.size() - 1){
-				Node a = nodes.get(idList.get(idx));
-				Node b = nodes.get(idList.get(++idx));
-				Coordinate aLoc = a.getCoordinate();
-				Coordinate bLoc = b.getCoordinate();
-				Line l = new Line(aLoc.getX(), aLoc.getY(), 
-						bLoc.getX(), bLoc.getY());
-				move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);
-
-				mapPane.getChildren().add(l);
+					pathPane.getChildren().add(l);
+					pathPane.toFront();
+					pathPane.setMouseTransparent(true);
+				}
+				SelectNode selectNodeEvent = new SelectNode(SelectNode.NODE_DESELECTED);
+				startNode.fireEvent(selectNodeEvent);
+				endNode.fireEvent(selectNodeEvent);
 			}
-			SelectNode selectNodeEvent = new SelectNode(SelectNode.NODE_DESELECTED);
-			startNode.fireEvent(selectNodeEvent);
-			endNode.fireEvent(selectNodeEvent);
+			
 		});
 
 	}
