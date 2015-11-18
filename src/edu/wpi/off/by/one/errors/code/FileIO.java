@@ -53,14 +53,14 @@ public class FileIO {
 	}
 
 	static int parsepointline(String[] args, Graph g) {
-		if (args.length < 5)
+		if (args.length > 5)
 			return -1;
 		Coordinate c = new Coordinate(Float.parseFloat(args[0]), Float.parseFloat(args[1]), Float.parseFloat(args[2]));
 		return g.addNodeRint(c);
 	}
 
 	static int parseedgeline(String[] args, Graph g, ArrayList<Integer> nodeids) {
-		if (args.length < 3)
+		if (args.length > 3)
 			return -1;
 		int indice1 = Integer.parseInt(args[0]);
 		int indice2 = Integer.parseInt(args[1]);
