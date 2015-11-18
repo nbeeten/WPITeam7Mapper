@@ -193,7 +193,7 @@ public class Main extends Application {
 		setEditorButtons();
 		setMenuButtons();
 		
-		window.setTitle("WPI Map Application");
+		window.setTitle("goatThere(); - WPI Map Application");
 		window.setScene(scene);
 		window.show();
 	} 
