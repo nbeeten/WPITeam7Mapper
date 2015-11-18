@@ -39,9 +39,9 @@ public class Graph {
 	}
 	public int addEdgeRint(int nodeAIn, int nodeBIn){//adds an edge to the list, returns ID instead of edge
 		Edge e = new Edge(nodeAIn, nodeBIn); 
-		int id = listOfEdges.size();
+		int id = this.listOfEdges.size();
 		e.setId(id);
-		listOfEdges.add(e);
+		this.listOfEdges.add(e);
 		return id;
 	}
 	public Edge returnEdgeById(int id){
@@ -51,11 +51,11 @@ public class Graph {
 	}
 	
 	public Vector<Node> getNodes(){//gets the list of nodes
-		return listOfNodes;
+		return this.listOfNodes;
 	}
 	
 	public Vector<Edge> getEdges(){//gets the list of edges
-		return listOfEdges;
+		return this.listOfEdges;
 	}
 	
 	public void deleteNode(int target){//deletes a node from the list (replaces it with null)

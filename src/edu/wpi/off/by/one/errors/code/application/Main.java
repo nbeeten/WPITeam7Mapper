@@ -3,9 +3,7 @@ package edu.wpi.off.by.one.errors.code.application;
 import java.awt.Paint;
 import java.io.File;
 import java.util.*;
-
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
-
 import edu.wpi.off.by.one.errors.code.*;
 import edu.wpi.off.by.one.errors.code.Map;
 import edu.wpi.off.by.one.errors.code.application.event.*;
@@ -87,7 +85,8 @@ public class Main extends Application {
 	Menu fileMenu = new Menu("File");
 	Menu viewMenu = new Menu("View");
 	Menu helpMenu = new Menu("Help");
-	MenuItem loadMenuItem = new MenuItem("Load");
+	MenuItem loadNewMenuItem = new MenuItem("Load New");
+	MenuItem loadCurMenuItem = new MenuItem("Load onto Current");
 	MenuItem saveMenuItem = new MenuItem("Save");
 	CheckMenuItem setEditorMode = new CheckMenuItem("Editor Mode");
 
@@ -164,7 +163,7 @@ public class Main extends Application {
 		
 		// START: BORDERPANE TOP COMPONENTS --------------------------------------------
 		// MENU
-		fileMenu.getItems().addAll(loadMenuItem, saveMenuItem);
+		fileMenu.getItems().addAll(loadNewMenuItem, loadCurMenuItem, saveMenuItem);
 		menuBar.autosize();
 		setEditorMode.setSelected(true);
 		viewMenu.getItems().add(setEditorMode);
@@ -327,7 +326,9 @@ public class Main extends Application {
 	}
 	
 	private void setMenuButtons(){
-		loadMenuItem.setOnAction(e -> {
+		
+		loadNewMenuItem.setOnAction(e -> {
+			Display newdisp = null;
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Open Map File");
 			fileChooser.getExtensionFilters().addAll(
@@ -337,12 +338,106 @@ public class Main extends Application {
 			 if (selectedFile != null) {
 				 String inpath = selectedFile.getPath();
 				 System.out.println(inpath);
-				 FileIO.load(inpath, display);
+				  newdisp = FileIO.load(inpath, null);
 				 //window.display(selectedFile);
 			 }
+			Map m = newdisp.getMap();
 			//Redisplay to appropriate map
+			if(m.getImgUrl() != display.getMap().getImgUrl()){
+				mapView.setImage(new Image(m.getImgUrl()));
+				display = newdisp;
+				mapPane.getChildren().clear();
+				mapPane.getChildren().add(mapView);
+			}
 			//Add nodes and edges to the map
-			System.out.println(display.getGraph().returnEdgeById(0));
+			Vector<Node> nodes = display.getGraph().getNodes(); 
+			Vector<Edge> edges = display.getGraph().getEdges();
+			//System.out.printf("node: %d, edges: %d", nodes.size(), edges.size());
+			for(Node n : nodes){
+				NodeDisplay nd = new NodeDisplay(display, n);
+				Coordinate c = n.getCoordinate();
+				move(nd, c.getX(), c.getY());
+				
+				nd.addEventFilter(SelectNode.NODE_SELECTED, event -> {
+					System.out.println("Node Selected");
+					nd.selectNode();
+					nodeQueue.add(nd);
+				});
+				
+				nd.addEventFilter(SelectNode.NODE_DESELECTED, event -> {
+					nodeQueue.remove(nd);
+				});
+				mapPane.getChildren().add(nd);
+			}
+			for(Edge edge : edges){
+				Node a = nodes.get(edge.getNodeA());
+				Node b = nodes.get(edge.getNodeB());
+				Coordinate aLoc = a.getCoordinate();
+				Coordinate bLoc = b.getCoordinate();
+				Graph g = display.getGraph();
+				//System.out.println("Edge size" + g.getEdges().size());
+				Line l = new Line(aLoc.getX(), aLoc.getY(), 
+						bLoc.getX(), bLoc.getY());
+				l.setStroke(Color.POWDERBLUE);
+				move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
+				mapPane.getChildren().add(l);
+			}
+	
+		});
+		
+		loadCurMenuItem.setOnAction(e -> {
+			Display newdisp = null;
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Open Map File");
+			fileChooser.getExtensionFilters().addAll(
+			         new ExtensionFilter("Text Files", "*.txt"),
+			         new ExtensionFilter("All Files", "*.*"));
+			 File selectedFile = fileChooser.showOpenDialog(window);
+			 if (selectedFile != null) {
+				 String inpath = selectedFile.getPath();
+				 System.out.println(inpath);
+				  newdisp = FileIO.load(inpath, display);
+				 //window.display(selectedFile);
+			 }
+			Map m = newdisp.getMap();
+			//Redisplay to appropriate map
+			if(m.getImgUrl() != display.getMap().getImgUrl()){
+				mapView.setImage(new Image(m.getImgUrl()));
+				display = newdisp;
+			}
+			//Add nodes and edges to the map
+			Vector<Node> nodes = display.getGraph().getNodes(); 
+			Vector<Edge> edges = display.getGraph().getEdges();
+			//System.out.printf("node: %d, edges: %d", nodes.size(), edges.size());
+			for(Node n : nodes){
+				NodeDisplay nd = new NodeDisplay(display, n);
+				Coordinate c = n.getCoordinate();
+				move(nd, c.getX(), c.getY());
+				
+				nd.addEventFilter(SelectNode.NODE_SELECTED, event -> {
+					System.out.println("Node Selected");
+					nd.selectNode();
+					nodeQueue.add(nd);
+				});
+				
+				nd.addEventFilter(SelectNode.NODE_DESELECTED, event -> {
+					nodeQueue.remove(nd);
+				});
+				mapPane.getChildren().add(nd);
+			}
+			for(Edge edge : edges){
+				Node a = nodes.get(edge.getNodeA());
+				Node b = nodes.get(edge.getNodeB());
+				Coordinate aLoc = a.getCoordinate();
+				Coordinate bLoc = b.getCoordinate();
+				Graph g = display.getGraph();
+				//System.out.println("Edge size" + g.getEdges().size());
+				Line l = new Line(aLoc.getX(), aLoc.getY(), 
+						bLoc.getX(), bLoc.getY());
+				l.setStroke(Color.POWDERBLUE);
+				move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
+				mapPane.getChildren().add(l);
+			}
 		});
 		saveMenuItem.setOnAction(e -> {
 			String path;
