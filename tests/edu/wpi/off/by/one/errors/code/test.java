@@ -69,18 +69,6 @@ public class test extends TestCase{
     
     //test FileIO
     @Test
-    public void testFile(){
-    	Map amap = new Map("Atwater_Kent.png", "Atwater_Kent.png", 0, 0);
-    	amap.setScale(1);
-    	Graph g = new Graph();
-    	Coordinate c1 = new Coordinate(400);
-        Coordinate c2 = new Coordinate(100,0,0);
-        g.addNode(c1);
-        g.addNode(c2);
-        assertEquals( g.addEdgeRint(1, 2), 0);
-    	Display dpy = new Display(amap, g);
-    	FileIO.save("testio.txt", dpy);
-    	
    public void testFile(){
         Map amap = new Map("Atwater_Kent.png", "Atwater_Kent.png", 0, 0);
         amap.setScale(1);
