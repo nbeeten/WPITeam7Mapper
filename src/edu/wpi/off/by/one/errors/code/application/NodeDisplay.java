@@ -21,6 +21,13 @@ public class NodeDisplay extends Button{
 	public boolean isSelected = false;
 	
 
+	public NodeDisplay(Display display, int node){
+		this.display = display;
+		this.node = node;
+		setCss();
+		setHandlers();
+	}
+	
 	public NodeDisplay(Display display, Number x, Number y, Number z){
 		this.display = display;
 		this.node = display.getGraph().addNodeRint(
