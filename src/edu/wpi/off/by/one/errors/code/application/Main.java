@@ -87,6 +87,7 @@ public class Main extends Application {
 	Menu helpMenu = new Menu("Help");
 	MenuItem loadNewMenuItem = new MenuItem("Load New");
 	MenuItem loadCurMenuItem = new MenuItem("Load onto Current");
+	MenuItem loadMapMenuItem = new MenuItem("Load Map Image"); //EDITOR ONLY
 	MenuItem saveMenuItem = new MenuItem("Save");
 	CheckMenuItem setEditorMode = new CheckMenuItem("Editor Mode");
 
@@ -163,7 +164,8 @@ public class Main extends Application {
 		
 		// START: BORDERPANE TOP COMPONENTS --------------------------------------------
 		// MENU
-		fileMenu.getItems().addAll(loadNewMenuItem, loadCurMenuItem, saveMenuItem);
+		fileMenu.getItems().addAll(loadNewMenuItem, loadCurMenuItem, 
+				loadMapMenuItem, saveMenuItem);
 		menuBar.autosize();
 		setEditorMode.setSelected(true);
 		viewMenu.getItems().add(setEditorMode);
@@ -265,7 +267,7 @@ public class Main extends Application {
 					System.out.println("Node Selected");
 					newNode.selectNode();
 					nodeQueue.add(newNode);
-					// Add selected node to selected ndoe queue
+					// Add selected node to selected node queue
 					
 					//TODO stuff regarding info about the node clicked
 					//if double-clicked
@@ -327,6 +329,27 @@ public class Main extends Application {
 	
 	private void setMenuButtons(){
 		
+		loadMapMenuItem.setOnAction(e -> {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Open Map File");
+			fileChooser.getExtensionFilters().addAll(
+			         new ExtensionFilter("Image Files", "*.png"),
+			         new ExtensionFilter("All Files", "*.*"));
+			 File selectedFile = fileChooser.showOpenDialog(window);
+			 if (selectedFile != null) {
+				 String inpath = selectedFile.getName();
+				 System.out.println(inpath);
+				 Map newmap = new Map();
+				 newmap.setImgUrl(inpath);
+				 display.setMap(newmap);
+				 mapView.setImage(new Image(inpath));
+				 mapPane.getChildren().clear();
+				 mapPane.getChildren().add(mapView);
+				 //window.display(selectedFile);
+			 }
+			
+		});
+		
 		loadNewMenuItem.setOnAction(e -> {
 			Display newdisp = null;
 			FileChooser fileChooser = new FileChooser();
@@ -354,7 +377,7 @@ public class Main extends Application {
 			Vector<Edge> edges = display.getGraph().getEdges();
 			//System.out.printf("node: %d, edges: %d", nodes.size(), edges.size());
 			for(Node n : nodes){
-				NodeDisplay nd = new NodeDisplay(display, n);
+				NodeDisplay nd = new NodeDisplay(display, n.getId());
 				Coordinate c = n.getCoordinate();
 				move(nd, c.getX(), c.getY());
 				
@@ -410,7 +433,7 @@ public class Main extends Application {
 			Vector<Edge> edges = display.getGraph().getEdges();
 			//System.out.printf("node: %d, edges: %d", nodes.size(), edges.size());
 			for(Node n : nodes){
-				NodeDisplay nd = new NodeDisplay(display, n);
+				NodeDisplay nd = new NodeDisplay(display, n.getId());
 				Coordinate c = n.getCoordinate();
 				move(nd, c.getX(), c.getY());
 				
@@ -465,11 +488,12 @@ public class Main extends Application {
 				//System.out.println(nodeQueue.size());
 				while(nodeQueue.size() > 1){
 					NodeDisplay n = nodeQueue.poll();
-					Node a = n.getNode();
-					Node b = nodeQueue.peek().getNode();
+					Graph g = display.getGraph();
+					Node a = g.returnNodeById(n.getNode());
+					Node b = g.returnNodeById(nodeQueue.peek().getNode());
 					Coordinate aLoc = a.getCoordinate();
 					Coordinate bLoc = b.getCoordinate();
-					Graph g = display.getGraph();
+					
 					g.addEdge(a.getId(), b.getId());
 					System.out.println("Edge size" + g.getEdges().size());
 					Line l = new Line(aLoc.getX(), aLoc.getY(), 
@@ -501,7 +525,7 @@ public class Main extends Application {
 			int idx = 0;
 			Vector<Node> nodes = display.getGraph().getNodes();
 			//System.out.println(nodes.size());
-			Path p = new Path(startNode.node.getId(), endNode.node.getId());
+			Path p = new Path(startNode.node, endNode.node);
 			Graph g = display.getGraph();
 			//System.out.println("Size graph " + g.getEdges().size());
 			p.runAStar(nodes, g.getEdges()); //Change this later??
