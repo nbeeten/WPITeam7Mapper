@@ -3,9 +3,12 @@ package edu.wpi.off.by.one.errors.code;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
+import edu.wpi.off.by.one.errors.code.application.event.SelectNode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class Display extends Pane{
@@ -42,11 +45,11 @@ public class Display extends Pane{
 	 * @param a First node
 	 * @param b Second node
 	 */
-	public void drawPath(Node start, Node end) {
+	public void drawPath(int start, int end) {
 		int idx = 0;
 		Vector<Node> nodes = currentGraph.getNodes();
-		Path p = new Path(start.getId(), end.getId());
-		p.runAStar(null, null); //Change this later??
+		Path p = new Path(start, end);
+		p.runAStar(currentGraph.getNodes(), currentGraph.getEdges()); //Change this later??
 		ArrayList<Integer> idList = p.getRoute();
 		while(idx < idList.size()){
 			Node a = nodes.get(idx);
@@ -55,8 +58,10 @@ public class Display extends Pane{
 			Coordinate bLoc = b.getCoordinate();
 			Line l = new Line(aLoc.getX(), aLoc.getY(), 
 					bLoc.getX(), bLoc.getY());
+			//move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);
+
+			//mapPane.getChildren().add(l);
 		}
-		
 		//TODO: Add code to actually draw the line on the map
 	}
 	

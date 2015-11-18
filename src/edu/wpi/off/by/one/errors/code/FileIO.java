@@ -124,7 +124,7 @@ public class FileIO {
 			i++;
 		}
 		flush(curdpy);
-		System.out.printf("Read %i lines\n", i);
+		System.out.printf("Read %d lines\n", i);
 		edgebuf = null;
 		nodebuf = null; // best i can do to "free" it
 		return curdpy;
@@ -159,7 +159,7 @@ public class FileIO {
 			if(e == null) continue;
 			int indice1 = ids.get(e.getNodeA());
 			int indice2 = ids.get(e.getNodeB());
-			writer.printf("e %i %i\n", indice1, indice2);
+			writer.printf("e %d %d\n", indice1, indice2);
 		}
 		ids = null;
 		//will change this over to iterate over a list later
@@ -168,7 +168,9 @@ public class FileIO {
 			
 		} else {
 			Coordinate c = m.center; // should this be a getter?
-			writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
+			//writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
+			writer.println("m " + m.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + m.rotation + " " + m.scale);
+
 		}
 		if (writer != null) writer.close();
 		return i;

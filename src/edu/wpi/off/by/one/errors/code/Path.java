@@ -13,8 +13,10 @@ public class Path {
 	private Vector<Edge> edges;
 	
 	public Path(int startNodeIn, int endNodeIn){
+		this.route = new ArrayList<Integer>();
 		startNode = startNodeIn;
 		endNode = endNodeIn;
+		route = new ArrayList<Integer>();
 	}
 	
 	/**
@@ -23,10 +25,14 @@ public class Path {
 	 * @param edgesIn
 	 */
 	public void runAStar(Vector<Node> nodesIn, Vector<Edge> edgesIn){
+		System.out.println("started a*");
 		ArrayList<Integer> visited = new ArrayList<Integer>();	//These nodes we have already seen
 		ArrayList<Integer> open = new ArrayList<Integer>();		//These are the next nodes we will visit
-		nodes = nodesIn;	//the list of Node objects to search
-		edges = edgesIn;	//the list of the associated edges for the Nodes
+
+		open.add(startNode);
+		this.nodes = nodesIn;	//the list of Node objects to search
+		this.edges = edgesIn;	//the list of the associated edges for the Nodes
+
 		int current; 		//the ID for the node we are currently examining
 		HashMap cameFrom = new HashMap<Integer, Integer>();		//The map of current optimum path to a node
 		HashMap<Integer, Float> gScore = new HashMap<Integer, Float>();	//The map of the nodeID to its path finding score, the lower the better
@@ -42,10 +48,14 @@ public class Path {
 		while(!open.isEmpty()){	//while we still have nodes to visit
 			current = findLowestFInOpen(open, fScore);	//find the closest node to the end in the open list 
 			if (current == endNode){	//we made it!
+				System.out.println("ever found a path");
 				route = reconstructPath(cameFrom, current);	//run the helper that goes through and puts the path in order
 			}
 			open.remove(current);	//take the current node out of nodes to visit
 			visited.add(current);	//then add it to the list of already visited nodes
+			System.out.println("start of edgelist");
+			System.out.println(nodes.get(current).getEdgelist().toString());
+			System.out.println("end of edgelist");
 			for(int elem : nodes.get(current).getEdgelist()){	//find all the edges attached to the node
 				Edge neighborEdge = edges.get(elem);	//pull one edge from the list at a time
 				int neighborId;	//the ID of the node at the other end of the edge
@@ -103,8 +113,8 @@ public class Path {
 	 * @param fScores
 	 * @return	the index of the node with the lowest f score
 	 */
-	private int findLowestFInOpen(ArrayList<Integer> openList, HashMap<Integer, Integer> fScores){
-		int lowest = Integer.MAX_VALUE;
+	private int findLowestFInOpen(ArrayList<Integer> openList, HashMap<Integer, Float> fScores){
+		float lowest = Float.MAX_VALUE;
 		int iDLowest = -1;
 		for(int elem : openList){	//for each element in the list of unexplored nodes see which has the lowest score
 			if( fScores.get(elem)<lowest){
@@ -122,13 +132,17 @@ public class Path {
 	 * @return the list of nodes that we visited in order from first to last
 	 */
 	private ArrayList<Integer> reconstructPath(HashMap<Integer, Integer> parentList, int currentNode){
-		ArrayList<Integer> totalPath = null;	//initialize a variable that will hold the path as we back through it
+		ArrayList<Integer> totalPath = new ArrayList<Integer>();	//initialize a variable that will hold the path as we back through it
+		System.out.println(currentNode);
 		totalPath.add(currentNode); //start with the node we ended at
 		while(currentNode != startNode){	//while we haven't gotten back to the start
 			currentNode = parentList.get(currentNode); //keep adding the parent node of the current node to the path
 			totalPath.add(currentNode);
 		}
 		Collections.reverse(totalPath);
+		System.out.println("startPath");
+		System.out.println(totalPath.toString());
+		System.out.println("endPath");
 		return totalPath;
 	}
 	
@@ -165,6 +179,9 @@ public class Path {
 	 * @return the route
 	 */
 	public ArrayList<Integer> getRoute(){
+		System.out.println("start of route");
+		System.out.println(route.toString());
+		System.out.println("end of route");
 		return route;
 	}
 
