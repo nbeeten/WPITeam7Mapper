@@ -68,6 +68,45 @@ public class test extends TestCase{
     }
     
     //test FileIO
-
+    @Test
+   public void testFile(){
+        Map amap = new Map("Atwater_Kent.png", "Atwater_Kent.png", 0, 0);
+        amap.setScale(1);
+        Graph g = new Graph();
+        Coordinate c1 = new Coordinate(400);
+        Coordinate c2 = new Coordinate(100,0,0);
+        g.addNode(c1);
+        g.addNode(c2);
+        assertEquals( g.addEdgeRint(0, 1), 0);
+        Display dpy = new Display(amap, g);
+        String dir = System.getProperty("user.dir");
+        FileIO.save(dir + "testio.txt", dpy);
+        
+        FileIO.load(dir+"testio.txt", null);
+        
+        FileIO.load(dir+"testio.txt", dpy);
+    }
+    
+    //test Path
+    @Test
+    public void testAStar(){
+    	String dir = System.getProperty("user.dir");
+    	Display d = FileIO.load(dir + "/src/testmap.txt", null);
+    	Graph g = d.getGraph();
+    	
+    	Path traversablePath = new Path(5, 12);
+    	ArrayList<Integer> expTPath1 = new ArrayList<Integer>();
+    	ArrayList<Integer> expTPath2 = new ArrayList<Integer>();
+    	expTPath1.addAll(Arrays.asList(5, 4, 17, 6, 7, 10, 9, 11, 12));
+    	expTPath2.addAll(Arrays.asList(5, 4, 17, 7, 10, 9, 11, 12));
+    	traversablePath.runAStar(g.getNodes(), g.getEdges());
+    	assertNotEquals(traversablePath.getRoute(), expTPath1);
+    	assertEquals(traversablePath.getRoute(), expTPath2);
+    	
+    	Path nonTraversablePath = new Path(5, 0);
+    	ArrayList<Integer> expNTPath = new ArrayList<Integer>();
+    	nonTraversablePath.runAStar(g.getNodes(), g.getEdges());
+    	assertEquals(nonTraversablePath.getRoute(), expNTPath);
+    }
     
 }
