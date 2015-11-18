@@ -49,18 +49,12 @@ public class FileIO {
 		nodeids = null;// best i can do to "free" it
 	}
 	
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 	/**
 	 * parse input map path
 	 * @param args
 	 * @param dpy
 	 * @return 1 if success
 	 */
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
 	static int parsemapline(String[] args, Display dpy){
 		//for(String s : args) System.out.println("arg:" + s);
 		Coordinate c = new Coordinate(Float.parseFloat(args[1]), Float.parseFloat(args[2]), Float.parseFloat(args[3]));
