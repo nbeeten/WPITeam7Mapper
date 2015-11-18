@@ -4,9 +4,12 @@ import java.util.*;
 
 //graph class manages edges and nodes
 public class Graph {
-	private Vector<Node> listOfNodes = new Vector<Node>(); //array list of nodes
-	private Vector<Edge> listOfEdges = new Vector<Edge>(); //array list of edges
-	
+	private Vector<Node> listOfNodes;
+	private Vector<Edge> listOfEdges;
+	public Graph(){
+	listOfNodes = new Vector<Node>(); //array list of nodes
+	listOfEdges = new Vector<Edge>(); //array list of edges
+	}
 	public Node addNode(Coordinate coordIn){//adds a node to the list
 		Node n = new Node(coordIn);
 		n.setId(listOfNodes.size());
@@ -42,9 +45,15 @@ public class Graph {
 		int id = this.listOfEdges.size();
 		e.setId(id);
 		this.listOfEdges.add(e);
+		listOfNodes.get(nodeAIn).addEdgeId(id);
+		listOfNodes.get(nodeBIn).addEdgeId(id);
 		return id;
 	}
 	public Edge returnEdgeById(int id){
+		System.out.println("start of return edge by ID");
+		System.out.println(id);
+		System.out.println(listOfEdges.size());
+		System.out.println("end of returnedgebyID printing");
 		Edge e = listOfEdges.elementAt(id);
 		if(e != null && e.getId() == id) return e;
 		return null;
