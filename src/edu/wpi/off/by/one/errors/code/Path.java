@@ -112,8 +112,11 @@ public class Path {
 				coordB = elem.getCoordinate();
 			}
 		}
-		
-		return (float) Math.sqrt(Math.pow((coordA.getX()-coordB.getX()), 2)+Math.pow((coordA.getY()-coordB.getY()), 2)+Math.pow((coordA.getZ()-coordB.getZ()), 2)); //return the pythagorean length
+
+		float xDist = coordA.getX()-coordB.getX();
+		float yDist = coordA.getY()-coordB.getY();
+		float zDist = coordA.getZ()-coordB.getZ();
+		return (float) Math.sqrt(xDist*xDist+yDist*yDist+zDist*zDist); //return the pythagorean length
 	}
 	
 	/**

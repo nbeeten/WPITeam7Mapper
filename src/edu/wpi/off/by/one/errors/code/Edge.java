@@ -76,7 +76,8 @@ public class Edge {
 	 * #TODO
 	 * update the length of this edge
 	 */
-	public void updateLength() {
+	public void updateLength(float len) {
+		length = len;
 		// We need the ID system implemented before we can get nodes properly
 		// for edge length updating
 	}
