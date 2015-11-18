@@ -68,25 +68,6 @@ public class test extends TestCase{
     }
     
     //test FileIO
-    @Test
-   public void testFile(){
-        Map amap = new Map("Atwater_Kent.png", "Atwater_Kent.png", 0, 0);
-        amap.setScale(1);
-        Graph g = new Graph();
-        Coordinate c1 = new Coordinate(400);
-        Coordinate c2 = new Coordinate(100,0,0);
-        g.addNode(c1);
-        g.addNode(c2);
-        assertEquals( g.addEdgeRint(0, 1), 0);
-        Display dpy = new Display(amap, g);
-        String dir = System.getProperty("user.dir");
-        FileIO.save(dir + "testio.txt", dpy);
-        
-        FileIO.load(dir+"testio.txt", null);
-        
-        FileIO.load(dir+"testio.txt", dpy);
-    }
-    
-    //test Path
+
     
 }
