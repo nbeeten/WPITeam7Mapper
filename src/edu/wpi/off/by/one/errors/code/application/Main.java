@@ -542,10 +542,10 @@ public class Main extends Application {
 			//System.out.println("Size graph " + g.getEdges().size());
 			p.runAStar(nodes, g.getEdges()); //Change this later??
 			ArrayList<Integer> idList = p.getRoute();
-			System.out.println("Route size " + idList);
+			System.out.println("Route size " + idList.size());
 			while(idx < idList.size() - 1){
-				Node a = nodes.get(idx);
-				Node b = nodes.get(++idx);
+				Node a = nodes.get(idList.get(idx));
+				Node b = nodes.get(idList.get(++idx));
 				Coordinate aLoc = a.getCoordinate();
 				Coordinate bLoc = b.getCoordinate();
 				Line l = new Line(aLoc.getX(), aLoc.getY(), 

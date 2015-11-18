@@ -45,6 +45,8 @@ public class Graph {
 		int id = this.listOfEdges.size();
 		e.setId(id);
 		this.listOfEdges.add(e);
+		listOfNodes.get(nodeAIn).addEdgeId(id);
+		listOfNodes.get(nodeBIn).addEdgeId(id);
 		return id;
 	}
 	public Edge returnEdgeById(int id){
