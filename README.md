@@ -17,10 +17,11 @@ In later iterations, we plan to bring you, the user, a more personalized experie
 Currently developing this application as part of B Term 2015's Software Engineering project.
 
 @CS3733team7
-David Rubenstein (@Tirvanel)
-Alex Gaines (@roboman2444)
-Jules Voltaire (@javoltaire)
-Kelly Zhang (@bonbombs)
-Sam Wallach (@fissionmoon)
-August Lu (@augustlu)
-KB Mosito (@kem100)
+
+ - David Rubenstein (@Tirvanel) 
+ - Alex Gaines (@roboman2444) 
+ - Jules Voltaire (@javoltaire) 
+ - Kelly Zhang (@bonbombs)
+ - Sam Wallach (@fissionmoon) 
+ - August Lu (@augustlu)
+ - KB Mosito (@kem100)
