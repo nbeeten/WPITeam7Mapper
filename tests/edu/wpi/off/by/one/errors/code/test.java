@@ -50,21 +50,12 @@ public class test extends TestCase{
         g.addNode(c1);
         g.addNode(c2);
        
-<<<<<<< Updated upstream:tests/edu/wpi/off/by/one/errors/code/test.java
-=======
         assertEquals( g.addEdgeRint(0, 1), 0);
->>>>>>> Stashed changes:tests/edu/wpi/off/by/one/errors/code/Test.java
-        assertEquals( g.addEdgeRint(1, 2), 0);
         
         g.addNode(c3);
         g.addNode(c4);
-<<<<<<< Updated upstream:tests/edu/wpi/off/by/one/errors/code/test.java
-        
-=======
 
         assertEquals( g.addEdgeRint(2, 3), 1);
->>>>>>> Stashed changes:tests/edu/wpi/off/by/one/errors/code/Test.java
-        assertEquals( g.addEdgeRint(3, 4), 1);
         
         Vector<Node> lon = g.getNodes();
         assertEquals(lon.get(0).getId(), 0);
@@ -78,7 +69,6 @@ public class test extends TestCase{
     
     //test FileIO
     @Test
-<<<<<<< Updated upstream:tests/edu/wpi/off/by/one/errors/code/test.java
     public void testFile(){
     	Map amap = new Map("Atwater_Kent.png", "Atwater_Kent.png", 0, 0);
     	amap.setScale(1);
@@ -91,7 +81,6 @@ public class test extends TestCase{
     	Display dpy = new Display(amap, g);
     	FileIO.save("testio.txt", dpy);
     	
-=======
    public void testFile(){
         Map amap = new Map("Atwater_Kent.png", "Atwater_Kent.png", 0, 0);
         amap.setScale(1);
@@ -108,7 +97,6 @@ public class test extends TestCase{
         FileIO.load(dir+"testio.txt", null);
         
         FileIO.load(dir+"testio.txt", dpy);
->>>>>>> Stashed changes:tests/edu/wpi/off/by/one/errors/code/Test.java
     }
     
     //test Path
