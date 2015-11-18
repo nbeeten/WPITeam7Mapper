@@ -45,6 +45,7 @@ public class FileIO {
 		nodeids = null;// best i can do to "free" it
 	}
 	static int parsemapline(String[] args, Display dpy){
+		//for(String s : args) System.out.println("arg:" + s);
 		Coordinate c = new Coordinate(Float.parseFloat(args[1]), Float.parseFloat(args[2]), Float.parseFloat(args[3]));
 		Map m = new Map(args[0], c, Float.parseFloat(args[4]), Float.parseFloat(args[5]));
 		dpy.setMap(m);
@@ -81,15 +82,16 @@ public class FileIO {
 		for (i = 0; i < len && Character.isWhitespace(s); i++)
 			s = Character.toLowerCase(line.charAt(i)); // get rid of whitespace
 														// in front
+		//System.out.println(line);
 		switch (s) {
 		case 'p': // point;
-			nodebuf.add(line.substring(i + 1).split("\\s"));
+			nodebuf.add(line.substring(i + 1).trim().split("\\s"));
 			break;
 		case 'e': // edge;
-			edgebuf.add(line.substring(i + 1).split("\\s"));
+			edgebuf.add(line.substring(i + 1).trim().split("\\s"));
 			break;
 		case 'm': // map;
-			parsemapline(line.substring(i + 1).split("\\s"), dpy);
+			parsemapline(line.substring(i + 1).trim().split("\\s"), dpy);
 			break;
 		default: // some sorta error, or unrecognized element type
 			break;
