@@ -342,7 +342,7 @@ public class Main extends Application {
 			 }
 			//Redisplay to appropriate map
 			//Add nodes and edges to the map
-			System.out.println(display.getGraph().returnEdgeById(0));
+			//System.out.println(display.getGraph().returnEdgeById(0));
 		});
 		saveMenuItem.setOnAction(e -> {
 			String path;
@@ -370,11 +370,20 @@ public class Main extends Application {
 				//System.out.println(nodeQueue.size());
 				while(nodeQueue.size() > 1){
 					NodeDisplay n = nodeQueue.poll();
-					Node a = n.getNode();
-					Node b = nodeQueue.peek().getNode();
-					Coordinate aLoc = a.getCoordinate();
-					Coordinate bLoc = b.getCoordinate();
 					Graph g = display.getGraph();
+					Node a = g.returnNodeById(n.node);
+					Node b = g.returnNodeById(nodeQueue.peek().getNode());
+					Coordinate aLoc;
+					Coordinate bLoc;
+					try{
+					aLoc = a.getCoordinate();
+					bLoc = b.getCoordinate();
+					}
+					catch(NullPointerException exception){
+						System.out.println("a thing broke");
+						break;
+					}
+					
 					g.addEdge(a.getId(), b.getId());
 					System.out.println("Edge size" + g.getEdges().size());
 					Line l = new Line(aLoc.getX(), aLoc.getY(), 
@@ -406,7 +415,9 @@ public class Main extends Application {
 			int idx = 0;
 			Vector<Node> nodes = display.getGraph().getNodes();
 			//System.out.println(nodes.size());
-			Path p = new Path(startNode.node.getId(), endNode.node.getId());
+			System.out.println(startNode);
+			System.out.println(endNode);
+			Path p = new Path(startNode.node, endNode.node);
 			Graph g = display.getGraph();
 			//System.out.println("Size graph " + g.getEdges().size());
 			p.runAStar(nodes, g.getEdges()); //Change this later??

@@ -51,7 +51,8 @@ public class Path {
 				System.out.println("ever found a path");
 				route = reconstructPath(cameFrom, current);	//run the helper that goes through and puts the path in order
 			}
-			open.remove(current);	//take the current node out of nodes to visit
+			int toRemove = open.indexOf(current);
+			open.remove(toRemove);	//take the current node out of nodes to visit
 			visited.add(current);	//then add it to the list of already visited nodes
 			System.out.println("start of edgelist");
 			System.out.println(nodes.get(current).getEdgelist().toString());
@@ -123,7 +124,7 @@ public class Path {
 			}
 		}
 		return iDLowest;
-	}
+	}	
 	
 	/**
 	 * Helper for A* that backtracks and finds the path we took through the nodes
@@ -132,12 +133,15 @@ public class Path {
 	 * @return the list of nodes that we visited in order from first to last
 	 */
 	private ArrayList<Integer> reconstructPath(HashMap<Integer, Integer> parentList, int currentNode){
+		int currNode = currentNode;
 		ArrayList<Integer> totalPath = new ArrayList<Integer>();	//initialize a variable that will hold the path as we back through it
-		System.out.println(currentNode);
-		totalPath.add(currentNode); //start with the node we ended at
-		while(currentNode != startNode){	//while we haven't gotten back to the start
-			currentNode = parentList.get(currentNode); //keep adding the parent node of the current node to the path
-			totalPath.add(currentNode);
+		System.out.println(currNode);
+		totalPath.add(currNode); //start with the node we ended at
+		while(currNode != startNode){	//while we haven't gotten back to the start
+			
+			System.out.println(parentList.get(currNode));
+			currNode = (Integer)parentList.get(currNode); //keep adding the parent node of the current node to the path
+			totalPath.add(currNode);
 		}
 		Collections.reverse(totalPath);
 		System.out.println("startPath");

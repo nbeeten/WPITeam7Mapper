@@ -17,21 +17,21 @@ public class NodeDisplay extends Button{
 	
 	Display display;
 	NodeDisplay self = this;
-	Node node;
+	int node;
 	public boolean isSelected = false;
 	
 
 	public NodeDisplay(Display display, Number x, Number y, Number z){
 		this.display = display;
-		this.node = display.getGraph().addNode(
+		this.node = display.getGraph().addNodeRint(
 				new Coordinate(x.floatValue(), y.floatValue(), z.floatValue()));
 
 		setCss();
 		setHandlers();
 	}
 	
-	public void setNode(Node node) { this.node = node; }
-	public Node getNode() { return this.node; }
+	public void setNode(int node) { this.node = node; }
+	public int getNode() { return this.node; }
 	
 	public void selectNode() {
 		this.isSelected = true;
