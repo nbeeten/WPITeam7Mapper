@@ -7,6 +7,11 @@ public class Graph {
 	private Vector<Node> listOfNodes = new Vector<Node>(); //array list of nodes
 	private Vector<Edge> listOfEdges = new Vector<Edge>(); //array list of edges
 	
+	public Graph(){
+	listOfNodes = new Vector<Node>(); //array list of nodes
+	listOfEdges = new Vector<Edge>(); //array list of edges
+	}
+	
 	/**
 	 * Add Node by coordinates
 	 * @param coordIn
@@ -56,6 +61,7 @@ public class Graph {
 		listOfEdges.add(e);
 		listOfNodes.get(nodeAIn).addEdgeId(id);
 		listOfNodes.get(nodeBIn).addEdgeId(id);
+		e.updateLength((float) Math.sqrt(Math.pow((listOfNodes.get(nodeAIn).getCoordinate().getX()-listOfNodes.get(nodeBIn).getCoordinate().getX()), 2)+Math.pow((listOfNodes.get(nodeAIn).getCoordinate().getY()-listOfNodes.get(nodeBIn).getCoordinate().getY()), 2)+Math.pow((listOfNodes.get(nodeAIn).getCoordinate().getZ()-listOfNodes.get(nodeBIn).getCoordinate().getZ()), 2)));
 		return e;
 	}
 	/**
@@ -69,6 +75,12 @@ public class Graph {
 		int id = this.listOfEdges.size();
 		e.setId(id);
 		this.listOfEdges.add(e);
+		listOfNodes.get(nodeAIn).addEdgeId(id);
+		listOfNodes.get(nodeBIn).addEdgeId(id);
+		float xDist = listOfNodes.get(nodeAIn).getCoordinate().getX()-listOfNodes.get(nodeBIn).getCoordinate().getX();
+		float yDist = listOfNodes.get(nodeAIn).getCoordinate().getY()-listOfNodes.get(nodeBIn).getCoordinate().getY();
+		float zDist = listOfNodes.get(nodeAIn).getCoordinate().getZ()-listOfNodes.get(nodeBIn).getCoordinate().getZ();
+		e.updateLength((float) Math.sqrt(xDist*xDist+yDist*yDist+zDist*zDist));
 		return id;
 	}
 	
@@ -78,6 +90,10 @@ public class Graph {
 	 * @return edge that matches the id; null if couldn't find it
 	 */
 	public Edge returnEdgeById(int id){
+	System.out.println("start of return edge by ID");
+		System.out.println(id);
+		System.out.println(listOfEdges.size());
+		System.out.println("end of returnedgebyID printing");
 		Edge e = listOfEdges.elementAt(id);
 		if(e != null && e.getId() == id) return e;
 		return null;
