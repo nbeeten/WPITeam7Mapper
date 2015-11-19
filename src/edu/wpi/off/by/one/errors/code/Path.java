@@ -13,7 +13,6 @@ public class Path {
 	private Vector<Edge> edges;
 	
 	public Path(int startNodeIn, int endNodeIn){
-		this.route = new ArrayList<Integer>();
 		startNode = startNodeIn;
 		endNode = endNodeIn;
 		route = new ArrayList<Integer>();
@@ -34,7 +33,7 @@ public class Path {
 		this.edges = edgesIn;	//the list of the associated edges for the Nodes
 
 		int current; 		//the ID for the node we are currently examining
-		HashMap cameFrom = new HashMap<Integer, Integer>();		//The map of current optimum path to a node
+		HashMap<Integer, Integer> cameFrom = new HashMap<Integer, Integer>();		//The map of current optimum path to a node
 		HashMap<Integer, Float> gScore = new HashMap<Integer, Float>();	//The map of the nodeID to its path finding score, the lower the better
 		for (Node elem : nodesIn){	//sets each node that we could examine, place its ID and the maximum value into the #map
 			gScore.put(elem.getId(), Float.MAX_VALUE);
@@ -45,18 +44,26 @@ public class Path {
 			fScore.put(elem.getId(), Float.MAX_VALUE);
 		}
 		fScore.put(startNode, calcHeuristic(startNode,endNode));	//initialize the fscore with the heuristic of length
+		if (open.isEmpty()){System.out.println("open is empty you fool");}
 		while(!open.isEmpty()){	//while we still have nodes to visit
 			current = findLowestFInOpen(open, fScore);	//find the closest node to the end in the open list 
+			int toRemove = open.indexOf(current);
+			open.remove(toRemove);
+			System.out.println("Start printing open" + open.toString() + "finished printing open");
 			if (current == endNode){	//we made it!
 				System.out.println("ever found a path");
 				route = reconstructPath(cameFrom, current);	//run the helper that goes through and puts the path in order
 			}
-			open.remove(current);	//take the current node out of nodes to visit
+			//int toRemove = open.indexOf(current);
+			//open.remove(toRemove);	//take the current node out of nodes to visit
 			visited.add(current);	//then add it to the list of already visited nodes
-			System.out.println("start of edgelist");
+			/*System.out.println("start of edgelist");
 			System.out.println(nodes.get(current).getEdgelist().toString());
-			System.out.println("end of edgelist");
+			System.out.println("end of edgelist");*/
+			System.out.println("nodes.get(current) "+nodes.get(current)+" end");
+			System.out.println("EdgeListBeforeFor" + nodes.get(current).getEdgelist()+"EdgeListBeforeForDone");
 			for(int elem : nodes.get(current).getEdgelist()){	//find all the edges attached to the node
+				System.out.println("in the for loop");
 				Edge neighborEdge = edges.get(elem);	//pull one edge from the list at a time
 				int neighborId;	//the ID of the node at the other end of the edge
 				if (neighborEdge.getNodeA() == current){	//if we try and get the ID for the node and it's the same ID
@@ -73,12 +80,14 @@ public class Path {
 					else continue;	//otherwise we need to do the while loop again
 				}
 				if(!open.contains(neighborId)){	//if we haven't been to the neighbor yet
+					System.out.println("adding to open");
+					System.out.println("Start printing open" + open.toString() + "finished printing open");
 					open.add(neighborId);		//add the neighbor to the list of places to go
 				}
 				else if(tentativeGScore>gScore.get(neighborId)){	//if this path to this node isn't better than the existing one
 					continue;										//loop again
 				}
-				cameFrom.put(neighborId, tentativeGScore); //if we made it to here it means we found a new best path to this node
+				cameFrom.put(neighborId, current); //if we made it to here it means we found a new best path to this node
 				gScore.put(neighborId, tentativeGScore);   //now we just make it say that
 				fScore.put(neighborId, gScore.get(neighborId)+calcHeuristic(neighborId  , endNode));
 			}
@@ -103,8 +112,11 @@ public class Path {
 				coordB = elem.getCoordinate();
 			}
 		}
-		
-		return (float) Math.sqrt(Math.pow((coordA.getX()-coordB.getX()), 2)+Math.pow((coordA.getY()-coordB.getY()), 2)+Math.pow((coordA.getZ()-coordB.getZ()), 2)); //return the pythagorean length
+
+		float xDist = coordA.getX()-coordB.getX();
+		float yDist = coordA.getY()-coordB.getY();
+		float zDist = coordA.getZ()-coordB.getZ();
+		return (float) Math.sqrt(xDist*xDist+yDist*yDist+zDist*zDist); //return the pythagorean length
 	}
 	
 	/**
@@ -123,7 +135,7 @@ public class Path {
 			}
 		}
 		return iDLowest;
-	}
+	}	
 	
 	/**
 	 * Helper for A* that backtracks and finds the path we took through the nodes
@@ -132,13 +144,20 @@ public class Path {
 	 * @return the list of nodes that we visited in order from first to last
 	 */
 	private ArrayList<Integer> reconstructPath(HashMap<Integer, Integer> parentList, int currentNode){
+		int currNode = currentNode;
 		ArrayList<Integer> totalPath = new ArrayList<Integer>();	//initialize a variable that will hold the path as we back through it
-		System.out.println(currentNode);
-		totalPath.add(currentNode); //start with the node we ended at
-		while(currentNode != startNode){	//while we haven't gotten back to the start
-			currentNode = parentList.get(currentNode); //keep adding the parent node of the current node to the path
-			totalPath.add(currentNode);
+		System.out.println(currNode);
+		totalPath.add(currNode); //start with the node we ended at
+		while(currNode != startNode){	//while we haven't gotten back to the start
+			System.out.println(currNode);
+
+			System.out.println(Math.round(parentList.get(currNode)));
+			currNode= Math.round(parentList.get(currNode));
+			
+			//currNode = Integer.parseInt(jank); //keep adding the parent node of the current node to the path
+			totalPath.add(currNode);
 		}
+		System.out.println("PreReverse" + totalPath + "prereverse printed");
 		Collections.reverse(totalPath);
 		System.out.println("startPath");
 		System.out.println(totalPath.toString());
