@@ -30,6 +30,10 @@ public class FileIO {
 	static ArrayList<String[]> nodebuf;
 	static ArrayList<String[]> edgebuf;
 
+	/**
+	 * flush node and edge's buffer
+	 * @param dpy
+	 */
 	static void flush(Display dpy) {
 		ArrayList<Integer> nodeids = new ArrayList<>();
 		Graph g = dpy.getGraph();
@@ -44,6 +48,13 @@ public class FileIO {
 		}
 		nodeids = null;// best i can do to "free" it
 	}
+	
+	/**
+	 * parse input map path
+	 * @param args
+	 * @param dpy
+	 * @return 1 if success
+	 */
 	static int parsemapline(String[] args, Display dpy){
 		//for(String s : args) System.out.println("arg:" + s);
 		Coordinate c = new Coordinate(Float.parseFloat(args[1]), Float.parseFloat(args[2]), Float.parseFloat(args[3]));
@@ -51,7 +62,12 @@ public class FileIO {
 		dpy.setMap(m);
 		return 1;
 	}
-
+	/**
+	 * parse 
+	 * @param args
+	 * @param g
+	 * @return id of the node; -1 if wrong input
+	 */
 	static int parsepointline(String[] args, Graph g) {
 		if (args.length > 5)
 			return -1;
@@ -59,6 +75,13 @@ public class FileIO {
 		return g.addNodeRint(c);
 	}
 
+	/**
+	 * parse the input edge
+	 * @param args
+	 * @param g
+	 * @param nodeids
+	 * @return -1 if wrong input; edge id if success
+	 */
 	static int parseedgeline(String[] args, Graph g, ArrayList<Integer> nodeids) {
 		if (args.length > 3)
 			return -1;
@@ -73,6 +96,11 @@ public class FileIO {
 		return g.addEdgeRint(id1, id2); 
 	}
 
+	/**
+	 * parse input line
+	 * @param line
+	 * @param dpy
+	 */
 	static void parseline(String line, Display dpy) {
 		// get ready for some obviously dont know how to parse strings in java
 		// so im doing it manually stuff
@@ -100,6 +128,12 @@ public class FileIO {
 
 	// when calling load, you should ALWAYS keep track of the return display. It
 	// may create a new one.
+	/**
+	 * load the information about display 
+	 * @param inpath: input path for the file
+	 * @param indpy: input display class
+	 * @return current display
+	 */
 	public static Display load(String inpath, Display indpy) {
 		Display curdpy = indpy;
 		if (curdpy == null)
@@ -132,6 +166,12 @@ public class FileIO {
 		return curdpy;
 	}
 
+	/**
+	 * save the display information
+	 * @param inpath: input path for this file
+	 * @param indpy: input display class
+	 * @return -1 if fail; otherwise, success
+	 */
 	public static int save(String inpath, Display indpy) {
 		// todo fix this try catch BS
 		PrintWriter writer = null;
