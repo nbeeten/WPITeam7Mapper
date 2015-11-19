@@ -80,11 +80,9 @@ public class test extends TestCase{
         assertEquals( g.addEdgeRint(0, 1), 0);
         Display dpy = new Display(amap, g);
         String dir = System.getProperty("user.dir");
-        FileIO.save(dir + "testio.txt", dpy);
-        
-        FileIO.load(dir+"testio.txt", null);
-        
-        FileIO.load(dir+"testio.txt", dpy);
+        FileIO.save(dir + "testio.txt", dpy);//test save file
+        FileIO.load(dir+"testio.txt", null);//test load file without display
+        FileIO.load(dir+"testio.txt", dpy);//test load file with display
     }
     
     //test Path
