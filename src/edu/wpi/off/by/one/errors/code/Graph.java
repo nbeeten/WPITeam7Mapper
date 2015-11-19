@@ -4,27 +4,20 @@ import java.util.*;
 
 //graph class manages edges and nodes
 public class Graph {
-<<<<<<< HEAD
-	private Vector<Node> listOfNodes = new Vector<Node>(); //array list of nodes
-	private Vector<Edge> listOfEdges = new Vector<Edge>(); //array list of edges
-	
-=======
 	private Vector<Node> listOfNodes;
 	private Vector<Edge> listOfEdges;
->>>>>>> 79d8fb3b3b655ec1f124f31ef78031e3efdf4231
+
 	public Graph(){
 	listOfNodes = new Vector<Node>(); //array list of nodes
 	listOfEdges = new Vector<Edge>(); //array list of edges
 	}
-<<<<<<< HEAD
 	
 	/**
 	 * Add Node by coordinates
 	 * @param coordIn
 	 * @return node
 	 */
-=======
->>>>>>> 79d8fb3b3b655ec1f124f31ef78031e3efdf4231
+
 	public Node addNode(Coordinate coordIn){//adds a node to the list
 		Node n = new Node(coordIn);
 		n.setId(listOfNodes.size());
@@ -98,11 +91,7 @@ public class Graph {
 	 * @return edge that matches the id; null if couldn't find it
 	 */
 	public Edge returnEdgeById(int id){
-<<<<<<< HEAD
-	System.out.println("start of return edge by ID");
-=======
 		System.out.println("start of return edge by ID");
->>>>>>> 79d8fb3b3b655ec1f124f31ef78031e3efdf4231
 		System.out.println(id);
 		System.out.println(listOfEdges.size());
 		System.out.println("end of returnedgebyID printing");
