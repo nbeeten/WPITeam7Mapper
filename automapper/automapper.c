@@ -53,6 +53,12 @@ int height = 0;
 int imagen = 0;
 unsigned char * imagedata = 0;
 
+int linebox(ivec2_t start, ivec2_t end, float * bbox){
+	
+	//todo
+	return FALSE;
+}
+
 
 int checkline(ivec2_t start, ivec2_t end){
 	if(start.y > end.y){
