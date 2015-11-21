@@ -1,11 +1,11 @@
-package edu.wpi.off.by.one.errors.code;
+package edu.wpi.off.by.one.errors.code.model;
 
 import java.util.Vector;
 
 public class Node {
     private Coordinate coord;
-    private Vector<Integer> edges;//list of indexes of edges
-    private int id;
+    private Vector<Id> edges;//list of indexes of edges
+    private Id id;
     
     /**
      *
@@ -13,12 +13,18 @@ public class Node {
      * @param idIn: the integer id number for the Node
      */
     public Node(Coordinate coordIn) {
-        this.edges = new Vector<Integer>();
+        this.edges = new Vector<Id>(); // we can totally use arraylist here, dont have to use a vector
         this.coord = coordIn;
-        this.id = -1;//default, set when added
+        this.id = new Id();//default, set when added
     }
     
-    /**
+    public Node(Coordinate coordIn, Id nid) {
+        this.edges = new Vector<Id>(); // we can totally use arraylist here, dont have to use a vector
+        this.coord = coordIn;
+        this.id = nid;//default, set when added
+    }
+    
+	/**
      * get the coordinate for the node
      * @return the Node's coordinate
      */
@@ -34,7 +40,7 @@ public class Node {
         this.coord = newCoord;
     }
     
-    public boolean addEdgeId(int id){
+    public boolean addEdgeId(Id id){
         return this.edges.add(id);
     }
     
@@ -43,7 +49,7 @@ public class Node {
      * @return edges: the list of connected edges
      */
     
-    public Vector<Integer> getEdgelist() {
+    public Vector<Id> getEdgelist() {
         
         return edges;
     }
@@ -52,14 +58,14 @@ public class Node {
      * set the edges to the passed in list
      * @param newEdgeList: The new list of edges
      */
-    public void setEdgeList(Vector<Integer> newEdgeList) {
+    public void setEdgeList(Vector<Id> newEdgeList) {
         this.edges = newEdgeList;
     }
     /**
      *  get the Id for the node
      * @return id: the Node's ID
      */
-    public int getId() {
+    public Id getId() {
         return id;
     }
     
@@ -67,7 +73,8 @@ public class Node {
      * setter for the Node's id
      * @param idIn: the new id
      */
-    public void setId(int idIn) {
-        id = idIn;
+    public void setId(int i, int u) {
+        id.indice = i;
+        id.unique = u;
     }
 }

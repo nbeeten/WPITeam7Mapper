@@ -1,4 +1,4 @@
-package edu.wpi.off.by.one.errors.code;
+package edu.wpi.off.by.one.errors.code.model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class FileIO {
 	 * @param dpy
 	 */
 	static void flush(Display dpy) {
-		ArrayList<Integer> nodeids = new ArrayList<>();
+		ArrayList<Id> nodeids = new ArrayList<Id>();
 		Graph g = dpy.getGraph();
 		int i;
 		for (i = 0; i < nodebuf.size(); i++) {
@@ -68,9 +68,9 @@ public class FileIO {
 	 * @param g
 	 * @return id of the node; -1 if wrong input
 	 */
-	static int parsepointline(String[] args, Graph g) {
+	static Id parsepointline(String[] args, Graph g) {
 		if (args.length > 5)
-			return -1;
+			return null;
 		Coordinate c = new Coordinate(Float.parseFloat(args[0]), Float.parseFloat(args[1]), Float.parseFloat(args[2]));
 		return g.addNodeRint(c);
 	}
@@ -82,17 +82,15 @@ public class FileIO {
 	 * @param nodeids
 	 * @return -1 if wrong input; edge id if success
 	 */
-	static int parseedgeline(String[] args, Graph g, ArrayList<Integer> nodeids) {
+	static Id parseedgeline(String[] args, Graph g, ArrayList<Id> nodeids) {
 		if (args.length > 3)
-			return -1;
+			return null;
 		int indice1 = Integer.parseInt(args[0]);
 		int indice2 = Integer.parseInt(args[1]);
 		if (indice1 < 0 || indice1 > nodeids.size() - 1 || indice2 < 0 || indice2 > nodeids.size() - 1)
-			return -1;
-		int id1 = nodeids.get(indice1);
-		int id2 = nodeids.get(indice2);
-		if (id1 < 0 || id2 < 0)
-			return -1;
+			return null;
+		Id id1 = nodeids.get(indice1);
+		Id id2 = nodeids.get(indice2);
 		return g.addEdgeRint(id1, id2); 
 	}
 
@@ -188,7 +186,7 @@ public class FileIO {
 		Graph g = indpy.getGraph();
 		if(g == null) return -1;
 		//will change this to ID, Integer
-		HashMap<Integer, Integer> ids = new HashMap<Integer, Integer>();
+		HashMap<Id, Integer> ids = new HashMap<Id, Integer>();
 		int i = 0;
 		for( Node n : g.getNodes()){
 			if(n == null) continue;
