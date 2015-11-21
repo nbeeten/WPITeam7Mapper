@@ -29,8 +29,8 @@ public class Graph {
 	public Node addNode(Coordinate coordIn){//adds a node to the list
 		node_count++;
 		for(; node_arrayfirstopen < node_arraysize && listOfNodes.get(node_arrayfirstopen) != null; node_arrayfirstopen++);
-		if(node_arrayfirstopen == node_arraysize){	//resize
-			node_arraysize++;
+		if(node_arrayfirstopen >= node_arraysize){	//resize
+			node_arraysize = node_arrayfirstopen+1;
 			listOfNodes.ensureCapacity(node_arraysize);
 		}
 		Id nid = new Id(node_arrayfirstopen, node_count);
@@ -49,8 +49,8 @@ public class Graph {
 	public Id addNodeRint(Coordinate coordIn){//adds a node to the list, returns ID instead of node
 		node_count++;
 		for(; node_arrayfirstopen < node_arraysize && listOfNodes.get(node_arrayfirstopen) != null; node_arrayfirstopen++);
-		if(node_arrayfirstopen == node_arraysize){	//resize
-			node_arraysize++;
+		if(node_arrayfirstopen >= node_arraysize){	//resize
+			node_arraysize = node_arrayfirstopen+1;
 			listOfNodes.ensureCapacity(node_arraysize);
 		}
 		Id nid = new Id(node_arrayfirstopen, node_count);
@@ -86,8 +86,8 @@ public class Graph {
 		if(A == null || B == null) return null;
 		edge_count++;
 		for(; edge_arrayfirstopen < edge_arraysize && listOfEdges.get(edge_arrayfirstopen) != null; edge_arrayfirstopen++);
-		if(edge_arrayfirstopen == edge_arraysize){	//resize
-			edge_arraysize++;
+		if(edge_arrayfirstopen >= edge_arraysize){	//resize
+			edge_arraysize = edge_arrayfirstopen+1;
 			listOfEdges.ensureCapacity(edge_arraysize);
 		}
 		Id eid = new Id(edge_arrayfirstopen, edge_count);
@@ -113,8 +113,8 @@ public class Graph {
 		if(A == null || B == null) return null;
 		edge_count++;
 		for(; edge_arrayfirstopen < edge_arraysize && listOfEdges.get(edge_arrayfirstopen) != null; edge_arrayfirstopen++);
-		if(edge_arrayfirstopen == edge_arraysize){	//resize
-			edge_arraysize++;
+		if(edge_arrayfirstopen >= edge_arraysize){	//resize
+			edge_arraysize = edge_arrayfirstopen +1;
 			listOfEdges.ensureCapacity(edge_arraysize);
 		}
 		Id eid = new Id(edge_arrayfirstopen, edge_count);
