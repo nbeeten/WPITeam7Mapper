@@ -35,7 +35,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     
     private Display display = new Display();
-    private Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();
+    protected Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();
     
     /* root BorderPane
      * TOP: MenuBar
@@ -96,7 +96,7 @@ public class Main extends Application {
     ScrollPane scroll;
     ImageView mapView;
     StackPane mapPane;
-    StackPane pathPane = new StackPane();
+    protected StackPane pathPane = new StackPane();
     private MarkerDisplay marker = null;
     final SimpleDoubleProperty zoomProperty = new SimpleDoubleProperty(200);
     
@@ -330,7 +330,7 @@ public class Main extends Application {
      * @param x
      * @param y
      */
-    private void move(javafx.scene.Node obj, double x, double y){
+    public void move(javafx.scene.Node obj, double x, double y){
         Bounds localBounds = obj.localToScene(mapView.getBoundsInLocal());
         obj.setTranslateX(x - localBounds.getMaxX() / 2);
         obj.setTranslateY(y - localBounds.getMaxY() / 2);
@@ -382,6 +382,7 @@ public class Main extends Application {
                 mapPane.getChildren().addAll(pathPane, mapView);
             }
             //Add nodes and edges to the map
+            Graph g = display.getGraph();
             Vector<Node> nodes = display.getGraph().getNodes();
             Vector<Edge> edges = display.getGraph().getEdges();
             //System.out.printf("node: %d, edges: %d", nodes.size(), edges.size());
@@ -402,11 +403,10 @@ public class Main extends Application {
                 mapPane.getChildren().add(nd);
             }
             for(Edge edge : edges){
-                Node a = nodes.get(edge.getNodeA());
-                Node b = nodes.get(edge.getNodeB());
+                Node a = g.returnNodeById(edge.getNodeA());
+                Node b = g.returnNodeById(edge.getNodeB());
                 Coordinate aLoc = a.getCoordinate();
                 Coordinate bLoc = b.getCoordinate();
-                Graph g = display.getGraph();
                 //System.out.println("Edge size" + g.getEdges().size());
                 Line l = new Line(aLoc.getX(), aLoc.getY(),
                                   bLoc.getX(), bLoc.getY());
@@ -458,12 +458,12 @@ public class Main extends Application {
                 });
                 mapPane.getChildren().add(nd);
             }
+            Graph g = display.getGraph();
             for(Edge edge : edges){
-                Node a = nodes.get(edge.getNodeA());
-                Node b = nodes.get(edge.getNodeB());
+                Node a = g.returnNodeById(edge.getNodeA());
+                Node b = g.returnNodeById(edge.getNodeB());
                 Coordinate aLoc = a.getCoordinate();
                 Coordinate bLoc = b.getCoordinate();
-                Graph g = display.getGraph();
                 //System.out.println("Edge size" + g.getEdges().size());
                 Line l = new Line(aLoc.getX(), aLoc.getY(),
                                   bLoc.getX(), bLoc.getY());
@@ -551,12 +551,12 @@ public class Main extends Application {
                 Path p = new Path(startNode.node, endNode.node);
                 Graph g = display.getGraph();
                 //System.out.println("Size graph " + g.getEdges().size());
-                p.runAStar(nodes, g.getEdges()); //Change this later??
-                ArrayList<Integer> idList = p.getRoute();
+                p.runAStar(g); //Change this later??
+                ArrayList<Id> idList = p.getRoute();
                 System.out.println("Route size " + idList.size());
                 while(idx < idList.size() - 1){
-                    Node a = nodes.get(idList.get(idx));
-                    Node b = nodes.get(idList.get(++idx));
+                	Node a = g.returnNodeById(idList.get(idx));
+                    Node b = g.returnNodeById(idList.get(++idx));
                     Coordinate aLoc = a.getCoordinate();
                     Coordinate bLoc = b.getCoordinate();
                     Line l = new Line(aLoc.getX(), aLoc.getY(), 
