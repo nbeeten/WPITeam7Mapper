@@ -7,8 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.MainController">
    <left>
       <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -20,7 +19,7 @@
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -35,7 +34,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -47,7 +46,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -59,7 +58,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -75,7 +74,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -87,7 +86,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -99,7 +98,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -132,7 +131,15 @@
                               <Insets right="20.0" />
                            </StackPane.margin>
                         </VBox>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER" />
+                        <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER">
+                          <content>
+                            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
+                                 <children>
+                                    <ImageView fx:id="mapView" cache="true" cacheHint="SCALE_AND_ROTATE" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
                      </children>
                   </StackPane>
                </children>
