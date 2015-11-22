@@ -405,6 +405,10 @@ public class Main extends Application {
             for(Edge edge : edges){
                 Node a = g.returnNodeById(edge.getNodeA());
                 Node b = g.returnNodeById(edge.getNodeB());
+                if(a == null || b == null){
+                    g.deleteEdge(edge.getId());
+                    continue;
+                }
                 Coordinate aLoc = a.getCoordinate();
                 Coordinate bLoc = b.getCoordinate();
                 //System.out.println("Edge size" + g.getEdges().size());
@@ -462,6 +466,10 @@ public class Main extends Application {
             for(Edge edge : edges){
                 Node a = g.returnNodeById(edge.getNodeA());
                 Node b = g.returnNodeById(edge.getNodeB());
+                if(a == null || b == null){
+                    g.deleteEdge(edge.getId());
+                    continue;
+                }
                 Coordinate aLoc = a.getCoordinate();
                 Coordinate bLoc = b.getCoordinate();
                 //System.out.println("Edge size" + g.getEdges().size());
