@@ -32,6 +32,7 @@ public class Graph {
 		if(node_arrayfirstopen >= node_arraysize){	//resize
 			node_arraysize = node_arrayfirstopen+1;
 			listOfNodes.ensureCapacity(node_arraysize);
+			listOfNodes.setSize(node_arraysize);
 		}
 		Id nid = new Id(node_arrayfirstopen, node_count);
 		Node n = new Node(coordIn, nid);
@@ -52,6 +53,7 @@ public class Graph {
 		if(node_arrayfirstopen >= node_arraysize){	//resize
 			node_arraysize = node_arrayfirstopen+1;
 			listOfNodes.ensureCapacity(node_arraysize);
+			listOfNodes.setSize(node_arraysize);
 		}
 		Id nid = new Id(node_arrayfirstopen, node_count);
 		Node n = new Node(coordIn, nid);
@@ -89,6 +91,7 @@ public class Graph {
 		if(edge_arrayfirstopen >= edge_arraysize){	//resize
 			edge_arraysize = edge_arrayfirstopen+1;
 			listOfEdges.ensureCapacity(edge_arraysize);
+			listOfEdges.setSize(edge_arraysize);
 		}
 		Id eid = new Id(edge_arrayfirstopen, edge_count);
 		Edge e = new Edge(nodeAIn, nodeBIn, eid);
@@ -116,6 +119,7 @@ public class Graph {
 		if(edge_arrayfirstopen >= edge_arraysize){	//resize
 			edge_arraysize = edge_arrayfirstopen +1;
 			listOfEdges.ensureCapacity(edge_arraysize);
+			listOfEdges.setSize(edge_arraysize);
 		}
 		Id eid = new Id(edge_arrayfirstopen, edge_count);
 		Edge e = new Edge(nodeAIn, nodeBIn, eid);
