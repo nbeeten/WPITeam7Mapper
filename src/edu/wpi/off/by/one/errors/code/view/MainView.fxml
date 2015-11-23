@@ -109,7 +109,20 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <ScrollPane maxWidth="500.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <ScrollPane maxWidth="500.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <VBox fx:id="searchMenuPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="210.0">
+                  <children>
+                     <Label text="Search" />
+                     <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="30.0">
+                        <children>
+                           <TextField AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0" />
+                           <Button maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        </children>
+                     </AnchorPane>
+                     <ListView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  </children>
+               </VBox>
+            </ScrollPane>
          </children>
       </HBox>
    </left>

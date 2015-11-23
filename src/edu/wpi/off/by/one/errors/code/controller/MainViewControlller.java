@@ -41,17 +41,6 @@ public class MainViewControlller implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		hamburgerToggleButton.selectedProperty().addListener((v, oldValue, newValue) -> openRootMenuPane(newValue));
 
-		AnchorPane thisPane = new AnchorPane();
-
-		try {
-			thisPane = FXMLLoader.load(getClass().getResource("../view/SearchLocationMenuView.fxml"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
-		final AnchorPane finalThisPane = thisPane;
-		searchRadioButton.selectedProperty().addListener((v, oldValue, newValue) -> showMenuDetailsPane(newValue, finalThisPane));
 	}
 
 	/**
