@@ -9,7 +9,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.MainController">
    <left>
-      <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="40.0">
                <children>
@@ -107,7 +107,7 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <ScrollPane maxWidth="500.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <ScrollPane prefHeight="400.0" prefWidth="157.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </left>
@@ -116,32 +116,29 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <StackPane fx:id="mapPane" prefHeight="327.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="25.0" StackPane.alignment="CENTER_RIGHT">
+                  <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" layoutX="-1.0" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="327.0" prefWidth="400.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane>
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="+">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="-" />
-                           </children>
-                           <StackPane.margin>
-                              <Insets right="20.0" />
-                           </StackPane.margin>
-                        </VBox>
-                        <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER">
-                          <content>
-                            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
+                              <StackPane fx:id="mapPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="327.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <ImageView fx:id="mapView" cache="true" cacheHint="SCALE_AND_ROTATE" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="mapView" cache="true" pickOnBounds="true" preserveRatio="true" />
                                  </children>
-                              </AnchorPane>
-                          </content>
-                        </ScrollPane>
+                              </StackPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="25.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="150.0">
+                     <children>
+                        <Button fx:id="zoomInButton" mnemonicParsing="false" onAction="#zoomInAction" prefHeight="25.0" prefWidth="25.0" text="+">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="zoomOutButton" mnemonicParsing="false" onAction="#zoomOutAction" prefHeight="25.0" prefWidth="25.0" text="-" />
                      </children>
-                  </StackPane>
+                  </VBox>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />

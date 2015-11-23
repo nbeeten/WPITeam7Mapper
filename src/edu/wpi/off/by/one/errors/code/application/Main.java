@@ -339,7 +339,7 @@ public class Main extends Application {
                 Map newmap = new Map();
                 newmap.setImgUrl(inpath);
                 display.setMap(newmap);
-                mapView.setImage(new Image(inpath));
+                mapView.setImage(new Image("/edu/wpi/off/by/one/errors/code/resources/" + inpath));
                 mapPane.getChildren().clear();
                 mapPane.getChildren().addAll(pathPane, mapView);
                 //window.display(selectedFile);
@@ -363,7 +363,7 @@ public class Main extends Application {
             Map m = newdisp.getMap();
             //Redisplay to appropriate map
             if(m.getImgUrl() != display.getMap().getImgUrl()){
-                mapView.setImage(new Image(m.getImgUrl()));
+                mapView.setImage(new Image("/edu/wpi/off/by/one/errors/code/resources/" + m.getImgUrl()));
                 display = newdisp;
                 mapPane.getChildren().clear();
                 mapPane.getChildren().addAll(pathPane, mapView);
