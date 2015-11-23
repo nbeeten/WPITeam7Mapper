@@ -20,7 +20,9 @@ import javafx.scene.control.Button;
 public class NodeTest {
 	
 	
+	/*
 	public static void main(String[] args){
+
 		
 		Button btn  = new Button("Edit node"); //EXAMPLE OF BUTTONS TO BE USED
 		Button btn1 = new Button("add Edge");
@@ -63,4 +65,5 @@ public class NodeTest {
 	//which would need continued pressure on the button
 	
 	}//end of main method
+*/
 }//end class NodeTest

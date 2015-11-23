@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.DevelopperToolsController">
+   <children>
+      <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <RadioButton styleClass="toggle-button" maxHeight="40.0" mnemonicParsing="false" text="RadioButton" />
+            <RadioButton styleClass="toggle-button" maxHeight="40.0" mnemonicParsing="false" text="RadioButton" />
+            <RadioButton styleClass="toggle-button" maxHeight="40.0" mnemonicParsing="false" text="RadioButton" />
+         </children>
+      </HBox>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+         <content>
+            <Label text="Map Tools goes here." />
+         </content>
+      </ScrollPane>
+      <ScrollPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+         <content>
+            <Label text="Node Tools goes here." />
+         </content>
+      </ScrollPane>
+      <ScrollPane layoutX="20.0" layoutY="20.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+         <content>
+            <Label text="Edge Tools goes here." />
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

@@ -20,6 +20,7 @@ import edu.wpi.off.by.one.errors.code.model.Path;
 import junit.framework.TestCase;
 
 public class test extends TestCase{
+    /*
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
     
@@ -114,5 +115,5 @@ public class test extends TestCase{
     	nonTraversablePath.runAStar(g.getNodes(), g.getEdges());
     	assertEquals(nonTraversablePath.getRoute(), expNTPath);
     }
-    
+    */
 }
