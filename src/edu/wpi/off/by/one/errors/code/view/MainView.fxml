@@ -7,11 +7,17 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
+<<<<<<< HEAD
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.MainViewControlller">
 
 
    <left>
       <HBox fx:id="rootMenuPane" maxWidth="250.0" minWidth="40.0" prefHeight="100.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+=======
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.MainController">
+   <left>
+      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+>>>>>>> a4bc7de193f41961c77b6ce962974b5f3ee39d76
          <children>
             <AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="40.0">
                <children>
@@ -21,7 +27,7 @@
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -36,7 +42,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -48,7 +54,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -60,7 +66,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -76,7 +82,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -88,7 +94,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -100,7 +106,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <image>
-                                    <Image url="@../resources/1448157667_menu-alt.png" />
+                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -109,6 +115,7 @@
                   </VBox>
                </children>
             </AnchorPane>
+<<<<<<< HEAD
             <ScrollPane maxWidth="500.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <VBox fx:id="searchMenuPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="210.0">
                   <children>
@@ -123,6 +130,9 @@
                   </children>
                </VBox>
             </ScrollPane>
+=======
+            <ScrollPane prefHeight="400.0" prefWidth="157.0" HBox.hgrow="ALWAYS" />
+>>>>>>> a4bc7de193f41961c77b6ce962974b5f3ee39d76
          </children>
       </HBox>
    </left>
@@ -131,24 +141,29 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <StackPane fx:id="mapPane" prefHeight="327.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="25.0" StackPane.alignment="CENTER_RIGHT">
+                  <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" layoutX="-1.0" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="327.0" prefWidth="400.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane>
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="+">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="-" />
+                              <StackPane fx:id="mapPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="327.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <ImageView fx:id="mapView" cache="true" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </StackPane>
                            </children>
-                           <StackPane.margin>
-                              <Insets right="20.0" />
-                           </StackPane.margin>
-                        </VBox>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER" />
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="25.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="150.0">
+                     <children>
+                        <Button fx:id="zoomInButton" mnemonicParsing="false" onAction="#zoomInAction" prefHeight="25.0" prefWidth="25.0" text="+">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="zoomOutButton" mnemonicParsing="false" onAction="#zoomOutAction" prefHeight="25.0" prefWidth="25.0" text="-" />
                      </children>
-                  </StackPane>
+                  </VBox>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />

@@ -6,13 +6,13 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
 
-public class MapController implements Initializable{
+public class GraphController implements Initializable{
 
 	StackPane mapPane;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		System.out.print("Map Controller Initialized.");
+		System.out.print("Main Controller Initialized.");
 	}
 	
 	
