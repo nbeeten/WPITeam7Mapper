@@ -38,7 +38,7 @@ public class Path {
 		HashMap<Id, Float> gScore = new HashMap<Id, Float>();	//The map of the nodeID to its path finding score, the lower the better
 		HashMap<Id, Float> fScore = new HashMap<Id, Float>();	//create a new #map for the f score of the node
 
-		for (Node elem : theGraph.getNodes()){	//sets each node that we could examine, place its ID and the maximum value into the #map
+		for (Node elem : theGraph.getNodes()){	//sets each node that we could examine, place its ID and the maximum value into the #maps
 			gScore.put(elem.getId(), Float.MAX_VALUE);
 			fScore.put(elem.getId(), Float.MAX_VALUE);
 		}
@@ -122,8 +122,7 @@ public class Path {
 
 		float xDist = coordA.getX()-coordB.getX();
 		float yDist = coordA.getY()-coordB.getY();
-		float zDist = coordA.getZ()-coordB.getZ();
-		return (float) Math.sqrt(xDist*xDist+yDist*yDist+zDist*zDist); //return the pythagorean length
+		return (float) Math.sqrt(xDist*xDist+yDist*yDist); //return the pythagorean length
 	}
 	
 	/**

@@ -101,7 +101,7 @@ public class Graph {
 
 		A.addEdgeId(eid);
 		B.addEdgeId(eid);
-		e.updateLength((float) Math.sqrt(Math.pow((A.getCoordinate().getX()-B.getCoordinate().getX()), 2)+Math.pow((A.getCoordinate().getY()-B.getCoordinate().getY()), 2)+Math.pow((A.getCoordinate().getZ()-B.getCoordinate().getZ()), 2)));
+		e.updateLength(this);
 		return e;
 	}
 	/**
@@ -129,7 +129,7 @@ public class Graph {
 
 		A.addEdgeId(eid);
 		B.addEdgeId(eid);
-		e.updateLength((float) Math.sqrt(Math.pow((A.getCoordinate().getX()-B.getCoordinate().getX()), 2)+Math.pow((A.getCoordinate().getY()-B.getCoordinate().getY()), 2)+Math.pow((A.getCoordinate().getZ()-B.getCoordinate().getZ()), 2)));
+		e.updateLength(this);
 		return eid;
 	}
 	
