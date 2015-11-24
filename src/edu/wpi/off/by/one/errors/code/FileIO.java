@@ -59,8 +59,31 @@ public class FileIO {
 		//for(String s : args) System.out.println("arg:" + s);
 		Coordinate c = new Coordinate(Float.parseFloat(args[1]), Float.parseFloat(args[2]), Float.parseFloat(args[3]));
 		Map m = new Map(args[0], c, Float.parseFloat(args[4]), Float.parseFloat(args[5]));
+		if(args.length > 6) m.setName(getTags(args[6])[0]);
+		System.out.println(m.getName());
 		dpy.setMap(m);
 		return 1;
+	}
+	/**
+	 * 
+	 * @param args
+	 * @return
+	 */
+	static String[] getTags(String args){
+		
+		return args.replace("_", " ").split(",");
+		
+		
+	}
+	static String toTags(String[] args){
+		
+		StringBuilder ret = new StringBuilder();
+		for(int i= 0; i < args.length; i++){
+			String elt = args[i];
+			ret.append(elt.replace(" ", "_"));
+			if(i < args.length -1) ret.append(",");
+		}
+		return ret.toString();
 	}
 	/**
 	 * parse 
@@ -209,7 +232,9 @@ public class FileIO {
 		} else {
 			Coordinate c = m.center; // should this be a getter?
 			//writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
-			writer.println("m " + m.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + m.rotation + " " + m.scale);
+			String[] aaa = null;
+			aaa[0] = m.getName();
+			writer.println("m " + m.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + m.rotation + " " + m.scale + " " + toTags(aaa));
 
 		}
 		if (writer != null) writer.close();
