@@ -45,12 +45,12 @@ public class Display extends Pane{
 	 * @param a First node
 	 * @param b Second node
 	 */
-	public void drawPath(int start, int end) {
+	public void drawPath(Id start, Id end) {
 		int idx = 0;
 		Vector<Node> nodes = currentGraph.getNodes();
 		Path p = new Path(start, end);
-		p.runAStar(currentGraph.getNodes(), currentGraph.getEdges()); //Change this later??
-		ArrayList<Integer> idList = p.getRoute();
+		p.runAStar(currentGraph); //Change this later??
+		ArrayList<Id> idList = p.getRoute();
 		while(idx < idList.size()){
 			Node a = nodes.get(idx);
 			Node b = nodes.get(idx++);

@@ -7,6 +7,7 @@ public class Map {
 	Coordinate center;
 	float rotation;
 	float scale;
+	
 	public Map(String path, Coordinate coordinate, float rotation, float scale){
 		this.imagePath = path;
 		this.center = coordinate;
@@ -15,7 +16,10 @@ public class Map {
 	}
 	
 	public Map(){
-		
+		this.imagePath = "";
+		this.center = new Coordinate(0);
+		this.rotation = 0;
+		this.scale = 0;
 	}
 	
 	public Map (String name, String imagePath, float rotation, float scale){
