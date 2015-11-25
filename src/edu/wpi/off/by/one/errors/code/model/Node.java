@@ -1,11 +1,13 @@
 package edu.wpi.off.by.one.errors.code.model;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Node {
     private Coordinate coord;
     private Vector<Id> edges;//list of indexes of edges
     private Id id;
+    private ArrayList<String> tags;
     
     /**
      *
@@ -85,5 +87,73 @@ public class Node {
     public void setId(int i, int u) {
         id.indice = i;
         id.unique = u;
+    }
+    
+    /**
+     * Getter for tag list
+     * @return tags: the Node's tag list
+     */
+    public ArrayList<String> GetTags(){
+    	return tags;
+    }
+    
+    /**
+     * Given an index, returns the tag at that location in the array
+     * @param i: index of the tag
+     * @return the tag stored at index i
+     */
+    public String GetTagAtIndex(int i){
+    	return tags.get(i);
+    }
+    
+    /**
+     * returns the index of a given tag
+     * @param tag: the tag to search for
+     * @return the index of tag
+     */
+    public int GetIndexOfTag(String tag){
+    	return tags.indexOf(tag);
+    }
+    
+    /**
+     * adds a new tag to the Node's tag list
+     * @param newTag: the new tag to add to the list
+     */
+    public void addTag(String newTag){
+    	tags.add(newTag);
+    }
+    
+    /**
+     * Removes a given tag from the array
+     * @param tag: tag to remove
+     */
+    public void removeTag(String tag){
+    	tags.remove(tag);
+    }
+    
+    /**
+     * Removes tag at given index from the array
+     * @param i: index to remove tag from
+     */
+    public void removeTagAtIndex(int i){
+    	tags.remove(i);
+    }
+    
+    /**
+     * replaces an existing tag with a new one to allow for editing tags
+     * @param oldTag: the old tag to change
+     * @param newTag: the new tag to replace it with
+     */
+    public void modifyTag(String oldTag, String newTag){
+    	tags.set(tags.indexOf(oldTag), newTag);
+    }
+    
+    /**
+     * replaces existing tag at a given index with a new tag for editing tags
+     * @param i: the index of the old tag
+     * @param newTag: the new tag to replace it with
+     */
+    public void modifyTagAtIndex(int i, String newTag){
+    	tags.set(i, newTag);
     }
 }

@@ -92,7 +92,12 @@ public class Edge {
         Node A = g.returnNodeById(nodeA);
         Node B = g.returnNodeById(nodeB);
         if(A == null || B == null) g.deleteEdge(id);
-        else length = ((float) Math.sqrt(Math.pow((A.getCoordinate().getX()-B.getCoordinate().getX()), 2)+Math.pow((A.getCoordinate().getY()-B.getCoordinate().getY()), 2)+Math.pow((A.getCoordinate().getZ()-B.getCoordinate().getZ()), 2)));
+
+        else {
+    		float xDist = A.getCoordinate().getX()-B.getCoordinate().getX();
+    		float yDist = A.getCoordinate().getY()-B.getCoordinate().getY();
+        	length = ((float) Math.sqrt((xDist*xDist)+(yDist*yDist)));
+        }
     }
     
 }
