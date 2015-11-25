@@ -1,4 +1,4 @@
-package edu.wpi.off.by.one.errors.code;
+package edu.wpi.off.by.one.errors.code.model;
 
 /**
  * Created by roboman2444 on 11/23/15.

@@ -9,6 +9,14 @@ import java.util.Vector;
 
 import org.junit.rules.ExpectedException;
 
+import edu.wpi.off.by.one.errors.code.model.Coordinate;
+import edu.wpi.off.by.one.errors.code.model.Display;
+import edu.wpi.off.by.one.errors.code.model.Edge;
+import edu.wpi.off.by.one.errors.code.model.FileIO;
+import edu.wpi.off.by.one.errors.code.model.Graph;
+import edu.wpi.off.by.one.errors.code.model.Map;
+import edu.wpi.off.by.one.errors.code.model.Node;
+import edu.wpi.off.by.one.errors.code.model.Path;
 import junit.framework.TestCase;
 
 public class test extends TestCase{
