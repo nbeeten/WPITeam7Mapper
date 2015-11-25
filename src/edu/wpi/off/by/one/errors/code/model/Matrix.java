@@ -1,6 +1,4 @@
-package edu.wpi.off.by.one.errors.code;
-
-import edu.wpi.off.by.one.errors.code.model.Coordinate;
+package edu.wpi.off.by.one.errors.code.model;
 
 /**
  * Created by roboman2444 on 11/23/15.
