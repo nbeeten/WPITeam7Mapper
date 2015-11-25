@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.EdgeEditorController">
    <children>
       <VBox layoutX="1.0" prefHeight="400.0" prefWidth="300.0">
          <children>
@@ -72,6 +72,7 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Label>
+            <Button fx:id="drawEdgeFromSelectedButton" mnemonicParsing="false" onAction="#onDrawEdgeFromSelected" text="Draw Edges from selected" />
             <TextField promptText="Tags associated with the selected Node" text="Add Tag" visible="false">
                <VBox.margin>
                   <Insets top="5.0" />

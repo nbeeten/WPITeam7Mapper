@@ -10,7 +10,7 @@
 
 <VBox fx:id="editorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.EditorController">
    <children>
-      <AnchorPane prefHeight="553.0" prefWidth="300.0">
+      <AnchorPane>
          <children>
             <HBox prefHeight="41.0" prefWidth="300.0">
                <children>
@@ -23,7 +23,7 @@
                   <ToggleButton mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Edge" toggleGroup="$DisplayItemEditor" />
                </children>
             </HBox>
-            <VBox layoutY="41.0" prefHeight="486.0" prefWidth="300.0">
+            <VBox layoutY="41.0" prefHeight="459.0" prefWidth="300.0">
                <children>
                   <HBox prefHeight="26.0" prefWidth="300.0">
                      <children>
@@ -38,27 +38,32 @@
                   <AnchorPane fx:id="switchableEditPane" prefHeight="460.0" prefWidth="300.0" />
                </children>
             </VBox>
-            <HBox alignment="CENTER" layoutY="526.0" prefHeight="26.0" prefWidth="300.0" AnchorPane.bottomAnchor="1.0">
-               <children>
-                  <Button fx:id="newImageButton" mnemonicParsing="false" onAction="#onNewImageClick" prefHeight="25.0" prefWidth="75.0" text="New">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="loadNewDisplayButton" mnemonicParsing="false" onAction="#onLoadNewDisplayClick" prefHeight="25.0" prefWidth="75.0" text="Load New">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="loadDisplayButton" mnemonicParsing="false" onAction="#onLoadDisplayClick" prefWidth="75.0" text="Append" />
-                  <Button fx:id="saveDisplayButton" mnemonicParsing="false" onAction="#onSaveDisplayClick" prefWidth="75.0" text="Save">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
          </children>
       </AnchorPane>
+      <HBox prefHeight="22.0" prefWidth="300.0">
+         <children>
+            <Button fx:id="drawPathDisplayButton" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#drawPathDisplay" prefHeight="25.0" prefWidth="317.0" text="Draw Path" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="26.0" prefWidth="300.0">
+         <children>
+            <Button fx:id="newImageButton" mnemonicParsing="false" onAction="#onNewImageClick" prefHeight="25.0" prefWidth="75.0" text="New">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="loadNewDisplayButton" mnemonicParsing="false" onAction="#onLoadNewDisplayClick" prefHeight="25.0" prefWidth="75.0" text="Load New">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="loadDisplayButton" mnemonicParsing="false" onAction="#onLoadDisplayClick" prefWidth="75.0" text="Append" />
+            <Button fx:id="saveDisplayButton" mnemonicParsing="false" onAction="#onSaveDisplayClick" prefWidth="75.0" text="Save">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
    </children>
 </VBox>

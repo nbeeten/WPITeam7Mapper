@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
  * Contains the node itself + events
  *
  */
-public class NodeDisplay extends Button{
+public class NodeDisplay extends Button implements IDisplayItem{
 	
 	Display display;
 	NodeDisplay self = this;
@@ -65,6 +65,13 @@ public class NodeDisplay extends Button{
 	public BooleanProperty showProperty() { return show; }
 	public void setNode(Id node) { this.node = node; }
 	public Id getNode() { return this.node; }
+	
+	public NodeDisplay getItemInfo(){ return self; }
+	@Override
+	public boolean updateItemInfo(IDisplayItem newNodeDisplay){
+		//TODO
+		return false;
+	}
 	
 	public void selectNode() {
 		this.isSelected = true;

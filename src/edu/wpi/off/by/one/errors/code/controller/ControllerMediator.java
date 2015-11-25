@@ -16,6 +16,7 @@ public class ControllerMediator implements IMediateControllers{
 	private Stage window;
 	private EditorController ec;
 	private MainController mc;
+	private EdgeEditorController eec;
 	@Override
 	public void registerEditorController(EditorController ec) {
 		this.ec = ec;
@@ -52,6 +53,10 @@ public class ControllerMediator implements IMediateControllers{
 		this.mc.updateDisplay(d, o);
 	}
 	
+	void drawPath(){
+		this.mc.drawPath();
+	}
+	
 	private ControllerMediator(){}
 	/**
 	 * IMPORTANT: Always call this when you need to communicate with another controller
@@ -65,6 +70,10 @@ public class ControllerMediator implements IMediateControllers{
 	 */
 	private static class ControllerMediatorHolder{
 		private static final ControllerMediator INSTANCE = new ControllerMediator();
+	}
+	public void registerEdgeEditorController(EdgeEditorController eec) {
+		this.eec = eec;
+		
 	}
 
 }

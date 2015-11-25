@@ -219,4 +219,12 @@ public class EditorController implements Initializable{
         //selectedFile.getAbsolutePath();
         FileIO.save(selectedFile.getAbsolutePath(), cm.getDisplay());
 	}
+	
+	@FXML
+	private void drawPathDisplay(){
+		ControllerMediator cm = ControllerMediator.getInstance();
+		cm.drawPath();
+	}
+	
+	
 }
