@@ -10,14 +10,18 @@ public class Node {
     /**
      *
      * @param coordIn: The given coordinate
-     * @param idIn: the integer id number for the Node
      */
     public Node(Coordinate coordIn) {
         this.edges = new Vector<Id>(); // we can totally use arraylist here, dont have to use a vector
         this.coord = coordIn;
         this.id = new Id();//default, set when added
     }
-    
+    /**
+     *
+     * @param coordIn: The given coordinate
+     * @param nid: the  for the Node
+     * Dont use this unless you know what you are doing
+     */
     public Node(Coordinate coordIn, Id nid) {
         this.edges = new Vector<Id>(); // we can totally use arraylist here, dont have to use a vector
         this.coord = coordIn;
@@ -42,6 +46,10 @@ public class Node {
     
     public boolean addEdgeId(Id id){
         return this.edges.add(id);
+    }
+
+    public void removeEdge(Id id){
+        while(edges.remove(id));
     }
     
     /**
@@ -71,7 +79,8 @@ public class Node {
     
     /**
      * setter for the Node's id
-     * @param idIn: the new id
+     * @param i: the indice of the id
+     * @param u: the unique of the id
      */
     public void setId(int i, int u) {
         id.indice = i;

@@ -7,70 +7,108 @@ import java.util.Queue;
 import java.util.ResourceBundle;
 
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
-import edu.wpi.off.by.one.errors.code.application.event.Select;
+import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
+import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
 import edu.wpi.off.by.one.errors.code.model.*;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.stage.Screen;
-
+/**
+ * The controller that manages the logic for most of the application view:
+ * 		- Map
+ * 		- Menu
+ *		- Directions
+ * 
+ */
 public class MainController implements Initializable{
+	
+	@FXML BorderPane root;
 	@FXML StackPane mapPane;
 	@FXML ImageView mapView;
 	@FXML ScrollPane mapScrollPane;
 	@FXML Button zoomInButton;
 	@FXML Button zoomOutButton;
+	@FXML VBox editorPane;
 	
-	protected Display display = new Display();
-    protected Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();
+	//Where all the images and txt files should be
+	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
+	
+	Display display;												//Current display
+    Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();	//Selected node queue
+    boolean isAdd = false;		//Is editor currently adding nodes?
+    boolean isDelete = false;	//Is editor currently deleting nodes?
+    
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//Register this controller to the mediator
+		ControllerMediator.getInstance().registerMainController(this);
 		System.out.print("Main Controller Initialized.");
-	
-        // center the mapScrollPane contents.
+		
+		//Set up new display
+		//TODO Make it so that the map preloads a display
+		display = new Display();
+        
+		// center the mapScrollPane contents.
         mapScrollPane.setHvalue(mapScrollPane.getHmin() + (mapScrollPane.getHmax() - mapScrollPane.getHmin()) / 2);
         mapScrollPane.setVvalue(mapScrollPane.getVmin() + (mapScrollPane.getVmax() - mapScrollPane.getVmin()) / 2);
 		
-		Image map = new Image("/edu/wpi/off/by/one/errors/code/resources/campusmap.png");
-        //mapView = new ImageView();
-		mapView.setImage(map);
-		//mapView.setPreserveRatio(true);
-        //mapView.setSmooth(true);
-        //mapView.setCache(true);
-        mapView.preserveRatioProperty().set(true);
+		Image map = new Image(resourceDir + "campusmap.png");
+        mapView.setImage(map);
+		mapView.preserveRatioProperty().set(true);
+        setListeners();
+        
 	}
 	
-	// Gets the map image, sets properties, returns a usable node by JavaFX
-    // Should be getting it from Display instead (?)
-    // TODO delegate this to Map????? or even Display???????????
-    private ImageView GetMapView() {
-        Map m = display.getMap();
-        
-         m.setName("Campus Map");
-         m.setCenter(new Coordinate(0));
-         m.setImgUrl("campusmap.png");
-         m.setRotation(0);
-         m.setScale(0); //CHANGE THIS LATER
-         Image map = new Image("resources/campusmap.png");
-         
-        ImageView mapIV = new ImageView();
-        //mapIV.setImage(map);
-        mapIV.setPreserveRatio(true);
-        mapIV.setSmooth(true);
-        mapIV.setCache(true);
-        
-        return mapIV;
-    }
-
+	/**
+	 * Gets current display from MainController
+	 * @return Current Display 
+	 */
+	public Display getDisplay(){
+		return this.display;
+	}
+	
+	/**
+	 * Updates current display to show or append a new graph/map
+	 * @param newdisplay New/Updated Display
+	 * @param option Additional options to clear first or append onto current
+	 */
+	public void updateDisplay(Display newdisplay, String option){
+		if(option.equals("NEW")){
+			mapPane.getChildren().clear();
+            mapPane.getChildren().addAll(mapView);
+		}
+		this.display = newdisplay;
+		Graph g = newdisplay.getGraph();
+		updateMap(newdisplay.getMap());
+		addNodeDisplayFromList(g.getNodes());
+		addEdgeDisplayFromList(g, g.getEdges());
+	}
+	
+	/**
+	 * Updates the map and the current map view
+	 * TODO Figure out a cleaner way to manage maps
+	 * @param newmap
+	 */
+	private void updateMap(Map newmap){
+		mapView.setImage(new Image(resourceDir + newmap.getImgUrl()));
+		if(newmap.getImgUrl() != display.getMap().getImgUrl()){
+            mapView.setImage(new Image(resourceDir + newmap.getImgUrl()));
+        }
+	}
+	
+    /**
+     * "Zoom" into map by pressing the "+" button
+     * TODO scaling cuts off map at a certain point.
+     * TODO Make it so that this works with scrolling on map
+     * @param e event
+     */
     @FXML
     private void zoomInAction(ActionEvent e){
     	//mapPane.setPrefSize(mapPane.getWidth() * 1.2, mapPane.getHeight() * 1.2);
@@ -79,7 +117,12 @@ public class MainController implements Initializable{
     	mapPane.setScaleY(mapPane.getScaleY() * 1.1);
     	mapPane.setScaleX(mapPane.getScaleX() * 1.1);
     }
-    
+    /**
+     * "Zoom" out of map by pressing the "-" button
+     * TODO scaling cuts off map at a certain point.
+     * TODO Make it so that this works with scrolling on map
+     * @param e event
+     */
     @FXML
     private void zoomOutAction(ActionEvent e){
     	//mapPane.setPrefSize(mapPane.getWidth() * 0.8, mapPane.getHeight() * 0.8);
@@ -90,15 +133,30 @@ public class MainController implements Initializable{
     }
     
     private void setListeners(){
+    	// Listen to when the user clicks on the map
     	mapView.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
-    			//Add marker on map
+    			//TODO Add marker on map
     		}
     		//If user double-click
-    		if (e.getClickCount() == 2) {
+    		if (isAdd) {
                 addNodeDisplay(e.getX(), e.getY());
             }
+    	});
+    	//Listen if editor pane sent out an Add/Edit/Delete event
+    	root.addEventFilter(EditorEvent.EDIT_ELEMENT, e -> {
+    		String eventName = e.getEventType().getName();
+    		if(eventName == "ADD") isAdd = true;
+    		else isAdd = false;
+    		if(eventName == "DELETE") isDelete = true;
+    		else isDelete = false;
+    		System.out.println(e.getEventType());
+    	});
+    	//Listen if editor pane sent out an Map/Node/Edge event
+    	//TODO do something with it. right now it only gets the name
+    	root.addEventFilter(EditorEvent.DISPLAY_ITEM, e -> {
+    		String eventName = e.getEventType().getName();
     	});
     }
     
@@ -124,13 +182,13 @@ public class MainController implements Initializable{
 	        Coordinate c = n.getCoordinate();
 	        move(nd, c.getX(), c.getY());
 	        
-	        nd.addEventFilter(Select.NODE_SELECTED, event -> {
+	        nd.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
 	            System.out.println("Node Selected");
 	            nd.selectNode();
 	            nodeQueue.add(nd);
 	        });
 	        
-	        nd.addEventFilter(Select.NODE_DESELECTED, event -> {
+	        nd.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
 	            nodeQueue.remove(nd);
 	        });
 	        mapPane.getChildren().add(nd);
@@ -144,14 +202,26 @@ public class MainController implements Initializable{
 	 * @param y
 	 */
 	void addNodeDisplay(double x, double y){
+		System.out.println("Added Node");
+		
 		NodeDisplay newNode = new NodeDisplay(display, x, y, 0);
 	    move(newNode, x, y);
 	    
-	    newNode.addEventFilter(Select.NODE_SELECTED, event -> {
-	        System.out.println("Node Selected");
-	        newNode.selectNode();
-	        nodeQueue.add(newNode);
-	        // Add selected node to selected node queue
+	    newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
+	        
+	        if(isDelete){
+	        	System.out.println("Node deleted");
+	        	Id id = newNode.getNode();
+	        	display.getGraph().deleteNode(id);
+	        	mapPane.getChildren().remove(newNode);
+	        	System.out.println(display.getGraph().getNodes().size());
+	        } else {
+	        	System.out.println("Node Selected");
+	        	newNode.selectNode();
+		        nodeQueue.add(newNode);
+		        // Add selected node to selected node queue
+		        
+	        }
 	        
 	        //TODO stuff regarding info about the node clicked
 	        //if double-clicked
@@ -163,7 +233,7 @@ public class MainController implements Initializable{
 	        //	of selection
 	    });
 	    
-	    newNode.addEventFilter(Select.NODE_DESELECTED, event -> {
+	    newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
 	        nodeQueue.remove(newNode);
 	    });
 	    
@@ -178,7 +248,7 @@ public class MainController implements Initializable{
 	 * Use to add a non-existing EdgeDisplay and Edge to the display
 	 */
 	void addEdgeDisplayFromQueue(){
-		Select selectNodeEvent = new Select(Select.NODE_DESELECTED);
+		SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
 	    if(!nodeQueue.isEmpty()){
 	        //System.out.println(nodeQueue.size());
 	        while(nodeQueue.size() > 1){

@@ -1,7 +1,6 @@
 package edu.wpi.off.by.one.errors.code.application;
 
-import edu.wpi.off.by.one.errors.code.application.event.Select;
-import edu.wpi.off.by.one.errors.code.model.Coordinate;
+import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
 import edu.wpi.off.by.one.errors.code.model.Display;
 import edu.wpi.off.by.one.errors.code.model.Id;
 import javafx.event.EventHandler;
@@ -46,10 +45,10 @@ public class EdgeDisplay extends Line{
 		
 		public void handle(MouseEvent e){
 			if(!isSelected){
-				Select selectNodeEvent = new Select(Select.EDGE_SELECTED);
+				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.EDGE_SELECTED);
 				self.fireEvent(selectNodeEvent);
 			} else {
-				Select selectNodeEvent = new Select(Select.EDGE_DESELECTED);
+				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.EDGE_DESELECTED);
 				self.fireEvent(selectNodeEvent);
 			}
 			
@@ -81,7 +80,7 @@ public class EdgeDisplay extends Line{
 	};
 	
 	private void onDeselectEventHandler(){
-		this.addEventFilter(Select.EDGE_DESELECTED, event -> {
+		this.addEventFilter(SelectEvent.EDGE_DESELECTED, event -> {
 			String style = self.getStyle();
 			self.setStyle(style + "-fx-background-color: blue;"
 					+ "-fx-border-radius: none;" + "-fx-border-color: none;"

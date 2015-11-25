@@ -33,6 +33,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 /**
+ * CURRENTLY DEPRECATED. EVERYTHING SHOULD WORK IN THE NEW GUI RIGHT NOW
+ * KEEPING THIS HERE IN CASE I MISSED MOVING A FEATURE FROM HERE TO NEW GUI
  * This Main class launches the application and sets up all the GUI interactions
  * Mainly talks to the Display class to send manipulate data in some way to the
  * underlying data.
@@ -243,7 +245,7 @@ public class Main extends Application {
     }
     
     /**
-     * Listens for MouseEvents to allow user to add/move/select
+     * Listens for MouseEvents to allow user to add/move/SelectEvent
      * items on the map
      */
     private void AddSceneListeners() {
@@ -252,7 +254,7 @@ public class Main extends Application {
          * Single-Click		:	Places marker on point TODO
          * Double-click 	: 	Create node on map
          * Click-Drag 		:	Pans the map
-         * Click on node 	: 	(De)Select node + add selection to NodeQueue
+         * Click on node 	: 	(De)SelectEvent node + add selection to NodeQueue
          * Scroll			: 	Pans map for now. Ideally should zoom map. TODO
          */
         mapView.setOnMouseClicked(e -> {
@@ -372,10 +374,26 @@ public class Main extends Application {
             Graph g = display.getGraph();
             Vector<Node> nodes = display.getGraph().getNodes();
             Vector<Edge> edges = display.getGraph().getEdges();
-            //System.out.printf("node: %d, edges: %d", nodes.size(), edges.size());
+            //System.out.printf("node: %d, edges: %d", nodes.size(), edges.size()
          
             addNodeDisplayFromList(nodes);
             addEdgeDisplayFromList(g, edges);
+            for(Node n : nodes){
+                NodeDisplay nd = new NodeDisplay(display, n.getId());
+                Coordinate c = n.getCoordinate();
+                move(nd, c.getX(), c.getY());
+                
+                nd.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
+                    System.out.println("Node Selected");
+                    nd.selectNode();
+                    nodeQueue.add(nd);
+                });
+                
+                nd.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
+                    nodeQueue.remove(nd);
+                });
+                mapPane.getChildren().add(nd);
+            }
             
         });
         
@@ -406,8 +424,7 @@ public class Main extends Application {
             //System.out.printf("node: %d, edges: %d", nodes.size(), edges.size());
             
             addNodeDisplayFromList(nodes);
-            addEdgeDisplayFromList(g, edges);
-            
+            addEdgeDisplayFromList(g, edges);           
         });
         saveMenuItem.setOnAction(e -> {
             String path;
@@ -476,7 +493,7 @@ public class Main extends Application {
                     pathPane.toFront();
                     pathPane.setMouseTransparent(true);
                 }
-                Select selectNodeEvent = new Select(Select.NODE_DESELECTED);
+                SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
                 startNode.fireEvent(selectNodeEvent);
                 endNode.fireEvent(selectNodeEvent);
             }
@@ -495,13 +512,13 @@ public class Main extends Application {
             Coordinate c = n.getCoordinate();
             move(nd, c.getX(), c.getY());
             
-            nd.addEventFilter(Select.NODE_SELECTED, event -> {
+            nd.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
                 System.out.println("Node Selected");
                 nd.selectNode();
                 nodeQueue.add(nd);
             });
             
-            nd.addEventFilter(Select.NODE_DESELECTED, event -> {
+            nd.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
                 nodeQueue.remove(nd);
             });
             mapPane.getChildren().add(nd);
@@ -518,7 +535,7 @@ public class Main extends Application {
     	NodeDisplay newNode = new NodeDisplay(display, x, y, 0);
         move(newNode, x, y);
         
-        newNode.addEventFilter(Select.NODE_SELECTED, event -> {
+        newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
             System.out.println("Node Selected");
             newNode.selectNode();
             nodeQueue.add(newNode);
@@ -534,7 +551,7 @@ public class Main extends Application {
             //	of selection
         });
         
-        newNode.addEventFilter(Select.NODE_DESELECTED, event -> {
+        newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
             nodeQueue.remove(newNode);
         });
         
@@ -549,7 +566,7 @@ public class Main extends Application {
      * Use to add a non-existing EdgeDisplay and Edge to the display
      */
     void addEdgeDisplayFromQueue(){
-    	Select selectNodeEvent = new Select(Select.NODE_DESELECTED);
+    	SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
         if(!nodeQueue.isEmpty()){
             //System.out.println(nodeQueue.size());
             while(nodeQueue.size() > 1){

@@ -63,6 +63,7 @@ public class Path {
 			//System.out.println("nodes.get(current) "+nodes.get(current)+" end");
 			//System.out.println("EdgeListBeforeFor" + nodes.get(current).getEdgelist()+"EdgeListBeforeForDone");
 			for(Id elem : theGraph.returnNodeById(current).getEdgelist()){	//find all the edges attached to the node
+				if(elem == null) continue;
 				System.out.println("in the for loop");
 				Edge neighborEdge = theGraph.returnEdgeById(elem);	//pull one edge from the list at a time
 				Id neighborId;	//the ID of the node at the other end of the edge
@@ -71,7 +72,11 @@ public class Path {
 				}
 				else {
 					neighborId = neighborEdge.getNodeA();	//otherwise this one must be the neighbor
-				}	
+				}
+				if(neighborId == null){
+					theGraph.deleteEdge(elem);
+					continue;
+				}
 				float tentativeGScore = gScore.get(current)+theGraph.returnEdgeById(elem).getLength();	//calculate the distance needed to get to the current point	
 				if(visited.contains(neighborId)){				//if we have already been to this neighbor
 					if(gScore.get(neighborId)>tentativeGScore){	//and this route is better than the existing one
