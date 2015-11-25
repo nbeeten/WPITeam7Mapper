@@ -26,8 +26,15 @@
         <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MainView.fxml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="133" column="22" selection-start-line="133" selection-start-column="22" selection-end-line="133" selection-end-column="22" />
-              <folding />
+              <caret line="161" column="22" selection-start-line="161" selection-start-column="22" selection-end-line="161" selection-end-column="22" />
+              <folding>
+                <marker date="1448317239952" expanded="true" signature="11753:11780" placeholder="..." />
+                <marker date="1448317239952" expanded="true" signature="11753:11806" placeholder="..." />
+                <marker date="1448317239952" expanded="true" signature="11753:11916" placeholder="..." />
+                <marker date="1448317239952" expanded="true" signature="11753:11935" placeholder="..." />
+                <marker date="1448317239952" expanded="true" signature="11753:11948" placeholder="..." />
+                <marker date="1448317239952" expanded="true" signature="11753:11962" placeholder="..." />
+              </folding>
             </state>
           </provider>
           <provider editor-type-id="JavaFX-Scene-Builder">
@@ -39,7 +46,7 @@
         <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -60,28 +67,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SearchLocationMenuView.fxml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SearchLocationMenuView.fxml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/SearchLocationMenuView.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.3846154">
-              <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.09277807">
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
               <folding />
             </state>
           </provider>
           <provider editor-type-id="JavaFX-Scene-Builder">
             <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SearchLocationMenuController.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/SearchLocationMenuController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.29153925">
-              <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
           </provider>
         </entry>
       </file>
@@ -121,18 +116,18 @@
         <option value="$PROJECT_DIR$/tests/edu/wpi/off/by/one/errors/code/test.java" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/DevelopperToolsView.fxml" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/DevelopperToolsController.java" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/SearchLocationMenuController.java" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MainViewControlller.java" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MainView.fxml" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/Main.java" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/SearchLocationMenuPaneStylesSheet.css" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/SearchLocationMenuView.fxml" />
-        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/SearchLocationMenuController.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
+    <option name="x" value="1911" />
+    <option name="y" value="-2169" />
     <option name="width" value="3858" />
     <option name="height" value="2128" />
   </component>
@@ -161,6 +156,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -299,38 +296,14 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WPITeam7Mapper" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WPITeam7Mapper" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/GitHub/PortableGit_c2ba306e536fdf878271f7fe636a147ff37326ad/bin/git.exe" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -621,7 +594,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="3858" height="2128" extended-state="6" />
+    <frame x="1911" y="-2169" width="3858" height="2128" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -632,7 +605,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13020833" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13020833" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -672,7 +645,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="133" column="22" selection-start-line="133" selection-start-column="22" selection-end-line="133" selection-end-column="22" />
-          <folding />
+          <folding>
+            <marker date="1448317239952" expanded="true" signature="11753:11780" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11806" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11916" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11935" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11948" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11962" placeholder="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
@@ -682,7 +662,7 @@
     <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -723,7 +703,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="133" column="22" selection-start-line="133" selection-start-column="22" selection-end-line="133" selection-end-column="22" />
-          <folding />
+          <folding>
+            <marker date="1448317239952" expanded="true" signature="11753:11780" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11806" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11916" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11935" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11948" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11962" placeholder="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
@@ -774,7 +761,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="133" column="22" selection-start-line="133" selection-start-column="22" selection-end-line="133" selection-end-column="22" />
-          <folding />
+          <folding>
+            <marker date="1448317239952" expanded="true" signature="11753:11780" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11806" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11916" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11935" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11948" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11962" placeholder="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
@@ -817,7 +811,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="123" column="22" selection-start-line="123" selection-start-column="22" selection-end-line="123" selection-end-column="22" />
-          <folding />
+          <folding>
+            <marker date="1448317239952" expanded="true" signature="11753:11780" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11806" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11916" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11935" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11948" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11962" placeholder="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
@@ -860,7 +861,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="111" column="24" selection-start-line="111" selection-start-column="24" selection-end-line="111" selection-end-column="24" />
-          <folding />
+          <folding>
+            <marker date="1448317239952" expanded="true" signature="11753:11780" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11806" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11916" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11935" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11948" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11962" placeholder="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
@@ -952,6 +960,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/SearchLocationMenuController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.085427135">
+          <caret line="2" column="33" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MainViewControlller.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.30997303">
@@ -973,22 +988,11 @@
     <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MainView.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="133" column="22" selection-start-line="133" selection-start-column="22" selection-end-line="133" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/SearchLocationMenuPaneStylesSheet.css">
@@ -999,25 +1003,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/SearchLocationMenuView.fxml">
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MainView.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.3846154">
-          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="161" column="22" selection-start-line="161" selection-start-column="22" selection-end-line="161" selection-end-column="22" />
+          <folding>
+            <marker date="1448317239952" expanded="true" signature="11753:11780" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11806" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11916" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11935" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11948" placeholder="..." />
+            <marker date="1448317239952" expanded="true" signature="11753:11962" placeholder="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/SearchLocationMenuController.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/SearchLocationMenuView.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29153925">
-          <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.09277807">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
   </component>
