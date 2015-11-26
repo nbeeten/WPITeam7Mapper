@@ -3,13 +3,18 @@ package edu.wpi.off.by.one.errors.code.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class EdgeEditorController implements Initializable {
-
+	
+	@FXML private Label edgeIdField, nodeAIdField, nodeBIdField;
+	@FXML private TextField edgeLengthField;
 	@FXML private Button drawEdgeFromSelectedButton;
 	
 	@Override
@@ -23,6 +28,12 @@ public class EdgeEditorController implements Initializable {
 	private void onDrawEdgeFromSelected(){
 		EditorEvent selectedEvent = new EditorEvent(EditorEvent.DRAW_EDGES);
 		drawEdgeFromSelectedButton.fireEvent(selectedEvent);
+	}
+	
+	public void updateEdgeInfo(EdgeDisplay ed){
+		
+		this.edgeIdField.setText(ed.getEdge().toString());
+		this.edgeLengthField.setText(Float.toString(ed.getLength()));
 	}
 
 }

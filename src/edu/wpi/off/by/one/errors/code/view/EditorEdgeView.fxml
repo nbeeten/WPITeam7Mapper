@@ -16,7 +16,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="[EDGE_ID]" />
+                  <Label fx:id="edgeIdField" text="[EDGE_ID]" textOverrun="CLIP" />
                </children>
             </HBox>
             <HBox prefHeight="15.0" prefWidth="300.0">
@@ -26,7 +26,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="[NODE_A_ID]">
+                  <Label fx:id="nodeAIdField" text="[NODE_A_ID]">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
@@ -36,7 +36,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="[NODE_B_ID]">
+                  <Label fx:id="nodeBIdFIeld" text="[NODE_B_ID]">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -53,7 +53,7 @@
                         <Insets right="5.0" top="4.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="25.0" prefWidth="89.0" text="0" />
+                  <TextField fx:id="edgeLengthField" editable="false" prefHeight="25.0" prefWidth="89.0" text="0" />
                   <MenuButton mnemonicParsing="false" text="m">
                     <items>
                       <MenuItem mnemonicParsing="false" text="m" />

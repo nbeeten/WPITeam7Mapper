@@ -1,5 +1,6 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,11 +9,14 @@ import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
 import edu.wpi.off.by.one.errors.code.model.*;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
@@ -45,6 +49,7 @@ public class MainController implements Initializable{
 	
 	Display display;												//Current display
     Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();	//Selected node queue
+    Queue<EdgeDisplay> edgeQueue = new LinkedList<EdgeDisplay>();
     String editItem = "";
     boolean isMapEditor = false;
     boolean isNodeEditor = false;
@@ -143,21 +148,37 @@ public class MainController implements Initializable{
     
     private void setListeners(){
     	// Listen to when the user clicks on the map
-    	mapView.setOnMouseClicked(e -> {
+    	mapPane.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
     			//TODO Add marker on map
+    			if (isAddMode && isNodeEditor) {
+	                addNodeDisplay(e.getX(), e.getY());
+	            } 
+	    		else if (isEditMode && isNodeEditor){
+	    			if(!nodeQueue.isEmpty()){
+	    				System.out.println("Editing node");
+	    				NodeDisplay n = nodeQueue.poll();
+	    				move(n, e.getX(), e.getY());
+	    				display.getGraph().editNode(n.getNode(),
+	    						new Coordinate((float) e.getX(), (float)e.getY()));
+	    				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
+	    				n.fireEvent(selectNodeEvent);
+	    			}
+	    		}
     		}
     		//If user double-click
-    		if (isAddMode && isNodeEditor) {
-                addNodeDisplay(e.getX(), e.getY());
-            }
+    		else{
+    			
+    		}
     	});
     	//Listen if editor pane sent out an Add/Edit/Delete event
     	root.addEventFilter(EditorEvent.EDIT_ELEMENT, e -> {
     		String eventName = e.getEventType().getName();
     		if(eventName == "ADD") isAddMode = true;
     		else isAddMode = false;
+    		if(eventName == "EDIT") isEditMode = true;
+    		else isEditMode = false;
     		if(eventName == "DELETE") isDeleteMode = true;
     		else isDeleteMode = false;
     		System.out.println(e.getEventType());
@@ -186,7 +207,10 @@ public class MainController implements Initializable{
      * @param y
      */
     public void move(javafx.scene.Node obj, double x, double y){
-        Bounds localBounds = obj.localToScene(mapView.getBoundsInLocal());
+        Bounds localBounds = mapView.getBoundsInLocal();
+        System.out.println("MOVING");
+        System.out.println(localBounds.getMinX() + " " + localBounds.getMinY());
+        System.out.println(localBounds.getMaxX() + " " + localBounds.getMaxY());
         obj.setTranslateX(x - localBounds.getMaxX() / 2);
         obj.setTranslateY(y - localBounds.getMaxY() / 2);
         
@@ -197,7 +221,9 @@ public class MainController implements Initializable{
 	 * @param nodes
 	 */
 	void addNodeDisplayFromList(Collection<Node> nodes){
-		for(Node n : nodes){
+		Node[] nodeArr = new Node[nodes.size()];
+		nodes.toArray(nodeArr); // To avoid ConcurrentModificationException
+		for(Node n : nodeArr){
 			NodeDisplay nd = new NodeDisplay(display, n.getId());
 	        Coordinate c = n.getCoordinate();
 	        move(nd, c.getX(), c.getY());
@@ -240,7 +266,6 @@ public class MainController implements Initializable{
 	        	newNode.selectNode();
 		        nodeQueue.add(newNode);
 		        // Add selected node to selected node queue
-		        
 	        }
 	        
 	        //TODO stuff regarding info about the node clicked
@@ -288,14 +313,26 @@ public class MainController implements Initializable{
 	            }
 	            
 	            
-	            g.addEdge(a.getId(), b.getId());
-	            System.out.println("Edge size" + g.getEdges().size());
-	            Line l = new Line(aLoc.getX(), aLoc.getY(), 
-	                              bLoc.getX(), bLoc.getY());
-	            l.setStroke(Color.BLUE);
-	            move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
-	            mapPane.getChildren().add(l);
+	            Id newEdge = g.addEdgeRint(a.getId(), b.getId());
+	            EdgeDisplay e = new EdgeDisplay(display, newEdge,
+	        			aLoc.getX(), aLoc.getY(),
+	                    bLoc.getX(), bLoc.getY());
+	            e.setStroke(Color.BLUE);
+	            move(e, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
+	            mapPane.getChildren().add(e);
 	            n.fireEvent(selectNodeEvent);
+	            
+	            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
+	            	System.out.println("Edge selected");
+	            	e.selectEdge();
+	            	ControllerMediator cm = ControllerMediator.getInstance();
+	            	cm.viewDisplayItem(e);
+	            });
+	            
+	            e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
+	            	//do sth;
+	            	
+	            });
 	        }
 	        nodeQueue.remove().fireEvent(selectNodeEvent);;
 	    } else {
@@ -308,19 +345,35 @@ public class MainController implements Initializable{
 	 * @param graph
 	 * @param edges
 	 */
-	void addEdgeDisplayFromList(Graph graph, Collection<Edge> edges){
-	    for(Edge edge : edges){
-	    	Node a = graph.returnNodeById(edge.getNodeA());
-	        Node b = graph.returnNodeById(edge.getNodeB());
+	void addEdgeDisplayFromList(Graph graph, Vector<Edge> edges){
+		Edge[] edgeArr = new Edge[edges.size()];
+		edges.toArray(edgeArr); // To avoid ConcurrentModificationException
+	    for(Edge edge : edgeArr){
+	    	Id aID = edge.getNodeA();
+	    	Id bID = edge.getNodeB();
+	    	Node a = graph.returnNodeById(aID);
+	        Node b = graph.returnNodeById(bID);
 	        Coordinate aLoc = a.getCoordinate();
 	        Coordinate bLoc = b.getCoordinate();
 	        //System.out.println("Edge size" + g.getEdges().size());
-	            Line l = new Line(aLoc.getX(), aLoc.getY(),
-	                              bLoc.getX(), bLoc.getY());
-	            l.setStroke(Color.BLUE);
-	            move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
-	            mapPane.getChildren().add(l);
-	        }
+        	EdgeDisplay e = new EdgeDisplay(display, aID, bID,
+        			aLoc.getX(), aLoc.getY(),
+                    bLoc.getX(), bLoc.getY());
+            e.setStroke(Color.BLUE);
+            move(e, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
+            mapPane.getChildren().add(e);
+            
+            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
+            	System.out.println("Edge selected");
+            	e.selectEdge();
+            	ControllerMediator cm = ControllerMediator.getInstance();
+            	cm.viewDisplayItem(e);
+            });
+            
+            e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
+            	//do sth;
+            });
+	    }
 	}
     
 	public void drawPath(){

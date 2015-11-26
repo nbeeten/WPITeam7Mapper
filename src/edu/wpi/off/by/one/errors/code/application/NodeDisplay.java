@@ -1,5 +1,7 @@
 package edu.wpi.off.by.one.errors.code.application;
 
+import java.util.ArrayList;
+
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Display;
@@ -9,6 +11,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 /**
  * GUI "overlay" of the node
@@ -20,6 +23,11 @@ public class NodeDisplay extends Button implements IDisplayItem{
 	Display display;
 	NodeDisplay self = this;
 	Id node;
+	Coordinate nodeCoords;
+	int edgeNum;
+	ArrayList<String> tags;
+	int size = 8; // in px format
+	String color = Color.BLUE.toString().substring(2); 
 	public boolean isSelected = false;
 	
 	BooleanProperty show = new SimpleBooleanProperty(this, "show", true);
@@ -179,7 +187,11 @@ public class NodeDisplay extends Button implements IDisplayItem{
 	}
 	
 	private void setCss(){
-		this.setStyle("-fx-background-color:blue;" + "-fx-background-radius: 5em;" + "-fx-min-width: 8px;"
-				+ "-fx-min-height: 8px;" + "-fx-max-width: 8px;" + "-fx-max-height: 8px;");
+		this.setStyle("-fx-background-color:#" + this.color + ";" 
+				+ "-fx-background-radius: 5em;" 
+				+ "-fx-min-width: " + this.size + "px;"
+				+ "-fx-min-height: " + this.size + "px;" 
+				+ "-fx-max-width: " + this.size + "px;" 
+				+ "-fx-max-height: " + this.size + "px;");
 	}
 }
