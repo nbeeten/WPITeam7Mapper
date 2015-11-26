@@ -1,6 +1,7 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
-import edu.wpi.off.by.one.errors.code.model.Display;
+import edu.wpi.off.by.one.errors.code.application.*;
+import edu.wpi.off.by.one.errors.code.model.*;
 import javafx.stage.Stage;
 /**
  * 
@@ -16,6 +17,8 @@ public class ControllerMediator implements IMediateControllers{
 	private Stage window;
 	private EditorController ec;
 	private MainController mc;
+	private EdgeEditorController eec;
+	private NodeEditorController nec;
 	@Override
 	public void registerEditorController(EditorController ec) {
 		this.ec = ec;
@@ -24,6 +27,10 @@ public class ControllerMediator implements IMediateControllers{
 	@Override
 	public void registerMainController(MainController mc) {
 		this.mc = mc;
+	}
+	
+	public void registerEdgeEditorController(EdgeEditorController eec) {
+		this.eec = eec;	
 	}
 	
 	public void registerWindow(Stage window) {
@@ -52,6 +59,18 @@ public class ControllerMediator implements IMediateControllers{
 		this.mc.updateDisplay(d, o);
 	}
 	
+	void viewDisplayItem(NodeDisplay nd){
+		if(this.nec != null) this.nec.updateNodeInfo(nd);
+	}
+	
+	void viewDisplayItem(EdgeDisplay ed){
+		if(this.eec != null) this.eec.updateEdgeInfo(ed);
+	}
+	
+	void drawPath(){
+		this.mc.drawPath();
+	}
+	
 	private ControllerMediator(){}
 	/**
 	 * IMPORTANT: Always call this when you need to communicate with another controller
@@ -66,5 +85,6 @@ public class ControllerMediator implements IMediateControllers{
 	private static class ControllerMediatorHolder{
 		private static final ControllerMediator INSTANCE = new ControllerMediator();
 	}
+	
 
 }

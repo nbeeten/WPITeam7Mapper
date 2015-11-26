@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.EdgeEditorController">
    <children>
       <VBox layoutX="1.0" prefHeight="400.0" prefWidth="300.0">
          <children>
@@ -16,7 +16,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="[EDGE_ID]" />
+                  <Label fx:id="edgeIdField" text="[EDGE_ID]" textOverrun="CLIP" />
                </children>
             </HBox>
             <HBox prefHeight="15.0" prefWidth="300.0">
@@ -26,7 +26,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="[NODE_A_ID]">
+                  <Label fx:id="nodeAIdField" text="[NODE_A_ID]">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
@@ -36,7 +36,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="[NODE_B_ID]">
+                  <Label fx:id="nodeBIdFIeld" text="[NODE_B_ID]">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -53,7 +53,7 @@
                         <Insets right="5.0" top="4.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="25.0" prefWidth="89.0" text="0" />
+                  <TextField fx:id="edgeLengthField" editable="false" prefHeight="25.0" prefWidth="89.0" text="0" />
                   <MenuButton mnemonicParsing="false" text="m">
                     <items>
                       <MenuItem mnemonicParsing="false" text="m" />
@@ -72,6 +72,7 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Label>
+            <Button fx:id="drawEdgeFromSelectedButton" mnemonicParsing="false" onAction="#onDrawEdgeFromSelected" text="Draw Edges from selected" />
             <TextField promptText="Tags associated with the selected Node" text="Add Tag" visible="false">
                <VBox.margin>
                   <Insets top="5.0" />
