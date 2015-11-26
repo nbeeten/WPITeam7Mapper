@@ -1,26 +1,18 @@
 package edu.wpi.off.by.one.errors.code.application;
 
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.sg.prism.NGNode;
-
-import edu.wpi.off.by.one.errors.code.*;
-import edu.wpi.off.by.one.errors.code.application.event.Select;
+import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Display;
 import edu.wpi.off.by.one.errors.code.model.Id;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
 /**
  * GUI "overlay" of the node
  * Contains the node itself + events
- * @author Kelly
  *
  */
 public class NodeDisplay extends Button{
@@ -87,11 +79,18 @@ public class NodeDisplay extends Button{
 	private EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
 		
 		public void handle(MouseEvent e){
+			
+			//If double-click and selected on a building node
+			if(e.isStillSincePress()){
+				//TODO zoom and rotate onto location
+				
+			}
+			
 			if(!isSelected){
-				Select selectNodeEvent = new Select(Select.NODE_SELECTED);
+				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_SELECTED);
 				self.fireEvent(selectNodeEvent);
 			} else {
-				Select selectNodeEvent = new Select(Select.NODE_DESELECTED);
+				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
 				self.fireEvent(selectNodeEvent);
 			}
 			
@@ -123,7 +122,7 @@ public class NodeDisplay extends Button{
 	};
 	
 	private void onDeselectEventHandler(){
-		this.addEventFilter(Select.NODE_DESELECTED, event -> {
+		this.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
 			String style = self.getStyle();
 			self.setStyle(style + "-fx-background-color: blue;"
 					+ "-fx-border-radius: none;" + "-fx-border-color: none;"

@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.*?>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.MainViewControlller">
 
 
@@ -18,6 +19,11 @@
    <left>
       <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 >>>>>>> a4bc7de193f41961c77b6ce962974b5f3ee39d76
+=======
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.MainController">
+   <left>
+      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+>>>>>>> upstream/master
          <children>
             <AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="40.0">
                <children>
@@ -116,6 +122,7 @@
                </children>
             </AnchorPane>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <ScrollPane maxWidth="500.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <VBox fx:id="searchMenuPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="210.0">
                   <children>
@@ -133,6 +140,13 @@
 =======
             <ScrollPane prefHeight="400.0" prefWidth="157.0" HBox.hgrow="ALWAYS" />
 >>>>>>> a4bc7de193f41961c77b6ce962974b5f3ee39d76
+=======
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+               <children>
+                  <fx:include fx:id="editorPane" source="/EditorMainView.fxml" />
+               </children>
+            </AnchorPane>
+>>>>>>> upstream/master
          </children>
       </HBox>
    </left>

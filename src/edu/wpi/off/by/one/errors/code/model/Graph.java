@@ -32,6 +32,7 @@ public class Graph {
 		if(node_arrayfirstopen >= node_arraysize){	//resize
 			node_arraysize = node_arrayfirstopen+1;
 			listOfNodes.ensureCapacity(node_arraysize);
+			listOfNodes.setSize(node_arraysize);
 		}
 		Id nid = new Id(node_arrayfirstopen, node_count);
 		Node n = new Node(coordIn, nid);
@@ -52,6 +53,7 @@ public class Graph {
 		if(node_arrayfirstopen >= node_arraysize){	//resize
 			node_arraysize = node_arrayfirstopen+1;
 			listOfNodes.ensureCapacity(node_arraysize);
+			listOfNodes.setSize(node_arraysize);
 		}
 		Id nid = new Id(node_arrayfirstopen, node_count);
 		Node n = new Node(coordIn, nid);
@@ -89,6 +91,7 @@ public class Graph {
 		if(edge_arrayfirstopen >= edge_arraysize){	//resize
 			edge_arraysize = edge_arrayfirstopen+1;
 			listOfEdges.ensureCapacity(edge_arraysize);
+			listOfEdges.setSize(edge_arraysize);
 		}
 		Id eid = new Id(edge_arrayfirstopen, edge_count);
 		Edge e = new Edge(nodeAIn, nodeBIn, eid);
@@ -98,7 +101,7 @@ public class Graph {
 
 		A.addEdgeId(eid);
 		B.addEdgeId(eid);
-		e.updateLength((float) Math.sqrt(Math.pow((A.getCoordinate().getX()-B.getCoordinate().getX()), 2)+Math.pow((A.getCoordinate().getY()-B.getCoordinate().getY()), 2)+Math.pow((A.getCoordinate().getZ()-B.getCoordinate().getZ()), 2)));
+		e.updateLength(this);
 		return e;
 	}
 	/**
@@ -116,6 +119,7 @@ public class Graph {
 		if(edge_arrayfirstopen >= edge_arraysize){	//resize
 			edge_arraysize = edge_arrayfirstopen +1;
 			listOfEdges.ensureCapacity(edge_arraysize);
+			listOfEdges.setSize(edge_arraysize);
 		}
 		Id eid = new Id(edge_arrayfirstopen, edge_count);
 		Edge e = new Edge(nodeAIn, nodeBIn, eid);
@@ -125,7 +129,7 @@ public class Graph {
 
 		A.addEdgeId(eid);
 		B.addEdgeId(eid);
-		e.updateLength((float) Math.sqrt(Math.pow((A.getCoordinate().getX()-B.getCoordinate().getX()), 2)+Math.pow((A.getCoordinate().getY()-B.getCoordinate().getY()), 2)+Math.pow((A.getCoordinate().getZ()-B.getCoordinate().getZ()), 2)));
+		e.updateLength(this);
 		return eid;
 	}
 	
@@ -170,6 +174,10 @@ public class Graph {
 	public boolean deleteEdge(Id target){//deletes an edge from the list (replaces it with null)
 		Edge e = returnEdgeById(target);
 		if(e == null) return false;
+		Node a = returnNodeById(e.getNodeA());
+		Node b = returnNodeById(e.getNodeB());
+		if(a != null) a.removeEdge(target);
+		if(b != null) b.removeEdge(target);
 		listOfEdges.set(target.indice, null);
 		if(target.indice< edge_arrayfirstopen) edge_arrayfirstopen = target.indice;
 		for(; edge_arraylasttaken > 0 && listOfEdges.get(edge_arraylasttaken) == null; edge_arraylasttaken--);

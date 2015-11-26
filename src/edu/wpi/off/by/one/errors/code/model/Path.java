@@ -38,7 +38,7 @@ public class Path {
 		HashMap<Id, Float> gScore = new HashMap<Id, Float>();	//The map of the nodeID to its path finding score, the lower the better
 		HashMap<Id, Float> fScore = new HashMap<Id, Float>();	//create a new #map for the f score of the node
 
-		for (Node elem : theGraph.getNodes()){	//sets each node that we could examine, place its ID and the maximum value into the #map
+		for (Node elem : theGraph.getNodes()){	//sets each node that we could examine, place its ID and the maximum value into the #maps
 			gScore.put(elem.getId(), Float.MAX_VALUE);
 			fScore.put(elem.getId(), Float.MAX_VALUE);
 		}
@@ -63,6 +63,7 @@ public class Path {
 			//System.out.println("nodes.get(current) "+nodes.get(current)+" end");
 			//System.out.println("EdgeListBeforeFor" + nodes.get(current).getEdgelist()+"EdgeListBeforeForDone");
 			for(Id elem : theGraph.returnNodeById(current).getEdgelist()){	//find all the edges attached to the node
+				if(elem == null) continue;
 				System.out.println("in the for loop");
 				Edge neighborEdge = theGraph.returnEdgeById(elem);	//pull one edge from the list at a time
 				Id neighborId;	//the ID of the node at the other end of the edge
@@ -71,7 +72,11 @@ public class Path {
 				}
 				else {
 					neighborId = neighborEdge.getNodeA();	//otherwise this one must be the neighbor
-				}	
+				}
+				if(neighborId == null){
+					theGraph.deleteEdge(elem);
+					continue;
+				}
 				float tentativeGScore = gScore.get(current)+theGraph.returnEdgeById(elem).getLength();	//calculate the distance needed to get to the current point	
 				if(visited.contains(neighborId)){				//if we have already been to this neighbor
 					if(gScore.get(neighborId)>tentativeGScore){	//and this route is better than the existing one
@@ -117,8 +122,7 @@ public class Path {
 
 		float xDist = coordA.getX()-coordB.getX();
 		float yDist = coordA.getY()-coordB.getY();
-		float zDist = coordA.getZ()-coordB.getZ();
-		return (float) Math.sqrt(xDist*xDist+yDist*yDist+zDist*zDist); //return the pythagorean length
+		return (float) Math.sqrt(xDist*xDist+yDist*yDist); //return the pythagorean length
 	}
 	
 	/**

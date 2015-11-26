@@ -70,7 +70,8 @@ public class Edge {
     
     /**
      * set the ID of the edge
-     * @param idIn: The new id of edge
+     * @param i: the indice of the id
+     * @param u: the unique of the id
      */
     public void setId(int i, int u) {
         id.indice = i;
@@ -85,6 +86,18 @@ public class Edge {
         length = len;
         // We need the ID system implemented before we can get nodes properly
         // for edge length updating
+    }
+    //just triggers a len update
+    public void updateLength(Graph g){
+        Node A = g.returnNodeById(nodeA);
+        Node B = g.returnNodeById(nodeB);
+        if(A == null || B == null) g.deleteEdge(id);
+
+        else {
+    		float xDist = A.getCoordinate().getX()-B.getCoordinate().getX();
+    		float yDist = A.getCoordinate().getY()-B.getCoordinate().getY();
+        	length = ((float) Math.sqrt((xDist*xDist)+(yDist*yDist)));
+        }
     }
     
 }
