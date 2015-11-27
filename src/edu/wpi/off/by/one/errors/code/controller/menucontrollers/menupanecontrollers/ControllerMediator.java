@@ -1,5 +1,7 @@
-package edu.wpi.off.by.one.errors.code.controller;
+package edu.wpi.off.by.one.errors.code.controller.menucontrollers.menupanecontrollers;
 
+import edu.wpi.off.by.one.errors.code.controller.IMediateControllers;
+import edu.wpi.off.by.one.errors.code.controller.MainController;
 import edu.wpi.off.by.one.errors.code.model.Display;
 import javafx.stage.Stage;
 /**
@@ -12,12 +14,12 @@ import javafx.stage.Stage;
  * and variable
  *
  */
-public class ControllerMediator implements IMediateControllers{
+public class ControllerMediator implements IMediateControllers {
 	private Stage window;
-	private EditorController ec;
+	private devToolsController ec;
 	private MainController mc;
 	@Override
-	public void registerEditorController(EditorController ec) {
+	public void registerEditorController(devToolsController ec) {
 		this.ec = ec;
 	}
 

@@ -6,158 +6,21 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import edu.wpi.off.by.one.errors.code.controller.menucontrollers.MainMenuPane?>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.MainViewControlller">
-
-
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.MainController">
    <left>
-      <HBox fx:id="rootMenuPane" maxWidth="250.0" minWidth="40.0" prefHeight="100.0" prefWidth="250.0" BorderPane.alignment="CENTER">
-=======
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.MainController">
-   <left>
-      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
->>>>>>> a4bc7de193f41961c77b6ce962974b5f3ee39d76
-=======
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.off.by.one.errors.code.controller.MainController">
-   <left>
-      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
->>>>>>> upstream/master
-         <children>
-            <AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="40.0">
-               <children>
-                  <VBox maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="40.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <ToggleButton fx:id="hamburgerToggleButton" selected="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" text="Options" VBox.vgrow="NEVER">
-                           <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
-                                 </image>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
-                           </graphic>
-                        </ToggleButton>
-                        <RadioButton fx:id="searchRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" text="Search">
-                           <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <image>
-                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </RadioButton>
-                        <RadioButton fx:id="directionsRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" text="Directions">
-                           <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <image>
-                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </RadioButton>
-                        <RadioButton fx:id="favoritesRadioButton" styleClass="toggle-button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" text="Favorites">
-                           <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <image>
-                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </RadioButton>
-                     </children>
-                  </VBox>
-                  <VBox layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                     <children>
-                        <RadioButton fx:id="devModeRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" text="Edit">
-                           <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <image>
-                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </RadioButton>
-                        <RadioButton fx:id="settingsRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" text="Settings">
-                           <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <image>
-                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </RadioButton>
-                        <RadioButton fx:id="helpRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" text="Help">
-                           <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <image>
-                                    <Image url="edu/wpi/off/by/one/errors/code/resources/1448157667_menu-alt.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </RadioButton>
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <ScrollPane maxWidth="500.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-               <VBox fx:id="searchMenuPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="210.0">
-                  <children>
-                     <Label text="Search" />
-                     <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="30.0">
-                        <children>
-                           <TextField AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0" />
-                           <Button maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        </children>
-                     </AnchorPane>
-                     <ListView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-                  </children>
-               </VBox>
-            </ScrollPane>
-=======
-            <ScrollPane prefHeight="400.0" prefWidth="157.0" HBox.hgrow="ALWAYS" />
->>>>>>> a4bc7de193f41961c77b6ce962974b5f3ee39d76
-=======
-            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-               <children>
-                  <fx:include fx:id="editorPane" source="/EditorMainView.fxml" />
-               </children>
-            </AnchorPane>
->>>>>>> upstream/master
-         </children>
-      </HBox>
+      <MainMenuPane />
    </left>
+
    <center>
       <SplitPane dividerPositions="0.8241206030150754" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
                   <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" layoutX="-1.0" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="327.0" prefWidth="400.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <content>
-                      <AnchorPane>
+                     <content>
+                        <AnchorPane>
                            <children>
                               <StackPane fx:id="mapPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="327.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
@@ -166,7 +29,7 @@
                               </StackPane>
                            </children>
                         </AnchorPane>
-                    </content>
+                     </content>
                   </ScrollPane>
                   <VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="25.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="150.0">
                      <children>
@@ -180,8 +43,9 @@
                   </VBox>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-        </items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+         </items>
       </SplitPane>
    </center>
+
 </BorderPane>

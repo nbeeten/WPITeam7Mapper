@@ -1,10 +1,11 @@
-package edu.wpi.off.by.one.errors.code.controller;
+package edu.wpi.off.by.one.errors.code.controller.menucontrollers.menupanecontrollers;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
+import edu.wpi.off.by.one.errors.code.controller.MainController;
 import edu.wpi.off.by.one.errors.code.model.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -12,9 +13,10 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-public class EditorController implements Initializable{
+public class devToolsController implements Initializable{
 	
-	@FXML MainController root;
+	@FXML
+	MainController root;
 	@FXML ToggleGroup ElementEditor;
 	@FXML ToggleGroup DisplayItemEditor;
 	@FXML AnchorPane switchableEditPane;
@@ -86,7 +88,7 @@ public class EditorController implements Initializable{
 			case "Map":
 				selectedEvent = new EditorEvent(EditorEvent.MAP);
 				try {
-					loader = new FXMLLoader(getClass().getResource(viewDir + "EditorMapView.fxml"));
+					loader = new FXMLLoader(getClass().getResource("../../../view/customcontrols/menupanes/submenupanes/EditorMapView.fxml"));
 					//loader.setController(this);
 					loader.setRoot(switchableEditPane);
 					loader.load();
@@ -100,7 +102,7 @@ public class EditorController implements Initializable{
 			case "Node":
 				selectedEvent = new EditorEvent(EditorEvent.NODE);
 				try {
-					loader = new FXMLLoader(getClass().getResource(viewDir + "EditorNodeView.fxml"));
+					loader = new FXMLLoader(getClass().getResource("../../../view/customcontrols/menupanes/submenupanes/EditorNodeView.fxml"));
 					//loader.setController(this);
 					loader.setRoot(switchableEditPane);
 					loader.load();
@@ -114,7 +116,7 @@ public class EditorController implements Initializable{
 			case "Edge":
 				selectedEvent = new EditorEvent(EditorEvent.EDGE);
 				try {
-					loader = new FXMLLoader(getClass().getResource(viewDir + "EditorEdgeView.fxml"));
+					loader = new FXMLLoader(getClass().getResource("../../../view/customcontrols/menupanes/submenupanes/EditorEdgeView.fxml"));
 					//loader.setController(this);
 					loader.setRoot(switchableEditPane);
 					loader.load();
