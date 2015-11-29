@@ -1,31 +1,37 @@
 package edu.wpi.off.by.one.errors.code.application;
 
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.sg.prism.NGNode;
+import java.util.ArrayList;
 
-import edu.wpi.off.by.one.errors.code.*;
-import edu.wpi.off.by.one.errors.code.application.event.SelectNode;
+import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
+import edu.wpi.off.by.one.errors.code.model.Coordinate;
+import edu.wpi.off.by.one.errors.code.model.Display;
+import edu.wpi.off.by.one.errors.code.model.Id;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 /**
  * GUI "overlay" of the node
  * Contains the node itself + events
- * @author Kelly
  *
  */
-public class NodeDisplay extends Button{
+public class NodeDisplay extends Button implements IDisplayItem{
 	
 	Display display;
 	NodeDisplay self = this;
 	Id node;
+	Coordinate nodeCoords;
+	int edgeNum;
+	ArrayList<String> tags;
+	int size = 8; // in px format
+	String color = Color.BLUE.toString().substring(2); 
 	public boolean isSelected = false;
+	
+	BooleanProperty show = new SimpleBooleanProperty(this, "show", true);
+	
 	//
 	//BooleanProperty clicked = new SimpleBooleanProperty();
 	//private int id;
@@ -64,8 +70,16 @@ public class NodeDisplay extends Button{
 		setHandlers();
 	}
 	
+	public BooleanProperty showProperty() { return show; }
 	public void setNode(Id node) { this.node = node; }
 	public Id getNode() { return this.node; }
+	
+	public NodeDisplay getItemInfo(){ return self; }
+	@Override
+	public boolean updateItemInfo(IDisplayItem newNodeDisplay){
+		//TODO
+		return false;
+	}
 	
 	public void selectNode() {
 		this.isSelected = true;
@@ -80,11 +94,18 @@ public class NodeDisplay extends Button{
 	private EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
 		
 		public void handle(MouseEvent e){
+			
+			//If double-click and selected on a building node
+			if(e.isStillSincePress()){
+				//TODO zoom and rotate onto location
+				
+			}
+			
 			if(!isSelected){
-				SelectNode selectNodeEvent = new SelectNode(SelectNode.NODE_SELECTED);
+				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_SELECTED);
 				self.fireEvent(selectNodeEvent);
 			} else {
-				SelectNode selectNodeEvent = new SelectNode(SelectNode.NODE_DESELECTED);
+				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
 				self.fireEvent(selectNodeEvent);
 			}
 			
@@ -116,7 +137,7 @@ public class NodeDisplay extends Button{
 	};
 	
 	private void onDeselectEventHandler(){
-		this.addEventFilter(SelectNode.NODE_DESELECTED, event -> {
+		this.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
 			String style = self.getStyle();
 			self.setStyle(style + "-fx-background-color: blue;"
 					+ "-fx-border-radius: none;" + "-fx-border-color: none;"
@@ -147,31 +168,6 @@ public class NodeDisplay extends Button{
 		}//end of method handle
 		
 	};
-	
-	
-	@Override
-	protected boolean impl_computeContains(double arg0, double arg1) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public BaseBounds impl_computeGeomBounds(BaseBounds arg0, BaseTransform arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public NGNode impl_createPeer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object impl_processMXNode(MXNodeAlgorithm arg0, MXNodeAlgorithmContext arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	*/
 	
 	private void setHandlers() {
@@ -179,10 +175,23 @@ public class NodeDisplay extends Button{
 		this.setOnMouseExited(onMouseExitedEventHandler);
 		this.setOnMouseClicked(onMouseClickedEventHandler);
 		this.onDeselectEventHandler();
+		this.showProperty().addListener((v, oldVal, newVal) -> {
+			if(newVal){
+				this.setVisible(false);
+				this.setMouseTransparent(true); //TODO: figure out a better way to handle this
+			} else {
+				this.setVisible(true);
+				this.setMouseTransparent(false);
+			}
+		});
 	}
 	
 	private void setCss(){
-		this.setStyle("-fx-background-color:blue;" + "-fx-background-radius: 5em;" + "-fx-min-width: 8px;"
-				+ "-fx-min-height: 8px;" + "-fx-max-width: 8px;" + "-fx-max-height: 8px;");
+		this.setStyle("-fx-background-color:#" + this.color + ";" 
+				+ "-fx-background-radius: 5em;" 
+				+ "-fx-min-width: " + this.size + "px;"
+				+ "-fx-min-height: " + this.size + "px;" 
+				+ "-fx-max-width: " + this.size + "px;" 
+				+ "-fx-max-height: " + this.size + "px;");
 	}
 }
