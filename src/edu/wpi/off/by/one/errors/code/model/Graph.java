@@ -200,4 +200,20 @@ public class Graph {
 	public void editEdge(){//edits an edge on the list
 		//TODO: add functionality after we decide exactly what this should do
 	}
+	
+	/**
+	 * search for a node by tags
+	 * @param searchTerm: the string being searched for
+	 * @return: returns id of node with tag being searched for. If none are found returns null
+	 */
+	public Id search(String searchTerm){
+		for(Node searched : listOfNodes){
+			for(String tag : searched.GetTags()){
+				if(searchTerm == tag){
+					return searched.getId();
+				}
+			}
+		}
+		return null;
+	}
 }
