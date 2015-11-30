@@ -1,4 +1,4 @@
-package edu.wpi.off.by.one.errors.code.controller;
+package old.controller;
 
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.model.Display;

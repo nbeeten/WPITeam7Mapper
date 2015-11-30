@@ -1,7 +1,20 @@
 package edu.wpi.off.by.one.errors.code.controller;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 
 import java.io.File;
-import java.lang.reflect.Array;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,20 +28,16 @@ import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
-import edu.wpi.off.by.one.errors.code.model.*;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
-import javafx.scene.control.*;
-import javafx.scene.image.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import edu.wpi.off.by.one.errors.code.model.Coordinate;
+import edu.wpi.off.by.one.errors.code.model.Display;
+import edu.wpi.off.by.one.errors.code.model.Edge;
+import edu.wpi.off.by.one.errors.code.model.FileIO;
+import edu.wpi.off.by.one.errors.code.model.Graph;
+import edu.wpi.off.by.one.errors.code.model.Id;
+import edu.wpi.off.by.one.errors.code.model.Map;
+import edu.wpi.off.by.one.errors.code.model.Node;
+import edu.wpi.off.by.one.errors.code.model.Path;
+
 /**
  * The controller that manages the logic for most of the application view:
  * 		- Map
@@ -36,9 +45,10 @@ import javafx.scene.shape.Line;
  *		- Directions
  * 
  */
-public class MainController implements Initializable{
+public class MainPane extends BorderPane {
 	
 	@FXML BorderPane root;
+
 	@FXML StackPane mapPane;
 	@FXML ImageView mapView;
 	@FXML ScrollPane mapScrollPane;
@@ -47,7 +57,7 @@ public class MainController implements Initializable{
 	@FXML VBox editorPane;
 	@FXML Button drawPathDisplayButton;
 	StackPane pathPane = new StackPane();
-	
+
 	//Where all the images and txt files should be
 	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
 	Bounds localBounds;
@@ -55,20 +65,29 @@ public class MainController implements Initializable{
 	HashMap<String, Display> displayList;
     Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();	//Selected node queue
     Queue<EdgeDisplay> edgeQueue = new LinkedList<EdgeDisplay>();
-    String editItem = "";
+    
     boolean isMapEditor = false;
     boolean isNodeEditor = false;
     boolean isEdgeEditor = false;
     boolean isEditMode = false;
     boolean isAddMode = false;		//Is editor currently adding nodes?
     boolean isDeleteMode = false;	//Is editor currently deleting nodes?
+
+    public MainPane(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("C:/Users/Kelly/Documents/WPITeam7Mapper/src/edu/wpi/off/by/one/errors/code/view/MainPane.fxml"));
+
+        loader.setRoot(this);
+        loader.setController(this);
+        try{
+            loader.load();
+            //initialize();
+        }catch(IOException excpt){
+            throw new RuntimeException(excpt);
+        }
+    }
     
-	
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		//Register this controller to the mediator
-		ControllerMediator.getInstance().registerMainController(this);
-		System.out.print("Main Controller Initialized.");
+    private void initialize(){
+    	System.out.print("Main Controller Initialized.");
 		//Load all displays into application
 		loadDisplays();
 		//Load campus map from display list
@@ -88,17 +107,16 @@ public class MainController implements Initializable{
 		
         //Setup event listeners for map
         setListeners();
-        
-	}
-	
-	/**
-	 * Gets current display from MainController
-	 * @return Current Display 
+    }
+    
+    /**
+	 * Gets current display from MainPane
+	 * @return Current Display
 	 */
 	public Display getDisplay(){
 		return this.display;
 	}
-	
+
 	/**
 	 * External updater
 	 * Updates current display to show or append a new graph/map
@@ -112,6 +130,7 @@ public class MainController implements Initializable{
 			mapPane.getChildren().clear();
             mapPane.getChildren().addAll(pathPane, mapView);
             localBounds = mapView.getBoundsInLocal();
+			mapPane.getChildren().addAll(mapView);
 		}
 		String mapName = newdisplay.getMap().getName();
 		if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
@@ -134,7 +153,7 @@ public class MainController implements Initializable{
 		addNodeDisplayFromList(g.getNodes());
 		addEdgeDisplayFromList(g, g.getEdges());
 	}
-	
+
 	/**
 	 * Updates the map and the current map view
 	 * TODO Figure out a cleaner way to manage maps
@@ -169,7 +188,7 @@ public class MainController implements Initializable{
 			displayList.put(mapName, d);
 		}
 	}
-	
+
     /**
      * "Zoom" into map by pressing the "+" button
      * TODO scaling cuts off map at a certain point.
@@ -215,7 +234,7 @@ public class MainController implements Initializable{
     			//TODO Add marker on map
     			if (isAddMode && isNodeEditor) {
 	                addNodeDisplay(e.getX(), e.getY());
-	            } 
+	            }
 	    		else if (isEditMode && isNodeEditor){
 	    			if(!nodeQueue.isEmpty()){
 	    				System.out.println("Editing node");
@@ -237,7 +256,7 @@ public class MainController implements Initializable{
     		}
     		//If user double-click
     		else{
-    			
+
     		}
     	});
     	//Listen if editor pane sent out an Add/Edit/Delete event
@@ -263,14 +282,29 @@ public class MainController implements Initializable{
     		else isNodeEditor = false;
     		if(eventName == "EDGE") isEdgeEditor = true;
     		else isEdgeEditor = false;
-    		
+
     	});
-    	
+
     	root.addEventFilter(EditorEvent.DRAW_EDGES, e -> {
-    		if(isEdgeEditor) addEdgeDisplayFromQueue(); 
+    		if(isEdgeEditor) addEdgeDisplayFromQueue();
     	});
     }
-    
+
+    /**
+     * Re-translates whatever object to it's intended place on the map
+     * @param x
+     * @param y
+     */
+    public void move(javafx.scene.Node obj, double x, double y){
+        Bounds localBounds = mapView.getBoundsInLocal();
+        System.out.println("MOVING");
+        System.out.println(localBounds.getMinX() + " " + localBounds.getMinY());
+        System.out.println(localBounds.getMaxX() + " " + localBounds.getMaxY());
+        obj.setTranslateX(x - localBounds.getMaxX() / 2);
+        obj.setTranslateY(y - localBounds.getMaxY() / 2);
+
+    }
+
 	/**
 	 * Add a NodeDisplay using existing Node
 	 * @param nodes
@@ -318,7 +352,7 @@ public class MainController implements Initializable{
 	        mapPane.getChildren().add(newNode);
 	    }
 	}
-	
+
 	/**
 	 * Add a NodeDisplay using coordinates
 	 * Use to add a non-existing NodeDisplay and Node to the display
@@ -342,8 +376,9 @@ public class MainController implements Initializable{
 	    newNode.centerYProperty().addListener(e -> {
 	    	newNode.setTranslateY(newNode.getCenterY());
 	    });
+
 	    newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
-	        
+
 	        if(isDeleteMode && isNodeEditor){
 	        	System.out.println("Node deleted");
 	        	Id id = newNode.getNode();
@@ -357,7 +392,7 @@ public class MainController implements Initializable{
 		        System.out.println(newNode.getCenterX() + " " + newNode.getCenterY());
 		        // Add selected node to selected node queue
 	        }
-	        
+
 	        //TODO stuff regarding info about the node clicked
 	        //if double-clicked
 	        //if in edit mode
@@ -367,17 +402,17 @@ public class MainController implements Initializable{
 	        //	if >2 nodes are selected, then edges will be added in order
 	        //	of selection
 	    });
-	    
+
 	    newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
 	        nodeQueue.remove(newNode);
 	    });
-	    
+
 	    //newNode.visibleProperty().bind(showNodes.selectedProperty());
-	 
+
 	    // Add to the scene
-	    mapPane.getChildren().add(newNode);        
+	    mapPane.getChildren().add(newNode);
 	}
-	
+
 	/**
 	 * Add EdgeDisplays from selected NodeQueue
 	 * Use to add a non-existing EdgeDisplay and Edge to the display
@@ -403,8 +438,8 @@ public class MainController implements Initializable{
 	                System.out.println("a thing broke");
 	                break;
 	            }
-	            
-	            
+
+
 	            Id newEdge = g.addEdgeRint(a.getId(), b.getId());
 	            EdgeDisplay e = new EdgeDisplay(display, newEdge,
 	        			aLocX, aLocY,
@@ -438,11 +473,11 @@ public class MainController implements Initializable{
 		            	e.selectEdge();
 		            	edgeQueue.clear();
 		            	edgeQueue.add(e);
-		            	ControllerMediator cm = ControllerMediator.getInstance();
-		            	cm.viewDisplayItem(e);
+		            	//TODO @jules find a way to display edge information using new controller
+		            	//ControllerMediator cm = ControllerMediator.getInstance();
+		            	//cm.viewDisplayItem(e);
 	            	}
 	            });
-	            
 	            e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
 	            	//do sth;
 	            	edgeQueue.remove(e);
@@ -453,7 +488,7 @@ public class MainController implements Initializable{
 	    	//TODO: Display message in editor that says no nodes are being selected
 	    }
 	}
-	
+
 	/**
 	 * Add an EdgeDisplay using an existing Edge list and Graph
 	 * @param graph
@@ -494,16 +529,17 @@ public class MainController implements Initializable{
             	e.setTranslateY((aLocY.get() + bLocY.get())/2);
             });
             mapPane.getChildren().add(e);
-            
+
             e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
             	System.out.println("Edge selected");
             	e.selectEdge();
             	edgeQueue.clear();
             	edgeQueue.add(e);
-            	ControllerMediator cm = ControllerMediator.getInstance();
-            	cm.viewDisplayItem(e);
+            	//TODO @jules same thing about viewing selected edge
+            	//ControllerMediator cm = ControllerMediator.getInstance();
+            	//cm.viewDisplayItem(e);
             });
-            
+
             e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
             	//do sth;
             	edgeQueue.remove(e);
@@ -523,7 +559,7 @@ public class MainController implements Initializable{
             int idx = 0;
             Vector<Node> nodes = display.getGraph().getNodes();
             //System.out.println(nodes.size());
-            
+
             Path p = new Path(startNode.getNode(), endNode.getNode());
             Graph g = display.getGraph();
             //System.out.println("Size graph " + g.getEdges().size());
@@ -535,12 +571,14 @@ public class MainController implements Initializable{
                 Node b = g.returnNodeById(idList.get(++idx));
                 Coordinate aLoc = a.getCoordinate();
                 Coordinate bLoc = b.getCoordinate();
-                Line l = new Line(aLoc.getX(), aLoc.getY(), 
+                Line l = new Line(aLoc.getX(), aLoc.getY(),
                                   bLoc.getX(), bLoc.getY());
                 l.setStrokeWidth(3.0);
                 l.setTranslateX((aLoc.getX() + bLoc.getX()) / 2);
                 l.setTranslateY((aLoc.getY() + bLoc.getY()) / 2);
-                
+       
+                move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);
+
                 pathPane.getChildren().add(l);
                 pathPane.toFront();
                 pathPane.setMouseTransparent(true);
@@ -550,5 +588,6 @@ public class MainController implements Initializable{
             endNode.fireEvent(selectNodeEvent);
         }
 	}
-	
+
+    
 }

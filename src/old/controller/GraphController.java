@@ -1,10 +1,10 @@
-package edu.wpi.off.by.one.errors.code.controller;
-
-import java.net.URL;
-import java.util.ResourceBundle;
+package old.controller;
 
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class GraphController implements Initializable{
 

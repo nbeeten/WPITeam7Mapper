@@ -1,7 +1,4 @@
-package edu.wpi.off.by.one.errors.code.controller;
-
-import java.net.URL;
-import java.util.ResourceBundle;
+package old.controller;
 
 import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
@@ -10,6 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import old.controller.menucontrollers.menupanecontrollers.ControllerMediator;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class EdgeEditorController implements Initializable {
 	
