@@ -1,20 +1,28 @@
-package edu.wpi.off.by.one.errors.code.controller;
+package old.controller.menucontrollers.menupanecontrollers;
+
+import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
+import edu.wpi.off.by.one.errors.code.model.Display;
+import edu.wpi.off.by.one.errors.code.model.FileIO;
+import edu.wpi.off.by.one.errors.code.model.Map;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import old.controller.MainController;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
-import edu.wpi.off.by.one.errors.code.model.*;
-import javafx.fxml.*;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-
-public class EditorController implements Initializable{
+public class devToolsController implements Initializable{
 	
-	@FXML MainController root;
+	@FXML
+	MainController root;
 	@FXML ToggleGroup ElementEditor;
 	@FXML ToggleGroup DisplayItemEditor;
 	@FXML AnchorPane switchableEditPane;
@@ -69,7 +77,7 @@ public class EditorController implements Initializable{
 		/*
 		 * Listener for if Map/Node/Edge toggle button was selected
 		 * For now, the listener only swaps views in the editor pane
-		 * TODO Fire event to MainController that a display toggle has been selected
+		 * TODO Fire event to MainPane that a display toggle has been selected
 		 */
 		DisplayItemEditor.selectedToggleProperty().addListener(e -> {
 			ToggleButton selected = (ToggleButton) DisplayItemEditor.getSelectedToggle();
@@ -86,7 +94,7 @@ public class EditorController implements Initializable{
 			case "Map":
 				selectedEvent = new EditorEvent(EditorEvent.MAP);
 				try {
-					loader = new FXMLLoader(getClass().getResource(viewDir + "EditorMapView.fxml"));
+					loader = new FXMLLoader(getClass().getResource("../../../view/customcontrols/menupanes/submenupanes/EditorMapView.fxml"));
 					//loader.setController(this);
 					loader.setRoot(switchableEditPane);
 					loader.load();
@@ -100,7 +108,7 @@ public class EditorController implements Initializable{
 			case "Node":
 				selectedEvent = new EditorEvent(EditorEvent.NODE);
 				try {
-					loader = new FXMLLoader(getClass().getResource(viewDir + "EditorNodeView.fxml"));
+					loader = new FXMLLoader(getClass().getResource("../../../view/customcontrols/menupanes/submenupanes/EditorNodeView.fxml"));
 					//loader.setController(this);
 					loader.setRoot(switchableEditPane);
 					loader.load();
@@ -114,7 +122,7 @@ public class EditorController implements Initializable{
 			case "Edge":
 				selectedEvent = new EditorEvent(EditorEvent.EDGE);
 				try {
-					loader = new FXMLLoader(getClass().getResource(viewDir + "EditorEdgeView.fxml"));
+					loader = new FXMLLoader(getClass().getResource("../../../view/customcontrols/menupanes/submenupanes/EditorEdgeView.fxml"));
 					//loader.setController(this);
 					loader.setRoot(switchableEditPane);
 					loader.load();
@@ -135,11 +143,39 @@ public class EditorController implements Initializable{
 	
 	}
 
+
+
+	@FXML
+	private void drawPathDisplay(){
+		ControllerMediator cm = ControllerMediator.getInstance();
+		cm.drawPath();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/*
 	 * Following methods are related to loading/saving displays onto the map
 	 * from the editor pane.
 	 */
-	
+
 	/**
 	 * Loads a new image onto map, with no existing nodes.
 	 */
@@ -162,7 +198,7 @@ public class EditorController implements Initializable{
             cm.updateDisplay(newdisp, "NEW");
         }
 	}
-	
+
 	/**
 	 * Loads new display
 	 */
@@ -181,9 +217,9 @@ public class EditorController implements Initializable{
             System.out.println(inpath);
             cm.updateDisplay(FileIO.load(inpath, newdisp), "NEW");
         }
-        
+
 	}
-	
+
 	/**
 	 * Appends existing graph onto display
 	 */
@@ -202,7 +238,7 @@ public class EditorController implements Initializable{
             System.out.println(inpath);
             cm.updateDisplay(FileIO.load(inpath, currdisp), "APPEND");
         }
-        
+
 	}
 	/**
 	 * Saves current display
@@ -218,12 +254,6 @@ public class EditorController implements Initializable{
         File selectedFile = fileChooser.showSaveDialog(cm.getWindow());
         //selectedFile.getAbsolutePath();
         FileIO.save(selectedFile.getAbsolutePath(), cm.getDisplay());
-	}
-	
-	@FXML
-	private void drawPathDisplay(){
-		ControllerMediator cm = ControllerMediator.getInstance();
-		cm.drawPath();
 	}
 	
 	
