@@ -1,9 +1,11 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.ResourceBundle;
@@ -14,6 +16,8 @@ import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
 import edu.wpi.off.by.one.errors.code.model.*;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -46,8 +50,9 @@ public class MainController implements Initializable{
 	
 	//Where all the images and txt files should be
 	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
-	
+	Bounds localBounds;
 	Display display;												//Current display
+	HashMap<String, Display> displayList;
     Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();	//Selected node queue
     Queue<EdgeDisplay> edgeQueue = new LinkedList<EdgeDisplay>();
     String editItem = "";
@@ -64,18 +69,24 @@ public class MainController implements Initializable{
 		//Register this controller to the mediator
 		ControllerMediator.getInstance().registerMainController(this);
 		System.out.print("Main Controller Initialized.");
+		//Load all displays into application
+		loadDisplays();
+		//Load campus map from display list
+        display = displayList.get("Campus Map");
+		mapPane.getChildren().add(0, pathPane);
+		//Set map image
+        mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
+		mapView.preserveRatioProperty().set(true);
+		//Update local bounds of the map view
+		localBounds = mapView.getBoundsInLocal();
+		//Updates display with nodes/edges
+		updateDisplay(display.getGraph());
 		
-		//Set up new display
-		//TODO Make it so that the map preloads a display
-		display = new Display();
-        mapPane.getChildren().add(0, pathPane);
 		// center the mapScrollPane contents.
         mapScrollPane.setHvalue(mapScrollPane.getHmin() + (mapScrollPane.getHmax() - mapScrollPane.getHmin()) / 2);
         mapScrollPane.setVvalue(mapScrollPane.getVmin() + (mapScrollPane.getVmax() - mapScrollPane.getVmin()) / 2);
 		
-		Image map = new Image(resourceDir + "campusmap.png");
-        mapView.setImage(map);
-		mapView.preserveRatioProperty().set(true);
+        //Setup event listeners for map
         setListeners();
         
 	}
@@ -89,18 +100,37 @@ public class MainController implements Initializable{
 	}
 	
 	/**
+	 * External updater
 	 * Updates current display to show or append a new graph/map
 	 * @param newdisplay New/Updated Display
 	 * @param option Additional options to clear first or append onto current
 	 */
 	public void updateDisplay(Display newdisplay, String option){
+		// If the option is to clear the map first, do so
+		// otherwise, keep current content and just append
 		if(option.equals("NEW")){
 			mapPane.getChildren().clear();
-            mapPane.getChildren().addAll(mapView);
+            mapPane.getChildren().addAll(pathPane, mapView);
+            localBounds = mapView.getBoundsInLocal();
 		}
+		String mapName = newdisplay.getMap().getName();
+		if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
+		//Put the new display into the display list. Replace current if it already exists
+		displayList.put(mapName, newdisplay);
+		//Current display is now the new one
 		this.display = newdisplay;
 		Graph g = newdisplay.getGraph();
+		//Update the current map image
 		updateMap(newdisplay.getMap());
+		//Draw new points onto map
+		updateDisplay(g);
+	}
+	/**
+	 * Internal updater/Helper function
+	 * Draw all nodes and edges on map of a graph
+	 * @param g 
+	 */
+	private void updateDisplay(Graph g){
 		addNodeDisplayFromList(g.getNodes());
 		addEdgeDisplayFromList(g, g.getEdges());
 	}
@@ -113,8 +143,31 @@ public class MainController implements Initializable{
 	private void updateMap(Map newmap){
 		mapView.setImage(new Image(resourceDir + newmap.getImgUrl()));
 		if(newmap.getImgUrl() != display.getMap().getImgUrl()){
-            mapView.setImage(new Image(resourceDir + newmap.getImgUrl()));
+            mapView.setImage(new Image(resourceDir + "maps/images/" +  newmap.getImgUrl()));
         }
+	}
+	
+	/**
+	 * Preloads all the txt files in resources package and
+	 * stores them as display objects
+	 */
+	private void loadDisplays(){
+		
+		displayList = new HashMap<String, Display>();
+		// TODO the best way to do this is to look at a folder in the resources directory that holds all the txt files
+		// get each file name, and then store them in a string array. Then begin to load the display objects into a Hash
+		String[] fileNames = {"fullCampusMap", "projCenterFloorOne", "projCenterFloorTwo3"};
+		//This should be done in FileIO...?
+		File resources = new File("src" + resourceDir + "maps/txtfiles");
+		String[] lof = resources.list();
+		System.out.println(lof);
+		for(String file : lof){
+			String path = "src" + resourceDir + "maps/txtfiles/" + file;
+			Display d = FileIO.load(path, null);
+			String mapName = d.getMap().getName();
+			if(mapName == null) mapName = file;
+			displayList.put(mapName, d);
+		}
 	}
 	
     /**
@@ -146,9 +199,17 @@ public class MainController implements Initializable{
     	mapPane.setScaleX(mapPane.getScaleX() * 0.9);
     }
     
+    /**
+     * Sets up event listener functions for whenever user does something on the mapPane/mapView
+     * 
+     * TODO If user is in developer mode
+     * 		* NODE: left click to add, right click to delete
+     * 		* EDGE: right click to delete
+     * 
+     */
     private void setListeners(){
     	// Listen to when the user clicks on the map
-    	mapPane.setOnMouseClicked(e -> {
+    	mapView.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
     			//TODO Add marker on map
@@ -159,7 +220,14 @@ public class MainController implements Initializable{
 	    			if(!nodeQueue.isEmpty()){
 	    				System.out.println("Editing node");
 	    				NodeDisplay n = nodeQueue.poll();
-	    				move(n, e.getX(), e.getY());
+	    				Graph g = display.getGraph();
+	    				//Coordinate currentCoord = g.returnNodeById(n.getNode()).getCoordinate();
+	    				//Matrix transform = new Matrix(currentCoord);
+	    				//Coordinate newCoord = transform.transform(new Coordinate((float) e.getX(), (float) e.getY()));
+	    				//n.setCenterX(newCoord.getX());
+	    				//n.setCenterY(newCoord.getY());
+	    				n.setCenterX(e.getX() - localBounds.getMaxX()/2);
+	    				n.setCenterY(e.getY() - localBounds.getMaxY()/2);
 	    				display.getGraph().editNode(n.getNode(),
 	    						new Coordinate((float) e.getX(), (float)e.getY()));
 	    				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
@@ -173,6 +241,7 @@ public class MainController implements Initializable{
     		}
     	});
     	//Listen if editor pane sent out an Add/Edit/Delete event
+    	//TODO remove later to work with new way
     	root.addEventFilter(EditorEvent.EDIT_ELEMENT, e -> {
     		String eventName = e.getEventType().getName();
     		if(eventName == "ADD") isAddMode = true;
@@ -185,6 +254,7 @@ public class MainController implements Initializable{
     	});
     	//Listen if editor pane sent out an Map/Node/Edge event
     	//TODO do something with it. right now it only gets the name
+    	//		remove later to work with new way
     	root.addEventFilter(EditorEvent.DISPLAY_ITEM, e -> {
     		String eventName = e.getEventType().getName();
     		if(eventName == "MAP") isMapEditor = true;
@@ -201,21 +271,6 @@ public class MainController implements Initializable{
     	});
     }
     
-    /**
-     * Re-translates whatever object to it's intended place on the map
-     * @param x
-     * @param y
-     */
-    public void move(javafx.scene.Node obj, double x, double y){
-        Bounds localBounds = mapView.getBoundsInLocal();
-        System.out.println("MOVING");
-        System.out.println(localBounds.getMinX() + " " + localBounds.getMinY());
-        System.out.println(localBounds.getMaxX() + " " + localBounds.getMaxY());
-        obj.setTranslateX(x - localBounds.getMaxX() / 2);
-        obj.setTranslateY(y - localBounds.getMaxY() / 2);
-        
-    }
-    
 	/**
 	 * Add a NodeDisplay using existing Node
 	 * @param nodes
@@ -224,20 +279,43 @@ public class MainController implements Initializable{
 		Node[] nodeArr = new Node[nodes.size()];
 		nodes.toArray(nodeArr); // To avoid ConcurrentModificationException
 		for(Node n : nodeArr){
-			NodeDisplay nd = new NodeDisplay(display, n.getId());
-	        Coordinate c = n.getCoordinate();
-	        move(nd, c.getX(), c.getY());
-	        
-	        nd.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
-	            System.out.println("Node Selected");
-	            nd.selectNode();
-	            nodeQueue.add(nd);
+			Coordinate c = n.getCoordinate();
+			//addNodeDisplay(c.getX(), c.getY());
+			
+			double tx = c.getX() - localBounds.getMaxX()/2;
+			double ty = c.getY() - localBounds.getMaxY()/2;
+			
+			NodeDisplay newNode = new NodeDisplay(display, n.getId(),
+					new SimpleDoubleProperty(tx), 
+					new SimpleDoubleProperty(ty),
+					new SimpleDoubleProperty(0));
+			newNode.setTranslateX(tx);
+			newNode.setTranslateY(ty);
+		    newNode.centerXProperty().addListener(e -> {
+		    	newNode.setTranslateX(newNode.getCenterX());
+		    });
+		    newNode.centerYProperty().addListener(e -> {
+		    	newNode.setTranslateY(newNode.getCenterY());
+		    });
+	        newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
+	            if(isDeleteMode && isNodeEditor){
+		        	System.out.println("Node deleted");
+		        	Id id = newNode.getNode();
+		        	display.getGraph().deleteNode(id);
+		        	mapPane.getChildren().remove(newNode);
+		        	System.out.println(display.getGraph().getNodes().size());
+		        } else {
+		        	System.out.println("Node Selected");
+		        	newNode.selectNode();
+			        nodeQueue.add(newNode);
+			        // Add selected node to selected node queue
+		        }
 	        });
 	        
-	        nd.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
-	            nodeQueue.remove(nd);
+	        newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
+	            nodeQueue.remove(newNode);
 	        });
-	        mapPane.getChildren().add(nd);
+	        mapPane.getChildren().add(newNode);
 	    }
 	}
 	
@@ -249,10 +327,21 @@ public class MainController implements Initializable{
 	 */
 	void addNodeDisplay(double x, double y){
 		System.out.println("Added Node");
+		double tx = x - (localBounds.getMaxX() / 2);
+        double ty = y - (localBounds.getMaxY() / 2);
 		
-		NodeDisplay newNode = new NodeDisplay(display, x, y, 0);
-	    move(newNode, x, y);
-	    
+		NodeDisplay newNode = new NodeDisplay(display, 
+				new SimpleDoubleProperty(tx), 
+				new SimpleDoubleProperty(ty),
+				new SimpleDoubleProperty(0));
+		newNode.setTranslateX(tx);
+		newNode.setTranslateY(ty);
+	    newNode.centerXProperty().addListener(e -> {
+	    	newNode.setTranslateX(newNode.getCenterX());
+	    });
+	    newNode.centerYProperty().addListener(e -> {
+	    	newNode.setTranslateY(newNode.getCenterY());
+	    });
 	    newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
 	        
 	        if(isDeleteMode && isNodeEditor){
@@ -265,6 +354,7 @@ public class MainController implements Initializable{
 	        	System.out.println("Node Selected");
 	        	newNode.selectNode();
 		        nodeQueue.add(newNode);
+		        System.out.println(newNode.getCenterX() + " " + newNode.getCenterY());
 		        // Add selected node to selected node queue
 	        }
 	        
@@ -297,15 +387,17 @@ public class MainController implements Initializable{
 	    if(!nodeQueue.isEmpty()){
 	        //System.out.println(nodeQueue.size());
 	        while(nodeQueue.size() > 1){
-	            NodeDisplay n = nodeQueue.poll();
+	            NodeDisplay aND = nodeQueue.poll();
+	            NodeDisplay bND = nodeQueue.peek();
 	            Graph g = display.getGraph();
-	            Node a = g.returnNodeById(n.getNode());
-	            Node b = g.returnNodeById(nodeQueue.peek().getNode());
-	            Coordinate aLoc;
-	            Coordinate bLoc;
+	            Node a = g.returnNodeById(aND.getNode());
+	            Node b = g.returnNodeById(bND.getNode());
+	            DoubleProperty aLocX, aLocY, bLocX, bLocY;
 	            try{
-	                aLoc = a.getCoordinate();
-	                bLoc = b.getCoordinate();
+	            	aLocX = aND.centerXProperty();
+	                aLocY = aND.centerYProperty();
+	                bLocX = bND.centerXProperty();
+	                bLocY = bND.centerYProperty();
 	            }
 	            catch(NullPointerException exception){
 	                System.out.println("a thing broke");
@@ -315,23 +407,45 @@ public class MainController implements Initializable{
 	            
 	            Id newEdge = g.addEdgeRint(a.getId(), b.getId());
 	            EdgeDisplay e = new EdgeDisplay(display, newEdge,
-	        			aLoc.getX(), aLoc.getY(),
-	                    bLoc.getX(), bLoc.getY());
+	        			aLocX, aLocY,
+	                    bLocX, bLocY);
 	            e.setStroke(Color.BLUE);
-	            move(e, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
+	            e.setTranslateX((aLocX.get() + bLocX.get())/2);
+	            e.setTranslateY((aLocY.get() + bLocY.get())/2);
+	            e.startXProperty().addListener(ev -> {
+	            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
+	            });
+	            e.startYProperty().addListener(ev -> {
+	            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
+	            });
+	            e.endXProperty().addListener(ev -> {
+	            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
+	            });
+	            e.endYProperty().addListener(ev -> {
+	            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
+	            });
 	            mapPane.getChildren().add(e);
-	            n.fireEvent(selectNodeEvent);
+	            aND.fireEvent(selectNodeEvent);
 	            
 	            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
-	            	System.out.println("Edge selected");
-	            	e.selectEdge();
-	            	ControllerMediator cm = ControllerMediator.getInstance();
-	            	cm.viewDisplayItem(e);
+	            	if(isDeleteMode && isEdgeEditor){
+	            		System.out.println("Edge deleted");
+	    	        	Id id = e.getEdge();
+	    	        	display.getGraph().deleteEdge(id);
+	    	        	mapPane.getChildren().remove(e);
+	            	} else {
+	            		System.out.println("Edge selected");
+		            	e.selectEdge();
+		            	edgeQueue.clear();
+		            	edgeQueue.add(e);
+		            	ControllerMediator cm = ControllerMediator.getInstance();
+		            	cm.viewDisplayItem(e);
+	            	}
 	            });
 	            
 	            e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
 	            	//do sth;
-	            	
+	            	edgeQueue.remove(e);
 	            });
 	        }
 	        nodeQueue.remove().fireEvent(selectNodeEvent);;
@@ -355,27 +469,51 @@ public class MainController implements Initializable{
 	        Node b = graph.returnNodeById(bID);
 	        Coordinate aLoc = a.getCoordinate();
 	        Coordinate bLoc = b.getCoordinate();
+	        DoubleProperty aLocX, aLocY, bLocX, bLocY;
+	        aLocX = new SimpleDoubleProperty(aLoc.getX() - localBounds.getMaxX()/2);
+	        aLocY = new SimpleDoubleProperty(aLoc.getY() - localBounds.getMaxY()/2);
+	        bLocX = new SimpleDoubleProperty(bLoc.getX() - localBounds.getMaxX()/2);
+	        bLocY = new SimpleDoubleProperty(bLoc.getY() - localBounds.getMaxY()/2);
 	        //System.out.println("Edge size" + g.getEdges().size());
-        	EdgeDisplay e = new EdgeDisplay(display, aID, bID,
-        			aLoc.getX(), aLoc.getY(),
-                    bLoc.getX(), bLoc.getY());
+	        EdgeDisplay e = new EdgeDisplay(display, aID, bID,
+	        		aLocX, aLocY, bLocX, bLocY);
+            
             e.setStroke(Color.BLUE);
-            move(e, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);;
+            e.setTranslateX((aLocX.get() + bLocX.get())/2);
+            e.setTranslateY((aLocY.get() + bLocY.get())/2);
+            e.startXProperty().addListener(ev -> {
+            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
+            });
+            e.startYProperty().addListener(ev -> {
+            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
+            });
+            e.endXProperty().addListener(ev -> {
+            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
+            });
+            e.endYProperty().addListener(ev -> {
+            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
+            });
             mapPane.getChildren().add(e);
             
             e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
             	System.out.println("Edge selected");
             	e.selectEdge();
+            	edgeQueue.clear();
+            	edgeQueue.add(e);
             	ControllerMediator cm = ControllerMediator.getInstance();
             	cm.viewDisplayItem(e);
             });
             
             e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
             	//do sth;
+            	edgeQueue.remove(e);
             });
+     
 	    }
 	}
-    
+    /**
+     * Draws a path from the last two selected nodes
+     */
 	public void drawPath(){
 		pathPane.getChildren().clear();
         NodeDisplay startNode = nodeQueue.poll();
@@ -400,7 +538,8 @@ public class MainController implements Initializable{
                 Line l = new Line(aLoc.getX(), aLoc.getY(), 
                                   bLoc.getX(), bLoc.getY());
                 l.setStrokeWidth(3.0);
-                move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);
+                l.setTranslateX((aLoc.getX() + bLoc.getX()) / 2);
+                l.setTranslateY((aLoc.getY() + bLoc.getY()) / 2);
                 
                 pathPane.getChildren().add(l);
                 pathPane.toFront();

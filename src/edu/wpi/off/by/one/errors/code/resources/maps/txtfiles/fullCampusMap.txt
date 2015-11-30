@@ -441,4 +441,4 @@ e 200 199
 e 186 200
 e 201 176
 e 176 180
-m campusmap.png 0.0 0.0 0.0 0.0 0.0
+m campusmap.png 0.0 0.0 0.0 0.0 0.0 Campus_Map
