@@ -1,7 +1,14 @@
-package edu.wpi.off.by.one.errors.code.controller;
+package old.controller.menucontrollers.menupanecontrollers;
 
+import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
+import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.model.Display;
 import javafx.stage.Stage;
+import old.controller.EdgeEditorController;
+import old.controller.IMediateControllers;
+import old.controller.MainController;
+import old.controller.NodeEditorController;
+
 /**
  * 
  * Connects all the controller classes together (and additional fx items) and safely calls one from another
@@ -12,18 +19,24 @@ import javafx.stage.Stage;
  * and variable
  *
  */
-public class ControllerMediator implements IMediateControllers{
+public class ControllerMediator implements IMediateControllers {
 	private Stage window;
-	private EditorController ec;
+	private devToolsController ec;
 	private MainController mc;
+	private EdgeEditorController eec;
+	private NodeEditorController nec;
 	@Override
-	public void registerEditorController(EditorController ec) {
+	public void registerEditorController(devToolsController ec) {
 		this.ec = ec;
 	}
 
 	@Override
 	public void registerMainController(MainController mc) {
 		this.mc = mc;
+	}
+	
+	public void registerEdgeEditorController(EdgeEditorController eec) {
+		this.eec = eec;	
 	}
 	
 	public void registerWindow(Stage window) {
@@ -37,19 +50,31 @@ public class ControllerMediator implements IMediateControllers{
 		return this.window;
 	}
 	/**
-	 * Gets current display from MainController
+	 * Gets current display from MainPane
 	 * @return
 	 */
 	Display getDisplay(){
 		return this.mc.getDisplay();
 	}
 	/**
-	 * Updates current display from MainController
+	 * Updates current display from MainPane
 	 * @param d	new display
 	 * @param o options to clear/append
 	 */
 	void updateDisplay(Display d, String o){
 		this.mc.updateDisplay(d, o);
+	}
+	
+	void viewDisplayItem(NodeDisplay nd){
+		if(this.nec != null) this.nec.updateNodeInfo(nd);
+	}
+	
+	void viewDisplayItem(EdgeDisplay ed){
+		if(this.eec != null) this.eec.updateEdgeInfo(ed);
+	}
+	
+	void drawPath(){
+		this.mc.drawPath();
 	}
 	
 	private ControllerMediator(){}
@@ -66,5 +91,6 @@ public class ControllerMediator implements IMediateControllers{
 	private static class ControllerMediatorHolder{
 		private static final ControllerMediator INSTANCE = new ControllerMediator();
 	}
+	
 
 }
