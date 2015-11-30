@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 package old.controller;
 //package edu.wpi.off.by.one.errors.code.controller;
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+package edu.wpi.off.by.one.errors.code.controller;
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 
 import java.io.File;
 import java.lang.reflect.Array;
@@ -11,16 +16,31 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.Vector;
+<<<<<<< HEAD
 //package old.controller;
+=======
+=======
+package old.controller;
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 
 import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
 import edu.wpi.off.by.one.errors.code.model.*;
+<<<<<<< HEAD
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.*;
 import edu.wpi.off.by.one.errors.code.model.Map;
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+=======
+import edu.wpi.off.by.one.errors.code.model.Map;
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,9 +81,21 @@ public class MainController implements Initializable{
 
 	//Where all the images and txt files should be
 	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
+<<<<<<< HEAD
 	Bounds localBounds;
 	Display display;												//Current display
 	HashMap<String, Display> displayList;
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+	Bounds localBounds;
+	Display display;												//Current display
+	HashMap<String, Display> displayList;
+=======
+
+	Display display;												//Current display
+
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
     Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();	//Selected node queue
     Queue<EdgeDisplay> edgeQueue = new LinkedList<EdgeDisplay>();
     String editItem = "";
@@ -79,6 +111,10 @@ public class MainController implements Initializable{
 		//Register this controller to the mediator
 		ControllerMediator.getInstance().registerMainController(this);
 		System.out.print("Main Controller Initialized.");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 		//Load all displays into application
 		loadDisplays();
 		//Load campus map from display list
@@ -98,6 +134,28 @@ public class MainController implements Initializable{
 		
         //Setup event listeners for map
         setListeners();
+<<<<<<< HEAD
+=======
+        
+=======
+
+		//Set up new display
+		//TODO Make it so that the map preloads a display
+		display = new Display();
+
+        mapPane.getChildren().add(0, pathPane);
+
+		// center the mapScrollPane contents.
+		mapScrollPane.setHvalue(mapScrollPane.getHmin() + (mapScrollPane.getHmax() - mapScrollPane.getHmin()) / 2);
+		mapScrollPane.setVvalue(mapScrollPane.getVmin() + (mapScrollPane.getVmax() - mapScrollPane.getVmin()) / 2);
+
+		Image map = new Image(resourceDir + "campusmap.png");
+		mapView.setImage(map);
+		mapView.preserveRatioProperty().set(true);
+		setListeners();
+
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 	}
 
 	/**
@@ -119,9 +177,18 @@ public class MainController implements Initializable{
 		// otherwise, keep current content and just append
 		if(option.equals("NEW")){
 			mapPane.getChildren().clear();
+<<<<<<< HEAD
             mapPane.getChildren().addAll(pathPane, mapView);
             localBounds = mapView.getBoundsInLocal();
 			mapPane.getChildren().addAll(mapView);
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+            mapPane.getChildren().addAll(pathPane, mapView);
+            localBounds = mapView.getBoundsInLocal();
+=======
+			mapPane.getChildren().addAll(mapView);
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 		}
 		String mapName = newdisplay.getMap().getName();
 		if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
@@ -153,6 +220,10 @@ public class MainController implements Initializable{
 	private void updateMap(Map newmap){
 		mapView.setImage(new Image(resourceDir + newmap.getImgUrl()));
 		if(newmap.getImgUrl() != display.getMap().getImgUrl()){
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
             mapView.setImage(new Image(resourceDir + "maps/images/" +  newmap.getImgUrl()));
         }
 	}
@@ -179,7 +250,17 @@ public class MainController implements Initializable{
 			displayList.put(mapName, d);
 		}
 	}
+<<<<<<< HEAD
 
+=======
+	
+=======
+			mapView.setImage(new Image(resourceDir + newmap.getImgUrl()));
+		}
+	}
+
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
     /**
      * "Zoom" into map by pressing the "+" button
      * TODO scaling cuts off map at a certain point.
@@ -208,6 +289,10 @@ public class MainController implements Initializable{
     	mapPane.setScaleY(mapPane.getScaleY() * 0.9);
     	mapPane.setScaleX(mapPane.getScaleX() * 0.9);
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
     
     /**
      * Sets up event listener functions for whenever user does something on the mapPane/mapView
@@ -217,6 +302,12 @@ public class MainController implements Initializable{
      * 		* EDGE: right click to delete
      * 
      */
+<<<<<<< HEAD
+=======
+=======
+
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
     private void setListeners(){
     	// Listen to when the user clicks on the map
     	mapView.setOnMouseClicked(e -> {
@@ -280,6 +371,12 @@ public class MainController implements Initializable{
     		if(isEdgeEditor) addEdgeDisplayFromQueue();
     	});
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+    
+=======
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 
     /**
      * Re-translates whatever object to it's intended place on the map
@@ -296,6 +393,10 @@ public class MainController implements Initializable{
 
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 	/**
 	 * Add a NodeDisplay using existing Node
 	 * @param nodes
@@ -304,6 +405,10 @@ public class MainController implements Initializable{
 		Node[] nodeArr = new Node[nodes.size()];
 		nodes.toArray(nodeArr); // To avoid ConcurrentModificationException
 		for(Node n : nodeArr){
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 			Coordinate c = n.getCoordinate();
 			//addNodeDisplay(c.getX(), c.getY());
 			
@@ -342,6 +447,26 @@ public class MainController implements Initializable{
 	        });
 	        mapPane.getChildren().add(newNode);
 	    }
+<<<<<<< HEAD
+=======
+=======
+			NodeDisplay nd = new NodeDisplay(display, n.getId());
+			Coordinate c = n.getCoordinate();
+			move(nd, c.getX(), c.getY());
+
+			nd.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
+				System.out.println("Node Selected");
+				nd.selectNode();
+				nodeQueue.add(nd);
+			});
+
+			nd.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
+				nodeQueue.remove(nd);
+			});
+			mapPane.getChildren().add(nd);
+		}
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 	}
 
 	/**
@@ -352,6 +477,10 @@ public class MainController implements Initializable{
 	 */
 	void addNodeDisplay(double x, double y){
 		System.out.println("Added Node");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 		double tx = x - (localBounds.getMaxX() / 2);
         double ty = y - (localBounds.getMaxY() / 2);
 		
@@ -367,7 +496,17 @@ public class MainController implements Initializable{
 	    newNode.centerYProperty().addListener(e -> {
 	    	newNode.setTranslateY(newNode.getCenterY());
 	    });
+<<<<<<< HEAD
 
+=======
+=======
+
+		NodeDisplay newNode = new NodeDisplay(display, x, y, 0);
+
+	    move(newNode, x, y);
+
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 	    newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
 
 	        if(isDeleteMode && isNodeEditor){
@@ -451,6 +590,10 @@ public class MainController implements Initializable{
 	            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
 	            });
 	            mapPane.getChildren().add(e);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 	            aND.fireEvent(selectNodeEvent);
 	            
 	            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
@@ -467,10 +610,30 @@ public class MainController implements Initializable{
 		            	ControllerMediator cm = ControllerMediator.getInstance();
 		            	cm.viewDisplayItem(e);
 	            	}
+<<<<<<< HEAD
+=======
+=======
+	            n.fireEvent(selectNodeEvent);
+
+	            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
+	            	System.out.println("Edge selected");
+	            	e.selectEdge();
+	            	ControllerMediator cm = ControllerMediator.getInstance();
+	            	//cm.viewDisplayItem(e);
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 	            });
 	            e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
 	            	//do sth;
+<<<<<<< HEAD
 	            	edgeQueue.remove(e);
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+	            	edgeQueue.remove(e);
+=======
+
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 	            });
 	        }
 	        nodeQueue.remove().fireEvent(selectNodeEvent);;
@@ -536,9 +699,19 @@ public class MainController implements Initializable{
      
 	    }
 	}
+<<<<<<< HEAD
     /**
      * Draws a path from the last two selected nodes
      */
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+    /**
+     * Draws a path from the last two selected nodes
+     */
+=======
+
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
 	public void drawPath(){
 		pathPane.getChildren().clear();
         NodeDisplay startNode = nodeQueue.poll();
@@ -563,11 +736,22 @@ public class MainController implements Initializable{
                 Line l = new Line(aLoc.getX(), aLoc.getY(),
                                   bLoc.getX(), bLoc.getY());
                 l.setStrokeWidth(3.0);
+<<<<<<< HEAD
                 l.setTranslateX((aLoc.getX() + bLoc.getX()) / 2);
                 l.setTranslateY((aLoc.getY() + bLoc.getY()) / 2);
        
                 move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);
 
+=======
+<<<<<<< HEAD:src/edu/wpi/off/by/one/errors/code/controller/MainController.java
+                l.setTranslateX((aLoc.getX() + bLoc.getX()) / 2);
+                l.setTranslateY((aLoc.getY() + bLoc.getY()) / 2);
+                
+=======
+                move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);
+
+>>>>>>> 887e93653077ab7a1558473fa8bdf42a3c8a1045:src/old/controller/MainController.java
+>>>>>>> 47f75507625dfb7d7b4faefdb9cd965584256d6a
                 pathPane.getChildren().add(l);
                 pathPane.toFront();
                 pathPane.setMouseTransparent(true);
