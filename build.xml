@@ -63,16 +63,6 @@
             <classpath refid="Team7Mapper.classpath"/>
         </javac>
     </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-        <copy todir="${ant.library.dir}">
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </copy>
-        <unzip dest="${ant.library.dir}">
-            <patternset includes="jdtCompilerAdapter.jar"/>
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </unzip>
-    </target>
     <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
@@ -81,5 +71,13 @@
         <java classname="edu.wpi.off.by.one.errors.code.Main" failonerror="true" fork="yes">
             <classpath refid="Team7Mapper.classpath"/>
         </java>
+    </target>
+    <target name="test">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.wpi.off.by.one.errors.code.Test" todir="${junit.output.dir}"/>
+            <classpath refid="Team7Mapper.classpath"/>
+        </junit>
     </target>
 </project>
