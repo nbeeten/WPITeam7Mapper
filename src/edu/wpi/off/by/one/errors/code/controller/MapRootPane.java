@@ -356,6 +356,8 @@ public class MapRootPane extends AnchorPane{
 	        	g.deleteNode(id);
 	        	mapPane.getChildren().remove(newNode);
 	        	//remove edge display as well
+	        	//right now this throws nullpointerexception.
+	        	//updateDisplay(this.display, "NEW");
 	        	//mapPane.getChildren().remove();
 	        });
 	        mapPane.getChildren().add(newNode);
@@ -513,11 +515,17 @@ public class MapRootPane extends AnchorPane{
 		Edge[] edgeArr = new Edge[edges.size()];
 		edges.toArray(edgeArr); // To avoid ConcurrentModificationException
 	    for(Edge edge : edgeArr){
-	    	Id aID = edge.getNodeA();
-	    	Id bID = edge.getNodeB();
+	    	Id aID, bID;
+	    	try{
+	    		aID = edge.getNodeA();
+		    	bID = edge.getNodeB();
+	    	} catch (NullPointerException e){
+	    		graph.deleteEdge(edge.getId());
+	    		continue;
+	    	}
 	    	Node a = graph.returnNodeById(aID);
 	        Node b = graph.returnNodeById(bID);
-	        Coordinate aLoc = a.getCoordinate();
+	    	Coordinate aLoc = a.getCoordinate();
 	        Coordinate bLoc = b.getCoordinate();
 	        DoubleProperty aLocX, aLocY, bLocX, bLocY;
 	        aLocX = new SimpleDoubleProperty(aLoc.getX() - localBounds.getMaxX()/2);
