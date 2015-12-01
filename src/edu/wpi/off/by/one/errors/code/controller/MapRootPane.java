@@ -356,6 +356,8 @@ public class MapRootPane extends AnchorPane{
 	        	g.deleteNode(id);
 	        	mapPane.getChildren().remove(newNode);
 	        	//remove edge display as well
+	        	//right now this throws nullpointerexception.
+	        	//updateDisplay(this.display, "NEW");
 	        	//mapPane.getChildren().remove();
 	        });
 	        mapPane.getChildren().add(newNode);
@@ -513,58 +515,64 @@ public class MapRootPane extends AnchorPane{
 		Edge[] edgeArr = new Edge[edges.size()];
 		edges.toArray(edgeArr); // To avoid ConcurrentModificationException
 	    for(Edge edge : edgeArr){
-	    	Id aID = edge.getNodeA();
-	    	Id bID = edge.getNodeB();
-	    	Node a = graph.returnNodeById(aID);
-	        Node b = graph.returnNodeById(bID);
-	        Coordinate aLoc = a.getCoordinate();
-	        Coordinate bLoc = b.getCoordinate();
-	        DoubleProperty aLocX, aLocY, bLocX, bLocY;
-	        aLocX = new SimpleDoubleProperty(aLoc.getX() - localBounds.getMaxX()/2);
-	        aLocY = new SimpleDoubleProperty(aLoc.getY() - localBounds.getMaxY()/2);
-	        bLocX = new SimpleDoubleProperty(bLoc.getX() - localBounds.getMaxX()/2);
-	        bLocY = new SimpleDoubleProperty(bLoc.getY() - localBounds.getMaxY()/2);
-	        //System.out.println("Edge size" + g.getEdges().size());
-	        EdgeDisplay e = new EdgeDisplay(display, aID, bID,
-	        		aLocX, aLocY, bLocX, bLocY);
-            
-            e.setStroke(Color.BLUE);
-            e.setTranslateX((aLocX.get() + bLocX.get())/2);
-            e.setTranslateY((aLocY.get() + bLocY.get())/2);
-            e.startXProperty().addListener(ev -> {
-            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
-            });
-            e.startYProperty().addListener(ev -> {
-            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
-            });
-            e.endXProperty().addListener(ev -> {
-            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
-            });
-            e.endYProperty().addListener(ev -> {
-            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
-            });
-            mapPane.getChildren().add(e);
+	    	try{
+	    		Id aID = edge.getNodeA();
+		    	Id bID = edge.getNodeB();
+		    	Node a = graph.returnNodeById(aID);
+		        Node b = graph.returnNodeById(bID);
+		        Coordinate aLoc = a.getCoordinate();
+		        Coordinate bLoc = b.getCoordinate();
+		        DoubleProperty aLocX, aLocY, bLocX, bLocY;
+		        aLocX = new SimpleDoubleProperty(aLoc.getX() - localBounds.getMaxX()/2);
+		        aLocY = new SimpleDoubleProperty(aLoc.getY() - localBounds.getMaxY()/2);
+		        bLocX = new SimpleDoubleProperty(bLoc.getX() - localBounds.getMaxX()/2);
+		        bLocY = new SimpleDoubleProperty(bLoc.getY() - localBounds.getMaxY()/2);
+		        //System.out.println("Edge size" + g.getEdges().size());
+		        EdgeDisplay e = new EdgeDisplay(display, aID, bID,
+		        		aLocX, aLocY, bLocX, bLocY);
+	            
+	            e.setStroke(Color.BLUE);
+	            e.setTranslateX((aLocX.get() + bLocX.get())/2);
+	            e.setTranslateY((aLocY.get() + bLocY.get())/2);
+	            e.startXProperty().addListener(ev -> {
+	            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
+	            });
+	            e.startYProperty().addListener(ev -> {
+	            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
+	            });
+	            e.endXProperty().addListener(ev -> {
+	            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
+	            });
+	            e.endYProperty().addListener(ev -> {
+	            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
+	            });
+	            mapPane.getChildren().add(e);
 
-            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
-            	System.out.println("Edge selected");
-            	e.selectEdge();
-            	edgeQueue.clear();
-            	edgeQueue.add(e);
-            	//TODO @jules same thing about viewing selected edge
-            	//ControllerMediator cm = ControllerMediator.getInstance();
-            	//cm.viewDisplayItem(e);
-            });
+	            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
+	            	System.out.println("Edge selected");
+	            	e.selectEdge();
+	            	edgeQueue.clear();
+	            	edgeQueue.add(e);
+	            	//TODO @jules same thing about viewing selected edge
+	            	//ControllerMediator cm = ControllerMediator.getInstance();
+	            	//cm.viewDisplayItem(e);
+	            });
 
-            e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
-            	//do sth;
-            	edgeQueue.remove(e);
-            });
-            
-            e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
-            	mapPane.getChildren().remove(e);
-            	display.getGraph().deleteEdge(e.getEdge());
-            });
-     
+	            e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
+	            	//do sth;
+	            	edgeQueue.remove(e);
+	            	System.out.println("Hello");
+	            });
+	            
+	            e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
+	            	mapPane.getChildren().remove(e);
+	            	display.getGraph().deleteEdge(e.getEdge());
+	            });
+	
+	    		
+	    	} catch (NullPointerException e){
+	    		
+	    	}
 	    }
 	}
     /**
