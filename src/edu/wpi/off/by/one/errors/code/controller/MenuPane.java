@@ -23,15 +23,13 @@ public class MenuPane extends HBox {
 
     @FXML
     private AnchorPane detailsMenuContainerAnchorPane;
-<<<<<<< HEAD
+    
     @FXML SearchMenuPane searchMenuPane;
     @FXML DirectionsMenuPane directionsMenuPane;
     @FXML FavoritesMenuPane favoritesMenuPane;
     @FXML DevToolsMenuPane devToolsMenuPane;
     @FXML SettingsMenuPane settingsMenuPane;
     @FXML HelpMenuPane helpMenuPane;
-    
-=======
 
     //Menu RadioButton
     @FXML private RadioButton searchMenuRadioButton;
@@ -41,10 +39,6 @@ public class MenuPane extends HBox {
     @FXML private RadioButton settingsMenuRadioButton;
     @FXML private RadioButton helpMenuRadioButton;
 
-
-    @FXML
-    private SearchMenuPane searchMenuPane;
->>>>>>> 819bc1b0ce805493dffb939883c6b822de82ff0a
     //endregion
 
     //region Constructors
