@@ -15,7 +15,7 @@
     </path>
     <path id="JUnit 4.libraryclasspath">
         <pathelement location="lib/junit.jar"/>  
-18   - <pathelement location="lib/hamcrest-core-1.3.jar"/>  
+        <pathelement location="lib/hamcrest-core-1.3.jar"/>  
     </path>
     <path id="Team7Mapper.classpath">
         <pathelement location="bin"/>
