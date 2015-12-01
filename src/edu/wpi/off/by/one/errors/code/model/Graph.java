@@ -200,7 +200,44 @@ public class Graph {
 	public void editEdge(){//edits an edge on the list
 		//TODO: add functionality after we decide exactly what this should do
 	}
-	
+	/*
+		Returns the nearest node to a point on the map
+		unoptimized, linear search through all nodes, can optimize later with an acceleration structure or sorted node list
+	*/
+	public Id GetNearestNode(Coordinate coord){
+		float distsq = Float.MAX_VALUE;
+		float cx = coord.getX();
+		float cy = coord.getY();
+		Id nearest = null;
+		for(Node n : listOfNodes){
+			if(n == null) continue;
+			float mx = n.getCoordinate().getX() - cx;
+			float my = n.getCoordinate().getY() - cy;
+			float mydistsq = mx * mx + my * my;
+			if(mydistsq < distsq){
+				distsq = mydistsq;
+				nearest = n.getId();
+			}
+		}
+		return nearest;
+	}
+	/*
+    Returns the nearest edge to a point on the map
+    unoptimized, linear search through all edges, can optimize later with an acceleration structure
+    */
+	public Id GetNearestEdge(Coordinate coord) {
+		float distsq = Float.MAX_VALUE;
+		Id nearest = null;
+		for (Edge e : listOfEdges) {
+			if (e == null) continue;
+			float mydistsq = e.getDistanceSq(coord, this);
+			if (mydistsq < distsq && mydistsq >= 0.0f) {
+				distsq = mydistsq;
+				nearest = e.getId();
+			}
+		}
+		return nearest;
+	}
 	/**
 	 * search for a node by tags
 	 * @param searchTerm: the string being searched for
