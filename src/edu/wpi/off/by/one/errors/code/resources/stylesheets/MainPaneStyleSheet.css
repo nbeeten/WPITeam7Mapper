@@ -1,3 +1,12 @@
 .root{
-    -fx-background-color: White;
+    -fx-background-color: #FFFFFF;
+}
+
+#openNavigationPaneButton{
+    -fx-background-radius:0;
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
+
+#openNavigationPaneButton:hover{
+    -fx-background-color: rgba(0, 0, 0, 0.2);
 }

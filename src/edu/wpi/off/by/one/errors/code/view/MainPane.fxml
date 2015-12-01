@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import edu.wpi.off.by.one.errors.code.controller.*?>
+<?import javafx.scene.control.Button?>
 
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <left>
-        <MenuPane minWidth="40" maxWidth="275"/>
+        <MenuPane maxWidth="275" minWidth="40" />
     </left>
    <center>
       <BorderPane BorderPane.alignment="CENTER">
          <center>
-            <MapRootPane/>
+            <StackPane>
+                <children>
+                    <MapRootPane />
+                    <Button fx:id="openNavigationPaneButton" prefWidth="75" text="^" StackPane.alignment="BOTTOM_CENTER" onAction="#onOpenNavigationPaneButtonClick" />
+                </children>
+            </StackPane>
          </center>
          <bottom>
-             <NavigationPane prefWidth="Infinity" prefHeight="150"/>
+             <NavigationPane fx:id="navigationPane" prefWidth="Infinity" prefHeight="150" minHeight="0"/>
          </bottom>
       </BorderPane>
    </center>

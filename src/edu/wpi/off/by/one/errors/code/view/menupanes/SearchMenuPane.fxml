@@ -7,7 +7,7 @@
 
 <fx:root minWidth="0.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <ListView minWidth="0.0" BorderPane.alignment="CENTER">
+      <ListView fx:id="locationResultListView" minWidth="0.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets top="10.0" />
          </BorderPane.margin></ListView>
@@ -15,13 +15,13 @@
    <top>
       <VBox minWidth="0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label minWidth="0.0" text="Label" />
+            <Label fx:id="searchLabel" minWidth="0.0" maxHeight="40" text="Search" />
             <BorderPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="30.0">
                <center>
-                  <TextField maxHeight="-Infinity" minWidth="0.0" prefHeight="30.0" BorderPane.alignment="CENTER" />
+                  <TextField fx:id="searchInputTextField" maxHeight="-Infinity" minWidth="0.0" prefHeight="30.0" BorderPane.alignment="CENTER" />
                </center>
                <right>
-                  <Button minWidth="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Button" BorderPane.alignment="CENTER" />
+                  <Button fx:id="searchLocationButton" minWidth="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Button" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
          </children>

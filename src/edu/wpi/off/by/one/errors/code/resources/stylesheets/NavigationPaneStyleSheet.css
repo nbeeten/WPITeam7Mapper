@@ -1,0 +1,28 @@
+.root{
+    -fx-background-color: White;
+}
+.label{
+    -fx-font-size:25;
+}
+
+#closePaneButton{
+    -fx-background-color: Transparent;
+    -fx-background-radius:0;
+}
+
+#closePaneButton:hover{
+    -fx-background-color: #F1F2F3;
+}
+
+#previousButton,
+#nextButton{
+    -fx-background-color: #A9B0B7;
+    -fx-text-fill: White;
+    -fx-background-radius:50;
+}
+
+#previousButton:hover,
+#nextButton:hover{
+    -fx-background-color: #BABFC5;
+}
+
