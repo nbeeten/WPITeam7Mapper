@@ -10,10 +10,10 @@
    <center>
       <BorderPane BorderPane.alignment="CENTER">
          <center>
-            <MapRootPane style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;"/>
+            <MapRootPane/>
          </center>
          <bottom>
-             <NavigationPane prefWidth="Infinity" prefHeight="150" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;"/>
+             <NavigationPane prefWidth="Infinity" prefHeight="150"/>
          </bottom>
       </BorderPane>
    </center>

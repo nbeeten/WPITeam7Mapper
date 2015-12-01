@@ -6,6 +6,6 @@
 
 <fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Label AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" text="Help Pane here" />
+        <Label fx:id="label" text="Help Pane here" />
     </children>
 </fx:root>
