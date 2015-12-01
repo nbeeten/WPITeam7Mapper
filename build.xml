@@ -14,8 +14,8 @@
         <pathelement location="${ECLIPSE_HOME}plugins/org.eclipse.fx.ide.css.jfx8_2.0.0.201506111511.jar"/>
     </path>
     <path id="JUnit 4.libraryclasspath">
-        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
-        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+        <pathelement location="lib/junit.jar"/>  
+18   - <pathelement location="lib/hamcrest-core-1.3.jar"/>  
     </path>
     <path id="Team7Mapper.classpath">
         <pathelement location="bin"/>
@@ -53,6 +53,7 @@
     <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects"/>
+    <target depends="clean" name="test"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
@@ -77,60 +78,9 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="display">
-        <java classname="display" failonerror="true" fork="yes">
-            <classpath refid="Team7Mapper.classpath"/>
-        </java>
-    </target>
-    <target name="GUI">
-        <java classname="edu.wpi.off.by.one.errors.code.model.GUI" failonerror="true" fork="yes">
-            <classpath refid="Team7Mapper.classpath"/>
-        </java>
-    </target>
-    <target name="Javafximg">
-        <java classname="edu.wpi.off.by.one.errors.code.Javafximg" failonerror="true" fork="yes">
-            <classpath refid="Team7Mapper.classpath"/>
-        </java>
-    </target>
-    <target name="Main (1)">
-        <java classname="Main" failonerror="true" fork="yes">
-            <classpath refid="Team7Mapper.classpath"/>
-        </java>
-    </target>
-    <target name="Main (2)">
-        <java classname="edu.wpi.off.by.one.errors.code.Main" failonerror="true" fork="yes">
-            <classpath refid="Team7Mapper.classpath"/>
-        </java>
-    </target>
-    <target name="Main (3)">
-        <java classname="edu.wpi.off.by.one.errors.code.application.Main" failonerror="true" fork="yes">
-            <classpath refid="Team7Mapper.classpath"/>
-        </java>
-    </target>
     <target name="Main (4)">
         <java classname="edu.wpi.off.by.one.errors.code.Main" failonerror="true" fork="yes">
             <classpath refid="Team7Mapper.classpath"/>
         </java>
-    </target>
-    <target name="NodeTest">
-        <java classname="edu.wpi.off.by.one.errors.code.application.NodeTest" failonerror="true" fork="yes">
-            <classpath refid="Team7Mapper.classpath"/>
-        </java>
-    </target>
-    <target name="test">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="edu.wpi.off.by.one.errors.code.Test" todir="${junit.output.dir}"/>
-            <classpath refid="Team7Mapper.classpath"/>
-        </junit>
-    </target>
-    <target name="junitreport">
-        <junitreport todir="${junit.output.dir}">
-            <fileset dir="${junit.output.dir}">
-                <include name="TEST-*.xml"/>
-            </fileset>
-            <report format="frames" todir="${junit.output.dir}"/>
-        </junitreport>
     </target>
 </project>
