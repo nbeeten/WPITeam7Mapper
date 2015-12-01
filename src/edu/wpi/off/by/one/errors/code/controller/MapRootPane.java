@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -147,8 +149,8 @@ public class MapRootPane extends AnchorPane{
 	 * @param g 
 	 */
 	private void updateDisplay(Graph g){
-		addNodeDisplayFromList(g.getNodes());
 		addEdgeDisplayFromList(g, g.getEdges());
+		addNodeDisplayFromList(g.getNodes());
 	}
 
 	/**
@@ -231,7 +233,8 @@ public class MapRootPane extends AnchorPane{
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
     			//TODO Add marker on map
-    			if (isAddMode && isNodeEditor) {
+    			
+    			if (isAddMode && isNodeEditor && e.getButton() == MouseButton.PRIMARY) {
 	                addNodeDisplay(e.getX(), e.getY());
 	            }
 	    		else if (isEditMode && isNodeEditor){
@@ -331,22 +334,26 @@ public class MapRootPane extends AnchorPane{
 		    	newNode.setTranslateY(newNode.getCenterY());
 		    });
 	        newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
-	            if(isDeleteMode && isNodeEditor){
-		        	System.out.println("Node deleted");
-		        	Id id = newNode.getNode();
-		        	display.getGraph().deleteNode(id);
-		        	mapPane.getChildren().remove(newNode);
-		        	System.out.println(display.getGraph().getNodes().size());
-		        } else {
-		        	System.out.println("Node Selected");
-		        	newNode.selectNode();
-			        nodeQueue.add(newNode);
-			        // Add selected node to selected node queue
-		        }
+	           System.out.println("Node Selected");
+		       newNode.selectNode();
+			   nodeQueue.add(newNode);
+			   // Add selected node to selected node queue
 	        });
 	        
 	        newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
 	            nodeQueue.remove(newNode);
+	        });
+	        
+	        newNode.addEventFilter(EditorEvent.DELETE, event -> {
+	        	System.out.println("Node deleted");
+	        	Graph g = display.getGraph();
+	        	Id id = newNode.getNode();
+	        	Vector<Id> edges = g.returnNodeById(id).getEdgelist();
+	        	for(int i = 0; i < edges.size(); i++)  g.deleteEdge(edges.get(i));
+	        	g.deleteNode(id);
+	        	mapPane.getChildren().remove(newNode);
+	        	//remove edge display as well
+	        	//mapPane.getChildren().remove();
 	        });
 	        mapPane.getChildren().add(newNode);
 	    }

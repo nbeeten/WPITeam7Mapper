@@ -2,6 +2,7 @@ package edu.wpi.off.by.one.errors.code.application;
 
 import java.util.ArrayList;
 
+import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Display;
@@ -12,6 +13,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -118,8 +120,13 @@ public class NodeDisplay extends Circle implements IDisplayItem{
 			}
 			
 			if(!isSelected){
-				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_SELECTED);
-				self.fireEvent(selectNodeEvent);
+				if(e.getButton() == MouseButton.SECONDARY){
+					EditorEvent deleteNodeEvent = new EditorEvent(EditorEvent.DELETE);
+					self.fireEvent(deleteNodeEvent);
+				} else {
+					SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_SELECTED);
+					self.fireEvent(selectNodeEvent);
+				}
 			} else {
 				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
 				self.fireEvent(selectNodeEvent);

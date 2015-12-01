@@ -3,6 +3,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteTextField?>
 
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
@@ -14,7 +15,7 @@
             <Label text="Label" />
             <BorderPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="0.0">
                <center>
-                  <TextField minWidth="0.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+                  <AutoCompleteTextField minWidth="0.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
                </center>
                <right>
                   <Button maxWidth="-Infinity" minWidth="0.0" mnemonicParsing="false" prefWidth="30.0" text="Button" BorderPane.alignment="CENTER" />

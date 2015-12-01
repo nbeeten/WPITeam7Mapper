@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-
 <?import edu.wpi.off.by.one.errors.code.controller.customcontrols.IconedLabel?>
+
 <fx:root type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="0" percentWidth="10" />
