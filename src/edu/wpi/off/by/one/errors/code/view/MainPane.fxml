@@ -11,8 +11,16 @@
     </left>
    <center>
       <BorderPane BorderPane.alignment="CENTER">
+<<<<<<< HEAD
          <bottom>
              <NavigationPane  fx:id="navigationPane" prefHeight="150" prefWidth="Infinity" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
+=======
+         <center>
+            <MapRootPane/>
+         </center>
+         <bottom>
+             <NavigationPane prefWidth="Infinity" prefHeight="150"/>
+>>>>>>> 819bc1b0ce805493dffb939883c6b822de82ff0a
          </bottom>
          <center>
             <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
