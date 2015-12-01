@@ -7,7 +7,7 @@ public class Node {
     private Coordinate coord;
     private Vector<Id> edges;//list of indexes of edges
     private Id id;
-    private ArrayList<String> tags;
+    private ArrayList<String> tags;//list of tags the node has
     
     /**
      *

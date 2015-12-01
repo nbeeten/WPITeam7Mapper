@@ -225,17 +225,32 @@ public class Graph {
     Returns the nearest edge to a point on the map
     unoptimized, linear search through all edges, can optimize later with an acceleration structure
     */
-	public Id GetNearestEdge(Coordinate coord){
+	public Id GetNearestEdge(Coordinate coord) {
 		float distsq = Float.MAX_VALUE;
 		Id nearest = null;
-		for(Edge e : listOfEdges){
-			if(e == null) continue;
+		for (Edge e : listOfEdges) {
+			if (e == null) continue;
 			float mydistsq = e.getDistanceSq(coord, this);
-			if(mydistsq < distsq && mydistsq >= 0.0f){
+			if (mydistsq < distsq && mydistsq >= 0.0f) {
 				distsq = mydistsq;
 				nearest = e.getId();
 			}
 		}
 		return nearest;
+	}
+	/**
+	 * search for a node by tags
+	 * @param searchTerm: the string being searched for
+	 * @return: returns id of node with tag being searched for. If none are found returns null
+	 */
+	public Id search(String searchTerm){
+		for(Node searched : listOfNodes){
+			for(String tag : searched.GetTags()){
+				if(searchTerm == tag){
+					return searched.getId();
+				}
+			}
+		}
+		return null;
 	}
 }
