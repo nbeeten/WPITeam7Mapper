@@ -32,6 +32,7 @@ import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.MapDevToolPane;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Display;
 import edu.wpi.off.by.one.errors.code.model.Edge;
@@ -47,9 +48,9 @@ import edu.wpi.off.by.one.errors.code.model.Path;
  * Edited by Kelly on 11/30/2015.
  */
 public class MapRootPane extends AnchorPane{
-	
-	@FXML BorderPane root;
 
+	@FXML MainPane mainPane;
+	
 	@FXML StackPane mapPane;
 	@FXML ImageView mapView;
 	@FXML Button zoomInButton;
@@ -87,6 +88,10 @@ public class MapRootPane extends AnchorPane{
         }
     }
     
+    public void setMainPane(MainPane m) { this.mainPane = m; }
+    public MapRootPane getMapRootPane() { return this; }
+    public HashMap<String, Display> getAllDisplays() {return displayList; }
+    
     private void initialize(){
     	System.out.print("Main Controller Initialized.");
 		//Load all displays into application
@@ -101,7 +106,6 @@ public class MapRootPane extends AnchorPane{
 		localBounds = mapView.getBoundsInLocal();
 		//Updates display with nodes/edges
 		updateDisplay(display.getGraph());
-		
 		// center the mapScrollPane contents.
         
         //Setup event listeners for map
@@ -127,9 +131,10 @@ public class MapRootPane extends AnchorPane{
 		// otherwise, keep current content and just append
 		if(option.equals("NEW")){
 			mapPane.getChildren().clear();
+			//Update the current map image
+			updateMap(newdisplay.getMap());
             mapPane.getChildren().addAll(pathPane, mapView);
             localBounds = mapView.getBoundsInLocal();
-			mapPane.getChildren().addAll(mapView);
 		}
 		String mapName = newdisplay.getMap().getName();
 		if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
@@ -138,8 +143,6 @@ public class MapRootPane extends AnchorPane{
 		//Current display is now the new one
 		this.display = newdisplay;
 		Graph g = newdisplay.getGraph();
-		//Update the current map image
-		updateMap(newdisplay.getMap());
 		//Draw new points onto map
 		updateDisplay(g);
 	}
@@ -159,9 +162,8 @@ public class MapRootPane extends AnchorPane{
 	 * @param newmap
 	 */
 	private void updateMap(Map newmap){
-		mapView.setImage(new Image(resourceDir + newmap.getImgUrl()));
 		if(newmap.getImgUrl() != display.getMap().getImgUrl()){
-            mapView.setImage(new Image(resourceDir + "maps/images/" +  newmap.getImgUrl()));
+			mapView.setImage(new Image(resourceDir + "maps/images/" +  newmap.getImgUrl()));
         }
 	}
 	
@@ -183,7 +185,7 @@ public class MapRootPane extends AnchorPane{
 			String path = "src" + resourceDir + "maps/txtfiles/" + file;
 			Display d = FileIO.load(path, null);
 			String mapName = d.getMap().getName();
-			if(mapName == null) mapName = file;
+			if(mapName == null) mapName = d.getMap().getImgUrl();
 			displayList.put(mapName, d);
 		}
 	}
@@ -338,13 +340,14 @@ public class MapRootPane extends AnchorPane{
 		       newNode.selectNode();
 			   nodeQueue.add(newNode);
 			   // Add selected node to selected node queue
+			   mainPane.getNodeTool().displayNodeInfo(newNode);
 	        });
 	        
 	        newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
 	            nodeQueue.remove(newNode);
 	        });
 	        
-	        newNode.addEventFilter(EditorEvent.DELETE, event -> {
+	        newNode.addEventFilter(EditorEvent.DELETE_NODE, event -> {
 	        	System.out.println("Node deleted");
 	        	Graph g = display.getGraph();
 	        	Id id = newNode.getNode();
@@ -384,7 +387,7 @@ public class MapRootPane extends AnchorPane{
 	    });
 
 	    newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
-
+	    	
 	        if(isDeleteMode && isNodeEditor){
 	        	System.out.println("Node deleted");
 	        	Id id = newNode.getNode();
@@ -397,6 +400,7 @@ public class MapRootPane extends AnchorPane{
 		        nodeQueue.add(newNode);
 		        System.out.println(newNode.getCenterX() + " " + newNode.getCenterY());
 		        // Add selected node to selected node queue
+		        mainPane.getNodeTool().displayNodeInfo(newNode);
 	        }
 
 	        //TODO stuff regarding info about the node clicked
@@ -488,6 +492,11 @@ public class MapRootPane extends AnchorPane{
 	            	//do sth;
 	            	edgeQueue.remove(e);
 	            });
+	            
+	            e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
+	            	mapPane.getChildren().remove(e);
+	            	display.getGraph().deleteEdge(e.getEdge());
+	            });
 	        }
 	        nodeQueue.remove().fireEvent(selectNodeEvent);;
 	    } else {
@@ -549,6 +558,11 @@ public class MapRootPane extends AnchorPane{
             e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
             	//do sth;
             	edgeQueue.remove(e);
+            });
+            
+            e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
+            	mapPane.getChildren().remove(e);
+            	display.getGraph().deleteEdge(e.getEdge());
             });
      
 	    }

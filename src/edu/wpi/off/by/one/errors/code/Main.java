@@ -1,5 +1,6 @@
 package edu.wpi.off.by.one.errors.code;
 
+import com.sun.javafx.css.StyleManager;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         //ControllerMediator.getInstance().registerWindow(primaryStage);
+    	root.setWindow(primaryStage);
         primaryStage.setTitle("goatThere - WPI Map Application");
         primaryStage.setScene(new Scene(root, 1600, 1000));
         primaryStage.show();

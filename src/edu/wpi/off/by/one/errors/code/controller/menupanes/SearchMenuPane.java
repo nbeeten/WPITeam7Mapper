@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import edu.wpi.off.by.one.errors.code.controller.MainPane;
 import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteTextField;
 
 /**
@@ -33,4 +34,9 @@ public class SearchMenuPane extends BorderPane {
         SortedSet<String> entries = new TreeSet<String>();
         ;
     }
+
+	public void setMainPane(MainPane mainPane) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -36,10 +36,10 @@
     <center>
         <AnchorPane prefWidth="235" maxWidth="235">
          <children>
-            <MapDevToolPane visible="${mapPaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>
-             <NodeDevToolPane visible="${nodePaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>
-             <EdgeDevToolPane visible="${edgePaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>
-             <PathDevToolPane visible="${pathPaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>
+            <MapDevToolPane fx:id="mapDevToolPane" visible="${mapPaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>
+             <NodeDevToolPane fx:id= "nodeDevToolPane" visible="${nodePaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>
+             <EdgeDevToolPane fx:id="edgeDevToolPane" visible="${edgePaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>
+             <PathDevToolPane fx:id="pathDevToolPane" visible="${pathPaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"/>
          </children>
         </AnchorPane>
     </center>
