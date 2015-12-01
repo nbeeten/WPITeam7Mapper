@@ -51,11 +51,11 @@ public class MenuPane extends HBox {
         hamburgerToggleButton.selectedProperty().addListener((v, oldValue, newValue) -> {
             if (newValue){
                 this.setPrefWidth(this.getMaxWidth());
-                detailsMenuContainerAnchorPane.setVisible(true);
+                //detailsMenuContainerAnchorPane.setVisible(true);
             }
             else{
                 this.setPrefWidth(this.getMinWidth());
-                detailsMenuContainerAnchorPane.setVisible(false);
+                //detailsMenuContainerAnchorPane.setVisible(false);
             }
         });
 
