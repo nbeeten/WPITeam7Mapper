@@ -2,10 +2,12 @@ package edu.wpi.off.by.one.errors.code.application;
 
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
 import edu.wpi.off.by.one.errors.code.model.*;
+import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeLineCap;
 
 public class EdgeDisplay extends Line implements IDisplayItem {
 	Display display;
@@ -16,16 +18,21 @@ public class EdgeDisplay extends Line implements IDisplayItem {
 	float length;
 	int selectedStrokeLength = 4;
 	int strokeLength = 2; //default
-	String strokeColor = Color.BLUE.toString().substring(2);
+	Color strokeColor = Color.BLUE;
 	
 	
 	public boolean isSelected = false;
 	
 	public EdgeDisplay(Display display, Id edge, 
-			Number startX, Number startY, Number endX, Number endY){
-		super(startX.floatValue(), startY.floatValue(), 
-				endX.floatValue(), endY.floatValue());
-		super.setStrokeWidth(this.strokeLength);
+			DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY){
+		//super(startX.floatValue(), startY.floatValue(), 
+		//		endX.floatValue(), endY.floatValue());
+		setStrokeWidth(this.strokeLength);
+		setStrokeLineCap(StrokeLineCap.BUTT);
+		startXProperty().bind(startX);
+		startYProperty().bind(startY);
+		endXProperty().bind(endX);
+		endYProperty().bind(endY);
 		this.display = display;
 		this.edge = edge;
 		Edge temp = display.getGraph().returnEdgeById(edge);
@@ -37,10 +44,14 @@ public class EdgeDisplay extends Line implements IDisplayItem {
 	}
 	
 	public EdgeDisplay(Display display, Id nodeA, Id nodeB,
-			Number startX, Number startY, Number endX, Number endY){
-		super(startX.floatValue(), startY.floatValue(), 
-				endX.floatValue(), endY.floatValue());
-		super.setStrokeWidth(this.strokeLength);
+			DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY){
+		//super(startX.floatValue(), startY.floatValue(), 
+		//		endX.floatValue(), endY.floatValue());
+		setStrokeWidth(this.strokeLength);
+		startXProperty().bind(startX);
+		startYProperty().bind(startY);
+		endXProperty().bind(endX);
+		endYProperty().bind(endY);
 		this.display = display;
 		this.nodeA = nodeA;
 		this.nodeB = nodeB;
@@ -73,7 +84,7 @@ public class EdgeDisplay extends Line implements IDisplayItem {
 	
 	public void setStroke(Color c){
 		super.setStroke(c);
-		this.strokeColor = c.toString().substring(2);
+		this.strokeColor = c;
 	}
 	
 	/* Event handling */
@@ -113,7 +124,7 @@ public class EdgeDisplay extends Line implements IDisplayItem {
 	
 	private void onDeselectEventHandler(){
 		this.addEventFilter(SelectEvent.EDGE_DESELECTED, event -> {
-			super.setStroke(Color.web(this.strokeColor));
+			super.setStroke(this.strokeColor);
 			super.setStrokeWidth(this.strokeLength);
 			this.isSelected = false;
 		});

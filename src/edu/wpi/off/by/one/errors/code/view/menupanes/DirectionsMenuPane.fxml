@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root minWidth="0.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <VBox minWidth="0.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label contentDisplay="CENTER" minWidth="0.0" text="Directions" />
+                <BorderPane minWidth="0.0">
+                    <left>
+                        <Label minWidth="0.0" text="A" BorderPane.alignment="CENTER" />
+                    </left>
+                    <center>
+                        <TextField minWidth="0.0" BorderPane.alignment="CENTER" />
+                    </center>
+                </BorderPane>
+                <BorderPane minWidth="0.0">
+                    <left>
+                        <Label minWidth="0.0" text="B" BorderPane.alignment="CENTER" />
+                    </left>
+                    <center>
+                        <TextField minWidth="0.0" BorderPane.alignment="CENTER" />
+                    </center>
+                </BorderPane>
+                <TitledPane animated="false" minWidth="0.0" text="Options">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" />
+                    </content>
+                </TitledPane>
+                <Button contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" text="Button" />
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <ListView minWidth="0.0" BorderPane.alignment="CENTER" />
+    </center>
+
+</fx:root>
