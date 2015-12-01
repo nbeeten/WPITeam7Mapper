@@ -17,6 +17,7 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         //ControllerMediator.getInstance().registerWindow(primaryStage);
+    	root.setWindow(primaryStage);
         primaryStage.setTitle("goatThere - WPI Map Application");
         primaryStage.setScene(new Scene(root, 1600, 1000));
         primaryStage.show();

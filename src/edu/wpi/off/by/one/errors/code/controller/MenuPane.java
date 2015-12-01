@@ -7,17 +7,28 @@ import javafx.scene.layout.*;
 
 import java.io.IOException;
 
+import edu.wpi.off.by.one.errors.code.controller.menupanes.*;
+
 /**
  * Created by jules on 11/28/2015.
  */
 public class MenuPane extends HBox {
 
+	MainPane mainPane;
+	
     //region FXML file attributes
     @FXML
     private ToggleButton hamburgerToggleButton;
 
     @FXML
     private AnchorPane detailsMenuContainerAnchorPane;
+    @FXML SearchMenuPane searchMenuPane;
+    @FXML DirectionsMenuPane directionsMenuPane;
+    @FXML FavoritesMenuPane favoritesMenuPane;
+    @FXML DevToolsMenuPane devToolsMenuPane;
+    @FXML SettingsMenuPane settingsMenuPane;
+    @FXML HelpMenuPane helpMenuPane;
+    
     //endregion
 
     //region Constructors
@@ -42,7 +53,25 @@ public class MenuPane extends HBox {
     }
     //endregion
 
-    //region Listener Methods
+    public void setMainPane(MainPane m) { 
+    	mainPane = m; 
+    	searchMenuPane.setMainPane(mainPane);
+        directionsMenuPane.setMainPane(mainPane);
+        favoritesMenuPane.setMainPane(mainPane);
+        devToolsMenuPane.setMainPane(mainPane);
+        settingsMenuPane.setMainPane(mainPane);
+        helpMenuPane.setMainPane(mainPane);
+    }
+    public MainPane getMainPane() { return mainPane; }
+    public SearchMenuPane getSearchMenuPane() { return searchMenuPane; }
+    public DirectionsMenuPane getDirectionsMenuPane() { return directionsMenuPane; }
+	public FavoritesMenuPane getFavoritesMenuPane() { return favoritesMenuPane; }
+	public DevToolsMenuPane getDevToolsMenuPane() { return devToolsMenuPane; }
+	public SettingsMenuPane getSettingsMenuPane() { return settingsMenuPane; }
+	public HelpMenuPane getHelpMenuPane() { return helpMenuPane; }
+
+
+	//region Listener Methods
     /**
      * adds all the listeners needed
      */

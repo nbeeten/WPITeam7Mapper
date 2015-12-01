@@ -17,6 +17,7 @@ public class Node {
         this.edges = new Vector<Id>(); // we can totally use arraylist here, dont have to use a vector
         this.coord = coordIn;
         this.id = new Id();//default, set when added
+        tags = new ArrayList<String>();
     }
     /**
      *
@@ -28,6 +29,7 @@ public class Node {
         this.edges = new Vector<Id>(); // we can totally use arraylist here, dont have to use a vector
         this.coord = coordIn;
         this.id = nid;//default, set when added
+        tags = new ArrayList<String>();
     }
     
 	/**
