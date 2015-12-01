@@ -6,3 +6,6 @@ bin/*
 .idea/*
 .settings/*
 *.settings/
+.externalToolBuilders/*
+.classpath
+.project
