@@ -121,7 +121,7 @@ public class NodeDisplay extends Circle implements IDisplayItem{
 			
 			if(!isSelected){
 				if(e.getButton() == MouseButton.SECONDARY){
-					EditorEvent deleteNodeEvent = new EditorEvent(EditorEvent.DELETE);
+					EditorEvent deleteNodeEvent = new EditorEvent(EditorEvent.DELETE_NODE);
 					self.fireEvent(deleteNodeEvent);
 				} else {
 					SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_SELECTED);

@@ -5,6 +5,8 @@ import javafx.scene.layout.*;
 
 import java.io.IOException;
 
+import edu.wpi.off.by.one.errors.code.controller.MainPane;
+
 /**
  * Created by jules on 11/28/2015.
  */
@@ -20,4 +22,9 @@ public class DirectionsMenuPane extends BorderPane {
             throw new RuntimeException(excpt);
         }
     }
+
+	public void setMainPane(MainPane mainPane) {
+		// TODO Auto-generated method stub
+		
+	}
 }

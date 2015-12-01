@@ -1,9 +1,11 @@
 package edu.wpi.off.by.one.errors.code.application;
 
+import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
 import edu.wpi.off.by.one.errors.code.model.*;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -92,14 +94,20 @@ public class EdgeDisplay extends Line implements IDisplayItem {
 	private EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
 		
 		public void handle(MouseEvent e){
-			if(!isSelected){
-				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.EDGE_SELECTED);
-				self.fireEvent(selectNodeEvent);
-			} else {
-				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.EDGE_DESELECTED);
-				self.fireEvent(selectNodeEvent);
-			}
 			
+			if(e.getButton() == MouseButton.PRIMARY){
+				if(!isSelected){
+					SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.EDGE_SELECTED);
+					self.fireEvent(selectNodeEvent);
+				} else {
+					SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.EDGE_DESELECTED);
+					self.fireEvent(selectNodeEvent);
+				}
+			}
+			else if(e.getButton() == MouseButton.SECONDARY){
+				EditorEvent deleteEdgeEvent = new EditorEvent(EditorEvent.DELETE_EDGE);
+				self.fireEvent(deleteEdgeEvent);
+			}
 		}
 	};
 	
