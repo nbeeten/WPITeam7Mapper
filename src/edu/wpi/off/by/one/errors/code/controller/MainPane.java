@@ -33,8 +33,6 @@ public class MainPane extends BorderPane {
         loader.setController(this);
         try{
             loader.load();
-            //mapScrollPane.setHvalue(mapScrollPane.getHmin() + (mapScrollPane.getHmax() - mapScrollPane.getHmin()) / 2);
-            //mapScrollPane.setVvalue(mapScrollPane.getVmin() + (mapScrollPane.getVmax() - mapScrollPane.getVmin()) / 2);
             mapRootPane.setMainPane(this);
             menuPane.setMainPane(this);
             navigationPane.setMainPane(this);
@@ -45,13 +43,13 @@ public class MainPane extends BorderPane {
     public void setWindow(Window window) { 
     	this.window = window; 
     	window.heightProperty().addListener(e -> {
-    		System.out.println("Scroll Pane Size: " + mapScrollPane.getHeight());
-    		mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
+    		//System.out.println("Scroll Pane Size: " + mapScrollPane.getHeight());
+    		//mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
     	});
     	
     	window.widthProperty().addListener(e -> {
-    		System.out.println("Scroll Pane Size: " + mapScrollPane.getWidth());
-    		mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
+    		//System.out.println("Scroll Pane Size: " + mapScrollPane.getWidth());
+    		//mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
     	});
     }
     public Window getWindow() { return this.window; }

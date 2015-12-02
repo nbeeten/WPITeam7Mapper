@@ -62,8 +62,9 @@ public class MapRootPane extends AnchorPane{
 	Pane edgeLayer = new StackPane();
 	Pane pathPane = new StackPane();
 	Coordinate translate;
+	Coordinate release = new Coordinate(0, 0, 0);
 	float rot = 0.0f;
-	float zoom = 2.0f;
+	float zoom = 1.0f;
 	Matrix view;
 	//Change this as necessary
 	Canvas canvas = new Canvas(1000, 1000);
@@ -104,8 +105,8 @@ public class MapRootPane extends AnchorPane{
     public void updateCanvasSize(double width, double height){
     	
     	//System.out.printf("Height: %f, Width: %f\n", height, width);
-    	canvas.setHeight(height*4);
-    	canvas.setWidth(width*4);
+    	canvas.setHeight(height*1);
+    	canvas.setWidth(width*1);
     	//System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
     	render();
     }
@@ -121,6 +122,28 @@ public class MapRootPane extends AnchorPane{
 		mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
 		//Set map image
 		mapView.preserveRatioProperty().set(true);
+		mapPane.setOnMouseDragged(e->{
+			translate.setAll((float)e.getX() + release.getX(), (float)e.getY() + release.getY(), 0);
+			System.out.printf("Coord: %f, %f\n", translate.getX(), translate.getY());
+			render();
+		});
+		
+		mapPane.setOnMouseReleased(e -> {
+	    	 release.setAll((float)e.getX(), (float)e.getY(), 0);
+	     });
+		
+		/*
+		 mapPane.setOnMousePressed(e -> {
+			 System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
+			 new Coordinate((float)e.getX(), (float)e.getY(), 0);
+			 
+	     });
+	     
+	     mapPane.setOnMouseReleased(e -> {
+	    	 System.out.printf("MouseRelease: %f, %f\n", e.getX(), e.getY());
+	    	 new Coordinate((float)e.getX(), (float)e.getY(), 0);
+	     });
+	     */
 		//Update local bounds of the map view
 		localBounds = mapView.getBoundsInLocal();
 		//Updates display with nodes/edges
@@ -185,7 +208,7 @@ public class MapRootPane extends AnchorPane{
 			if(m == null) continue;
 
 			if(m.getImage() == null) continue;
-			Rotate r = new Rotate(m.getRotation() + rot, m.getImage().getWidth()/2, m.getImage().getHeight()/2);
+			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
 	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 	        mygc.scale(zoom, zoom);
 			Coordinate c = view.transform(m.getCenter());
@@ -195,9 +218,9 @@ public class MapRootPane extends AnchorPane{
 		}
 		for(Node n : nlist){
 			if(n == null) continue;
-			System.out.println(n);
+			//System.out.println(n);
 			Coordinate c = view.transform(n.getCoordinate());
-			System.out.printf("x: %f, y: %f\n", c.getX(), c.getY());
+			//System.out.printf("x: %f, y: %f\n", c.getX(), c.getY());
 			
 			//mygc.translate(c.getX(), c.getY());
 			mygc.setFill(Color.BLUE);
@@ -221,8 +244,8 @@ public class MapRootPane extends AnchorPane{
 	 * @param g 
 	 */
 	private void updateDisplay(Graph g){
-		addEdgeDisplayFromList(g, g.getEdges());
 		addNodeDisplayFromList(g.getNodes());
+		addEdgeDisplayFromList(g, g.getEdges());
 	}
 
 	/**

@@ -15,11 +15,7 @@
              <NavigationPane  fx:id="navigationPane" prefHeight="150" prefWidth="Infinity" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
          </bottom>
          <center>
-            <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
-              <content>
-                <MapRootPane fx:id="mapRootPane" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
-              </content>
-            </ScrollPane>
+            <MapRootPane fx:id="mapRootPane" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
          </center>
       </BorderPane>
    </center>
