@@ -77,6 +77,7 @@ public class MapRootPane extends AnchorPane{
 	public float zoom = 5.0f;
 	Matrix view;
 	Matrix invview;
+	Matrix lastview;
 	//Change this as necessary
 	public Canvas canvas = new Canvas(1000, 1600);
 
@@ -167,16 +168,16 @@ public class MapRootPane extends AnchorPane{
         setListeners();
 		mapPane.setOnMousePressed(e -> {
 			 //System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
-			 Coordinate in = invview.transform(new Coordinate((float)e.getX(), (float)e.getY(), 0.0f));
+			 lastview = invview;
+			 Coordinate in = lastview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
 			 lastdragged.setAll(in.getX(), in.getY(), 0);
-			 
 	     });
 		
 		mapPane.setOnMouseDragged(e -> {
 			//System.out.printf("X: %f, Y: %f\n", e.getX(), e.getY());
-			Coordinate in = invview.transform(new Coordinate((float)e.getX(), (float)e.getY(), 0.0f));
+			Coordinate in = lastview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
 			Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
-			translate.setAll((float)translate.getX() + delta.getX(), (float)translate.getY() + delta.getY(), translate.getZ());
+			translate.setAll((float) translate.getX() + delta.getX(), (float)translate.getY() + delta.getY(), translate.getZ());
 			//System.out.printf("Coord: %f, %f\n", translate.getX(), translate.getY());
 			lastdragged.setAll(in.getX(), in.getY(), 0);
 			render();
@@ -232,7 +233,7 @@ public class MapRootPane extends AnchorPane{
 	}
 	public void render(){
 		view = new Matrix().translate(new Coordinate((float)canvas.getWidth()/2.0f, (float)canvas.getHeight()/2.0f)).rotate(rot, 0.0f, 0.0f, 1.0f).scale(zoom).translate(new Coordinate(translate.getX(), translate.getY(), translate.getZ()));
-		invview = new Matrix().translate(new Coordinate(-translate.getX(), -translate.getY(), -translate.getZ())).scale(1.0f/zoom).rotate(-rot, 0.0f, 0.0f, 1.0f).translate(new Coordinate((float)canvas.getWidth()/-2.0f, (float)canvas.getHeight()/-2.0f));
+		invview = new Matrix(new Coordinate(-1.0f * translate.getX(), -1.0f *translate.getY(), -1.0f * translate.getZ())).scale(1.0/zoom).rotate(-rot, 0.0, 0.0, 1.0).translate(new Coordinate((float)canvas.getWidth()/-2.0f, (float)canvas.getHeight()/-2.0f));
 		//grab graphics context
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
