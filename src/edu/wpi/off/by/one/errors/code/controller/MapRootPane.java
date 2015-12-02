@@ -355,7 +355,7 @@ public class MapRootPane extends AnchorPane{
 			mygc.save();
 			Node A = display.getGraph().returnNodeById(id);
 			if(A == null) continue;
-			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
+			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 && translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
 				last = A;
 				continue;
 			}
