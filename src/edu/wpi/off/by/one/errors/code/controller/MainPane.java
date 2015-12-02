@@ -33,8 +33,8 @@ public class MainPane extends BorderPane {
         loader.setController(this);
         try{
             loader.load();
-            mapScrollPane.setHvalue(mapScrollPane.getHmin() + (mapScrollPane.getHmax() - mapScrollPane.getHmin()) / 2);
-            mapScrollPane.setVvalue(mapScrollPane.getVmin() + (mapScrollPane.getVmax() - mapScrollPane.getVmin()) / 2);
+            //mapScrollPane.setHvalue(mapScrollPane.getHmin() + (mapScrollPane.getHmax() - mapScrollPane.getHmin()) / 2);
+            //mapScrollPane.setVvalue(mapScrollPane.getVmin() + (mapScrollPane.getVmax() - mapScrollPane.getVmin()) / 2);
             mapRootPane.setMainPane(this);
             menuPane.setMainPane(this);
             navigationPane.setMainPane(this);
