@@ -3,6 +3,7 @@ package edu.wpi.off.by.one.errors.code.controller.menupanes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class DirectionsMenuPane extends BorderPane {
 	MainPane mainPane;
 	
 	@FXML Button routeButton;
+    @FXML private ListView directionsListView;
 	
     public DirectionsMenuPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/DirectionsMenuPane.fxml"));
@@ -38,4 +40,8 @@ public class DirectionsMenuPane extends BorderPane {
 			mainPane.getMapRootPane().drawPath();
 		});
 	}
+
+    public ListView getdirectionsListView(){
+        return this.directionsListView;
+    }
 }
