@@ -80,7 +80,7 @@ public class DevToolsMenuPane extends BorderPane {
     	
     	// TODO Append new map onto current map on a separate pane layer
     	this.appendMapButton.setOnAction(e -> {
-    		Display newdisp = null;
+    		Display newdisp = mainPane.getMapRootPane().getDisplay();
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Map File");
             fileChooser.getExtensionFilters().addAll(
@@ -90,7 +90,7 @@ public class DevToolsMenuPane extends BorderPane {
             if (selectedFile != null) {
                 String inpath = selectedFile.getPath();
                 System.out.println(inpath);
-                newdisp = FileIO.load(inpath, null);
+                newdisp = FileIO.load(inpath, newdisp);
                 mainPane.getMapRootPane().updateDisplay(newdisp, "APPEND");
                 //mapDevToolPane.setMap(newdisp.getMap());
             }

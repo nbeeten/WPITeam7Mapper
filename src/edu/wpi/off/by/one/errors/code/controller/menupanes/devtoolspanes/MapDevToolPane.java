@@ -42,6 +42,7 @@ public class MapDevToolPane extends VBox {
 	@FXML TextField scaleTextField;
 	@FXML Label pathLabel;
 	@FXML Button changeImageButton;
+	
 
     public MapDevToolPane() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../../../view/menupanes/devtoolspanes/MapDevToolPane.fxml"));
