@@ -53,6 +53,8 @@ public class DevToolsMenuPane extends BorderPane {
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
+
+        this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/DevToolsPaneStyleSheet.css").toExternalForm());
         
     }
     
