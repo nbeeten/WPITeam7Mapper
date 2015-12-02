@@ -25,41 +25,35 @@ public class EdgeDisplay extends Line implements IDisplayItem {
 	
 	public boolean isSelected = false;
 	
-	public EdgeDisplay(Display display, Id edge, 
-			DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY){
-		//super(startX.floatValue(), startY.floatValue(), 
-		//		endX.floatValue(), endY.floatValue());
+	public EdgeDisplay(Display display, Id edge){
 		setStrokeWidth(this.strokeLength);
 		setStrokeLineCap(StrokeLineCap.BUTT);
-		startXProperty().bind(startX);
-		startYProperty().bind(startY);
-		endXProperty().bind(endX);
-		endYProperty().bind(endY);
 		this.display = display;
 		this.edge = edge;
 		Edge temp = display.getGraph().returnEdgeById(edge);
 		this.nodeA = temp.getNodeA();
 		this.nodeB = temp.getNodeB();
 		this.length = temp.getLength();
+		this.setStartX(0.0);
+		this.setStartY(0.0);
+		this.setEndX(0.0);
+		this.setEndY(0.0);
+		
 		
 		setHandlers();
 	}
 	
-	public EdgeDisplay(Display display, Id nodeA, Id nodeB,
-			DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY){
-		//super(startX.floatValue(), startY.floatValue(), 
-		//		endX.floatValue(), endY.floatValue());
+	public EdgeDisplay(Display display, Id nodeA, Id nodeB){
 		setStrokeWidth(this.strokeLength);
-		startXProperty().bind(startX);
-		startYProperty().bind(startY);
-		endXProperty().bind(endX);
-		endYProperty().bind(endY);
 		this.display = display;
 		this.nodeA = nodeA;
 		this.nodeB = nodeB;
 		this.edge = display.getGraph().addEdgeRint(nodeA, nodeB);
 		this.length = display.getGraph().returnEdgeById(this.edge).getLength();
-
+		this.setStartX(0.0);
+		this.setStartY(0.0);
+		this.setEndX(0.0);
+		this.setEndY(0.0);
 		setHandlers();
 	}
 	
