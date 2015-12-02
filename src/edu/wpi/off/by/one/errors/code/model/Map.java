@@ -58,6 +58,6 @@ public class Map {
 	public Coordinate getCenter() { return this.center;}
 	public float getRotation() { return this.rotation; }
 	public float getScale() { return this.scale; }
-	public Image getImage() { return this.myimg};
+	public Image getImage() { return this.myimg;}
 
 }
