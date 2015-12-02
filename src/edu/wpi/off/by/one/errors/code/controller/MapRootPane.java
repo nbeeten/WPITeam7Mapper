@@ -63,7 +63,7 @@ public class MapRootPane extends AnchorPane{
 	Pane pathPane = new StackPane();
 	Coordinate translate;
 	float rot = 0.0f;
-	float zoom = 1.0f;
+	float zoom = 2.0f;
 	Matrix view;
 	//Change this as necessary
 	Canvas canvas = new Canvas(1000, 1000);
@@ -172,7 +172,7 @@ public class MapRootPane extends AnchorPane{
 		updateDisplay(g);
 	}
 	public void render(){
-		Matrix view = new Matrix().translate(translate).rotate(rot, 0.0f, 0.0f, 1.0f).scale(zoom);
+		Matrix view = new Matrix().translate(translate).rotate(rot, 0.0f, 0.0f, -1.0f).scale(zoom);
 		//grab graphics context
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -187,17 +187,21 @@ public class MapRootPane extends AnchorPane{
 			if(m.getImage() == null) continue;
 			Rotate r = new Rotate(m.getRotation() + rot, m.getImage().getWidth()/2, m.getImage().getHeight()/2);
 	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-
+	        mygc.scale(zoom, zoom);
 			Coordinate c = view.transform(m.getCenter());
-			mygc.translate(c.getX(), c.getY());
-			mygc.drawImage(m.getImage(), 0, 0);
+			//mygc.translate(c.getX(), c.getY());
+			mygc.drawImage(m.getImage(), c.getX(), c.getY());
 			mygc.restore();
 		}
 		for(Node n : nlist){
 			if(n == null) continue;
+			System.out.println(n);
 			Coordinate c = view.transform(n.getCoordinate());
-			mygc.translate(c.getX(), c.getY());
-			mygc.fillOval(0, 0, 10, 10);
+			System.out.printf("x: %f, y: %f\n", c.getX(), c.getY());
+			
+			//mygc.translate(c.getX(), c.getY());
+			mygc.setFill(Color.BLUE);
+			mygc.fillOval(c.getX(), c.getY(), 10, 10);
 			mygc.restore();
 		}
 		for(javafx.scene.Node np: nodeLayer.getChildren()){

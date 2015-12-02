@@ -204,6 +204,6 @@ public class Matrix {
         float x = inx * m[0][0] + iny * m[1][0] + inz * m[2][0] + m[3][0];
         float y = inx * m[0][1] + iny * m[1][1] + inz * m[2][1] + m[3][1];
         float z = inx * m[0][2] + iny * m[1][2] + inz * m[2][2] + m[3][2];
-        return new Coordinate(inx, iny, inz);
+        return new Coordinate(x, y, z);
     }
 }
