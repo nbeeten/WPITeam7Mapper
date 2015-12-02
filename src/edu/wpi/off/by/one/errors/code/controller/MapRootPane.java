@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -58,6 +59,8 @@ public class MapRootPane extends AnchorPane{
 	@FXML VBox editorPane;
 	@FXML Button drawPathDisplayButton;
 	StackPane pathPane = new StackPane();
+	//Change this as necessary
+	Canvas canvas = new Canvas(1000, 1000);
 
 	//Where all the images and txt files should be
 	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
@@ -92,6 +95,14 @@ public class MapRootPane extends AnchorPane{
     public MapRootPane getMapRootPane() { return this; }
     public HashMap<String, Display> getAllDisplays() {return displayList; }
     
+    public void updateCanvasSize(double width, double height){
+    	
+    	//System.out.printf("Height: %f, Width: %f\n", height, width);
+    	canvas.setHeight(height);
+    	canvas.setWidth(width);
+    	System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
+    }
+    
     private void initialize(){
     	System.out.print("Main Controller Initialized.");
 		//Load all displays into application
@@ -99,6 +110,7 @@ public class MapRootPane extends AnchorPane{
 		//Load campus map from display list
         display = displayList.get("Campus Map");
         mapPane.getChildren().add(0, pathPane);
+        mapPane.getChildren().add(0, canvas);
 		//Set map image
         mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
 		mapView.preserveRatioProperty().set(true);
