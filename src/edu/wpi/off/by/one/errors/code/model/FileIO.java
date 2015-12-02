@@ -30,6 +30,7 @@ import java.util.List;
 public class FileIO {
 	static ArrayList<String[]> nodebuf;
 	static ArrayList<String[]> edgebuf;
+	static ArrayList<String[]> mapbuf;
 
 	/**
 	 * flush node and edge's buffer
@@ -47,6 +48,10 @@ public class FileIO {
 			String[] args = edgebuf.get(i);
 			parseedgeline(args, g, nodeids);
 		}
+		for (i = 1; i < mapbuf.size(); i++) {
+			String[] args = mapbuf.get(i);
+			parsemapline(args, dpy);
+		}		
 		nodeids = null;// best i can do to "free" it
 	}
 	
@@ -148,7 +153,8 @@ public class FileIO {
 			edgebuf.add(line.substring(i + 1).trim().split("\\s"));
 			break;
 		case 'm': // map;
-			parsemapline(line.substring(i + 1).trim().split("\\s"), dpy);
+			mapbuf.add(line.substring(i + 1).trim().split("\\s"));
+			//parsemapline(line.substring(i + 1).trim().split("\\s"), dpy);
 			break;
 		default: // some sorta error, or unrecognized element type
 			break;
@@ -175,6 +181,7 @@ public class FileIO {
 		}
 		edgebuf = new ArrayList<String[]>();
 		nodebuf = new ArrayList<String[]>();
+		mapbuf = new ArrayList<String[]>();
 		List<String> lines = null;
 		// todo should fix this try catch BS
 		try {
@@ -192,6 +199,7 @@ public class FileIO {
 		System.out.printf("Read %d lines\n", i);
 		edgebuf = null;
 		nodebuf = null; // best i can do to "free" it
+		mapbuf = null;
 		return curdpy;
 	}
 

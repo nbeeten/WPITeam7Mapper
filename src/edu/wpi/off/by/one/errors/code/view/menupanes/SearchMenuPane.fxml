@@ -26,7 +26,7 @@
                   <Button fx:id="searchLocationButton" minWidth="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Button" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
-            <Label text="Select Floor:" />
+            <Label text="Select Building:" />
             <ComboBox fx:id="buildingChoiceBox" />
             <Label text="Select Floor:" />
             <ChoiceBox fx:id="floorChoiceBox" />

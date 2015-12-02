@@ -44,7 +44,7 @@ public class SearchMenuPane extends BorderPane {
             throw new RuntimeException(excpt);
         }
         this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/SearchPaneStyleSheet.css").toExternalForm());
-        floorChoiceBox.getItems().addAll(0, 1, 2, 3);
+        floorChoiceBox.getItems().addAll(-1, 0, 1, 2, 3);
         
         SortedSet<String> entries = new TreeSet<String>();
     }
@@ -71,6 +71,7 @@ public class SearchMenuPane extends BorderPane {
 			int floor = floorChoiceBox.getSelectionModel().getSelectedItem();
 			System.out.println(floor);
 			//do a thing with it
+			mainPane.getMapRootPane().currentLevel = floor;
 			mainPane.getMapRootPane().translate.setAll(mainPane.getMapRootPane().translate.getX(), mainPane.getMapRootPane().translate.getY(), floor);
 			mainPane.getMapRootPane().render();
 		});

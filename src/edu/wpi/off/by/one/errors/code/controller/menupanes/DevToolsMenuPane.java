@@ -49,11 +49,11 @@ public class DevToolsMenuPane extends BorderPane {
         
         try{
             loader.load();
-            setListeners();
+            
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
-        
+        setListeners();
     }
     
     private void setListeners(){

@@ -73,14 +73,14 @@ public class MapRootPane extends AnchorPane{
 	StackPane pathPane = new StackPane();
 	public Coordinate translate;
 	Coordinate release = new Coordinate(0, 0, 0);
-	public float rot = 30.0f;
-	public float zoom = 5.0f;
+	public float rot = 0.0f;
+	public float zoom = 2.0f;
 	Matrix view;
 	Matrix invview;
 	Matrix lastview;
 	//Change this as necessary
 	public Canvas canvas = new Canvas(1000, 1600);
-
+	public int currentLevel = 1;
 	private Path p;
 	
 	//Where all the images and txt files should be
@@ -100,8 +100,6 @@ public class MapRootPane extends AnchorPane{
     public boolean isDeleteMode = false;	//Is editor currently deleting nodes?
     
     boolean isctrl = false;
-
-    Timer timer = new Timer();
 
     
     public MapRootPane() {
@@ -281,7 +279,7 @@ public class MapRootPane extends AnchorPane{
 	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
 	        mygc.scale(zoom * m.getScale(), zoom * m.getScale());
 			
-			
+			System.out.println(m.getImage());
 			//mygc.drawImage(m.getImage(), c.getX(), c.getY());
 			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
@@ -291,7 +289,7 @@ public class MapRootPane extends AnchorPane{
 			if(nd == null) continue;
 
 			Node n = display.getGraph().returnNodeById(nd.getNode());
-			if(translate.getZ() > n.getCoordinate().getZ() + 0.1 || translate.getZ() < n.getCoordinate().getZ() - 0.1){
+			if(translate.getZ() > n.getCoordinate().getZ() + 0.1 && translate.getZ() < n.getCoordinate().getZ() - 0.1){
 				np.setVisible(false);
 				np.setMouseTransparent(true);
 				continue;
@@ -436,10 +434,10 @@ public class MapRootPane extends AnchorPane{
 	    				//Coordinate newCoord = transform.transform(new Coordinate((float) e.getX(), (float) e.getY()));
 	    				//n.setCenterX(newCoord.getX());
 	    				//n.setCenterY(newCoord.getY());
-	    				n.setCenterX(e.getX() - localBounds.getMaxX()/2);
-	    				n.setCenterY(e.getY() - localBounds.getMaxY()/2);
+	    				n.setCenterX(e.getX());
+	    				n.setCenterY(e.getY());
 	    				display.getGraph().editNode(n.getNode(),
-	    						new Coordinate((float) e.getX(), (float)e.getY()));
+	    						new Coordinate((float) e.getX(), (float)e.getY(), (float) currentLevel));
 	    				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
 	    				n.fireEvent(selectNodeEvent);
 	    			}
@@ -514,11 +512,12 @@ public class MapRootPane extends AnchorPane{
 			
 			double tx = c.getX();// - (localBounds.getMaxX() / 2);
 	        double ty = c.getY();// - (localBounds.getMaxY() / 2);
+	        double tz = c.getZ();
 			
 			NodeDisplay newNode = new NodeDisplay(display, n.getId(),
 					new SimpleDoubleProperty(c.getX()), 
 					new SimpleDoubleProperty(c.getY()),
-					new SimpleDoubleProperty(0));
+					new SimpleDoubleProperty(c.getZ()));
 			newNode.setTranslateX(tx);
 			newNode.setTranslateY(ty);
 		    newNode.centerXProperty().addListener(e -> {
@@ -578,7 +577,7 @@ public class MapRootPane extends AnchorPane{
 		NodeDisplay newNode = new NodeDisplay(display, 
 				new SimpleDoubleProperty(x), 
 				new SimpleDoubleProperty(y),
-				new SimpleDoubleProperty(0));
+				new SimpleDoubleProperty(currentLevel));
 		newNode.setTranslateX(tx);
 		newNode.setTranslateY(ty);
 	    newNode.centerXProperty().addListener(e -> {
@@ -637,6 +636,7 @@ public class MapRootPane extends AnchorPane{
 
 	    // Add to the scene
 	    nodeLayer.getChildren().add(newNode);
+	    render();
 	}
 
 	/**

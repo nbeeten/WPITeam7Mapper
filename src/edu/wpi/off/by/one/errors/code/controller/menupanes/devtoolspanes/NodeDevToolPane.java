@@ -40,10 +40,11 @@ public class NodeDevToolPane extends VBox {
 
         try{
             loader.load();
-            setListeners();
+            
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
+        setListeners();
     }
     
     public void setMainPane(MainPane m) { 
