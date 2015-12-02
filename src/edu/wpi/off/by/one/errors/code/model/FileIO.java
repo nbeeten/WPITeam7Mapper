@@ -247,7 +247,7 @@ public class FileIO {
 		} else {
 			Coordinate c = m.center; // should this be a getter?
 			//writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
-			String[] aaa = null;
+			String[] aaa = new String[1];
 			aaa[0] = m.getName();
 			writer.println("m " + m.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + m.rotation + " " + m.scale + " " + toTags(aaa));
 
