@@ -44,4 +44,5 @@ public class NavigationPane extends GridPane {
     private void onClosePaneButtonClick(){
         close();
     }
+
 }

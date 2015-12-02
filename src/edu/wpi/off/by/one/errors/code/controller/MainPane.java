@@ -51,6 +51,8 @@ public class MainPane extends BorderPane {
         }
 
         addListeners();
+
+        this.getStylesheets().add(getClass().getResource("../resources/stylesheets/MainPaneStyleSheet.css").toExternalForm());
     }
 
     private void addListeners(){

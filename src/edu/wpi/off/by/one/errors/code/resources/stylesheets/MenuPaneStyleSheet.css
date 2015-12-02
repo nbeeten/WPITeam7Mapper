@@ -1,27 +1,104 @@
-*{
-    -fx-focus-color: Transparent;
-}
 #menuBar{
     -fx-background-color: #AC2B37;
-    -fx-text-fill:#FFFFFF;
 }
 
 .toggle-button{
     -fx-background-color: Transparent;
-    -fx-text-fill: #FFFFFF;
-    -fx-background-radius: 0;
+
 }
 
 .toggle-button:hover{
     -fx-background-color: #CC3341;
 }
 
-#searchMenuRadioButton:selected,
-#directionsMenuRadioButton:selected,
-#favoritesMenuRadioButton:selected,
-#devToolMenuRadioButton:selected,
-#settingsMenuRadioButton:selected,
+#hamburgerToggleButton{
+    -fx-background-image: url("../icons/Question.png");
+    -fx-background-size: cover;
+}
+
+#hamburgerToggleButton:hover{
+    -fx-background-color: #CC3341;
+}
+
+/*Search Button States*/
+#searchMenuRadioButton{
+    -fx-background-image: url("../icons/Question.png");
+    -fx-background-size: cover;
+}
+
+#searchMenuRadioButton:hover{
+
+}
+
+#searchMenuRadioButton:selected{
+    -fx-background-color: #FFFFFF;
+}
+
+/*Directions Button States*/
+#directionsMenuRadioButton{
+    -fx-background-image: url("../icons/Question.png");
+    -fx-background-size: cover;
+}
+
+#directionsMenuRadioButton:hover{
+
+}
+
+#directionsMenuRadioButton:selected{
+    -fx-background-color: #FFFFFF;
+}
+
+/*Favorites Button States*/
+#favoritesMenuRadioButton{
+    -fx-background-image: url("../icons/Question.png");
+    -fx-background-size: cover;
+}
+
+#favoritesMenuRadioButton:hover{
+}
+
+#favoritesMenuRadioButton:selected{
+    -fx-background-color: #FFFFFF;
+}
+
+/*Dev mode Button States*/
+#devToolMenuRadioButton{
+    -fx-background-image: url("../icons/devIcon.png");
+    -fx-background-size: cover;
+}
+
+#devToolMenuRadioButton:hover{
+
+}
+
+#devToolMenuRadioButton:selected{
+    -fx-background-color: #FFFFFF;
+}
+
+/*Settings Button States*/
+#settingsMenuRadioButton{
+    -fx-background-image: url("../icons/settings.png");
+    -fx-background-size: cover;
+}
+
+#settingsMenuRadioButton:hover{
+
+}
+
+#settingsMenuRadioButton:selected{
+    -fx-background-color: #FFFFFF;
+}
+
+/*Help Button States*/
+#helpMenuRadioButton{
+    -fx-background-image: url("../icons/Question.png");
+    -fx-background-size: cover;
+}
+
+#helpMenuRadioButton:hover{
+
+}
+
 #helpMenuRadioButton:selected{
     -fx-background-color: #FFFFFF;
-    -fx-text-fill: #AC2B37;
 }

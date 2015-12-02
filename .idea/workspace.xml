@@ -2,11 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c8753f1-c585-43b8-98e1-0352514a94de" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MapRootPane.java" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MapRootPane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/menupanes/DirectionsMenuPane.java" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/menupanes/DirectionsMenuPane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MainPane.fxml" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MainPane.fxml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/Question.png" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/icons/Question.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/devIcon.png" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/icons/devIcon.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/leftarrow.png" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/icons/leftarrow.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/rightarrow.png" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/icons/rightarrow.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/settings.png" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/icons/settings.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MainPane.java" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MainPane.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/NavigationPane.java" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/NavigationPane.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/model/Path.java" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/model/Path.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/MainPaneStyleSheet.css" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/MainPaneStyleSheet.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/MenuPaneStyleSheet.css" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/MenuPaneStyleSheet.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/NavigationPaneStyleSheet.css" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/NavigationPaneStyleSheet.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/menupanes/SearchPaneStyleSheet.css" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/menupanes/SearchPaneStyleSheet.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MenuPane.fxml" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MenuPane.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/menupanes/DirectionsMenuPane.fxml" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/menupanes/DirectionsMenuPane.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/NavigationPane.fxml" afterPath="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/NavigationPane.fxml" />
     </list>
     <ignored path="WPITeam7Mapper.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,14 +38,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="MenuPaneStyleSheet.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/MenuPaneStyleSheet.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6491525">
+              <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="MenuPane.fxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MenuPane.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.038462">
-              <caret line="55" column="90" selection-start-line="55" selection-start-column="90" selection-end-line="55" selection-end-column="90" />
+            <state vertical-scroll-proportion="-4.1538463">
+              <caret line="12" column="220" selection-start-line="12" selection-start-column="220" selection-end-line="12" selection-end-column="220" />
               <folding />
             </state>
           </provider>
@@ -45,43 +65,7 @@
         <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MenuPane.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MapRootPane.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MapRootPane.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7864407">
-              <caret line="634" column="29" selection-start-line="634" selection-start-column="29" selection-end-line="634" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DirectionsMenuPane.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/menupanes/DirectionsMenuPane.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="46" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
-              <folding>
-                <element signature="e#1129#1130#0" expanded="true" />
-                <element signature="e#1175#1176#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DirectionsMenuPane.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/menupanes/DirectionsMenuPane.fxml">
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.0">
-              <caret line="52" column="44" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="44" />
+              <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -103,15 +87,23 @@
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/Main.java" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/menupanes/SearchMenuPane.java" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/menupanes/SearchMenuPane.fxml" />
-        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/NavigationPane.fxml" />
-        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MainPane.java" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MapRootPane.fxml" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/menupanes/DevToolsMenuPane.java" />
-        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MainPane.fxml" />
-        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MenuPane.fxml" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/menupanes/DirectionsMenuPane.fxml" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/menupanes/DirectionsMenuPane.java" />
         <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MapRootPane.java" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/model/Path.java" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/menupanes/SearchPaneStyleSheet.css" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/CommonStyleSheet.css" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MainPane.java" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MenuPane.java" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/MainPaneStyleSheet.css" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/NavigationPane.fxml" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/NavigationPaneStyleSheet.css" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/NavigationPane.java" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MainPane.fxml" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MenuPane.fxml" />
+        <option value="$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/MenuPaneStyleSheet.css" />
       </list>
     </option>
   </component>
@@ -346,7 +338,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="maps" />
+              <option name="myItemId" value="stylesheets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -368,29 +360,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WPITeam7Mapper" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WPITeam7Mapper" />
+              <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
+              <option name="myItemId" value="stylesheets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -398,10 +372,63 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WPITeam7Mapper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WPITeam7Mapper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="code" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icons" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WPITeam7Mapper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WPITeam7Mapper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="code" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
     </panes>
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jules\Documents\GitHub\WPITeam7Mapper\src\edu\wpi\off\by\one\errors\code\resources\icons" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -698,7 +725,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1404841" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1404841" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.174" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -833,16 +860,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MainPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5752809">
-          <caret line="47" column="45" selection-start-line="47" selection-start-column="45" selection-end-line="47" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/menupanes/DevToolsMenuPane.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6522472">
@@ -862,25 +879,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/NavigationPane.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.0769231">
-          <caret line="6" column="112" selection-start-line="6" selection-start-column="112" selection-end-line="6" selection-end-column="112" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/NavigationPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/menupanes/DevToolsMenuPane.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
@@ -892,13 +890,145 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MainPane.fxml">
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/icons/Question.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/icons/devIcon.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MapRootPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7864407">
+          <caret line="646" column="29" selection-start-line="646" selection-start-column="29" selection-end-line="646" selection-end-column="29" />
+          <folding>
+            <element signature="e#2564#2577#0" expanded="true" />
+            <element signature="e#2652#2665#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/model/Path.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7711864">
+          <caret line="243" column="49" selection-start-line="243" selection-start-column="49" selection-end-line="243" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/menupanes/DirectionsMenuPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18305084">
+          <caret line="20" column="46" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
+          <folding>
+            <element signature="e#1129#1130#0" expanded="true" />
+            <element signature="e#1175#1176#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/menupanes/DirectionsMenuPane.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.82978725">
+          <caret line="52" column="44" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/icons/settings.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/Close.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/icons/rightarrow.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/icons/leftarrow.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/menupanes/SearchPaneStyleSheet.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MainPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="54" column="91" selection-start-line="54" selection-start-column="91" selection-end-line="54" selection-end-column="91" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/MainPaneStyleSheet.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/NavigationPane.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.269231">
-          <caret line="21" column="34" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
+          <caret line="21" column="173" selection-start-line="21" selection-start-column="173" selection-end-line="21" selection-end-column="182" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/MainPane.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.62234044">
+          <caret line="39" column="51" selection-start-line="39" selection-start-column="51" selection-end-line="39" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/NavigationPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="33" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/NavigationPaneStyleSheet.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MenuPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
           <folding />
         </state>
       </provider>
@@ -908,46 +1038,16 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.038462">
-          <caret line="55" column="90" selection-start-line="55" selection-start-column="90" selection-end-line="55" selection-end-column="90" />
+        <state vertical-scroll-proportion="-4.1538463">
+          <caret line="12" column="220" selection-start-line="12" selection-start-column="220" selection-end-line="12" selection-end-column="220" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MenuPane.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/resources/stylesheets/MenuPaneStyleSheet.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/view/menupanes/DirectionsMenuPane.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.0">
-          <caret line="52" column="44" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/menupanes/DirectionsMenuPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="46" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
-          <folding>
-            <element signature="e#1129#1130#0" expanded="true" />
-            <element signature="e#1175#1176#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/wpi/off/by/one/errors/code/controller/MapRootPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7864407">
-          <caret line="634" column="29" selection-start-line="634" selection-start-column="29" selection-end-line="634" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.6491525">
+          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
           <folding />
         </state>
       </provider>

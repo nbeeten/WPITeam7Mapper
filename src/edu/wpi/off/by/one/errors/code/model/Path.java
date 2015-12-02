@@ -234,13 +234,14 @@ public class Path {
 				if(lastangle > -180.0f){
 					float dxangle = lastangle - angle;
 					float dangle = Math.abs(dxangle);
+					float degreedangle = (float) (dangle * 180 / Math.PI);
 					if(dangle >= 1.0f)
-						res.add("Turn " + " Degrees to the " + ((dxangle >= 0.0f) ? "right. " : "left. "));
+						res.add("Turn " + Math.round(degreedangle) + " Degrees to the " + ((dxangle >= 0.0f) ? "right. " : "left. "));
 				} else {
 					res.add("Face " + angle + " Degrees. ");
 				}
 				lastangle = angle;
-				res.add("Walk " + dist + " Meters. ");//TODO North south stuff
+				res.add("Walk " + Math.round(dist) + " Meters. ");//TODO North south stuff
 			}
 			lastcoord = thiscoord;
 			cnt++;
