@@ -304,8 +304,8 @@ public class MapRootPane extends AnchorPane{
         System.out.println("MOVING");
         System.out.println(localBounds.getMinX() + " " + localBounds.getMinY());
         System.out.println(localBounds.getMaxX() + " " + localBounds.getMaxY());
-        obj.setTranslateX(x - localBounds.getMaxX() / 2);
-        obj.setTranslateY(y - localBounds.getMaxY() / 2);
+        obj.setTranslateX(x - (localBounds.getMaxX() / 2));
+        obj.setTranslateY(y - (localBounds.getMaxY() / 2));
 
     }
 
@@ -329,8 +329,8 @@ public class MapRootPane extends AnchorPane{
 			double ty = c.getY() - (localBounds.getMaxY()/2);
 			
 			NodeDisplay newNode = new NodeDisplay(display, n.getId(),
-					new SimpleDoubleProperty(tx), 
-					new SimpleDoubleProperty(ty),
+					new SimpleDoubleProperty(c.getX()), 
+					new SimpleDoubleProperty(c.getY()),
 					new SimpleDoubleProperty(0));
 			newNode.setTranslateX(tx);
 			newNode.setTranslateY(ty);
@@ -472,8 +472,8 @@ public class MapRootPane extends AnchorPane{
 	        			aLocX, aLocY,
 	                    bLocX, bLocY);
 	            e.setStroke(Color.BLUE);
-	            e.setTranslateX((aLocX.get() + bLocX.get())/2);
-	            e.setTranslateY((aLocY.get() + bLocY.get())/2);
+	            e.setTranslateX((aLocX.get() + bLocX.get())/2 - (localBounds.getMaxX() / 2));
+	            e.setTranslateY((aLocY.get() + bLocY.get())/2 - (localBounds.getMaxY() / 2));
 	            e.startXProperty().addListener(ev -> {
 	            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
 	            });
