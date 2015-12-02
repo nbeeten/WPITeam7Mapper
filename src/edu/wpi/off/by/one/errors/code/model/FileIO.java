@@ -242,10 +242,6 @@ public class FileIO {
 		ids = null;
 		//will change this over to iterate over a list later
 
-		Map m = indpy.getMaps().get(0);
-		if(m == null){//continue;
-			
-		} else {
 			ArrayList<Map> meps = indpy.getMaps();
 			for(Map map : meps) {
 				if (map == null) continue;
@@ -257,7 +253,6 @@ public class FileIO {
 			}
 		if (writer != null) writer.close();
 		return i;
-		}
 	}
 
 }
