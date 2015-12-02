@@ -13,10 +13,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
@@ -61,9 +58,11 @@ public class MapRootPane extends AnchorPane{
 	@FXML Button zoomOutButton;
 	@FXML VBox editorPane;
 	@FXML Button drawPathDisplayButton;
-	StackPane pathPane = new StackPane();
+	Pane nodeLayer = new Pane();
+	Pane edgeLayer = new Pane();
+	Pane pathPane = new StackPane();
 	Coordinate translate;
-	float rot = 0.0f;
+	float rot = -30.0f;
 	float zoom = 1.0f;
 	Matrix view;
 	//Change this as necessary
@@ -105,8 +104,8 @@ public class MapRootPane extends AnchorPane{
     public void updateCanvasSize(double width, double height){
     	
     	//System.out.printf("Height: %f, Width: %f\n", height, width);
-    	canvas.setHeight(height);
-    	canvas.setWidth(width);
+    	canvas.setHeight(height*4);
+    	canvas.setWidth(width*4);
     	//System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
     	render();
     }
@@ -119,15 +118,14 @@ public class MapRootPane extends AnchorPane{
 		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
         //display = displayList.get("Campus Map");
         display.getMaps().get(0).setRotation(30);
-		mapPane.getChildren().add(0, pathPane);
-        mapPane.getChildren().add(0, canvas);
+		mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
 		//Set map image
         //mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
 		mapView.preserveRatioProperty().set(true);
 		//Update local bounds of the map view
 		localBounds = mapView.getBoundsInLocal();
 		//Updates display with nodes/edges
-		//updateDisplay(display.getGraph());
+		updateDisplay(display.getGraph());
 		// center the mapScrollPane contents.
         
         //Setup event listeners for map
@@ -135,6 +133,7 @@ public class MapRootPane extends AnchorPane{
 		translate = new Coordinate(0.0f, 0.0f);
 		view = new Matrix();
         render();
+        
     }
     
     /**
@@ -155,7 +154,9 @@ public class MapRootPane extends AnchorPane{
 		// If the option is to clear the map first, do so
 		// otherwise, keep current content and just append
 		if(option.equals("NEW")){
-			mapPane.getChildren().clear();
+			//nodeLayer.getChildren().clear();
+			//edgeLayer.getChildren().clear();
+			//mapPane.getChildren().clear();
 			//Update the current map image
 			//updateMap(newdisplay.getMap());
             mapPane.getChildren().addAll(pathPane, mapView);
@@ -182,7 +183,6 @@ public class MapRootPane extends AnchorPane{
 		ArrayList<Map> mlist = display.getMaps();
 		mygc.save();
 		for(Map m : mlist){
-			System.out.printf("wek\n");
 			if(m == null) continue;
 
 			System.out.println(m.getRotation());
@@ -290,7 +290,7 @@ public class MapRootPane extends AnchorPane{
      */
     private void setListeners(){
     	// Listen to when the user clicks on the map
-    	mapView.setOnMouseClicked(e -> {
+    	mapPane.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
     			//TODO Add marker on map
@@ -348,7 +348,7 @@ public class MapRootPane extends AnchorPane{
 
     	});
 
-    	mapPane.addEventFilter(EditorEvent.DRAW_EDGES, e -> {
+    	edgeLayer.addEventFilter(EditorEvent.DRAW_EDGES, e -> {
     		if(isEdgeEditor) addEdgeDisplayFromQueue();
     	});
     }
@@ -427,7 +427,7 @@ public class MapRootPane extends AnchorPane{
 		        	//updateDisplay(display, "NEW");
 	        	}
 	        });
-	        mapPane.getChildren().add(newNode);
+	        nodeLayer.getChildren().add(newNode);
 	    }
 	}
 
@@ -498,7 +498,7 @@ public class MapRootPane extends AnchorPane{
 	    //newNode.visibleProperty().bind(showNodes.selectedProperty());
 
 	    // Add to the scene
-	    mapPane.getChildren().add(newNode);
+	    nodeLayer.getChildren().add(newNode);
 	}
 
 	/**
@@ -547,7 +547,7 @@ public class MapRootPane extends AnchorPane{
 	            e.endYProperty().addListener(ev -> {
 	            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
 	            });
-	            mapPane.getChildren().add(e);
+	            edgeLayer.getChildren().add(e);
 	            aND.fireEvent(selectNodeEvent);
 	            
 	            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
@@ -555,7 +555,7 @@ public class MapRootPane extends AnchorPane{
 	            		System.out.println("Edge deleted");
 	    	        	Id id = e.getEdge();
 	    	        	display.getGraph().deleteEdge(id);
-	    	        	mapPane.getChildren().remove(e);
+	    	        	edgeLayer.getChildren().remove(e);
 	            	} else {
 	            		System.out.println("Edge selected");
 		            	e.selectEdge();
@@ -572,7 +572,7 @@ public class MapRootPane extends AnchorPane{
 	            });
 	            
 	            e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
-	            	mapPane.getChildren().remove(e);
+	            	edgeLayer.getChildren().remove(e);
 	            	display.getGraph().deleteEdge(e.getEdge());
 	            	render();
 	            });
@@ -627,7 +627,7 @@ public class MapRootPane extends AnchorPane{
             e.endYProperty().addListener(ev -> {
             	e.setTranslateY((aLocY.get() + bLocY.get())/2);
             });
-            mapPane.getChildren().add(e);
+            edgeLayer.getChildren().add(e);
 
             e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
             	System.out.println("Edge selected");
@@ -645,7 +645,7 @@ public class MapRootPane extends AnchorPane{
             });
             
             e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
-            	mapPane.getChildren().remove(e);
+            	edgeLayer.getChildren().remove(e);
             	display.getGraph().deleteEdge(e.getEdge());
             	render();
             });
