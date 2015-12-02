@@ -197,6 +197,10 @@ public class MapRootPane extends AnchorPane{
 		for(Edge e : elist){
 			if(e == null) continue;
 		}
+		for(javafx.scene.Node np: mapPane.getChildren()){
+			if(np.)
+
+		}
 		for(Node n : nlist){
 			if(n == null) continue;
 			Coordinate c = view.transform(n.getCoordinate());
