@@ -150,18 +150,26 @@ public class MapRootPane extends AnchorPane{
 	public void render(){
 		//grab graphics context
 		GraphicsContext mygc = mapCanvas.getGraphicsContext2d();
+		mygc.clearRect(0, 0, mapCanvas.getWidth(), mapCanvas.getHeight());
 		Graph mygraph = display.getGraph();
 		Vector<Node> nlist = mygraph.getNodes();
 		Vector<Edge> elist = mygraph.getEdges();
 		ArrayList<Map> mlist = display.getMaps();
 		mygc.save();
 		for(Map m : mlist){
+			if(m == null) continue;
 			mygc.rotate(m.getRotation());
 			mygc.scale(m.getScale(), m.getScale());
 			Coordinate c = m.getCenter();
 			mygc.translate(c.getX(), c.getY());
 			mygc.drawImage(m.getImage(), 0.0, 0.0);
 			mygc.restore();
+		}
+		for(Edge e : elist){
+			if(e == null) continue;
+		}
+		for(Node n : nlist){
+			if(n == null) continue;
 		}
 
 	}
