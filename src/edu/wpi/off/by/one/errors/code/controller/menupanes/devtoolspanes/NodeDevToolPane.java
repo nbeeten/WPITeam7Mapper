@@ -70,9 +70,9 @@ public class NodeDevToolPane extends VBox {
     	
     	this.visibleProperty().addListener(e -> {
     		if(this.isVisible()){
-    			mainPane.getMapRootPane().isNodeEditor = true;
+    			//mainPane.getMapRootPane().isNodeEditor = true;
     		} else {
-    			mainPane.getMapRootPane().isNodeEditor = false;
+    			//mainPane.getMapRootPane().isNodeEditor = false;
     		}
     		
     	});

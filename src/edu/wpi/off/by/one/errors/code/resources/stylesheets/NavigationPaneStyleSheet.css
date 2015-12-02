@@ -14,12 +14,12 @@
 
 #previousButton{
     -fx-background-radius:50;
-    -fx-background-image: url("../icons/white/leftarrow.png");
+    -fx-background-image: url("../icons/white/Leftarrow.png");
     -fx-background-size: cover;
 }
 
 #nextButton{
     -fx-background-radius:50;
-    -fx-background-image: url("../icons/white/rightarrow.png");
+    -fx-background-image: url("../icons/white/Rightarrow.png");
     -fx-background-size: cover;
 }

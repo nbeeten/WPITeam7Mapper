@@ -53,7 +53,7 @@ public class SearchMenuPane extends BorderPane {
 		this.mainPane = mainPane;
 		for(Map m : mainPane.getMapRootPane().getDisplay().getMaps()){
         	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
-        	buildingChoiceBox.getItems().add(name);
+        	//buildingChoiceBox.getItems().add(name);
         }
 	}
 	
@@ -76,7 +76,7 @@ public class SearchMenuPane extends BorderPane {
 			mainPane.getMapRootPane().render();
 		});
 		
-		this.buildingChoiceBox.setOnContextMenuRequested(e -> {
+		/*this.buildingChoiceBox.setOnContextMenuRequested(e -> {
 			//TODO update map list
 		});
 		
@@ -101,6 +101,6 @@ public class SearchMenuPane extends BorderPane {
 			mainPane.dropzoom.play();
 			mainPane.getMapRootPane().render();
 			buildingChoiceBox.getSelectionModel().clearSelection();
-		});
+		});*/
 	}
 }
