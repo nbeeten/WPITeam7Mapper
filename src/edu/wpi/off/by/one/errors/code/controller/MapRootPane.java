@@ -120,7 +120,6 @@ public class MapRootPane extends AnchorPane{
         display.getMaps().get(0).setRotation(30);
 		mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
 		//Set map image
-        //mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
 		mapView.preserveRatioProperty().set(true);
 		//Update local bounds of the map view
 		localBounds = mapView.getBoundsInLocal();
