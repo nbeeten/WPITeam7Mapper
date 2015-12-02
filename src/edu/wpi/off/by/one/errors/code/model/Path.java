@@ -38,6 +38,8 @@ public class Path {
 		HashMap<Id, Float> fScore = new HashMap<Id, Float>();	//create a new #map for the f score of the node
 
 		for (Node elem : theGraph.getNodes()){	//sets each node that we could examine, place its ID and the maximum value into the #maps
+			if(elem==null)
+				continue;
 			gScore.put(elem.getId(), Float.MAX_VALUE);
 			fScore.put(elem.getId(), Float.MAX_VALUE);
 		}
