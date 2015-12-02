@@ -85,6 +85,7 @@ public class MapRootPane extends AnchorPane{
 	
 	//Where all the images and txt files should be
 	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
+	private String filePath = "src" + resourceDir + "maps/txtfiles/fullCampusMap.txt";
 	Bounds localBounds;
 	Display display;												//Current display
 	HashMap<String, Display> displayList;
@@ -119,6 +120,7 @@ public class MapRootPane extends AnchorPane{
     public void setMainPane(MainPane m) { this.mainPane = m; }
     public MapRootPane getMapRootPane() { return this; }
     public HashMap<String, Display> getAllDisplays() {return displayList; }
+    public String getFilePath() {return this.filePath; }
     
     public void updateCanvasSize(double width, double height){
     	
@@ -132,15 +134,13 @@ public class MapRootPane extends AnchorPane{
     private void initialize(){
     	System.out.print("Main Controller Initialized.");
 		//Load all displays into application
-		loadDisplays();
+		//loadDisplays();
 		//Load campus map from display list
 		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
         //display = displayList.get("Campus Map");
         display.getMaps().get(0).setRotation(0);
         pathPane.setMouseTransparent(true);
 		mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
-		edgeLayer.setStyle("-fx-border-color: #888888;-fx-border-width: 2px;");
-		nodeLayer.setStyle("-fx-border-color: #2e8b57;-fx-border-width: 2px;");
 		nodeLayer.setAlignment(Pos.TOP_LEFT);
 		edgeLayer.setAlignment(Pos.TOP_LEFT);
 		//Set map image
@@ -531,6 +531,11 @@ public class MapRootPane extends AnchorPane{
 	           System.out.println("Node Selected");
 		       newNode.selectNode();
 			   nodeQueue.add(newNode);
+			   if(nodeQueue.size() == 2 && !isEditMode){
+			    	drawPath();
+			    	nodeQueue.clear();
+			    	newNode.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
+			    }
 			   // Add selected node to selected node queue
 			   mainPane.getNodeTool().displayNodeInfo(newNode);
 	        });
@@ -588,6 +593,11 @@ public class MapRootPane extends AnchorPane{
 	        System.out.println("Node Selected");
 	        newNode.selectNode();
 		    nodeQueue.add(newNode);
+		    if(nodeQueue.size() == 2 && !isEditMode){
+		    	drawPath();
+		    	nodeQueue.clear();
+		    	newNode.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
+		    }
 		    System.out.println(newNode.getCenterX() + " " + newNode.getCenterY());
 		        // Add selected node to selected node queue
 		    mainPane.getNodeTool().displayNodeInfo(newNode);
@@ -702,6 +712,7 @@ public class MapRootPane extends AnchorPane{
 	    } else {
 	    	//TODO: Display message in editor that says no nodes are being selected
 	    }
+	    render();
 	}
 
 	/**

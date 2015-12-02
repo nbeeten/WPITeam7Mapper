@@ -81,6 +81,7 @@ public class FileIO {
 		StringBuilder ret = new StringBuilder();
 		for(int i= 0; i < args.length; i++){
 			String elt = args[i];
+			if(elt == null) continue;
 			ret.append(elt.replace(" ", "_"));
 			if(i < args.length -1) ret.append(",");
 		}
