@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -59,6 +60,8 @@ public class MapRootPane extends AnchorPane{
 	@FXML VBox editorPane;
 	@FXML Button drawPathDisplayButton;
 	StackPane pathPane = new StackPane();
+	//Change this as necessary
+	Canvas canvas = new Canvas(1000, 1000);
 
 	//Where all the images and txt files should be
 	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
@@ -93,6 +96,14 @@ public class MapRootPane extends AnchorPane{
     public MapRootPane getMapRootPane() { return this; }
     public HashMap<String, Display> getAllDisplays() {return displayList; }
     
+    public void updateCanvasSize(double width, double height){
+    	
+    	//System.out.printf("Height: %f, Width: %f\n", height, width);
+    	canvas.setHeight(height);
+    	canvas.setWidth(width);
+    	System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
+    }
+    
     private void initialize(){
     	System.out.print("Main Controller Initialized.");
 		//Load all displays into application
@@ -100,8 +111,9 @@ public class MapRootPane extends AnchorPane{
 		//Load campus map from display list
         display = displayList.get("Campus Map");
         mapPane.getChildren().add(0, pathPane);
+        mapPane.getChildren().add(0, canvas);
 		//Set map image
-        mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
+//        mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
 		mapView.preserveRatioProperty().set(true);
 		//Update local bounds of the map view
 		localBounds = mapView.getBoundsInLocal();
@@ -133,14 +145,14 @@ public class MapRootPane extends AnchorPane{
 		if(option.equals("NEW")){
 			mapPane.getChildren().clear();
 			//Update the current map image
-			updateMap(newdisplay.getMap());
+			//updateMap(newdisplay.getMap());
             mapPane.getChildren().addAll(pathPane, mapView);
             localBounds = mapView.getBoundsInLocal();
 		}
-		String mapName = newdisplay.getMap().getName();
-		if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
+		//String mapName = newdisplay.getMap().getName();
+		//if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
 		//Put the new display into the display list. Replace current if it already exists
-		displayList.put(mapName, newdisplay);
+		//displayList.put(mapName, newdisplay);
 		//Current display is now the new one
 		this.display = newdisplay;
 		Graph g = newdisplay.getGraph();
@@ -149,8 +161,8 @@ public class MapRootPane extends AnchorPane{
 	}
 	public void render(){
 		//grab graphics context
-		GraphicsContext mygc = mapCanvas.getGraphicsContext2d();
-		mygc.clearRect(0, 0, mapCanvas.getWidth(), mapCanvas.getHeight());
+		GraphicsContext mygc = canvas.getGraphicsContext2D();
+		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		Graph mygraph = display.getGraph();
 		Vector<Node> nlist = mygraph.getNodes();
 		Vector<Edge> elist = mygraph.getEdges();
@@ -189,9 +201,11 @@ public class MapRootPane extends AnchorPane{
 	 * @param newmap
 	 */
 	private void updateMap(Map newmap){
+		/*
 		if(newmap.getImgUrl() != display.getMap().getImgUrl()){
 			mapView.setImage(new Image(resourceDir + "maps/images/" +  newmap.getImgUrl()));
         }
+        */
 	}
 	
 	/**
@@ -211,8 +225,8 @@ public class MapRootPane extends AnchorPane{
 		for(String file : lof){
 			String path = "src" + resourceDir + "maps/txtfiles/" + file;
 			Display d = FileIO.load(path, null);
-			String mapName = d.getMap().getName();
-			if(mapName == null) mapName = d.getMap().getImgUrl();
+			String mapName = d.getMaps().get(0).getName();
+			if(mapName == null) mapName = d.getMaps().get(0).getImgUrl();
 			displayList.put(mapName, d);
 		}
 	}
@@ -221,7 +235,6 @@ public class MapRootPane extends AnchorPane{
      * "Zoom" into map by pressing the "+" button
      * TODO scaling cuts off map at a certain point.
      * TODO Make it so that this works with scrolling on map
-     * @param e event
      */
     /*
 	@FXML
