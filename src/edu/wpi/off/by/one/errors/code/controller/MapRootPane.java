@@ -322,7 +322,6 @@ public class MapRootPane extends AnchorPane{
 				System.out.println("NULL!");
 				continue;
 			}
-			System.out.println("SUCCESS");
 			Coordinate c = n.getCoordinate();
 			//addNodeDisplay(c.getX(), c.getY());
 			
@@ -384,8 +383,8 @@ public class MapRootPane extends AnchorPane{
         double ty = y - (localBounds.getMaxY() / 2);
 		
 		NodeDisplay newNode = new NodeDisplay(display, 
-				new SimpleDoubleProperty(tx), 
-				new SimpleDoubleProperty(ty),
+				new SimpleDoubleProperty(x), 
+				new SimpleDoubleProperty(y),
 				new SimpleDoubleProperty(0));
 		newNode.setTranslateX(tx);
 		newNode.setTranslateY(ty);
