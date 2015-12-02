@@ -27,7 +27,7 @@ public class Map {
 		this.center = new Coordinate(0);
 		this.rotation = 0;
 		this.scale = 0;
-		updateImg();
+		//updateImg();
 	}
 	
 	public Map (String name, String imagePath, float rotation, float scale){
