@@ -61,11 +61,23 @@ public class MainPane extends BorderPane {
     @FXML private void onOpenNavigationPaneButtonClick(){
         navigationPane.open();
     }
-    public void setWindow(Window window) { this.window = window; }
+    public void setWindow(Window window) { 
+    	this.window = window; 
+    	window.heightProperty().addListener(e -> {
+    		System.out.println("Scroll Pane Size: " + mapScrollPane.getHeight());
+    		mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
+    	});
+    	
+    	window.widthProperty().addListener(e -> {
+    		System.out.println("Scroll Pane Size: " + mapScrollPane.getWidth());
+    		mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
+    	});
+    }
     public Window getWindow() { return this.window; }
     public MenuPane getMenuPane() { return this.menuPane; }
     public MapRootPane getMapRootPane() { return this.mapRootPane; }
     public NavigationPane getNavigationPane() { return this.navigationPane;}
     public NodeDevToolPane getNodeTool() { return this.menuPane.getDevToolsMenuPane().getNodeDevToolPane(); }
+    
 }
 
