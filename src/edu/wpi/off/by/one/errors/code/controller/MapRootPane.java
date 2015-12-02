@@ -190,14 +190,14 @@ public class MapRootPane extends AnchorPane{
 
 			Coordinate c = view.transform(m.getCenter());
 			mygc.translate(c.getX(), c.getY());
-			mygc.fillOval(0, 0, 10, 10);
+			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
 		for(Node n : nlist){
 			if(n == null) continue;
 			Coordinate c = view.transform(n.getCoordinate());
 			mygc.translate(c.getX(), c.getY());
-			mygc.drawImage(n.getImage(), 0, 0);
+			mygc.fillOval(0, 0, 10, 10);
 			mygc.restore();
 		}
 		for(javafx.scene.Node np: nodeLayer.getChildren()){
