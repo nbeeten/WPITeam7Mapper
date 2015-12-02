@@ -23,6 +23,7 @@ public class Matrix {
     }
     //create a translation matrix
     public Matrix(Coordinate coord){
+        m = new float[4][4];
         m[0][0]=1.0f;
         m[1][0]=0.0f;
         m[2][0]=0.0f;
@@ -47,6 +48,7 @@ public class Matrix {
     }
     //create a rotation matrix
     public Matrix(float angle, float x, float y, float z){
+        m = new float[4][4];
         float len, c, s;
 
         len = x*x+y*y+z*z;
@@ -84,6 +86,7 @@ public class Matrix {
     }
     //create a scale matrix
     public Matrix(float scale){
+        m = new float[4][4];
         m[0][0]=scale;
         m[0][1]=0.0f;
         m[0][2]=0.0f;
@@ -108,6 +111,7 @@ public class Matrix {
     }
     //create a scale3 matrix
     public Matrix(float scalex, float scaley, float scalez){
+        m = new float[4][4];
         m[0][0]=scalex;
         m[0][1]=0.0f;
         m[0][2]=0.0f;
