@@ -45,6 +45,7 @@ import edu.wpi.off.by.one.errors.code.model.Id;
 import edu.wpi.off.by.one.errors.code.model.Map;
 import edu.wpi.off.by.one.errors.code.model.Node;
 import edu.wpi.off.by.one.errors.code.model.Path;
+import edu.wpi.off.by.one.errors.code.model.Matrix;
 
 /**
  * Created by jules on 11/28/2015.
@@ -61,6 +62,10 @@ public class MapRootPane extends AnchorPane{
 	@FXML VBox editorPane;
 	@FXML Button drawPathDisplayButton;
 	StackPane pathPane = new StackPane();
+	Coordinate translate;
+	float rot = 0.0f;
+	float zoom = 1.0f;
+	Matrix view;
 	//Change this as necessary
 	Canvas canvas = new Canvas(1000, 1000);
 
@@ -127,6 +132,8 @@ public class MapRootPane extends AnchorPane{
         
         //Setup event listeners for map
         setListeners();
+		translate = new Coordinate(0.0f, 0.0f);
+		view = new Matrix();
         render();
     }
     
@@ -165,6 +172,7 @@ public class MapRootPane extends AnchorPane{
 		updateDisplay(g);
 	}
 	public void render(){
+		Matrix view = new Matrix().translate(translate).rotate(rot, 0.0f, 0.0f, 1.0f).scale(zoom);
 		//grab graphics context
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -176,11 +184,11 @@ public class MapRootPane extends AnchorPane{
 		for(Map m : mlist){
 			System.out.printf("wek\n");
 			if(m == null) continue;
+
 			System.out.println(m.getRotation());
 			Rotate r = new Rotate(30, 0, 0);
 	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-			//mygc.rotate(m.getRotation());
-			//mygc.scale(m.getScale(), m.getScale());
+
 			Coordinate c = m.getCenter();
 			mygc.translate(c.getX(), c.getY());
 			mygc.drawImage(m.getImage(), 100.0, 100.0);
