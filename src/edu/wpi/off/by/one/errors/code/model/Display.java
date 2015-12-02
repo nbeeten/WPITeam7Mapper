@@ -37,7 +37,7 @@ public class Display extends Pane{
 		this.currentGraph = new Graph();
 	}
 	
-	public void addMap(Map m){Maps.add(m);}
+	public void addMap(Map m){ Maps.add(m);}
 	public void setGraph(Graph g) { this.currentGraph = g; }
 	public ArrayList<Map> getMaps() { return Maps; }
 	public Graph getGraph() { return currentGraph; }

@@ -50,7 +50,7 @@ public class Map {
 	}
 	
 	public void setName(String name) { this.name = name; }
-	public void setImgUrl(String path) { this.imagePath = path; }
+	public void setImgUrl(String path) { this.imagePath = path; updateImg();}
 	public void setCenter(Coordinate coordinate) { this.center = coordinate; }
 	public void setRotation(float rotation) { this.rotation = rotation; }
 	public void setScale(float scale) { this.scale = scale; }

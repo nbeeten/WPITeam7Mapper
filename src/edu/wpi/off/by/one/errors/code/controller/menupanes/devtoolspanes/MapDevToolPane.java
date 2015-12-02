@@ -15,6 +15,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
@@ -33,7 +34,7 @@ public class MapDevToolPane extends VBox {
 	MainPane mainPane;
 	HashMap<String,Display> displayList;
 	
-	@FXML ChoiceBox<String> displayChoiceBox;
+	@FXML public ChoiceBox<String> mapChoiceBox;
 	@FXML TextField nameTextField;
 	@FXML TextField xTextField;
 	@FXML TextField yTextField;
@@ -42,6 +43,8 @@ public class MapDevToolPane extends VBox {
 	@FXML TextField scaleTextField;
 	@FXML Label pathLabel;
 	@FXML Button changeImageButton;
+	private ArrayList<Map> mapList;
+	private Map selectedMap;
 	
 
     public MapDevToolPane() {
@@ -57,77 +60,87 @@ public class MapDevToolPane extends VBox {
         }
     }
     
-    private void setListeners(){
-/*    	
-    	this.displayChoiceBox.setOnAction(e -> {
+    private void setListeners(){  	
+    	this.mapChoiceBox.setOnAction(e -> {
+    		//should be change map info
     		changeDisplay();
     	});
-    */	
-    	this.nameTextField.setOnAction(e -> {
-    		String old_s = currentMap.getName();
-    		if(old_s == null) old_s = currentMap.getImgUrl();
+    	
+    	this.mapChoiceBox.setOnContextMenuRequested(e->{
+    		mapChoiceBox.getItems().clear();
+    		this.mapList = mainPane.getMapRootPane().getDisplay().getMaps(); 
+        	for(Map m : mainPane.getMapRootPane().getDisplay().getMaps()){
+            	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
+            	mapChoiceBox.getItems().add(name);
+            }
+    	});
+    	this.nameTextField.setOnKeyPressed(e -> {
     		String s = nameTextField.getText();
     		currentMap.setName(s);
-    		updateDisplayList(old_s, s);
+    		mainPane.getMapRootPane().render();
+    		//updateDisplayList(old_s, s);
     	});
     	
-    	this.rotationTextField.setOnAction(e -> {
+    	this.rotationTextField.setOnKeyPressed(e -> {
     		String s = rotationTextField.getText();
+    		System.out.println(s);
+    		if(s == null) s = "0";
     		currentMap.setRotation(Float.parseFloat(s));
-    		String name = (currentMap.getName() != null) ?  currentMap.getName(): currentMap.getImgUrl();
-    		Display d = displayList.get(name);
+    		mainPane.getMapRootPane().render();
     		//d.setMap(currentMap);
-    		displayList.put(name, d);
+    		//displayList.put(name, d);
     	});
     	
-    	this.scaleTextField.setOnAction(e -> {
+    	this.scaleTextField.setOnKeyPressed(e -> {
     		String s = scaleTextField.getText();
+    		if(s == null) s = "0";
     		currentMap.setScale(Float.parseFloat(s));
-    		String name = (currentMap.getName() != null) ?  currentMap.getName(): currentMap.getImgUrl();
-    		Display d = displayList.get(name);
+    		mainPane.getMapRootPane().render();
     		//d.setMap(currentMap);
-    		displayList.put(name, d);
+    		//displayList.put(name, d);
     	});
     	
-    	this.xTextField.setOnAction(e -> {
+    	this.xTextField.setOnKeyPressed(e -> {
     		String s = xTextField.getText();
+    		if(s == null) s = "0";
     		Coordinate currentc = currentMap.getCenter();
     		currentMap.setCenter(new Coordinate(Float.parseFloat(s),
     				currentc.getY(), currentc.getZ()));
-    		String name = (currentMap.getName() != null) ?  currentMap.getName(): currentMap.getImgUrl();
-    		Display d = displayList.get(name);
+    		mainPane.getMapRootPane().render();
     		//d.setMap(currentMap);
-    		displayList.put(name, d);
+    		//displayList.put(name, d);
     	});
     	
-    	this.yTextField.setOnAction(e -> {
+    	this.yTextField.setOnKeyPressed(e -> {
     		String s = yTextField.getText();
+    		if(s == null) s = "0";
     		Coordinate currentc = currentMap.getCenter();
     		currentMap.setCenter(new Coordinate(currentc.getX(),
     				Float.parseFloat(s), currentc.getZ()));
-    		String name = (currentMap.getName() != null) ?  currentMap.getName(): currentMap.getImgUrl();
-    		Display d = displayList.get(name);
+    		mainPane.getMapRootPane().render();
     		//d.setMap(currentMap);
-    		displayList.put(name, d);
+    		//displayList.put(name, d);
     	});
     	
-    	this.zTextField.setOnAction(e -> {
+    	this.zTextField.setOnKeyPressed(e -> {
     		String s = zTextField.getText();
+    		if(s == null) s = "0";
     		Coordinate currentc = currentMap.getCenter();
     		currentMap.setCenter(new Coordinate(currentc.getX(),
     				currentc.getY(), Float.parseFloat(s)));
-    		String name = (currentMap.getName() != null) ?  currentMap.getName(): currentMap.getImgUrl();
-    		Display d = displayList.get(name);
+    		mainPane.getMapRootPane().render();
     		//d.setMap(currentMap);
-    		displayList.put(name, d);
+    		//displayList.put(name, d);
     	});
     }
     
-    public void setMainPane(MainPane m) { 
-    	mainPane = m; 
-    	//this.currentMap = mainPane.getMapRootPane().getDisplay().getMap(); 
-    	displayList = mainPane.getMapRootPane().getAllDisplays();
-    	//displayChoiceBox.getItems().addAll(displayList.keySet());
+    public void setMainPane(MainPane mainPane) { 
+    	this.mainPane = mainPane; 
+    	this.mapList = mainPane.getMapRootPane().getDisplay().getMaps(); 
+    	for(Map m : mainPane.getMapRootPane().getDisplay().getMaps()){
+        	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
+        	mapChoiceBox.getItems().add(name);
+        }
     }
     
     public void setMap(Map m) { 
@@ -162,14 +175,25 @@ public class MapDevToolPane extends VBox {
         }
     }
     
-    @FXML public void changeDisplay(){
-    	String k = displayChoiceBox.getSelectionModel().getSelectedItem();
-    	this.currentDisplay = displayList.get(k);
-    	//setMap(this.currentDisplay.getMap());
-    	//send msg to maprootpane to change display
-    	mainPane.getMapRootPane().updateDisplay(this.currentDisplay, "NEW");
+    public void changeDisplay(){
+    	String k = mapChoiceBox.getSelectionModel().getSelectedItem();
+    	int index = mapChoiceBox.getItems().indexOf(mapChoiceBox.getSelectionModel().getSelectedItem());
+		System.out.println(index);
+		this.selectedMap = this.mapList.get(index);
+		setMap(this.selectedMap);
     }
     
+    public void updateMapList(ArrayList<Map> maps){
+    	this.mapList = maps;
+    	mapChoiceBox.getItems().clear();
+    	System.out.println(maps.size());
+    	for(Map m : maps){
+        	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
+        	mapChoiceBox.getItems().add(name);
+        }
+    }
+    
+    /*
     private void updateDisplayList(String old_s, String new_s){
     	Display disp = displayList.get(old_s);
 		//disp.setMap(this.currentMap);
@@ -178,4 +202,5 @@ public class MapDevToolPane extends VBox {
 		int i = displayChoiceBox.getItems().indexOf(old_s);
 		displayChoiceBox.getItems().set(i, new_s);
     }
+    */
 }

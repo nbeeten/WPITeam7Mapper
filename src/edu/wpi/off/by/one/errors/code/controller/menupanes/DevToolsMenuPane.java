@@ -35,6 +35,7 @@ public class DevToolsMenuPane extends BorderPane {
 	@FXML NodeDevToolPane nodeDevToolPane;
 	@FXML EdgeDevToolPane edgeDevToolPane;
 	@FXML PathDevToolPane pathDevToolPane;
+	@FXML Button loadNewImageButton;
 	@FXML Button loadNewMapButton;
 	@FXML Button appendMapButton;
 	@FXML Button saveCurrentMapButton;
@@ -60,7 +61,34 @@ public class DevToolsMenuPane extends BorderPane {
     		//Map currentMap = mainPane.getMapRootPane().getDisplay().getMap();
     		//mapDevToolPane.setMap(currentMap);
     	});
+    	
+    	this.loadNewImageButton.setOnAction(e -> {
+    		Display display = mainPane.getMapRootPane().getDisplay();
+        	FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Map File");
+            fileChooser.getExtensionFilters().addAll(
+                                                     new ExtensionFilter("Image Files", "*.png"),
+                                                     new ExtensionFilter("All Files", "*.*"));
+            File selectedFile = fileChooser.showOpenDialog(mainPane.getWindow());
+            if (selectedFile != null) {
+                String inpath = selectedFile.getName();
+                System.out.println(inpath);
+                Map newmap = new Map();
+                newmap.setImgUrl(inpath);
+                newmap.setScale(0.5f);
+                display.addMap(newmap);
+                //display.setMap(newmap);
+                mainPane.getMapRootPane().render();
+                //mainPane.getMapRootPane().updateDisplay(display, "NEW");
+                //mapView.setImage(new Image("/edu/wpi/off/by/one/errors/code/resources/" + inpath));
+                //window.display(selectedFile);
+                mapDevToolPane.updateMapList(mainPane.getMapRootPane().getDisplay().getMaps());
+                //mapDevToolPane.setMap(newdisp.getMap());
+                mainPane.getMenuPane().getSearchMenuPane().updateMapList(mainPane.getMapRootPane().getDisplay().getMaps());
 
+            }
+    	});
+    	/*
     	this.loadNewMapButton.setOnAction(e -> {
     		Display newdisp = null;
             FileChooser fileChooser = new FileChooser();
@@ -73,11 +101,11 @@ public class DevToolsMenuPane extends BorderPane {
                 String inpath = selectedFile.getPath();
                 System.out.println(inpath);
                 newdisp = FileIO.load(inpath, null);
-                mainPane.getMapRootPane().updateDisplay(newdisp, "NEW");
+                //mainPane.getMapRootPane().updateDisplay(newdisp, "NEW");
                 mapDevToolPane.setMap(newdisp.getMaps().get(0));
             }
     	});
-    	
+    	*/
     	// TODO Append new map onto current map on a separate pane layer
     	this.appendMapButton.setOnAction(e -> {
     		Display newdisp = mainPane.getMapRootPane().getDisplay();
@@ -92,7 +120,9 @@ public class DevToolsMenuPane extends BorderPane {
                 System.out.println(inpath);
                 newdisp = FileIO.load(inpath, newdisp);
                 mainPane.getMapRootPane().updateDisplay(newdisp, "APPEND");
+                mapDevToolPane.updateMapList(mainPane.getMapRootPane().getDisplay().getMaps());
                 //mapDevToolPane.setMap(newdisp.getMap());
+                mainPane.getMenuPane().getSearchMenuPane().updateMapList(mainPane.getMapRootPane().getDisplay().getMaps());
             }
             
             

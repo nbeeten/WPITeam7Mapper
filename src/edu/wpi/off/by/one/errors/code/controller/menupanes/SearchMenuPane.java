@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -56,7 +57,16 @@ public class SearchMenuPane extends BorderPane {
         }
 	}
 	
+	public void updateMapList(ArrayList<Map> maps){
+		buildingChoiceBox.getItems().clear();
+		for(Map m : mainPane.getMapRootPane().getDisplay().getMaps()){
+        	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
+        	buildingChoiceBox.getItems().add(name);
+        }
+	}
+	
 	private void setListeners(){
+		
 		this.floorChoiceBox.setOnAction(e->{
 			int floor = floorChoiceBox.getSelectionModel().getSelectedItem();
 			System.out.println(floor);
@@ -73,6 +83,7 @@ public class SearchMenuPane extends BorderPane {
 			int index = buildingChoiceBox.getItems().indexOf(buildingChoiceBox.getSelectionModel().getSelectedItem());
 			System.out.println(index);
 			Map m = mainPane.getMapRootPane().getDisplay().getMaps().get(index);
+			if(m == null) return;
 
 			mainPane.dropStartC = mainPane.getMapRootPane().translate;
 			mainPane.dropStartR = mainPane.getMapRootPane().rot;
