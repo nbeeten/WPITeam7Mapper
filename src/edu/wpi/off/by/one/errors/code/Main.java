@@ -19,6 +19,7 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception{
         //ControllerMediator.getInstance().registerWindow(primaryStage);
         root.getStylesheets().add(getClass().getResource("resources/stylesheets/MainPaneStyleSheet.css").toExternalForm());
+    	root.setWindow(primaryStage);
         primaryStage.setTitle("goatThere - WPI Map Application");
         primaryStage.setScene(new Scene(root, 1600, 1000));
         primaryStage.show();

@@ -8,6 +8,8 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
+import edu.wpi.off.by.one.errors.code.controller.MainPane;
+
 /**
  * Created by jules on 11/28/2015.
  */
@@ -25,4 +27,9 @@ public class HelpMenuPane extends AnchorPane {
             throw new RuntimeException(excpt);
         }
     }
+
+	public void setMainPane(MainPane mainPane) {
+		// TODO Auto-generated method stub
+		
+	}
 }

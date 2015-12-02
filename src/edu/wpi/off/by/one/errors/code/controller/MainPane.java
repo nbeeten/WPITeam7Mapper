@@ -1,13 +1,20 @@
 package edu.wpi.off.by.one.errors.code.controller;
+
+import javafx.fxml.FXML;
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.stage.Window;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+
+import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
+
 
 /**
  * The controller that manages the logic for most of the application view:
@@ -19,9 +26,14 @@ import java.util.ResourceBundle;
 public class MainPane extends BorderPane {
     private BooleanProperty isDevModeOn;
 
-    @FXML private Button openNavigationPaneButton;
-    @FXML private NavigationPane navigationPane;
 
+	Window window;
+
+    @FXML private Button openNavigationPaneButton;
+	@FXML private ScrollPane mapScrollPane;
+	@FXML private MenuPane menuPane;
+	@FXML private MapRootPane mapRootPane;
+	@FXML private NavigationPane navigationPane;
     public MainPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MainPane.fxml"));
 
@@ -29,6 +41,11 @@ public class MainPane extends BorderPane {
         loader.setController(this);
         try{
             loader.load();
+            mapScrollPane.setHvalue(mapScrollPane.getHmin() + (mapScrollPane.getHmax() - mapScrollPane.getHmin()) / 2);
+            mapScrollPane.setVvalue(mapScrollPane.getVmin() + (mapScrollPane.getVmax() - mapScrollPane.getVmin()) / 2);
+            mapRootPane.setMainPane(this);
+            menuPane.setMainPane(this);
+            navigationPane.setMainPane(this);
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
@@ -44,5 +61,11 @@ public class MainPane extends BorderPane {
     @FXML private void onOpenNavigationPaneButtonClick(){
         navigationPane.open();
     }
+    public void setWindow(Window window) { this.window = window; }
+    public Window getWindow() { return this.window; }
+    public MenuPane getMenuPane() { return this.menuPane; }
+    public MapRootPane getMapRootPane() { return this.mapRootPane; }
+    public NavigationPane getNavigationPane() { return this.navigationPane;}
+    public NodeDevToolPane getNodeTool() { return this.menuPane.getDevToolsMenuPane().getNodeDevToolPane(); }
 }
 

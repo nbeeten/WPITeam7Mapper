@@ -8,14 +8,26 @@
 
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <left>
-        <MenuPane maxWidth="275" minWidth="40" />
+        <MenuPane fx:id="menuPane" maxWidth="275" minWidth="40" />
     </left>
    <center>
       <BorderPane BorderPane.alignment="CENTER">
          <center>
             <StackPane>
                 <children>
-                    <MapRootPane />
+                    <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+                        <content>
+                            <MapRootPane fx:id="mapRootPane"/>
+                        </content>
+                    </ScrollPane>
+                    <VBox maxWidth="25" prefWidth="25" StackPane.alignment="CENTER_RIGHT">
+                        <children>
+                            <Button maxWidth="Infinity" maxHeight="25" text="L"/>
+                            <Button maxWidth="Infinity" maxHeight="25" text="R"/>
+                            <Button maxWidth="Infinity" maxHeight="25" text="+"/>
+                            <Button maxWidth="Infinity" maxHeight="25" text="-"/>
+                        </children>
+                    </VBox>
                     <Button fx:id="openNavigationPaneButton" prefWidth="75" text="^" StackPane.alignment="BOTTOM_CENTER" onAction="#onOpenNavigationPaneButtonClick" />
                 </children>
             </StackPane>
