@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -58,14 +60,15 @@ public class MapRootPane extends AnchorPane{
 	@FXML Button zoomOutButton;
 	@FXML VBox editorPane;
 	@FXML Button drawPathDisplayButton;
-	Pane nodeLayer = new StackPane();
-	Pane edgeLayer = new StackPane();
-	Pane pathPane = new StackPane();
+	StackPane nodeLayer = new StackPane();
+	StackPane edgeLayer = new StackPane();
+	StackPane pathPane = new StackPane();
 	Coordinate translate;
 	Coordinate release = new Coordinate(0, 0, 0);
-	float rot = 0.0f;
-	float zoom = 1.0f;
+	float rot = 30.0f;
+	float zoom = 5.0f;
 	Matrix view;
+	Matrix invview;
 	//Change this as necessary
 	Canvas canvas = new Canvas(1000, 1000);
 
@@ -120,11 +123,27 @@ public class MapRootPane extends AnchorPane{
         //display = displayList.get("Campus Map");
         display.getMaps().get(0).setRotation(0);
 		mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
+		edgeLayer.setStyle("-fx-border-color: #888888;-fx-border-width: 2px;");
+		nodeLayer.setStyle("-fx-border-color: #2e8b57;-fx-border-width: 2px;");
+		nodeLayer.setAlignment(Pos.TOP_LEFT);
+		edgeLayer.setAlignment(Pos.TOP_LEFT);
 		//Set map image
 		mapView.preserveRatioProperty().set(true);
-		mapPane.setOnMouseDragged(e->{
-			translate.setAll((float)e.getX() + release.getX(), (float)e.getY() + release.getY(), 0);
+		Coordinate lastdragged = new Coordinate(0);
+		
+		mapPane.setOnMousePressed(e -> {
+			 System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
+			 Coordinate in = invview.transform(new Coordinate((float)e.getX(), (float)e.getY(), 0.0f));
+			 lastdragged.setAll(in.getX(), in.getY(), 0);
+			 
+	     });
+		
+		mapPane.setOnMouseDragged(e -> {
+			Coordinate in = invview.transform(new Coordinate((float)e.getX(), (float)e.getY(), 0.0f));
+			Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
+			translate.setAll((float)translate.getX() + delta.getX(), (float)translate.getY() + delta.getY(), 0);
 			System.out.printf("Coord: %f, %f\n", translate.getX(), translate.getY());
+			lastdragged.setAll(in.getX(), in.getY(), 0);
 			render();
 		});
 		
@@ -154,6 +173,7 @@ public class MapRootPane extends AnchorPane{
         setListeners();
 		translate = new Coordinate(0.0f, 0.0f);
 		view = new Matrix();
+		invview  =new Matrix();
         render();
         
     }
@@ -195,7 +215,8 @@ public class MapRootPane extends AnchorPane{
 		updateDisplay(g);
 	}
 	public void render(){
-		Matrix view = new Matrix().translate(translate).rotate(rot, 0.0f, 0.0f, -1.0f).scale(zoom);
+		Matrix view = new Matrix().translate(translate).rotate(rot, 0.0f, 0.0f, 1.0f).scale(zoom);
+		Matrix invview = new Matrix().scale(1.0f/zoom).rotate(-rot, 0.0f, 0.0f, 1.0f).translate(new Coordinate(-translate.getX(), -translate.getY(), -translate.getZ()));
 		//grab graphics context
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -208,12 +229,15 @@ public class MapRootPane extends AnchorPane{
 			if(m == null) continue;
 
 			if(m.getImage() == null) continue;
-			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
-	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-	        mygc.scale(zoom, zoom);
 			Coordinate c = view.transform(m.getCenter());
 			//mygc.translate(c.getX(), c.getY());
-			mygc.drawImage(m.getImage(), c.getX(), c.getY());
+			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
+	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
+	        mygc.scale(zoom, zoom);
+			
+			
+			//mygc.drawImage(m.getImage(), c.getX(), c.getY());
+			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
 		for(Node n : nlist){
@@ -224,7 +248,7 @@ public class MapRootPane extends AnchorPane{
 			
 			//mygc.translate(c.getX(), c.getY());
 			mygc.setFill(Color.BLUE);
-			mygc.fillOval(c.getX(), c.getY(), 10, 10);
+			//mygc.fillOval(c.getX(), c.getY(), 10, 10);
 			mygc.restore();
 		}
 		for(javafx.scene.Node np: nodeLayer.getChildren()){
@@ -419,8 +443,8 @@ public class MapRootPane extends AnchorPane{
 			Coordinate c = n.getCoordinate();
 			//addNodeDisplay(c.getX(), c.getY());
 			
-			double tx = c.getX() - (localBounds.getMaxX()/2);
-			double ty = c.getY() - (localBounds.getMaxY()/2);
+			double tx = c.getX();// - (localBounds.getMaxX() / 2);
+	        double ty = c.getY();// - (localBounds.getMaxY() / 2);
 			
 			NodeDisplay newNode = new NodeDisplay(display, n.getId(),
 					new SimpleDoubleProperty(c.getX()), 
@@ -474,8 +498,8 @@ public class MapRootPane extends AnchorPane{
 	 */
 	void addNodeDisplay(double x, double y){
 		System.out.println("Added Node");
-		double tx = x - (localBounds.getMaxX() / 2);
-        double ty = y - (localBounds.getMaxY() / 2);
+		double tx = x;// - (localBounds.getMaxX() / 2);
+        double ty = y;// - (localBounds.getMaxY() / 2);
 		
 		NodeDisplay newNode = new NodeDisplay(display, 
 				new SimpleDoubleProperty(x), 
@@ -568,8 +592,8 @@ public class MapRootPane extends AnchorPane{
 	        			aLocX, aLocY,
 	                    bLocX, bLocY);
 	            e.setStroke(Color.BLUE);
-	            e.setTranslateX((aLocX.get() + bLocX.get())/2 - (localBounds.getMaxX() / 2));
-	            e.setTranslateY((aLocY.get() + bLocY.get())/2 - (localBounds.getMaxY() / 2));
+	            e.setTranslateX((aLocX.get() + bLocX.get())/2/* - (localBounds.getMaxX() / 2)*/);
+	            e.setTranslateY((aLocY.get() + bLocY.get())/2/* - (localBounds.getMaxY() / 2)*/);
 	            e.startXProperty().addListener(ev -> {
 	            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
 	            });
@@ -639,10 +663,10 @@ public class MapRootPane extends AnchorPane{
 		    Coordinate aLoc = a.getCoordinate();
 		    Coordinate bLoc = b.getCoordinate();
 	        DoubleProperty aLocX, aLocY, bLocX, bLocY;
-	        aLocX = new SimpleDoubleProperty(aLoc.getX() - localBounds.getMaxX()/2);
-	        aLocY = new SimpleDoubleProperty(aLoc.getY() - localBounds.getMaxY()/2);
-	        bLocX = new SimpleDoubleProperty(bLoc.getX() - localBounds.getMaxX()/2);
-	        bLocY = new SimpleDoubleProperty(bLoc.getY() - localBounds.getMaxY()/2);
+	        aLocX = new SimpleDoubleProperty(aLoc.getX()/* - localBounds.getMaxX()/2*/);
+	        aLocY = new SimpleDoubleProperty(aLoc.getY()/* - localBounds.getMaxY()/2*/);
+	        bLocX = new SimpleDoubleProperty(bLoc.getX()/* - localBounds.getMaxX()/2*/);
+	        bLocY = new SimpleDoubleProperty(bLoc.getY()/* - localBounds.getMaxY()/2*/);
 	        //System.out.println("Edge size" + g.getEdges().size());
 	        EdgeDisplay e = new EdgeDisplay(display, aID, bID,
 	        		aLocX, aLocY, bLocX, bLocY);
