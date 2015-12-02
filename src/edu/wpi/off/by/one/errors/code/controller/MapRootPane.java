@@ -521,19 +521,17 @@ public class MapRootPane extends AnchorPane{
 		Edge[] edgeArr = new Edge[edges.size()];
 		edges.toArray(edgeArr); // To avoid ConcurrentModificationException
 	    for(Edge edge : edgeArr){
-	    	Id aID, bID;
-	    	Coordinate aLoc, bLoc;
-	    	try{
-	    		aID = edge.getNodeA();
-		    	bID = edge.getNodeB();
-		    	Node a = graph.returnNodeById(aID);
-		        Node b = graph.returnNodeById(bID);
-		    	aLoc = a.getCoordinate();
-		        bLoc = b.getCoordinate();
-	    	} catch (NullPointerException e){
-	    		graph.deleteEdge(edge.getId());
-	    		continue;
-	    	}
+	    	if(edge == null) continue;
+	    	Id aID = edge.getNodeA();
+		    Id bID = edge.getNodeB();
+		    Node a = graph.returnNodeById(aID);
+		    Node b = graph.returnNodeById(bID);
+		    if(a == null || b == null){
+		    graph.deleteEdge(edge.getId());
+		    	continue;
+		    }
+		    Coordinate aLoc = a.getCoordinate();
+		    Coordinate bLoc = b.getCoordinate();
 	        DoubleProperty aLocX, aLocY, bLocX, bLocY;
 	        aLocX = new SimpleDoubleProperty(aLoc.getX() - localBounds.getMaxX()/2);
 	        aLocY = new SimpleDoubleProperty(aLoc.getY() - localBounds.getMaxY()/2);

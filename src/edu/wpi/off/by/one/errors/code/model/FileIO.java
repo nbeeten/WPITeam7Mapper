@@ -97,7 +97,9 @@ public class FileIO {
 			return null;
 		Coordinate c = new Coordinate(Float.parseFloat(args[0]), Float.parseFloat(args[1]), Float.parseFloat(args[2]));
 		Node n = g.addNode(c);
-		if(args.length >= 4) for(String j : getTags(args[3])) n.addTag(j);
+		if(args.length >= 4) {
+			for(String j : getTags(args[3])) n.addTag(j);
+		}
 		return n.getId();
 	}
 
