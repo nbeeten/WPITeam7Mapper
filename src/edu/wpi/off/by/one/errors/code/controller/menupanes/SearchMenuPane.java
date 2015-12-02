@@ -69,7 +69,7 @@ public class SearchMenuPane extends BorderPane {
 		
 		this.floorChoiceBox.setOnAction(e->{
 			int floor = floorChoiceBox.getSelectionModel().getSelectedItem();
-			System.out.println(floor);
+			//System.out.println(floor);
 			//do a thing with it
 			mainPane.getMapRootPane().currentLevel = floor;
 			mainPane.getMapRootPane().translate.setAll(mainPane.getMapRootPane().translate.getX(), mainPane.getMapRootPane().translate.getY(), floor);
@@ -82,7 +82,7 @@ public class SearchMenuPane extends BorderPane {
 		
 		this.buildingChoiceBox.setOnAction(e -> {
 			int index = buildingChoiceBox.getItems().indexOf(buildingChoiceBox.getSelectionModel().getSelectedItem());
-			System.out.println(index);
+			//System.out.println(index);
 			Map m = mainPane.getMapRootPane().getDisplay().getMaps().get(index);
 			if(m == null) return;
 
