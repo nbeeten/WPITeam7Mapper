@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -145,6 +146,24 @@ public class MapRootPane extends AnchorPane{
 		Graph g = newdisplay.getGraph();
 		//Draw new points onto map
 		updateDisplay(g);
+	}
+	public void render(){
+		//grab graphics context
+		GraphicsContext mygc = mapCanvas.getGraphicsContext2d();
+		Graph mygraph = display.getGraph();
+		Vector<Node> nlist = mygraph.getNodes();
+		Vector<Edge> elist = mygraph.getEdges();
+		ArrayList<Map> mlist = display.getMaps();
+		mygc.save();
+		for(Map m : mlist){
+			mygc.rotate(m.getRotation());
+			mygc.scale(m.getScale(), m.getScale());
+			Coordinate c = m.getCenter();
+			mygc.translate(c.getX(), c.getY());
+			mygc.drawImage(m.getImage(), 0.0, 0.0);
+			mygc.restore();
+		}
+
 	}
 	/**
 	 * Internal updater/Helper function
