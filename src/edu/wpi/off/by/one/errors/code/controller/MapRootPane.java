@@ -97,6 +97,8 @@ public class MapRootPane extends AnchorPane{
     public boolean isEditMode = false;
     public boolean isAddMode = false;		//Is editor currently adding nodes?
     public boolean isDeleteMode = false;	//Is editor currently deleting nodes?
+    
+    boolean isctrl = false;
 
     Timer timer = new Timer();
 
@@ -144,6 +146,7 @@ public class MapRootPane extends AnchorPane{
 		//Set map image
 		mapView.preserveRatioProperty().set(true);
 		Coordinate lastdragged = new Coordinate(0);
+		Coordinate mydragged = new Coordinate(0);
 		
 
 		/*
@@ -169,23 +172,42 @@ public class MapRootPane extends AnchorPane{
 		mapPane.setOnMousePressed(e -> {
 			 //System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
 			 lastview = invview;
-			 Coordinate in = lastview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
-			 lastdragged.setAll(in.getX(), in.getY(), 0);
+			 Coordinate in = new Coordinate((float)e.getX(), (float)e.getY());
+			 Coordinate sin = lastview.transform(in);
+			 mydragged.setAll(in.getX(), in.getY(), 0);
+			 lastdragged.setAll(sin.getX(), sin.getY(), 0);
 	     });
 		
 		mapPane.setOnMouseDragged(e -> {
 			//System.out.printf("X: %f, Y: %f\n", e.getX(), e.getY());
-			Coordinate in = lastview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
-			Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
-			translate.setAll((float) translate.getX() + delta.getX(), (float)translate.getY() + delta.getY(), translate.getZ());
-			//System.out.printf("Coord: %f, %f\n", translate.getX(), translate.getY());
+			Coordinate sin = new Coordinate((float)e.getX(), (float)e.getY());
+			Coordinate in = lastview.transform(sin);
+			if(e.isControlDown()){
+				zoom *= (1.0f - 0.01*(sin.getY() - mydragged.getY()));
+				render();
+				lastview = invview;
+			} else {
+				Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
+				translate.setAll((float) translate.getX() + delta.getX(), (float)translate.getY() + delta.getY(), translate.getZ());
+				//System.out.printf("Coord: %f, %f\n", translate.getX(), translate.getY());
+				render();
+			}
 			lastdragged.setAll(in.getX(), in.getY(), 0);
-			render();
+			mydragged.setAll(sin.getX(), sin.getY(), 0);
+			
 		});
 		
 		mapPane.setOnMouseReleased(e -> {
 	    	 release.setAll((float)e.getX(), (float)e.getY(), 0);
 	     });
+		
+		mapPane.setOnScroll(v -> {
+			if(v.getDeltaY() > 0) {
+				zoom*=1.1; render();
+			}
+			else { zoom*=0.9; render(); }
+		});
+
 		
 		translate = new Coordinate(0.0f, 0.0f);
 		view = new Matrix();
@@ -232,6 +254,8 @@ public class MapRootPane extends AnchorPane{
 		updateDisplay(this.display.getGraph());
 	}
 	public void render(){
+		if(zoom <= 0.05f) zoom = Math.abs(zoom);
+		if(zoom <= 0.05f) zoom = 0.06f;
 		view = new Matrix().translate(new Coordinate((float)canvas.getWidth()/2.0f, (float)canvas.getHeight()/2.0f)).rotate(rot, 0.0f, 0.0f, 1.0f).scale(zoom).translate(new Coordinate(translate.getX(), translate.getY(), translate.getZ()));
 		invview = new Matrix(new Coordinate(-1.0f * translate.getX(), -1.0f *translate.getY(), -1.0f * translate.getZ())).scale(1.0/zoom).rotate(-rot, 0.0, 0.0, 1.0).translate(new Coordinate((float)canvas.getWidth()/-2.0f, (float)canvas.getHeight()/-2.0f));
 		//grab graphics context
@@ -241,9 +265,10 @@ public class MapRootPane extends AnchorPane{
 		Vector<Node> nlist = mygraph.getNodes();
 		Vector<Edge> elist = mygraph.getEdges();
 		ArrayList<Map> mlist = display.getMaps();
-		mygc.save();
+		
 		boolean isCurrentFloor = true;
 		for(Map m : mlist){
+			mygc.save();
 			if(m == null) continue;
 
 			if(m.getImage() == null) continue;
@@ -305,6 +330,7 @@ public class MapRootPane extends AnchorPane{
 			nd.setEndY(bc.getY());
 		}
 		if(isEditMode){
+			mygc.save();
 			for(Edge e : elist){
 				if(e == null) continue;
 				Node A = display.getGraph().returnNodeById(e.getNodeA());
@@ -323,9 +349,11 @@ public class MapRootPane extends AnchorPane{
 				mygc.setStroke(Color.AQUA);
 				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
 			}
+			mygc.restore();
 		}
 		Node last = null;
 		for(Id id : currentRoute){
+			mygc.save();
 			Node A = display.getGraph().returnNodeById(id);
 			if(A == null) continue;
 			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
@@ -343,6 +371,7 @@ public class MapRootPane extends AnchorPane{
 			mygc.setStroke(Color.RED);
 			mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
 			last = A;
+			mygc.restore();
 		}
 
 	}
