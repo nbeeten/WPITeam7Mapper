@@ -2,6 +2,8 @@ package edu.wpi.off.by.one.errors.code.controller;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,6 +63,8 @@ public class MapRootPane extends AnchorPane{
 	StackPane pathPane = new StackPane();
 	//Change this as necessary
 	Canvas canvas = new Canvas(1000, 1000);
+
+	private Path p;
 
 	//Where all the images and txt files should be
 	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
@@ -598,7 +602,7 @@ public class MapRootPane extends AnchorPane{
             Vector<Node> nodes = display.getGraph().getNodes();
             //System.out.println(nodes.size());
 
-            Path p = new Path(startNode.getNode(), endNode.getNode());
+            p = new Path(startNode.getNode(), endNode.getNode());
             Graph g = display.getGraph();
             //System.out.println("Size graph " + g.getEdges().size());
             p.runAStar(g); //Change this later??
@@ -625,8 +629,13 @@ public class MapRootPane extends AnchorPane{
             SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
             startNode.fireEvent(selectNodeEvent);
             endNode.fireEvent(selectNodeEvent);
+            showDirections();
         }
 	}
 
+    public void showDirections(){
+        ObservableList<String> pathList = FXCollections.observableList(p.getTextual());
+        mainPane.getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
+    }
 
 }

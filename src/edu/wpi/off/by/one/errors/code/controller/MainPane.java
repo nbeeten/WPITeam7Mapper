@@ -1,4 +1,10 @@
 package edu.wpi.off.by.one.errors.code.controller;
+
+import javafx.fxml.FXML;
+import javafx.beans.property.BooleanProperty;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
@@ -18,14 +24,16 @@ import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDev
  * 
  */
 public class MainPane extends BorderPane {
-	
+    private BooleanProperty isDevModeOn;
+
+
 	Window window;
-	
-	@FXML ScrollPane mapScrollPane;
-	@FXML MenuPane menuPane;
-	@FXML MapRootPane mapRootPane;
-	@FXML NavigationPane navigationPane;
-	
+
+    @FXML private Button openNavigationPaneButton;
+	@FXML private ScrollPane mapScrollPane;
+	@FXML private MenuPane menuPane;
+	@FXML private MapRootPane mapRootPane;
+	@FXML private NavigationPane navigationPane;
     public MainPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MainPane.fxml"));
 
@@ -41,6 +49,19 @@ public class MainPane extends BorderPane {
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
+
+        addListeners();
+
+        this.getStylesheets().add(getClass().getResource("../resources/stylesheets/MainPaneStyleSheet.css").toExternalForm());
+    }
+
+    private void addListeners(){
+        openNavigationPaneButton.visibleProperty().bind(navigationPane.visibleProperty().not());
+
+    }
+
+    @FXML private void onOpenNavigationPaneButtonClick(){
+        navigationPane.open();
     }
     public void setWindow(Window window) { 
     	this.window = window; 
@@ -61,3 +82,4 @@ public class MainPane extends BorderPane {
     public NodeDevToolPane getNodeTool() { return this.menuPane.getDevToolsMenuPane().getNodeDevToolPane(); }
     
 }
+
