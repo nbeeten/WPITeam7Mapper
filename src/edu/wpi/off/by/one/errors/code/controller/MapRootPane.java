@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -112,7 +113,7 @@ public class MapRootPane extends AnchorPane{
         mapPane.getChildren().add(0, pathPane);
         mapPane.getChildren().add(0, canvas);
 		//Set map image
-        mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
+//        mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
 		mapView.preserveRatioProperty().set(true);
 		//Update local bounds of the map view
 		localBounds = mapView.getBoundsInLocal();
@@ -144,19 +145,45 @@ public class MapRootPane extends AnchorPane{
 		if(option.equals("NEW")){
 			mapPane.getChildren().clear();
 			//Update the current map image
-			updateMap(newdisplay.getMap());
+			//updateMap(newdisplay.getMap());
             mapPane.getChildren().addAll(pathPane, mapView);
             localBounds = mapView.getBoundsInLocal();
 		}
-		String mapName = newdisplay.getMap().getName();
-		if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
+		//String mapName = newdisplay.getMap().getName();
+		//if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
 		//Put the new display into the display list. Replace current if it already exists
-		displayList.put(mapName, newdisplay);
+		//displayList.put(mapName, newdisplay);
 		//Current display is now the new one
 		this.display = newdisplay;
 		Graph g = newdisplay.getGraph();
 		//Draw new points onto map
 		updateDisplay(g);
+	}
+	public void render(){
+		//grab graphics context
+		GraphicsContext mygc = canvas.getGraphicsContext2D();
+		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		Graph mygraph = display.getGraph();
+		Vector<Node> nlist = mygraph.getNodes();
+		Vector<Edge> elist = mygraph.getEdges();
+		ArrayList<Map> mlist = display.getMaps();
+		mygc.save();
+		for(Map m : mlist){
+			if(m == null) continue;
+			mygc.rotate(m.getRotation());
+			mygc.scale(m.getScale(), m.getScale());
+			Coordinate c = m.getCenter();
+			mygc.translate(c.getX(), c.getY());
+			mygc.drawImage(m.getImage(), 0.0, 0.0);
+			mygc.restore();
+		}
+		for(Edge e : elist){
+			if(e == null) continue;
+		}
+		for(Node n : nlist){
+			if(n == null) continue;
+		}
+
 	}
 	/**
 	 * Internal updater/Helper function
@@ -174,9 +201,11 @@ public class MapRootPane extends AnchorPane{
 	 * @param newmap
 	 */
 	private void updateMap(Map newmap){
+		/*
 		if(newmap.getImgUrl() != display.getMap().getImgUrl()){
 			mapView.setImage(new Image(resourceDir + "maps/images/" +  newmap.getImgUrl()));
         }
+        */
 	}
 	
 	/**
@@ -196,8 +225,8 @@ public class MapRootPane extends AnchorPane{
 		for(String file : lof){
 			String path = "src" + resourceDir + "maps/txtfiles/" + file;
 			Display d = FileIO.load(path, null);
-			String mapName = d.getMap().getName();
-			if(mapName == null) mapName = d.getMap().getImgUrl();
+			String mapName = d.getMaps().get(0).getName();
+			if(mapName == null) mapName = d.getMaps().get(0).getImgUrl();
 			displayList.put(mapName, d);
 		}
 	}
@@ -206,7 +235,6 @@ public class MapRootPane extends AnchorPane{
      * "Zoom" into map by pressing the "+" button
      * TODO scaling cuts off map at a certain point.
      * TODO Make it so that this works with scrolling on map
-     * @param e event
      */
     /*
 	@FXML
@@ -542,19 +570,17 @@ public class MapRootPane extends AnchorPane{
 		Edge[] edgeArr = new Edge[edges.size()];
 		edges.toArray(edgeArr); // To avoid ConcurrentModificationException
 	    for(Edge edge : edgeArr){
-	    	Id aID, bID;
-	    	Coordinate aLoc, bLoc;
-	    	try{
-	    		aID = edge.getNodeA();
-		    	bID = edge.getNodeB();
-		    	Node a = graph.returnNodeById(aID);
-		        Node b = graph.returnNodeById(bID);
-		    	aLoc = a.getCoordinate();
-		        bLoc = b.getCoordinate();
-	    	} catch (NullPointerException e){
-	    		graph.deleteEdge(edge.getId());
-	    		continue;
-	    	}
+	    	if(edge == null) continue;
+	    	Id aID = edge.getNodeA();
+		    Id bID = edge.getNodeB();
+		    Node a = graph.returnNodeById(aID);
+		    Node b = graph.returnNodeById(bID);
+		    if(a == null || b == null){
+		    graph.deleteEdge(edge.getId());
+		    	continue;
+		    }
+		    Coordinate aLoc = a.getCoordinate();
+		    Coordinate bLoc = b.getCoordinate();
 	        DoubleProperty aLocX, aLocY, bLocX, bLocY;
 	        aLocX = new SimpleDoubleProperty(aLoc.getX() - localBounds.getMaxX()/2);
 	        aLocY = new SimpleDoubleProperty(aLoc.getY() - localBounds.getMaxY()/2);

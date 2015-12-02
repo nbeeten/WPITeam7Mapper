@@ -57,11 +57,11 @@ public class MapDevToolPane extends VBox {
     }
     
     private void setListeners(){
-    	
+/*    	
     	this.displayChoiceBox.setOnAction(e -> {
     		changeDisplay();
     	});
-    	
+    */	
     	this.nameTextField.setOnAction(e -> {
     		String old_s = currentMap.getName();
     		if(old_s == null) old_s = currentMap.getImgUrl();
