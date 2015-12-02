@@ -433,22 +433,6 @@ public class MapRootPane extends AnchorPane{
 	    newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
 	        nodeQueue.remove(newNode);
 	    });
-	    
-	    newNode.addEventFilter(EditorEvent.DELETE_NODE, event -> {
-        	if(isNodeEditor){
-	        	System.out.println("Node deleted");
-	        	System.out.println(display);
-	        	Graph g = display.getGraph();
-	        	Id id = newNode.getNode();
-	        	System.out.println(id);
-	        	g.deleteNode(id);
-	        	//mapPane.getChildren().remove(this);
-	        	//remove edge display as well
-	        	//right now this throws nullpointerexception.
-	        	updateDisplay(display, "NEW");
-	        	//mapPane.getChildren().remove();
-        	}
-        });
 
 	    //newNode.visibleProperty().bind(showNodes.selectedProperty());
 
@@ -632,6 +616,7 @@ public class MapRootPane extends AnchorPane{
                 Line l = new Line(aLoc.getX(), aLoc.getY(),
                                   bLoc.getX(), bLoc.getY());
                 l.setStrokeWidth(3.0);
+                l.setStroke(Color.RED);
                 l.setTranslateX((aLoc.getX() + bLoc.getX()) / 2);
                 l.setTranslateY((aLoc.getY() + bLoc.getY()) / 2);
        
