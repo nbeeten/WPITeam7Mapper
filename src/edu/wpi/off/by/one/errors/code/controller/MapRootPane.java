@@ -1,23 +1,29 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -27,6 +33,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Timer;
 import java.util.Vector;
 
 import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
@@ -43,6 +50,7 @@ import edu.wpi.off.by.one.errors.code.model.Id;
 import edu.wpi.off.by.one.errors.code.model.Map;
 import edu.wpi.off.by.one.errors.code.model.Node;
 import edu.wpi.off.by.one.errors.code.model.Path;
+import edu.wpi.off.by.one.errors.code.model.Matrix;
 
 /**
  * Created by jules on 11/28/2015.
@@ -58,10 +66,22 @@ public class MapRootPane extends AnchorPane{
 	@FXML Button zoomOutButton;
 	@FXML VBox editorPane;
 	@FXML Button drawPathDisplayButton;
+	@FXML Button rotateLeftButton;
+	@FXML Button rotateRightButton;
+	StackPane nodeLayer = new StackPane();
+	StackPane edgeLayer = new StackPane();
 	StackPane pathPane = new StackPane();
+	public Coordinate translate;
+	Coordinate release = new Coordinate(0, 0, 0);
+	public float rot = 30.0f;
+	public float zoom = 5.0f;
+	Matrix view;
+	Matrix invview;
 	//Change this as necessary
-	Canvas canvas = new Canvas(1000, 1000);
+	public Canvas canvas = new Canvas(1000, 1600);
 
+	private Path p;
+	
 	//Where all the images and txt files should be
 	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
 	Bounds localBounds;
@@ -69,7 +89,7 @@ public class MapRootPane extends AnchorPane{
 	HashMap<String, Display> displayList;
     Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();	//Selected node queue
     Queue<EdgeDisplay> edgeQueue = new LinkedList<EdgeDisplay>();
-    
+    ArrayList<Id> currentRoute = new ArrayList<Id>();
     boolean isMapEditor = false;
     public boolean isNodeEditor = false;
     public boolean isEdgeEditor = false;
@@ -77,7 +97,9 @@ public class MapRootPane extends AnchorPane{
     public boolean isAddMode = false;		//Is editor currently adding nodes?
     public boolean isDeleteMode = false;	//Is editor currently deleting nodes?
 
-	
+    Timer timer = new Timer();
+
+    
     public MapRootPane() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MapRootPane.fxml"));
 
@@ -100,7 +122,8 @@ public class MapRootPane extends AnchorPane{
     	//System.out.printf("Height: %f, Width: %f\n", height, width);
     	canvas.setHeight(height);
     	canvas.setWidth(width);
-    	System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
+    	//System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
+    	render();
     }
     
     private void initialize(){
@@ -108,12 +131,32 @@ public class MapRootPane extends AnchorPane{
 		//Load all displays into application
 		loadDisplays();
 		//Load campus map from display list
-        display = displayList.get("Campus Map");
-        mapPane.getChildren().add(0, pathPane);
-        mapPane.getChildren().add(0, canvas);
+		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
+        //display = displayList.get("Campus Map");
+        display.getMaps().get(0).setRotation(0);
+        pathPane.setMouseTransparent(true);
+		mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
+		edgeLayer.setStyle("-fx-border-color: #888888;-fx-border-width: 2px;");
+		nodeLayer.setStyle("-fx-border-color: #2e8b57;-fx-border-width: 2px;");
+		nodeLayer.setAlignment(Pos.TOP_LEFT);
+		edgeLayer.setAlignment(Pos.TOP_LEFT);
 		//Set map image
-        mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
 		mapView.preserveRatioProperty().set(true);
+		Coordinate lastdragged = new Coordinate(0);
+		
+
+		/*
+		 mapPane.setOnMousePressed(e -> {
+			 System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
+			 new Coordinate((float)e.getX(), (float)e.getY(), 0);
+			 
+	     });
+	     
+	     mapPane.setOnMouseReleased(e -> {
+	    	 System.out.printf("MouseRelease: %f, %f\n", e.getX(), e.getY());
+	    	 new Coordinate((float)e.getX(), (float)e.getY(), 0);
+	     });
+	     */
 		//Update local bounds of the map view
 		localBounds = mapView.getBoundsInLocal();
 		//Updates display with nodes/edges
@@ -122,6 +165,32 @@ public class MapRootPane extends AnchorPane{
         
         //Setup event listeners for map
         setListeners();
+		mapPane.setOnMousePressed(e -> {
+			 //System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
+			 Coordinate in = invview.transform(new Coordinate((float)e.getX(), (float)e.getY(), 0.0f));
+			 lastdragged.setAll(in.getX(), in.getY(), 0);
+			 
+	     });
+		
+		mapPane.setOnMouseDragged(e -> {
+			//System.out.printf("X: %f, Y: %f\n", e.getX(), e.getY());
+			Coordinate in = invview.transform(new Coordinate((float)e.getX(), (float)e.getY(), 0.0f));
+			Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
+			translate.setAll((float)translate.getX() + delta.getX(), (float)translate.getY() + delta.getY(), translate.getZ());
+			//System.out.printf("Coord: %f, %f\n", translate.getX(), translate.getY());
+			lastdragged.setAll(in.getX(), in.getY(), 0);
+			render();
+		});
+		
+		mapPane.setOnMouseReleased(e -> {
+	    	 release.setAll((float)e.getX(), (float)e.getY(), 0);
+	     });
+		
+		translate = new Coordinate(0.0f, 0.0f);
+		view = new Matrix();
+		invview  =new Matrix();
+        render();
+        
     }
     
     /**
@@ -142,21 +211,139 @@ public class MapRootPane extends AnchorPane{
 		// If the option is to clear the map first, do so
 		// otherwise, keep current content and just append
 		if(option.equals("NEW")){
-			mapPane.getChildren().clear();
+			//nodeLayer.getChildren().clear();
+			//edgeLayer.getChildren().clear();
+			//mapPane.getChildren().clear();
 			//Update the current map image
-			updateMap(newdisplay.getMap());
+			//updateMap(newdisplay.getMap());
             mapPane.getChildren().addAll(pathPane, mapView);
             localBounds = mapView.getBoundsInLocal();
 		}
-		String mapName = newdisplay.getMap().getName();
-		if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
+		//String mapName = newdisplay.getMap().getName();
+		//if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
 		//Put the new display into the display list. Replace current if it already exists
-		displayList.put(mapName, newdisplay);
+		//displayList.put(mapName, newdisplay);
 		//Current display is now the new one
-		this.display = newdisplay;
-		Graph g = newdisplay.getGraph();
+		//this.display = newdisplay;
+		//this.display.getMaps().addAll(newdisplay.getMaps());
+		//Graph g = newdisplay.getGraph();
 		//Draw new points onto map
-		updateDisplay(g);
+		updateDisplay(this.display.getGraph());
+	}
+	public void render(){
+		view = new Matrix().translate(new Coordinate((float)canvas.getWidth()/2.0f, (float)canvas.getHeight()/2.0f)).rotate(rot, 0.0f, 0.0f, 1.0f).scale(zoom).translate(new Coordinate(translate.getX(), translate.getY(), translate.getZ()));
+		invview = new Matrix().translate(new Coordinate(-translate.getX(), -translate.getY(), -translate.getZ())).scale(1.0f/zoom).rotate(-rot, 0.0f, 0.0f, 1.0f).translate(new Coordinate((float)canvas.getWidth()/-2.0f, (float)canvas.getHeight()/-2.0f));
+		//grab graphics context
+		GraphicsContext mygc = canvas.getGraphicsContext2D();
+		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		Graph mygraph = display.getGraph();
+		Vector<Node> nlist = mygraph.getNodes();
+		Vector<Edge> elist = mygraph.getEdges();
+		ArrayList<Map> mlist = display.getMaps();
+		mygc.save();
+		boolean isCurrentFloor = true;
+		for(Map m : mlist){
+			if(m == null) continue;
+
+			if(m.getImage() == null) continue;
+			if(translate.getZ() > m.getCenter().getZ() + 0.1 || translate.getZ() < m.getCenter().getZ() - 0.1){
+				continue;
+			}
+			Coordinate c = view.transform(m.getCenter());
+			//mygc.translate(c.getX(), c.getY());
+			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
+	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
+	        mygc.scale(zoom * m.getScale(), zoom * m.getScale());
+			
+			
+			//mygc.drawImage(m.getImage(), c.getX(), c.getY());
+			mygc.drawImage(m.getImage(), 0, 0);
+			mygc.restore();
+		}
+		for(javafx.scene.Node np: nodeLayer.getChildren()){
+			NodeDisplay nd = (NodeDisplay)np;
+			if(nd == null) continue;
+
+			Node n = display.getGraph().returnNodeById(nd.getNode());
+			if(translate.getZ() > n.getCoordinate().getZ() + 0.1 || translate.getZ() < n.getCoordinate().getZ() - 0.1){
+				np.setVisible(false);
+				np.setMouseTransparent(true);
+				continue;
+			}
+			np.setVisible(true);
+			np.setMouseTransparent(false);
+			if(n == null){ nodeLayer.getChildren().remove(np); continue; }
+			Coordinate nc = view.transform(n.getCoordinate());
+			nd.setCenterX(nc.getX()- 5.0f);
+			nd.setCenterY(nc.getY()- 5.0f);
+		}
+		for(javafx.scene.Node np: edgeLayer.getChildren()){
+			EdgeDisplay nd = (EdgeDisplay)np;
+			if(nd == null) continue;
+			Edge n = display.getGraph().returnEdgeById(nd.getEdge());
+			if(n == null){ edgeLayer.getChildren().remove(np); continue; }
+			Node A = display.getGraph().returnNodeById(n.getNodeA());
+			Node B = display.getGraph().returnNodeById(n.getNodeB());
+			if(A == null || B == null){
+				display.getGraph().deleteEdge(n.getId());
+				edgeLayer.getChildren().remove(np); 
+				continue; 
+			}
+			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
+				np.setVisible(false);
+				np.setMouseTransparent(true);
+				continue;
+			}
+			np.setVisible(true);
+			np.setMouseTransparent(false);
+			Coordinate ac = view.transform(A.getCoordinate());
+			Coordinate bc = view.transform(B.getCoordinate());
+			nd.setStartX(ac.getX());
+			nd.setStartY(ac.getY());
+			nd.setEndX(bc.getX());
+			nd.setEndY(bc.getY());
+		}
+		if(isEditMode){
+			for(Edge e : elist){
+				if(e == null) continue;
+				Node A = display.getGraph().returnNodeById(e.getNodeA());
+				Node B = display.getGraph().returnNodeById(e.getNodeB());
+				if(A == null || B == null){
+					display.getGraph().deleteEdge(e.getId());
+					continue; 
+				}
+				if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
+					continue;
+				}
+				Coordinate ac = view.transform(A.getCoordinate());
+				Coordinate bc = view.transform(B.getCoordinate());
+				mygc.setLineWidth(5.0f);
+				mygc.setFill(Color.AQUA);
+				mygc.setStroke(Color.AQUA);
+				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
+			}
+		}
+		Node last = null;
+		for(Id id : currentRoute){
+			Node A = display.getGraph().returnNodeById(id);
+			if(A == null) continue;
+			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
+				last = A;
+				continue;
+			}
+			if(last == null){
+				last = A;
+				continue;
+			}
+			Coordinate ac = view.transform(A.getCoordinate());
+			Coordinate bc = view.transform(last.getCoordinate());
+			mygc.setLineWidth(5.0f);
+			mygc.setFill(Color.RED);
+			mygc.setStroke(Color.RED);
+			mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
+			last = A;
+		}
+
 	}
 	/**
 	 * Internal updater/Helper function
@@ -164,19 +351,8 @@ public class MapRootPane extends AnchorPane{
 	 * @param g 
 	 */
 	private void updateDisplay(Graph g){
-		addEdgeDisplayFromList(g, g.getEdges());
 		addNodeDisplayFromList(g.getNodes());
-	}
-
-	/**
-	 * Updates the map and the current map view
-	 * TODO Figure out a cleaner way to manage maps
-	 * @param newmap
-	 */
-	private void updateMap(Map newmap){
-		if(newmap.getImgUrl() != display.getMap().getImgUrl()){
-			mapView.setImage(new Image(resourceDir + "maps/images/" +  newmap.getImgUrl()));
-        }
+		//addEdgeDisplayFromList(g, g.getEdges());
 	}
 	
 	/**
@@ -184,7 +360,7 @@ public class MapRootPane extends AnchorPane{
 	 * stores them as display objects
 	 */
 	private void loadDisplays(){
-		
+		/*
 		displayList = new HashMap<String, Display>();
 		// TODO the best way to do this is to look at a folder in the resources directory that holds all the txt files
 		// get each file name, and then store them in a string array. Then begin to load the display objects into a Hash
@@ -196,43 +372,13 @@ public class MapRootPane extends AnchorPane{
 		for(String file : lof){
 			String path = "src" + resourceDir + "maps/txtfiles/" + file;
 			Display d = FileIO.load(path, null);
-			String mapName = d.getMap().getName();
-			if(mapName == null) mapName = d.getMap().getImgUrl();
+			String mapName = d.getMaps().get(0).getName();
+			if(mapName == null) mapName = d.getMaps().get(0).getImgUrl();
 			displayList.put(mapName, d);
 		}
+		*/
 	}
-	
-    /**
-     * "Zoom" into map by pressing the "+" button
-     * TODO scaling cuts off map at a certain point.
-     * TODO Make it so that this works with scrolling on map
-     * @param e event
-     */
-    /*
-	@FXML
-    private void zoomInAction(ActionEvent e){
-    	//mapPane.setPrefSize(mapPane.getWidth() * 1.2, mapPane.getHeight() * 1.2);
-    	mapScrollPane.setVmax(mapScrollPane.getHeight() * 1.1);
-    	mapScrollPane.setHmax(mapScrollPane.getWidth() * 1.1);
-    	mapPane.setScaleY(mapPane.getScaleY() * 1.1);
-    	mapPane.setScaleX(mapPane.getScaleX() * 1.1);
-    }
-    /**
-     * "Zoom" out of map by pressing the "-" button
-     * TODO scaling cuts off map at a certain point.
-     * TODO Make it so that this works with scrolling on map
-     * @param e event
-     */
-    @FXML
-    /*
-    private void zoomOutAction(ActionEvent e){
-    	//mapPane.setPrefSize(mapPane.getWidth() * 0.8, mapPane.getHeight() * 0.8);
-    	mapScrollPane.setVmax(mapScrollPane.getHeight() * 0.9);
-    	mapScrollPane.setHmax(mapScrollPane.getWidth() * 0.9);
-    	mapPane.setScaleY(mapPane.getScaleY() * 0.9);
-    	mapPane.setScaleX(mapPane.getScaleX() * 0.9);
-    }
-    */
+
     /**
      * Sets up event listener functions for whenever user does something on the mapPane/mapView
      * 
@@ -243,11 +389,10 @@ public class MapRootPane extends AnchorPane{
      */
     private void setListeners(){
     	// Listen to when the user clicks on the map
-    	mapView.setOnMouseClicked(e -> {
+    	mapPane.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
     			//TODO Add marker on map
-    			
     			if (isNodeEditor && e.getButton() == MouseButton.PRIMARY) {
 	                addNodeDisplay(e.getX(), e.getY());
 	            }
@@ -301,7 +446,7 @@ public class MapRootPane extends AnchorPane{
 
     	});
 
-    	mapPane.addEventFilter(EditorEvent.DRAW_EDGES, e -> {
+    	edgeLayer.addEventFilter(EditorEvent.DRAW_EDGES, e -> {
     		if(isEdgeEditor) addEdgeDisplayFromQueue();
     	});
     }
@@ -337,8 +482,8 @@ public class MapRootPane extends AnchorPane{
 			Coordinate c = n.getCoordinate();
 			//addNodeDisplay(c.getX(), c.getY());
 			
-			double tx = c.getX() - (localBounds.getMaxX()/2);
-			double ty = c.getY() - (localBounds.getMaxY()/2);
+			double tx = c.getX();// - (localBounds.getMaxX() / 2);
+	        double ty = c.getY();// - (localBounds.getMaxY() / 2);
 			
 			NodeDisplay newNode = new NodeDisplay(display, n.getId(),
 					new SimpleDoubleProperty(c.getX()), 
@@ -376,10 +521,11 @@ public class MapRootPane extends AnchorPane{
 		        	//mapPane.getChildren().remove(this);
 		        	//remove edge display as well
 		        	//right now this throws nullpointerexception.
-		        	updateDisplay(display, "NEW");
+		        	render();
+		        	//updateDisplay(display, "NEW");
 	        	}
 	        });
-	        mapPane.getChildren().add(newNode);
+	        nodeLayer.getChildren().add(newNode);
 	    }
 	}
 
@@ -391,8 +537,8 @@ public class MapRootPane extends AnchorPane{
 	 */
 	void addNodeDisplay(double x, double y){
 		System.out.println("Added Node");
-		double tx = x - (localBounds.getMaxX() / 2);
-        double ty = y - (localBounds.getMaxY() / 2);
+		double tx = x;// - (localBounds.getMaxX() / 2);
+        double ty = y;// - (localBounds.getMaxY() / 2);
 		
 		NodeDisplay newNode = new NodeDisplay(display, 
 				new SimpleDoubleProperty(x), 
@@ -429,7 +575,7 @@ public class MapRootPane extends AnchorPane{
 	    newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
 	        nodeQueue.remove(newNode);
 	    });
-	    
+
 	    newNode.addEventFilter(EditorEvent.DELETE_NODE, event -> {
         	if(isNodeEditor){
 	        	System.out.println("Node deleted");
@@ -441,7 +587,8 @@ public class MapRootPane extends AnchorPane{
 	        	//mapPane.getChildren().remove(this);
 	        	//remove edge display as well
 	        	//right now this throws nullpointerexception.
-	        	updateDisplay(display, "NEW");
+	        	render();
+	        	//updateDisplay(display, "NEW");
 	        	//mapPane.getChildren().remove();
         	}
         });
@@ -449,7 +596,7 @@ public class MapRootPane extends AnchorPane{
 	    //newNode.visibleProperty().bind(showNodes.selectedProperty());
 
 	    // Add to the scene
-	    mapPane.getChildren().add(newNode);
+	    nodeLayer.getChildren().add(newNode);
 	}
 
 	/**
@@ -466,12 +613,7 @@ public class MapRootPane extends AnchorPane{
 	            Graph g = display.getGraph();
 	            Node a = g.returnNodeById(aND.getNode());
 	            Node b = g.returnNodeById(bND.getNode());
-	            DoubleProperty aLocX, aLocY, bLocX, bLocY;
 	            try{
-	            	aLocX = aND.centerXProperty();
-	                aLocY = aND.centerYProperty();
-	                bLocX = bND.centerXProperty();
-	                bLocY = bND.centerYProperty();
 	            }
 	            catch(NullPointerException exception){
 	                System.out.println("a thing broke");
@@ -480,13 +622,10 @@ public class MapRootPane extends AnchorPane{
 
 
 	            Id newEdge = g.addEdgeRint(a.getId(), b.getId());
-	            EdgeDisplay e = new EdgeDisplay(display, newEdge,
-	        			aLocX, aLocY,
-	                    bLocX, bLocY);
+	            EdgeDisplay e = new EdgeDisplay(display, newEdge);
 	            e.setStroke(Color.BLUE);
-	            e.setTranslateX((aLocX.get() + bLocX.get())/2 - (localBounds.getMaxX() / 2));
-	            e.setTranslateY((aLocY.get() + bLocY.get())/2 - (localBounds.getMaxY() / 2));
-	            e.startXProperty().addListener(ev -> {
+	            /*
+	        e.startXProperty().addListener(ev -> {
 	            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
 	            });
 	            e.startYProperty().addListener(ev -> {
@@ -498,7 +637,8 @@ public class MapRootPane extends AnchorPane{
 	            e.endYProperty().addListener(ev -> {
 	            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
 	            });
-	            mapPane.getChildren().add(e);
+	            */
+	            edgeLayer.getChildren().add(e);
 	            aND.fireEvent(selectNodeEvent);
 	            
 	            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
@@ -506,7 +646,7 @@ public class MapRootPane extends AnchorPane{
 	            		System.out.println("Edge deleted");
 	    	        	Id id = e.getEdge();
 	    	        	display.getGraph().deleteEdge(id);
-	    	        	mapPane.getChildren().remove(e);
+	    	        	edgeLayer.getChildren().remove(e);
 	            	} else {
 	            		System.out.println("Edge selected");
 		            	e.selectEdge();
@@ -523,8 +663,9 @@ public class MapRootPane extends AnchorPane{
 	            });
 	            
 	            e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
-	            	mapPane.getChildren().remove(e);
+	            	edgeLayer.getChildren().remove(e);
 	            	display.getGraph().deleteEdge(e.getEdge());
+	            	render();
 	            });
 	        }
 	        nodeQueue.remove().fireEvent(selectNodeEvent);;
@@ -548,21 +689,16 @@ public class MapRootPane extends AnchorPane{
 		    Node a = graph.returnNodeById(aID);
 		    Node b = graph.returnNodeById(bID);
 		    if(a == null || b == null){
-		    graph.deleteEdge(edge.getId());
+		    	graph.deleteEdge(edge.getId());
 		    	continue;
 		    }
-		    Coordinate aLoc = a.getCoordinate();
-		    Coordinate bLoc = b.getCoordinate();
-	        DoubleProperty aLocX, aLocY, bLocX, bLocY;
-	        aLocX = new SimpleDoubleProperty(aLoc.getX() - localBounds.getMaxX()/2);
-	        aLocY = new SimpleDoubleProperty(aLoc.getY() - localBounds.getMaxY()/2);
-	        bLocX = new SimpleDoubleProperty(bLoc.getX() - localBounds.getMaxX()/2);
-	        bLocY = new SimpleDoubleProperty(bLoc.getY() - localBounds.getMaxY()/2);
+
+	     
 	        //System.out.println("Edge size" + g.getEdges().size());
-	        EdgeDisplay e = new EdgeDisplay(display, aID, bID,
-	        		aLocX, aLocY, bLocX, bLocY);
+	        EdgeDisplay e = new EdgeDisplay(display, aID, bID);
             
             e.setStroke(Color.BLUE);
+            /*
             e.setTranslateX((aLocX.get() + bLocX.get())/2);
             e.setTranslateY((aLocY.get() + bLocY.get())/2);
             e.startXProperty().addListener(ev -> {
@@ -577,7 +713,8 @@ public class MapRootPane extends AnchorPane{
             e.endYProperty().addListener(ev -> {
             	e.setTranslateY((aLocY.get() + bLocY.get())/2);
             });
-            mapPane.getChildren().add(e);
+            */
+            edgeLayer.getChildren().add(e);
 
             e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
             	System.out.println("Edge selected");
@@ -595,8 +732,9 @@ public class MapRootPane extends AnchorPane{
             });
             
             e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
-            	mapPane.getChildren().remove(e);
+            	edgeLayer.getChildren().remove(e);
             	display.getGraph().deleteEdge(e.getEdge());
+            	render();
             });
      
 	    }
@@ -614,34 +752,23 @@ public class MapRootPane extends AnchorPane{
             Vector<Node> nodes = display.getGraph().getNodes();
             //System.out.println(nodes.size());
 
-            Path p = new Path(startNode.getNode(), endNode.getNode());
+            p = new Path(startNode.getNode(), endNode.getNode());
             Graph g = display.getGraph();
             //System.out.println("Size graph " + g.getEdges().size());
             p.runAStar(g); //Change this later??
-            ArrayList<Id> idList = p.getRoute();
-            System.out.println("Route size " + idList.size());
-            while(idx < idList.size() - 1){
-            	Node a = g.returnNodeById(idList.get(idx));
-                Node b = g.returnNodeById(idList.get(++idx));
-                Coordinate aLoc = a.getCoordinate();
-                Coordinate bLoc = b.getCoordinate();
-                Line l = new Line(aLoc.getX(), aLoc.getY(),
-                                  bLoc.getX(), bLoc.getY());
-                l.setStrokeWidth(3.0);
-                l.setTranslateX((aLoc.getX() + bLoc.getX()) / 2);
-                l.setTranslateY((aLoc.getY() + bLoc.getY()) / 2);
-       
-                move(l, (aLoc.getX() + bLoc.getX())/2, (aLoc.getY() + bLoc.getY())/2);
-
-                pathPane.getChildren().add(l);
-                pathPane.toFront();
-                pathPane.setMouseTransparent(true);
-            }
+           currentRoute = p.getRoute();
+            
+            render();
             SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
             startNode.fireEvent(selectNodeEvent);
             endNode.fireEvent(selectNodeEvent);
+            showDirections();
         }
 	}
 
+    public void showDirections(){
+        ObservableList<String> pathList = FXCollections.observableList(p.getTextual());
+        mainPane.getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
+    }
 
 }
