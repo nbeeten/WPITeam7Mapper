@@ -50,7 +50,7 @@
 
 /*Favorites Button States*/
 #favoritesMenuRadioButton{
-    -fx-background-image: url("../icons/Question.png");
+    -fx-background-image: url("../icons/favorite.png");
     -fx-background-size: cover;
 }
 
