@@ -49,13 +49,13 @@ public class DevToolsMenuPane extends BorderPane {
         
         try{
             loader.load();
-            setListeners();
+            
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
-
+        setListeners();
         this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/DevToolsPaneStyleSheet.css").toExternalForm());
-        
+
     }
     
     private void setListeners(){
