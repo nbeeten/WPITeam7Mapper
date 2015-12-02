@@ -241,16 +241,21 @@ public class FileIO {
 		}
 		ids = null;
 		//will change this over to iterate over a list later
+<<<<<<< HEAD
 		Map m = indpy.getMaps().get(0);
 		if(m == null){//continue;
 			
 		} else {
+=======
+		ArrayList<Map> meps = indpy.getMaps();
+		for(Map m : meps) {
+			if (m == null) continue;
+>>>>>>> d54068a2a761ebceea9df669dfb721fb73a1aa10
 			Coordinate c = m.center; // should this be a getter?
 			//writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
 			String[] aaa = new String[1];
 			aaa[0] = m.getName();
 			writer.println("m " + m.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + m.rotation + " " + m.scale + " " + toTags(aaa));
-
 		}
 		if (writer != null) writer.close();
 		return i;

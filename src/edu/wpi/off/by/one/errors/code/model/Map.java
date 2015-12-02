@@ -59,6 +59,10 @@ public class Map {
 	public Coordinate getCenter() { return this.center;}
 	public float getRotation() { return this.rotation; }
 	public float getScale() { return this.scale; }
+<<<<<<< HEAD
 	public Image getImage() { return this.myimg; }
+=======
+	public Image getImage() { return this.myimg;}
+>>>>>>> d54068a2a761ebceea9df669dfb721fb73a1aa10
 
 }
