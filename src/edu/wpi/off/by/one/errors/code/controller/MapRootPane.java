@@ -58,11 +58,11 @@ public class MapRootPane extends AnchorPane{
 	@FXML Button zoomOutButton;
 	@FXML VBox editorPane;
 	@FXML Button drawPathDisplayButton;
-	Pane nodeLayer = new Pane();
-	Pane edgeLayer = new Pane();
+	Pane nodeLayer = new StackPane();
+	Pane edgeLayer = new StackPane();
 	Pane pathPane = new StackPane();
 	Coordinate translate;
-	float rot = -30.0f;
+	float rot = 0.0f;
 	float zoom = 1.0f;
 	Matrix view;
 	//Change this as necessary
@@ -117,7 +117,7 @@ public class MapRootPane extends AnchorPane{
 		//Load campus map from display list
 		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
         //display = displayList.get("Campus Map");
-        display.getMaps().get(0).setRotation(30);
+        display.getMaps().get(0).setRotation(0);
 		mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
 		//Set map image
 		mapView.preserveRatioProperty().set(true);
@@ -184,13 +184,13 @@ public class MapRootPane extends AnchorPane{
 		for(Map m : mlist){
 			if(m == null) continue;
 
-			System.out.println(m.getRotation());
-			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
+			if(m.getImage() == null) continue;
+			Rotate r = new Rotate(m.getRotation() + rot, m.getImage().getWidth()/2, m.getImage().getHeight()/2);
 	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 
 			Coordinate c = view.transform(m.getCenter());
 			mygc.translate(c.getX(), c.getY());
-			mygc.drawImage(m.getImage(), 100.0, 100.0);
+			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
 		for(javafx.scene.Node np: nodeLayer.getChildren()){
