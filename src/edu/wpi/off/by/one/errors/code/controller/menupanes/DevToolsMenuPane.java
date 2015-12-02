@@ -57,8 +57,8 @@ public class DevToolsMenuPane extends BorderPane {
     
     private void setListeners(){
     	this.visibleProperty().addListener(change -> {
-    		Map currentMap = mainPane.getMapRootPane().getDisplay().getMap();
-    		mapDevToolPane.setMap(currentMap);
+    		//Map currentMap = mainPane.getMapRootPane().getDisplay().getMap();
+    		//mapDevToolPane.setMap(currentMap);
     	});
 
     	this.loadNewMapButton.setOnAction(e -> {
@@ -74,7 +74,7 @@ public class DevToolsMenuPane extends BorderPane {
                 System.out.println(inpath);
                 newdisp = FileIO.load(inpath, null);
                 mainPane.getMapRootPane().updateDisplay(newdisp, "NEW");
-                mapDevToolPane.setMap(newdisp.getMap());
+                mapDevToolPane.setMap(newdisp.getMaps().get(0));
             }
     	});
     	
@@ -92,7 +92,7 @@ public class DevToolsMenuPane extends BorderPane {
                 System.out.println(inpath);
                 newdisp = FileIO.load(inpath, null);
                 mainPane.getMapRootPane().updateDisplay(newdisp, "APPEND");
-                mapDevToolPane.setMap(newdisp.getMap());
+                //mapDevToolPane.setMap(newdisp.getMap());
             }
             
             

@@ -19,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.transform.Rotate;
 
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -106,7 +107,8 @@ public class MapRootPane extends AnchorPane{
     	//System.out.printf("Height: %f, Width: %f\n", height, width);
     	canvas.setHeight(height);
     	canvas.setWidth(width);
-    	System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
+    	//System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
+    	render();
     }
     
     private void initialize(){
@@ -114,22 +116,25 @@ public class MapRootPane extends AnchorPane{
 		//Load all displays into application
 		loadDisplays();
 		//Load campus map from display list
-        display = displayList.get("Campus Map");
-        mapPane.getChildren().add(0, pathPane);
+		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
+        //display = displayList.get("Campus Map");
+        display.getMaps().get(0).setRotation(30);
+		mapPane.getChildren().add(0, pathPane);
         mapPane.getChildren().add(0, canvas);
 		//Set map image
-//        mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
+        //mapView.setImage(new Image(resourceDir + "maps/images/" + display.getMap().getImgUrl()));
 		mapView.preserveRatioProperty().set(true);
 		//Update local bounds of the map view
 		localBounds = mapView.getBoundsInLocal();
 		//Updates display with nodes/edges
-		updateDisplay(display.getGraph());
+		//updateDisplay(display.getGraph());
 		// center the mapScrollPane contents.
         
         //Setup event listeners for map
         setListeners();
-		translate = new Coordinate();
+		translate = new Coordinate(0.0f, 0.0f);
 		view = new Matrix();
+        render();
     }
     
     /**
@@ -177,14 +182,17 @@ public class MapRootPane extends AnchorPane{
 		ArrayList<Map> mlist = display.getMaps();
 		mygc.save();
 		for(Map m : mlist){
+			System.out.printf("wek\n");
 			if(m == null) continue;
 
-			mygc.rotate(m.getRotation());
-			mygc.scale(m.getScale(), m.getScale());
+			System.out.println(m.getRotation());
+			Rotate r = new Rotate(30, 0, 0);
+	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+
 			Coordinate c = m.getCenter();
 			mygc.translate(c.getX(), c.getY());
-			mygc.drawImage(m.getImage(), 0.0, 0.0);
-			mygc.restore();
+			mygc.drawImage(m.getImage(), 100.0, 100.0);
+			//mygc.restore();
 		}
 		for(Edge e : elist){
 			if(e == null) continue;
@@ -222,7 +230,7 @@ public class MapRootPane extends AnchorPane{
 	 * stores them as display objects
 	 */
 	private void loadDisplays(){
-		
+		/*
 		displayList = new HashMap<String, Display>();
 		// TODO the best way to do this is to look at a folder in the resources directory that holds all the txt files
 		// get each file name, and then store them in a string array. Then begin to load the display objects into a Hash
@@ -238,6 +246,7 @@ public class MapRootPane extends AnchorPane{
 			if(mapName == null) mapName = d.getMaps().get(0).getImgUrl();
 			displayList.put(mapName, d);
 		}
+		*/
 	}
 	
     /**
@@ -413,7 +422,8 @@ public class MapRootPane extends AnchorPane{
 		        	//mapPane.getChildren().remove(this);
 		        	//remove edge display as well
 		        	//right now this throws nullpointerexception.
-		        	updateDisplay(display, "NEW");
+		        	render();
+		        	//updateDisplay(display, "NEW");
 	        	}
 	        });
 	        mapPane.getChildren().add(newNode);
@@ -478,7 +488,8 @@ public class MapRootPane extends AnchorPane{
 	        	//mapPane.getChildren().remove(this);
 	        	//remove edge display as well
 	        	//right now this throws nullpointerexception.
-	        	updateDisplay(display, "NEW");
+	        	render();
+	        	//updateDisplay(display, "NEW");
 	        	//mapPane.getChildren().remove();
         	}
         });
@@ -562,6 +573,7 @@ public class MapRootPane extends AnchorPane{
 	            e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
 	            	mapPane.getChildren().remove(e);
 	            	display.getGraph().deleteEdge(e.getEdge());
+	            	render();
 	            });
 	        }
 	        nodeQueue.remove().fireEvent(selectNodeEvent);;
@@ -634,6 +646,7 @@ public class MapRootPane extends AnchorPane{
             e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
             	mapPane.getChildren().remove(e);
             	display.getGraph().deleteEdge(e.getEdge());
+            	render();
             });
      
 	    }

@@ -11,7 +11,7 @@ public class Map {
 	private Image myimg;
 
 	private void updateImg(){
-		myimg = new Image(imagePath);
+		myimg = new Image("/edu/wpi/off/by/one/errors/code/resources/maps/images/" + imagePath);
 	}
 	
 	public Map(String path, Coordinate coordinate, float rotation, float scale){
@@ -19,6 +19,7 @@ public class Map {
 		this.center = coordinate;
 		this.rotation = rotation;
 		this.scale = scale;
+		System.out.println(path);
 		updateImg();
 	}
 	
@@ -58,6 +59,6 @@ public class Map {
 	public Coordinate getCenter() { return this.center;}
 	public float getRotation() { return this.rotation; }
 	public float getScale() { return this.scale; }
-	public Image getImage() { return this.myimg;}
+	public Image getImage() { return this.myimg; }
 
 }

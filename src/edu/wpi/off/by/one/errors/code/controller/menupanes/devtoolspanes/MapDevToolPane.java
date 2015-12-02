@@ -75,7 +75,7 @@ public class MapDevToolPane extends VBox {
     		currentMap.setRotation(Float.parseFloat(s));
     		String name = (currentMap.getName() != null) ?  currentMap.getName(): currentMap.getImgUrl();
     		Display d = displayList.get(name);
-    		d.setMap(currentMap);
+    		//d.setMap(currentMap);
     		displayList.put(name, d);
     	});
     	
@@ -84,7 +84,7 @@ public class MapDevToolPane extends VBox {
     		currentMap.setScale(Float.parseFloat(s));
     		String name = (currentMap.getName() != null) ?  currentMap.getName(): currentMap.getImgUrl();
     		Display d = displayList.get(name);
-    		d.setMap(currentMap);
+    		//d.setMap(currentMap);
     		displayList.put(name, d);
     	});
     	
@@ -95,7 +95,7 @@ public class MapDevToolPane extends VBox {
     				currentc.getY(), currentc.getZ()));
     		String name = (currentMap.getName() != null) ?  currentMap.getName(): currentMap.getImgUrl();
     		Display d = displayList.get(name);
-    		d.setMap(currentMap);
+    		//d.setMap(currentMap);
     		displayList.put(name, d);
     	});
     	
@@ -106,7 +106,7 @@ public class MapDevToolPane extends VBox {
     				Float.parseFloat(s), currentc.getZ()));
     		String name = (currentMap.getName() != null) ?  currentMap.getName(): currentMap.getImgUrl();
     		Display d = displayList.get(name);
-    		d.setMap(currentMap);
+    		//d.setMap(currentMap);
     		displayList.put(name, d);
     	});
     	
@@ -117,16 +117,16 @@ public class MapDevToolPane extends VBox {
     				currentc.getY(), Float.parseFloat(s)));
     		String name = (currentMap.getName() != null) ?  currentMap.getName(): currentMap.getImgUrl();
     		Display d = displayList.get(name);
-    		d.setMap(currentMap);
+    		//d.setMap(currentMap);
     		displayList.put(name, d);
     	});
     }
     
     public void setMainPane(MainPane m) { 
     	mainPane = m; 
-    	this.currentMap = mainPane.getMapRootPane().getDisplay().getMap(); 
+    	//this.currentMap = mainPane.getMapRootPane().getDisplay().getMap(); 
     	displayList = mainPane.getMapRootPane().getAllDisplays();
-    	displayChoiceBox.getItems().addAll(displayList.keySet());
+    	//displayChoiceBox.getItems().addAll(displayList.keySet());
     }
     
     public void setMap(Map m) { 
@@ -154,7 +154,7 @@ public class MapDevToolPane extends VBox {
             System.out.println(inpath);
             Map newmap = new Map();
             newmap.setImgUrl(inpath);
-            display.setMap(newmap);
+            //display.setMap(newmap);
             mainPane.getMapRootPane().updateDisplay(display, "NEW");
             //mapView.setImage(new Image("/edu/wpi/off/by/one/errors/code/resources/" + inpath));
             //window.display(selectedFile);
@@ -164,14 +164,14 @@ public class MapDevToolPane extends VBox {
     @FXML public void changeDisplay(){
     	String k = displayChoiceBox.getSelectionModel().getSelectedItem();
     	this.currentDisplay = displayList.get(k);
-    	setMap(this.currentDisplay.getMap());
+    	//setMap(this.currentDisplay.getMap());
     	//send msg to maprootpane to change display
     	mainPane.getMapRootPane().updateDisplay(this.currentDisplay, "NEW");
     }
     
     private void updateDisplayList(String old_s, String new_s){
     	Display disp = displayList.get(old_s);
-		disp.setMap(this.currentMap);
+		//disp.setMap(this.currentMap);
 		displayList.put(new_s, disp);
 		displayList.remove(old_s);
 		int i = displayChoiceBox.getItems().indexOf(old_s);
