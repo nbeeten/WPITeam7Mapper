@@ -194,16 +194,14 @@ public class MapRootPane extends AnchorPane{
 			mygc.drawImage(m.getImage(), 100.0, 100.0);
 			mygc.restore();
 		}
-		for(Edge e : elist){
-			if(e == null) continue;
-		}
-		for(javafx.scene.Node np: mapPane.getChildren()){
-			if(np.)
-
-		}
-		for(Node n : nlist){
-			if(n == null) continue;
-			Coordinate c = view.transform(n.getCoordinate());
+		for(javafx.scene.Node np: nodeLayer.getChildren()){
+			NodeDisplay nd = (NodeDisplay)np;
+			if(nd == null) continue;
+			Node n = display.getGraph().returnNodeById(nd.getNode());
+			if(n == null){ nodeLayer.getChildren().remove(np); continue; }
+			Coordinate nc = view.transform(n.getCoordinate());
+			nd.setCenterX(nc.getX());
+			nd.setCenterY(nc.getY());
 		}
 
 	}
