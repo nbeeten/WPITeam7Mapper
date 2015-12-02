@@ -62,7 +62,7 @@ public class FileIO {
 		Map m = new Map(args[0], c, Float.parseFloat(args[4]), Float.parseFloat(args[5]));
 		if(args.length > 6) m.setName(getTags(args[6])[0]);
 		System.out.println(m.getName());
-		dpy.setMap(m);
+		dpy.addMap(m);
 		return 1;
 	}
 	/**
@@ -241,16 +241,14 @@ public class FileIO {
 		}
 		ids = null;
 		//will change this over to iterate over a list later
-		Map m = indpy.getMap();
-		if(m == null){//continue;
-			
-		} else {
+		ArrayList<Map> meps = indpy.getMaps();
+		for(Map m : meps) {
+			if (m == null) continue;
 			Coordinate c = m.center; // should this be a getter?
 			//writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
 			String[] aaa = new String[1];
 			aaa[0] = m.getName();
 			writer.println("m " + m.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + m.rotation + " " + m.scale + " " + toTags(aaa));
-
 		}
 		if (writer != null) writer.close();
 		return i;
