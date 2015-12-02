@@ -113,6 +113,7 @@ public class MapRootPane extends AnchorPane{
             initialize();
         } catch (IOException excpt) {
             throw new RuntimeException(excpt);
+
         }
     }
     
@@ -147,7 +148,6 @@ public class MapRootPane extends AnchorPane{
 		mapView.preserveRatioProperty().set(true);
 		Coordinate lastdragged = new Coordinate(0);
 		Coordinate mydragged = new Coordinate(0);
-		
 
 		/*
 		 mapPane.setOnMousePressed(e -> {
@@ -213,7 +213,6 @@ public class MapRootPane extends AnchorPane{
 		view = new Matrix();
 		invview  =new Matrix();
         render();
-        
     }
     
     /**

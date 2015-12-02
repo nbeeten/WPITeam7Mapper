@@ -31,6 +31,8 @@ public class DirectionsMenuPane extends BorderPane {
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
+
+        this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/DirectionsPaneStyleSheet.css").toExternalForm());
     }
 
 	public void setMainPane(MainPane mainPane) { this.mainPane = mainPane; }
