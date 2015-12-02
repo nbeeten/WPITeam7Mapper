@@ -60,6 +60,9 @@ public class DevToolsMenuPane extends BorderPane {
     	this.visibleProperty().addListener(change -> {
     		//Map currentMap = mainPane.getMapRootPane().getDisplay().getMap();
     		//mapDevToolPane.setMap(currentMap);
+    		mainPane.getMapRootPane().isEditMode = this.isVisible() ? true : false;
+    		mainPane.getMapRootPane().render();
+    		
     	});
     	
     	this.loadNewImageButton.setOnAction(e -> {
@@ -109,7 +112,9 @@ public class DevToolsMenuPane extends BorderPane {
     	// TODO Append new map onto current map on a separate pane layer
     	this.appendMapButton.setOnAction(e -> {
     		Display newdisp = mainPane.getMapRootPane().getDisplay();
-            FileChooser fileChooser = new FileChooser();
+    		
+       
+    		FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Map File");
             fileChooser.getExtensionFilters().addAll(
                                                      new ExtensionFilter("Text Files", "*.txt"),
@@ -124,19 +129,21 @@ public class DevToolsMenuPane extends BorderPane {
                 //mapDevToolPane.setMap(newdisp.getMap());
                 mainPane.getMenuPane().getSearchMenuPane().updateMapList(mainPane.getMapRootPane().getDisplay().getMaps());
             }
-            
+           
             
     	});
     	
     	this.saveCurrentMapButton.setOnAction(e -> {
+    		/*
     		FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Map File");
             fileChooser.getExtensionFilters().addAll(
                                                      new ExtensionFilter("Text Files", "*.txt"),
                                                      new ExtensionFilter("All Files", "*.*"));
             File selectedFile = fileChooser.showSaveDialog(mainPane.getWindow());
+            */
             //selectedFile.getAbsolutePath();
-            FileIO.save(selectedFile.getAbsolutePath(), mainPane.getMapRootPane().getDisplay());
+            FileIO.save(mainPane.getMapRootPane().getFilePath(), mainPane.getMapRootPane().getDisplay());
     	});
     }
     public NodeDevToolPane getNodeDevToolPane() { return nodeDevToolPane; }
