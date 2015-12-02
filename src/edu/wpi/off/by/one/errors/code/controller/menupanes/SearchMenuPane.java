@@ -17,6 +17,7 @@ import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteText
  */
 public class SearchMenuPane extends BorderPane {
 	
+	MainPane mainPane;
 	@FXML AutoCompleteTextField searchField;
 	
     public SearchMenuPane(){
@@ -36,7 +37,7 @@ public class SearchMenuPane extends BorderPane {
     }
 
 	public void setMainPane(MainPane mainPane) {
-		// TODO Auto-generated method stub
+		this.mainPane = mainPane;
 		
 	}
 }

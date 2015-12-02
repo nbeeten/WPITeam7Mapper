@@ -62,7 +62,7 @@ public class FileIO {
 		Map m = new Map(args[0], c, Float.parseFloat(args[4]), Float.parseFloat(args[5]));
 		if(args.length > 6) m.setName(getTags(args[6])[0]);
 		System.out.println(m.getName());
-		dpy.setMap(m);
+		dpy.addMap(m);
 		return 1;
 	}
 	/**
@@ -241,7 +241,7 @@ public class FileIO {
 		}
 		ids = null;
 		//will change this over to iterate over a list later
-		Map m = indpy.getMap();
+		Map m = indpy.getMaps().get(0);
 		if(m == null){//continue;
 			
 		} else {
