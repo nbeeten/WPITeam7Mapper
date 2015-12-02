@@ -35,6 +35,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
@@ -123,15 +124,15 @@ public class MapRootPane extends AnchorPane{
     
     public void updateCanvasSize(double width, double height){
     	
-    	//System.out.printf("Height: %f, Width: %f\n", height, width);
+    	//////System.out.printf("Height: %f, Width: %f\n", height, width);
     	canvas.setHeight(height);
     	canvas.setWidth(width);
-    	//System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
+    	//////System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
     	render();
     }
     
     private void initialize(){
-    	System.out.print("Main Controller Initialized.");
+    	////System.out.print("Main Controller Initialized.");
 		//Load all displays into application
 		//loadDisplays();
 		//Load campus map from display list
@@ -149,13 +150,13 @@ public class MapRootPane extends AnchorPane{
 
 		/*
 		 mapPane.setOnMousePressed(e -> {
-			 System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
+			 ////System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
 			 new Coordinate((float)e.getX(), (float)e.getY(), 0);
 			 
 	     });
 	     
 	     mapPane.setOnMouseReleased(e -> {
-	    	 System.out.printf("MouseRelease: %f, %f\n", e.getX(), e.getY());
+	    	 ////System.out.printf("MouseRelease: %f, %f\n", e.getX(), e.getY());
 	    	 new Coordinate((float)e.getX(), (float)e.getY(), 0);
 	     });
 	     */
@@ -168,7 +169,7 @@ public class MapRootPane extends AnchorPane{
         //Setup event listeners for map
         setListeners();
 		mapPane.setOnMousePressed(e -> {
-			 //System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
+			 //////System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
 			 lastview = invview;
 			 Coordinate in = new Coordinate((float)e.getX(), (float)e.getY());
 			 Coordinate sin = lastview.transform(in);
@@ -177,7 +178,7 @@ public class MapRootPane extends AnchorPane{
 	     });
 		
 		mapPane.setOnMouseDragged(e -> {
-			//System.out.printf("X: %f, Y: %f\n", e.getX(), e.getY());
+			//////System.out.printf("X: %f, Y: %f\n", e.getX(), e.getY());
 			Coordinate sin = new Coordinate((float)e.getX(), (float)e.getY());
 			Coordinate in = lastview.transform(sin);
 			if(e.isControlDown()){
@@ -187,7 +188,7 @@ public class MapRootPane extends AnchorPane{
 			} else {
 				Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
 				translate.setAll((float) translate.getX() + delta.getX(), (float)translate.getY() + delta.getY(), translate.getZ());
-				//System.out.printf("Coord: %f, %f\n", translate.getX(), translate.getY());
+				//////System.out.printf("Coord: %f, %f\n", translate.getX(), translate.getY());
 				render();
 			}
 			lastdragged.setAll(in.getX(), in.getY(), 0);
@@ -278,7 +279,7 @@ public class MapRootPane extends AnchorPane{
 	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
 	        mygc.scale(zoom * m.getScale(), zoom * m.getScale());
 			
-			System.out.println(m.getImage());
+			////System.out.println(m.getImage());
 			//mygc.drawImage(m.getImage(), c.getX(), c.getY());
 			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
@@ -288,17 +289,18 @@ public class MapRootPane extends AnchorPane{
 			if(nd == null) continue;
 
 			Node n = display.getGraph().returnNodeById(nd.getNode());
-			if(translate.getZ() > n.getCoordinate().getZ() + 0.1 && translate.getZ() < n.getCoordinate().getZ() - 0.1){
+			if(translate.getZ() > n.getCoordinate().getZ() + 0.1 || translate.getZ() < n.getCoordinate().getZ() - 0.1){
 				np.setVisible(false);
 				np.setMouseTransparent(true);
 				continue;
+			} else {
+				np.setVisible(true);
+				np.setMouseTransparent(false);
+				if(n == null){ nodeLayer.getChildren().remove(np); continue; }
+				Coordinate nc = view.transform(n.getCoordinate());
+				nd.setCenterX(nc.getX()- 5.0f);
+				nd.setCenterY(nc.getY()- 5.0f);
 			}
-			np.setVisible(true);
-			np.setMouseTransparent(false);
-			if(n == null){ nodeLayer.getChildren().remove(np); continue; }
-			Coordinate nc = view.transform(n.getCoordinate());
-			nd.setCenterX(nc.getX()- 5.0f);
-			nd.setCenterY(nc.getY()- 5.0f);
 		}
 		for(javafx.scene.Node np: edgeLayer.getChildren()){
 			EdgeDisplay nd = (EdgeDisplay)np;
@@ -378,6 +380,7 @@ public class MapRootPane extends AnchorPane{
 	 * @param g 
 	 */
 	private void updateDisplay(Graph g){
+		
 		addNodeDisplayFromList(g.getNodes());
 		//addEdgeDisplayFromList(g, g.getEdges());
 	}
@@ -395,7 +398,7 @@ public class MapRootPane extends AnchorPane{
 		//This should be done in FileIO...?
 		File resources = new File("src" + resourceDir + "maps/txtfiles");
 		String[] lof = resources.list();
-		System.out.println(lof);
+		////System.out.println(lof);
 		for(String file : lof){
 			String path = "src" + resourceDir + "maps/txtfiles/" + file;
 			Display d = FileIO.load(path, null);
@@ -425,7 +428,7 @@ public class MapRootPane extends AnchorPane{
 	            }
 	    		else if (isNodeEditor){
 	    			if(!nodeQueue.isEmpty()){
-	    				System.out.println("Editing node");
+	    				////System.out.println("Editing node");
 	    				NodeDisplay n = nodeQueue.poll();
 	    				Graph g = display.getGraph();
 	    				//Coordinate currentCoord = g.returnNodeById(n.getNode()).getCoordinate();
@@ -457,7 +460,7 @@ public class MapRootPane extends AnchorPane{
     		else isEditMode = false;
     		if(eventName == "DELETE") isDeleteMode = true;
     		else isDeleteMode = false;
-    		System.out.println(e.getEventType());
+    		////System.out.println(e.getEventType());
     	});
     	//Listen if editor pane sent out an Map/Node/Edge event
     	//TODO do something with it. right now it only gets the name
@@ -485,9 +488,9 @@ public class MapRootPane extends AnchorPane{
      */
     public void move(javafx.scene.Node obj, double x, double y){
         Bounds localBounds = mapView.getBoundsInLocal();
-        System.out.println("MOVING");
-        System.out.println(localBounds.getMinX() + " " + localBounds.getMinY());
-        System.out.println(localBounds.getMaxX() + " " + localBounds.getMaxY());
+        ////System.out.println("MOVING");
+        ////System.out.println(localBounds.getMinX() + " " + localBounds.getMinY());
+        ////System.out.println(localBounds.getMaxX() + " " + localBounds.getMaxY());
         obj.setTranslateX(x - (localBounds.getMaxX() / 2));
         obj.setTranslateY(y - (localBounds.getMaxY() / 2));
 
@@ -498,12 +501,12 @@ public class MapRootPane extends AnchorPane{
 	 * @param nodes
 	 */
 	void addNodeDisplayFromList(Collection<Node> nodes){
-		System.out.println(nodes.size());
+		////System.out.println(nodes.size());
 		Node[] nodeArr = new Node[nodes.size()];
 		nodes.toArray(nodeArr); // To avoid ConcurrentModificationException
 		for(Node n : nodeArr){
 			if(n == null) {
-				System.out.println("NULL!");
+				////System.out.println("NULL!");
 				continue;
 			}
 			Coordinate c = n.getCoordinate();
@@ -526,7 +529,7 @@ public class MapRootPane extends AnchorPane{
 		    	newNode.setTranslateY(newNode.getCenterY());
 		    });
 	        newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
-	           System.out.println("Node Selected");
+	           ////System.out.println("Node Selected");
 		       newNode.selectNode();
 			   nodeQueue.add(newNode);
 			   if(nodeQueue.size() == 2 && !isEditMode){
@@ -544,11 +547,11 @@ public class MapRootPane extends AnchorPane{
 	        
 	        newNode.addEventFilter(EditorEvent.DELETE_NODE, event -> {
 	        	if(isNodeEditor){
-		        	System.out.println("Node deleted");
+		        	////System.out.println("Node deleted");
 		        	Graph g = display.getGraph();
 		        	Id id = newNode.getNode();
-		        	System.out.println(id);
-		        	System.out.println(display);
+		        	////System.out.println(id);
+		        	////System.out.println(display);
 		        	//for(int i = 0; i < edges.size(); i++)  g.deleteEdge(edges.get(i));
 		        	g.deleteNode(id);
 		        	//mapPane.getChildren().remove(this);
@@ -569,7 +572,7 @@ public class MapRootPane extends AnchorPane{
 	 * @param y
 	 */
 	void addNodeDisplay(double x, double y){
-		System.out.println("Added Node");
+		////System.out.println("Added Node");
 		double tx = x;// - (localBounds.getMaxX() / 2);
         double ty = y;// - (localBounds.getMaxY() / 2);
 		
@@ -585,10 +588,10 @@ public class MapRootPane extends AnchorPane{
 	    newNode.centerYProperty().addListener(e -> {
 	    	newNode.setTranslateY(newNode.getCenterY());
 	    });
-	    System.out.println(newNode.getNode());
+	    ////System.out.println(newNode.getNode());
 	    newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
 	    	
-	        System.out.println("Node Selected");
+	        ////System.out.println("Node Selected");
 	        newNode.selectNode();
 		    nodeQueue.add(newNode);
 		    if(nodeQueue.size() == 2 && !isEditMode){
@@ -596,7 +599,7 @@ public class MapRootPane extends AnchorPane{
 		    	nodeQueue.clear();
 		    	newNode.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
 		    }
-		    System.out.println(newNode.getCenterX() + " " + newNode.getCenterY());
+		    ////System.out.println(newNode.getCenterX() + " " + newNode.getCenterY());
 		        // Add selected node to selected node queue
 		    mainPane.getNodeTool().displayNodeInfo(newNode);
 
@@ -616,11 +619,11 @@ public class MapRootPane extends AnchorPane{
 
 	    newNode.addEventFilter(EditorEvent.DELETE_NODE, event -> {
         	if(isNodeEditor){
-	        	System.out.println("Node deleted");
-	        	System.out.println(display);
+	        	////System.out.println("Node deleted");
+	        	////System.out.println(display);
 	        	Graph g = display.getGraph();
 	        	Id id = newNode.getNode();
-	        	System.out.println(id);
+	        	////System.out.println(id);
 	        	g.deleteNode(id);
 	        	//mapPane.getChildren().remove(this);
 	        	//remove edge display as well
@@ -645,7 +648,7 @@ public class MapRootPane extends AnchorPane{
 	public void addEdgeDisplayFromQueue(){
 		SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
 	    if(!nodeQueue.isEmpty()){
-	        //System.out.println(nodeQueue.size());
+	        //////System.out.println(nodeQueue.size());
 	        while(nodeQueue.size() > 1){
 	            NodeDisplay aND = nodeQueue.poll();
 	            NodeDisplay bND = nodeQueue.peek();
@@ -655,7 +658,7 @@ public class MapRootPane extends AnchorPane{
 	            try{
 	            }
 	            catch(NullPointerException exception){
-	                System.out.println("a thing broke");
+	                ////System.out.println("a thing broke");
 	                break;
 	            }
 
@@ -682,12 +685,12 @@ public class MapRootPane extends AnchorPane{
 	            
 	            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
 	            	if(isEdgeEditor){
-	            		System.out.println("Edge deleted");
+	            		////System.out.println("Edge deleted");
 	    	        	Id id = e.getEdge();
 	    	        	display.getGraph().deleteEdge(id);
 	    	        	edgeLayer.getChildren().remove(e);
 	            	} else {
-	            		System.out.println("Edge selected");
+	            		////System.out.println("Edge selected");
 		            	e.selectEdge();
 		            	edgeQueue.clear();
 		            	edgeQueue.add(e);
@@ -734,7 +737,7 @@ public class MapRootPane extends AnchorPane{
 		    }
 
 	     
-	        //System.out.println("Edge size" + g.getEdges().size());
+	        //////System.out.println("Edge size" + g.getEdges().size());
 	        EdgeDisplay e = new EdgeDisplay(display, aID, bID);
             
             e.setStroke(Color.BLUE);
@@ -757,7 +760,7 @@ public class MapRootPane extends AnchorPane{
             edgeLayer.getChildren().add(e);
 
             e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
-            	System.out.println("Edge selected");
+            	////System.out.println("Edge selected");
             	e.selectEdge();
             	edgeQueue.clear();
             	edgeQueue.add(e);
@@ -790,11 +793,11 @@ public class MapRootPane extends AnchorPane{
             //display.drawPath(startNode.node.getId(), endNode.node.getId());
             int idx = 0;
             Vector<Node> nodes = display.getGraph().getNodes();
-            //System.out.println(nodes.size());
+            //////System.out.println(nodes.size());
 
             p = new Path(startNode.getNode(), endNode.getNode());
             Graph g = display.getGraph();
-            //System.out.println("Size graph " + g.getEdges().size());
+            //////System.out.println("Size graph " + g.getEdges().size());
             p.runAStar(g); //Change this later??
            currentRoute = p.getRoute();
             

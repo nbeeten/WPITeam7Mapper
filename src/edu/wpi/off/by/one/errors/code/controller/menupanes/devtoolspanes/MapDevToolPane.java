@@ -83,7 +83,7 @@ public class MapDevToolPane extends VBox {
     	
     	this.rotationTextField.setOnKeyPressed(e -> {
     		String s = rotationTextField.getText();
-    		System.out.println(s);
+    		//System.out.println(s);
     		if(s == null) s = "0";
     		currentMap.setRotation(Float.parseFloat(s));
     		mainPane.getMapRootPane().render();
@@ -165,7 +165,7 @@ public class MapDevToolPane extends VBox {
         File selectedFile = fileChooser.showOpenDialog(mainPane.getWindow());
         if (selectedFile != null) {
             String inpath = selectedFile.getName();
-            System.out.println(inpath);
+            //System.out.println(inpath);
             Map newmap = new Map();
             newmap.setImgUrl(inpath);
             //display.setMap(newmap);
@@ -178,7 +178,7 @@ public class MapDevToolPane extends VBox {
     public void changeDisplay(){
     	String k = mapChoiceBox.getSelectionModel().getSelectedItem();
     	int index = mapChoiceBox.getItems().indexOf(mapChoiceBox.getSelectionModel().getSelectedItem());
-		System.out.println(index);
+		//System.out.println(index);
 		this.selectedMap = this.mapList.get(index);
 		setMap(this.selectedMap);
     }
@@ -186,7 +186,7 @@ public class MapDevToolPane extends VBox {
     public void updateMapList(ArrayList<Map> maps){
     	this.mapList = maps;
     	mapChoiceBox.getItems().clear();
-    	System.out.println(maps.size());
+    	//System.out.println(maps.size());
     	for(Map m : maps){
         	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
         	mapChoiceBox.getItems().add(name);

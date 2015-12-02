@@ -77,7 +77,7 @@ public class DevToolsMenuPane extends BorderPane {
             File selectedFile = fileChooser.showOpenDialog(mainPane.getWindow());
             if (selectedFile != null) {
                 String inpath = selectedFile.getName();
-                System.out.println(inpath);
+                //System.out.println(inpath);
                 Map newmap = new Map();
                 newmap.setImgUrl(inpath);
                 newmap.setScale(0.5f);
@@ -104,7 +104,7 @@ public class DevToolsMenuPane extends BorderPane {
             File selectedFile = fileChooser.showOpenDialog(mainPane.getWindow());
             if (selectedFile != null) {
                 String inpath = selectedFile.getPath();
-                System.out.println(inpath);
+                //System.out.println(inpath);
                 newdisp = FileIO.load(inpath, null);
                 //mainPane.getMapRootPane().updateDisplay(newdisp, "NEW");
                 mapDevToolPane.setMap(newdisp.getMaps().get(0));
@@ -124,7 +124,7 @@ public class DevToolsMenuPane extends BorderPane {
             File selectedFile = fileChooser.showOpenDialog(mainPane.getWindow());
             if (selectedFile != null) {
                 String inpath = selectedFile.getPath();
-                System.out.println(inpath);
+                //System.out.println(inpath);
                 newdisp = FileIO.load(inpath, newdisp);
                 mainPane.getMapRootPane().updateDisplay(newdisp, "APPEND");
                 mapDevToolPane.updateMapList(mainPane.getMapRootPane().getDisplay().getMaps());
