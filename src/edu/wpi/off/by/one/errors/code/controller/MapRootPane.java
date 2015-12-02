@@ -186,19 +186,20 @@ public class MapRootPane extends AnchorPane{
 			if(m == null) continue;
 
 			System.out.println(m.getRotation());
-			Rotate r = new Rotate(30, 0, 0);
+			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
 	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 
-			Coordinate c = m.getCenter();
+			Coordinate c = view.transform(m.getCenter());
 			mygc.translate(c.getX(), c.getY());
 			mygc.drawImage(m.getImage(), 100.0, 100.0);
-			//mygc.restore();
+			mygc.restore();
 		}
 		for(Edge e : elist){
 			if(e == null) continue;
 		}
 		for(Node n : nlist){
 			if(n == null) continue;
+			Coordinate c = view.transform(n.getCoordinate());
 		}
 
 	}
