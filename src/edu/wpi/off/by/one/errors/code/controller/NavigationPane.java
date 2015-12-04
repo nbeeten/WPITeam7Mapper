@@ -12,8 +12,6 @@ import java.io.IOException;
  */
 public class NavigationPane extends GridPane {
 	
-	MainPane mainPane;
-
     public NavigationPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/NavigationPane.fxml"));
 
@@ -24,11 +22,9 @@ public class NavigationPane extends GridPane {
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
-
+        ControllerSingleton.getInstance().registerNavigationPane(this);
         this.getStylesheets().add(getClass().getResource("../resources/stylesheets/NavigationPaneStyleSheet.css").toExternalForm());
     }
-    
-    public void setMainPane(MainPane m) { this.mainPane = m; }
 
     public void open(){
         this.setPrefHeight(this.getMaxHeight());

@@ -107,12 +107,11 @@ public class MainPane extends BorderPane {
         loader.setController(this);
         try{
             loader.load();
-            mapRootPane.setMainPane(this);
-            menuPane.setMainPane(this);
-            navigationPane.setMainPane(this);
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
+        ControllerSingleton.getInstance().registerMainPane(this);
+        mapRootPane = ControllerSingleton.getInstance().getMapRootPane();
         lttl.setCycleCount(Timeline.INDEFINITE);
         rttl.setCycleCount(Timeline.INDEFINITE);
         zitl.setCycleCount(Timeline.INDEFINITE);
@@ -149,9 +148,6 @@ public class MainPane extends BorderPane {
     	});
     }
     public Window getWindow() { return this.window; }
-    public MenuPane getMenuPane() { return this.menuPane; }
-    public MapRootPane getMapRootPane() { return this.mapRootPane; }
-    public NavigationPane getNavigationPane() { return this.navigationPane;}
     public NodeDevToolPane getNodeTool() { return this.menuPane.getDevToolsMenuPane().getNodeDevToolPane(); }
     
 }

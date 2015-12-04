@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
+import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
 import edu.wpi.off.by.one.errors.code.model.*;
 
@@ -45,14 +46,12 @@ public class NodeDevToolPane extends VBox {
             throw new RuntimeException(excpt);
         }
         setListeners();
+        //currentDisplay = ControllerSingleton.getInstance().getMapRootPane().getDisplay();
     }
     
-    public void setMainPane(MainPane m) { 
-    	mainPane = m; 
-    	currentDisplay = m.getMapRootPane().getDisplay();
-    }
     public void displayNodeInfo(NodeDisplay nd){
     	this.currentNd = nd;
+    	currentDisplay = ControllerSingleton.getInstance().getMapRootPane().getDisplay();
     	Graph g = currentDisplay.getGraph();
     	Node n = g.returnNodeById(nd.getNode());
     	Coordinate c = g.returnNodeById(nd.getNode()).getCoordinate();

@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 
+import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
 import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
 import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.*;
@@ -27,8 +28,6 @@ import edu.wpi.off.by.one.errors.code.model.Map;
  * Created by jules on 11/28/2015.
  */
 public class DevToolsMenuPane extends BorderPane {
-	
-	MainPane mainPane;
 	
 	@FXML RadioButton mapPaneRadioButton;
 	@FXML MapDevToolPane mapDevToolPane;
@@ -60,21 +59,27 @@ public class DevToolsMenuPane extends BorderPane {
     
     private void setListeners(){
     	this.visibleProperty().addListener(change -> {
+    		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
+            if(maproot != null){
+            	maproot.isEditMode = this.isVisible() ? true : false;
+        		maproot.render();
+            }
     		//Map currentMap = mainPane.getMapRootPane().getDisplay().getMap();
     		//mapDevToolPane.setMap(currentMap);
-    		mainPane.getMapRootPane().isEditMode = this.isVisible() ? true : false;
-    		mainPane.getMapRootPane().render();
+    		
     		
     	});
     	
     	this.loadNewImageButton.setOnAction(e -> {
-    		Display display = mainPane.getMapRootPane().getDisplay();
+    		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
+            
+    		Display display = maproot.getDisplay();
         	FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Map File");
             fileChooser.getExtensionFilters().addAll(
                                                      new ExtensionFilter("Image Files", "*.png"),
                                                      new ExtensionFilter("All Files", "*.*"));
-            File selectedFile = fileChooser.showOpenDialog(mainPane.getWindow());
+            File selectedFile = fileChooser.showOpenDialog(ControllerSingleton.getInstance().getMainPane().getWindow());
             if (selectedFile != null) {
                 String inpath = selectedFile.getName();
                 //System.out.println(inpath);
@@ -83,13 +88,13 @@ public class DevToolsMenuPane extends BorderPane {
                 newmap.setScale(0.5f);
                 display.addMap(newmap);
                 //display.setMap(newmap);
-                mainPane.getMapRootPane().render();
+                maproot.render();
                 //mainPane.getMapRootPane().updateDisplay(display, "NEW");
                 //mapView.setImage(new Image("/edu/wpi/off/by/one/errors/code/resources/" + inpath));
                 //window.display(selectedFile);
-                mapDevToolPane.updateMapList(mainPane.getMapRootPane().getDisplay().getMaps());
+                mapDevToolPane.updateMapList(maproot.getDisplay().getMaps());
                 //mapDevToolPane.setMap(newdisp.getMap());
-                mainPane.getMenuPane().getSearchMenuPane().updateMapList(mainPane.getMapRootPane().getDisplay().getMaps());
+                ControllerSingleton.getInstance().getMenuPane().getSearchMenuPane().updateMapList(maproot.getDisplay().getMaps());
 
             }
     	});
@@ -113,7 +118,8 @@ public class DevToolsMenuPane extends BorderPane {
     	*/
     	// TODO Append new map onto current map on a separate pane layer
     	this.appendMapButton.setOnAction(e -> {
-    		Display newdisp = mainPane.getMapRootPane().getDisplay();
+    		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
+            Display newdisp = maproot.getDisplay();
     		
        
     		FileChooser fileChooser = new FileChooser();
@@ -121,43 +127,25 @@ public class DevToolsMenuPane extends BorderPane {
             fileChooser.getExtensionFilters().addAll(
                                                      new ExtensionFilter("Text Files", "*.txt"),
                                                      new ExtensionFilter("All Files", "*.*"));
-            File selectedFile = fileChooser.showOpenDialog(mainPane.getWindow());
+            File selectedFile = fileChooser.showOpenDialog(ControllerSingleton.getInstance().getMainPane().getWindow());
             if (selectedFile != null) {
                 String inpath = selectedFile.getPath();
-                //System.out.println(inpath);
                 newdisp = FileIO.load(inpath, newdisp);
-                mainPane.getMapRootPane().updateDisplay(newdisp, "APPEND");
-                mapDevToolPane.updateMapList(mainPane.getMapRootPane().getDisplay().getMaps());
+                maproot.updateDisplay(newdisp, "APPEND");
+                mapDevToolPane.updateMapList(maproot.getDisplay().getMaps());
                 //mapDevToolPane.setMap(newdisp.getMap());
-                mainPane.getMenuPane().getSearchMenuPane().updateMapList(mainPane.getMapRootPane().getDisplay().getMaps());
+                ControllerSingleton.getInstance().getMenuPane().getSearchMenuPane().updateMapList(maproot.getDisplay().getMaps());
             }
            
             
     	});
     	
     	this.saveCurrentMapButton.setOnAction(e -> {
-    		/*
-    		FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save Map File");
-            fileChooser.getExtensionFilters().addAll(
-                                                     new ExtensionFilter("Text Files", "*.txt"),
-                                                     new ExtensionFilter("All Files", "*.*"));
-            File selectedFile = fileChooser.showSaveDialog(mainPane.getWindow());
-            */
-            //selectedFile.getAbsolutePath();
-            FileIO.save(mainPane.getMapRootPane().getFilePath(), mainPane.getMapRootPane().getDisplay());
+    		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
+            FileIO.save(maproot.getFilePath(), maproot.getDisplay());
     	});
     }
     public NodeDevToolPane getNodeDevToolPane() { return nodeDevToolPane; }
     public EdgeDevToolPane getEdgeDevToolPane() { return edgeDevToolPane; }
     public PathDevToolPane getPathDevToolPane() { return pathDevToolPane; }
-	public void setMainPane(MainPane mainPane) {
-		this.mainPane = mainPane;
-		mapDevToolPane.setMainPane(mainPane);
-		nodeDevToolPane.setMainPane(mainPane);
-		edgeDevToolPane.setMainPane(mainPane);
-		//pathDevToolPane.setMainPane(mainPane);
-		
-	}
-    
 }

@@ -6,6 +6,7 @@ import javafx.scene.layout.*;
 
 import java.io.IOException;
 
+import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
 
 /**
@@ -30,6 +31,6 @@ public class EdgeDevToolPane extends VBox {
     public void setMainPane(MainPane m){ this.mainPane = m; } 
     
     @FXML public void connectEdgesAction(){
-    	mainPane.getMapRootPane().addEdgeDisplayFromQueue();
+    	ControllerSingleton.getInstance().getMapRootPane().addEdgeDisplayFromQueue();
     }
 }
