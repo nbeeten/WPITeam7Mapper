@@ -140,6 +140,9 @@ public class MapRootPane extends AnchorPane{
         //display = displayList.get("Campus Map");
         display.getMaps().get(0).setRotation(0);
         pathPane.setMouseTransparent(true);
+        nodeLayer.setMouseTransparent(false);
+        edgeLayer.setPickOnBounds(false);
+        nodeLayer.setPickOnBounds(false);
 		mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
 		nodeLayer.setAlignment(Pos.TOP_LEFT);
 		edgeLayer.setAlignment(Pos.TOP_LEFT);
@@ -419,11 +422,13 @@ public class MapRootPane extends AnchorPane{
      */
     private void setListeners(){
     	// Listen to when the user clicks on the map
-    	mapPane.setOnMouseClicked(e -> {
+    	
+    	canvas.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
     			//TODO Add marker on map
-    			if (isNodeEditor && e.getButton() == MouseButton.PRIMARY) {
+    			if (e.getButton() == MouseButton.PRIMARY) {
+    				System.out.println("Adding node");
 	                addNodeDisplay(e.getX(), e.getY());
 	            }
 	    		else if (isNodeEditor){
@@ -506,11 +511,9 @@ public class MapRootPane extends AnchorPane{
 		nodes.toArray(nodeArr); // To avoid ConcurrentModificationException
 		for(Node n : nodeArr){
 			if(n == null) {
-				////System.out.println("NULL!");
 				continue;
 			}
 			Coordinate c = n.getCoordinate();
-			//addNodeDisplay(c.getX(), c.getY());
 			
 			double tx = c.getX();// - (localBounds.getMaxX() / 2);
 	        double ty = c.getY();// - (localBounds.getMaxY() / 2);
@@ -520,9 +523,7 @@ public class MapRootPane extends AnchorPane{
 					new SimpleDoubleProperty(c.getX()), 
 					new SimpleDoubleProperty(c.getY()),
 					new SimpleDoubleProperty(c.getZ()));
-			newNode.setTranslateX(tx);
-			newNode.setTranslateY(ty);
-		    newNode.centerXProperty().addListener(e -> {
+			newNode.centerXProperty().addListener(e -> {
 		    	newNode.setTranslateX(newNode.getCenterX());
 		    });
 		    newNode.centerYProperty().addListener(e -> {
@@ -573,16 +574,14 @@ public class MapRootPane extends AnchorPane{
 	 */
 	void addNodeDisplay(double x, double y){
 		////System.out.println("Added Node");
-		double tx = x;// - (localBounds.getMaxX() / 2);
-        double ty = y;// - (localBounds.getMaxY() / 2);
-		
+		float tx = (float) x;// - (localBounds.getMaxX() / 2);
+        float ty = (float) y;// - (localBounds.getMaxY() / 2);
+		Coordinate c = invview.transform(new Coordinate(tx, ty));
 		NodeDisplay newNode = new NodeDisplay(display, 
-				new SimpleDoubleProperty(x), 
-				new SimpleDoubleProperty(y),
+				new SimpleDoubleProperty(c.getX()), 
+				new SimpleDoubleProperty(c.getY()),
 				new SimpleDoubleProperty(currentLevel));
-		newNode.setTranslateX(tx);
-		newNode.setTranslateY(ty);
-	    newNode.centerXProperty().addListener(e -> {
+		newNode.centerXProperty().addListener(e -> {
 	    	newNode.setTranslateX(newNode.getCenterX());
 	    });
 	    newNode.centerYProperty().addListener(e -> {
@@ -665,7 +664,7 @@ public class MapRootPane extends AnchorPane{
 
 	            Id newEdge = g.addEdgeRint(a.getId(), b.getId());
 	            EdgeDisplay e = new EdgeDisplay(display, newEdge);
-	            e.setStroke(Color.BLUE);
+	            //e.setStroke(Color.BLUE);
 	            /*
 	        e.startXProperty().addListener(ev -> {
 	            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
