@@ -252,8 +252,9 @@ public class MapRootPane extends AnchorPane{
 		updateDisplay(this.display.getGraph());
 	}
 	public void render(){
-		if(zoom <= 0.05f) zoom = Math.abs(zoom);
-		if(zoom <= 0.05f) zoom = 0.06f;
+		if(zoom < 0.4f) zoom = Math.abs(zoom);
+		if(zoom < 0.4f) zoom = 0.4f;
+		else if(zoom > 11.4f) zoom = 11.4f;
 		view = new Matrix().translate(new Coordinate((float)canvas.getWidth()/2.0f, (float)canvas.getHeight()/2.0f)).rotate(rot, 0.0f, 0.0f, 1.0f).scale(zoom).translate(new Coordinate(translate.getX(), translate.getY(), translate.getZ()));
 		invview = new Matrix(new Coordinate(-1.0f * translate.getX(), -1.0f *translate.getY(), -1.0f * translate.getZ())).scale(1.0/zoom).rotate(-rot, 0.0, 0.0, 1.0).translate(new Coordinate((float)canvas.getWidth()/-2.0f, (float)canvas.getHeight()/-2.0f));
 		//grab graphics context
