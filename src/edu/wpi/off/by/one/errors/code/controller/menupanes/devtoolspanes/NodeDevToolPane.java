@@ -84,6 +84,7 @@ public class NodeDevToolPane extends VBox {
     		Coordinate currentc = n.getCoordinate();
     		n.setCoordinate(new Coordinate(Float.parseFloat(s),
     				currentc.getY(), currentc.getZ()));
+    		mainPane.getMapRootPane().render();
     	});
     
     	this.yTextField.setOnAction(e -> {
@@ -92,6 +93,7 @@ public class NodeDevToolPane extends VBox {
     		Coordinate currentc = n.getCoordinate();
     		n.setCoordinate(new Coordinate(currentc.getX(),
     				Float.parseFloat(s), currentc.getZ()));
+    		mainPane.getMapRootPane().render();
     	});
     	
     	this.zTextField.setOnAction(e -> {
@@ -100,12 +102,15 @@ public class NodeDevToolPane extends VBox {
     		Coordinate currentc = n.getCoordinate();
     		n.setCoordinate(new Coordinate(currentc.getX(),
     				currentc.getY(), Float.parseFloat(s)));
+    		mainPane.getMapRootPane().render();
     	});
     	this.tagTextField.setOnAction(e -> {
     		addTag();
+    		mainPane.getMapRootPane().render();
     	});
     	this.addTagButton.setOnAction(e -> {
     		addTag();
+    		mainPane.getMapRootPane().render();
     	});
     }
     

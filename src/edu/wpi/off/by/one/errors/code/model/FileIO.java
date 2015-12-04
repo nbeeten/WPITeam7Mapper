@@ -76,10 +76,7 @@ public class FileIO {
 	 * @return
 	 */
 	static String[] getTags(String args){
-		
 		return args.replace("_", " ").split(",");
-		
-		
 	}
 	static String toTags(String[] args){
 		
@@ -233,7 +230,9 @@ public class FileIO {
 			Coordinate c = n.getCoordinate();
 			writer.printf("p %f %f %f", c.getX(), c.getY(), c.getZ());
 			if(!n.GetTags().isEmpty()){
-				writer.printf(" %s", getTags(n.GetTags().toArray().toString()));
+				ArrayList<String> tagList = n.GetTags();
+				String[] tagListReborn = tagList.toArray(new String[tagList.size()]);
+				writer.printf(" %s", toTags(tagListReborn));
 			}
 			writer.printf("\n");
 			i++;
