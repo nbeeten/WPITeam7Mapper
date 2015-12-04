@@ -302,32 +302,32 @@ public class MapRootPane extends AnchorPane{
 				nd.setCenterY(nc.getY()- 5.0f);
 			}
 		}
-		for(javafx.scene.Node np: edgeLayer.getChildren()){
-			EdgeDisplay nd = (EdgeDisplay)np;
-			if(nd == null) continue;
-			Edge n = display.getGraph().returnEdgeById(nd.getEdge());
-			if(n == null){ edgeLayer.getChildren().remove(np); continue; }
-			Node A = display.getGraph().returnNodeById(n.getNodeA());
-			Node B = display.getGraph().returnNodeById(n.getNodeB());
-			if(A == null || B == null){
-				display.getGraph().deleteEdge(n.getId());
-				edgeLayer.getChildren().remove(np); 
-				continue; 
-			}
-			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
-				np.setVisible(false);
-				np.setMouseTransparent(true);
-				continue;
-			}
-			np.setVisible(true);
-			np.setMouseTransparent(false);
-			Coordinate ac = view.transform(A.getCoordinate());
-			Coordinate bc = view.transform(B.getCoordinate());
-			nd.setStartX(ac.getX());
-			nd.setStartY(ac.getY());
-			nd.setEndX(bc.getX());
-			nd.setEndY(bc.getY());
-		}
+//		for(javafx.scene.Node np: edgeLayer.getChildren()){
+//			EdgeDisplay nd = (EdgeDisplay)np;
+//			if(nd == null) continue;
+//			Edge n = display.getGraph().returnEdgeById(nd.getEdge());
+//			if(n == null){ edgeLayer.getChildren().remove(np); continue; }
+//			Node A = display.getGraph().returnNodeById(n.getNodeA());
+//			Node B = display.getGraph().returnNodeById(n.getNodeB());
+//			if(A == null || B == null){
+//				display.getGraph().deleteEdge(n.getId());
+//				edgeLayer.getChildren().remove(np); 
+//				continue; 
+//			}
+//			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
+//				np.setVisible(false);
+//				np.setMouseTransparent(true);
+//				continue;
+//			}
+//			np.setVisible(true);
+//			np.setMouseTransparent(false);
+//			Coordinate ac = view.transform(A.getCoordinate());
+//			Coordinate bc = view.transform(B.getCoordinate());
+//			nd.setStartX(ac.getX());
+//			nd.setStartY(ac.getY());
+//			nd.setEndX(bc.getX());
+//			nd.setEndY(bc.getY());
+//		}
 		if(isEditMode){
 			mygc.save();
 			for(Edge e : elist){
@@ -347,7 +347,7 @@ public class MapRootPane extends AnchorPane{
 				mygc.setFill(Color.AQUA);
 				mygc.setStroke(Color.AQUA);
 				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
-			}
+			} 
 			mygc.restore();
 		}
 		Node last = null;
@@ -355,14 +355,15 @@ public class MapRootPane extends AnchorPane{
 			mygc.save();
 			Node A = display.getGraph().returnNodeById(id);
 			if(A == null) continue;
-			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 && translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
-				last = A;
-				continue;
-			}
 			if(last == null){
 				last = A;
 				continue;
 			}
+			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
+				last = A;
+				continue;
+			}
+
 			Coordinate ac = view.transform(A.getCoordinate());
 			Coordinate bc = view.transform(last.getCoordinate());
 			mygc.setLineWidth(5.0f);
