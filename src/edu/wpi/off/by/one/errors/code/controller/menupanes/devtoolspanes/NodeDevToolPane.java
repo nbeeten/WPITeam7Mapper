@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
+import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
 import edu.wpi.off.by.one.errors.code.model.*;
 
 /**
@@ -78,27 +79,33 @@ public class NodeDevToolPane extends VBox {
     	
     	//do sth to adjust node display on map as well
     	this.xTextField.setOnAction(e -> {
+    		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
     		String s = xTextField.getText();
     		Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
     		Coordinate currentc = n.getCoordinate();
     		n.setCoordinate(new Coordinate(Float.parseFloat(s),
     				currentc.getY(), currentc.getZ()));
+    		maproot.render();
     	});
     
     	this.yTextField.setOnAction(e -> {
+    		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
     		String s = yTextField.getText();
     		Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
     		Coordinate currentc = n.getCoordinate();
     		n.setCoordinate(new Coordinate(currentc.getX(),
     				Float.parseFloat(s), currentc.getZ()));
+    		maproot.render();
     	});
     	
     	this.zTextField.setOnAction(e -> {
+    		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
     		String s = zTextField.getText();
     		Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
     		Coordinate currentc = n.getCoordinate();
     		n.setCoordinate(new Coordinate(currentc.getX(),
     				currentc.getY(), Float.parseFloat(s)));
+    		maproot.render();
     	});
     	this.tagTextField.setOnAction(e -> {
     		addTag();
