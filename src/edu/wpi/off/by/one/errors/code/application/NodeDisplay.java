@@ -88,7 +88,6 @@ public class NodeDisplay extends Circle implements IDisplayItem{
 		this.display = disp;
 		this.node = disp.getGraph().addNodeRint(
 				new Coordinate(x.floatValue(), y.floatValue(), z.floatValue()));
-		System.out.println(disp.getGraph());
 		setHandlers();
 	}
 	
