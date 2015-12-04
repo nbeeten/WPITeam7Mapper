@@ -255,8 +255,9 @@ public class MapRootPane extends AnchorPane{
 		updateDisplay(this.display.getGraph());
 	}
 	public void render(){
-		if(zoom <= 0.05f) zoom = Math.abs(zoom);
-		if(zoom <= 0.05f) zoom = 0.06f;
+		if(zoom < 0.4f) zoom = Math.abs(zoom);
+		if(zoom < 0.4f) zoom = 0.4f;
+		else if(zoom > 11.4f) zoom = 11.4f;
 		view = new Matrix().translate(new Coordinate((float)canvas.getWidth()/2.0f, (float)canvas.getHeight()/2.0f)).rotate(rot, 0.0f, 0.0f, 1.0f).scale(zoom).translate(new Coordinate(translate.getX(), translate.getY(), translate.getZ()));
 		invview = new Matrix(new Coordinate(-1.0f * translate.getX(), -1.0f *translate.getY(), -1.0f * translate.getZ())).scale(1.0/zoom).rotate(-rot, 0.0, 0.0, 1.0).translate(new Coordinate((float)canvas.getWidth()/-2.0f, (float)canvas.getHeight()/-2.0f));
 		//grab graphics context
@@ -305,32 +306,32 @@ public class MapRootPane extends AnchorPane{
 				nd.setCenterY(nc.getY()- 5.0f);
 			}
 		}
-		for(javafx.scene.Node np: edgeLayer.getChildren()){
-			EdgeDisplay nd = (EdgeDisplay)np;
-			if(nd == null) continue;
-			Edge n = display.getGraph().returnEdgeById(nd.getEdge());
-			if(n == null){ edgeLayer.getChildren().remove(np); continue; }
-			Node A = display.getGraph().returnNodeById(n.getNodeA());
-			Node B = display.getGraph().returnNodeById(n.getNodeB());
-			if(A == null || B == null){
-				display.getGraph().deleteEdge(n.getId());
-				edgeLayer.getChildren().remove(np); 
-				continue; 
-			}
-			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
-				np.setVisible(false);
-				np.setMouseTransparent(true);
-				continue;
-			}
-			np.setVisible(true);
-			np.setMouseTransparent(false);
-			Coordinate ac = view.transform(A.getCoordinate());
-			Coordinate bc = view.transform(B.getCoordinate());
-			nd.setStartX(ac.getX());
-			nd.setStartY(ac.getY());
-			nd.setEndX(bc.getX());
-			nd.setEndY(bc.getY());
-		}
+//		for(javafx.scene.Node np: edgeLayer.getChildren()){
+//			EdgeDisplay nd = (EdgeDisplay)np;
+//			if(nd == null) continue;
+//			Edge n = display.getGraph().returnEdgeById(nd.getEdge());
+//			if(n == null){ edgeLayer.getChildren().remove(np); continue; }
+//			Node A = display.getGraph().returnNodeById(n.getNodeA());
+//			Node B = display.getGraph().returnNodeById(n.getNodeB());
+//			if(A == null || B == null){
+//				display.getGraph().deleteEdge(n.getId());
+//				edgeLayer.getChildren().remove(np); 
+//				continue; 
+//			}
+//			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
+//				np.setVisible(false);
+//				np.setMouseTransparent(true);
+//				continue;
+//			}
+//			np.setVisible(true);
+//			np.setMouseTransparent(false);
+//			Coordinate ac = view.transform(A.getCoordinate());
+//			Coordinate bc = view.transform(B.getCoordinate());
+//			nd.setStartX(ac.getX());
+//			nd.setStartY(ac.getY());
+//			nd.setEndX(bc.getX());
+//			nd.setEndY(bc.getY());
+//		}
 		if(isEditMode){
 			mygc.save();
 			for(Edge e : elist){
@@ -350,7 +351,7 @@ public class MapRootPane extends AnchorPane{
 				mygc.setFill(Color.AQUA);
 				mygc.setStroke(Color.AQUA);
 				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
-			}
+			} 
 			mygc.restore();
 		}
 		Node last = null;
@@ -358,14 +359,15 @@ public class MapRootPane extends AnchorPane{
 			mygc.save();
 			Node A = display.getGraph().returnNodeById(id);
 			if(A == null) continue;
-			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 && translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
-				last = A;
-				continue;
-			}
 			if(last == null){
 				last = A;
 				continue;
 			}
+			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
+				last = A;
+				continue;
+			}
+
 			Coordinate ac = view.transform(A.getCoordinate());
 			Coordinate bc = view.transform(last.getCoordinate());
 			mygc.setLineWidth(5.0f);
