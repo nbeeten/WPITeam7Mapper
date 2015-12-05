@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root minWidth="0.0" prefWidth="235.0" spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root minWidth="0.0" prefHeight="195.0" prefWidth="235.0" spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane minWidth="0.0">
          <center>
@@ -61,5 +61,6 @@
             <Button fx:id="connectEdges" minWidth="0.0" mnemonicParsing="false" onAction="#connectEdgesAction" text="Connect" StackPane.alignment="CENTER_RIGHT" />
          </children>
       </StackPane>
+      <CheckBox fx:id="accessibleCheckbox" mnemonicParsing="false" onAction="#switchAccessible" selected="true" text="accessible" />
    </children>
 </fx:root>

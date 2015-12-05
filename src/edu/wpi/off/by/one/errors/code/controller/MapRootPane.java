@@ -687,8 +687,13 @@ public class MapRootPane extends AnchorPane{
 	}
 
     public void showDirections(){
-        ObservableList<String> pathList = FXCollections.observableList(p.getTextual());
-        ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
+    	if(p.getTextual()!=null){
+    		ObservableList<String> pathList = FXCollections.observableList(p.getTextual());
+    		ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
+    	}
+    	else{
+    		System.out.println("Could not find path!");
+    	}
     }
 
 }
