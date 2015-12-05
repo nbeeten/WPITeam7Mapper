@@ -45,7 +45,7 @@ public class MapDevToolPane extends VBox {
 	@FXML TextField scaleTextField;
 	@FXML Label pathLabel;
 	@FXML Button changeImageButton;
-	private ArrayList<Map> mapList;
+	private ArrayList<Map> mapList = new ArrayList<Map>();
 	private Map selectedMap;
 	
 
@@ -62,12 +62,6 @@ public class MapDevToolPane extends VBox {
         ControllerSingleton cs = ControllerSingleton.getInstance();
         setListeners();
         cs.registerMapDevToolPane(this);
-        /*
-        this.mapList = cs.getMapRootPane().getDisplay().getMaps(); 
-    	for(Map m : cs.getMapRootPane().getDisplay().getMaps()){
-        	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
-        	mapChoiceBox.getItems().add(name);
-        }*/
     }
     
     private void setListeners(){  	
@@ -169,11 +163,14 @@ public class MapDevToolPane extends VBox {
     }
     
     public void updateMapList(ArrayList<Map> maps){
-    	this.mapList = maps;
-    	mapChoiceBox.getItems().clear();
-    	for(Map m : maps){
-        	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
-        	mapChoiceBox.getItems().add(name);
-        }
+    	System.out.println(this.mapList.containsAll(maps));
+    	if(!this.mapList.containsAll(maps)){
+    		this.mapList = maps;
+    		mapChoiceBox.getItems().clear();
+        	for(Map m : maps){
+            	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
+            	mapChoiceBox.getItems().add(name);
+            }
+    	}
     }
 }

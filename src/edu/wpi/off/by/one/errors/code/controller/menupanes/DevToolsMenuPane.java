@@ -63,11 +63,8 @@ public class DevToolsMenuPane extends BorderPane {
             if(maproot != null){
             	maproot.isEditMode = this.isVisible() ? true : false;
         		maproot.render();
+        		mapDevToolPane.updateMapList(maproot.getDisplay().getMaps());
             }
-    		//Map currentMap = mainPane.getMapRootPane().getDisplay().getMap();
-    		//mapDevToolPane.setMap(currentMap);
-    		
-    		
     	});
     	
     	this.loadNewImageButton.setOnAction(e -> {
