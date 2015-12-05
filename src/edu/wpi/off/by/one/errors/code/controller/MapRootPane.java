@@ -59,13 +59,10 @@ import edu.wpi.off.by.one.errors.code.model.Matrix;
  */
 public class MapRootPane extends AnchorPane{
 
-	@FXML MainPane mainPane;
-	
 	@FXML StackPane mapPane;
 	@FXML ImageView mapView;
 	@FXML Button zoomInButton;
 	@FXML Button zoomOutButton;
-	@FXML VBox editorPane;
 	@FXML Button drawPathDisplayButton;
 	@FXML Button rotateLeftButton;
 	@FXML Button rotateRightButton;
@@ -105,39 +102,31 @@ public class MapRootPane extends AnchorPane{
     
     public MapRootPane() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MapRootPane.fxml"));
-
+        
         loader.setRoot(this);
         loader.setController(this);
         try {
             loader.load();
-            initialize();
         } catch (IOException excpt) {
             throw new RuntimeException(excpt);
-
         }
+        ControllerSingleton.getInstance().registerMapRootPane(this);
+        initialize();
     }
     
-    public void setMainPane(MainPane m) { this.mainPane = m; }
     public MapRootPane getMapRootPane() { return this; }
     public HashMap<String, Display> getAllDisplays() {return displayList; }
     public String getFilePath() {return this.filePath; }
     
     public void updateCanvasSize(double width, double height){
-    	
-    	//////System.out.printf("Height: %f, Width: %f\n", height, width);
     	canvas.setHeight(height);
     	canvas.setWidth(width);
-    	//////System.out.print("Canvas Height: " + canvas.getHeight() + "Canvas Width: " + canvas.getWidth());
     	render();
     }
     
     private void initialize(){
-    	////System.out.print("Main Controller Initialized.");
-		//Load all displays into application
-		//loadDisplays();
-		//Load campus map from display list
+    	//Load campus map from display list
 		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
-        //display = displayList.get("Campus Map");
         display.getMaps().get(0).setRotation(0);
         pathPane.setMouseTransparent(true);
         nodeLayer.setMouseTransparent(false);
@@ -150,19 +139,6 @@ public class MapRootPane extends AnchorPane{
 		mapView.preserveRatioProperty().set(true);
 		Coordinate lastdragged = new Coordinate(0);
 		Coordinate mydragged = new Coordinate(0);
-
-		/*
-		 mapPane.setOnMousePressed(e -> {
-			 ////System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
-			 new Coordinate((float)e.getX(), (float)e.getY(), 0);
-			 
-	     });
-	     
-	     mapPane.setOnMouseReleased(e -> {
-	    	 ////System.out.printf("MouseRelease: %f, %f\n", e.getX(), e.getY());
-	    	 new Coordinate((float)e.getX(), (float)e.getY(), 0);
-	     });
-	     */
 		//Update local bounds of the map view
 		localBounds = mapView.getBoundsInLocal();
 		//Updates display with nodes/edges
@@ -172,7 +148,6 @@ public class MapRootPane extends AnchorPane{
         //Setup event listeners for map
         setListeners();
 		mapPane.setOnMousePressed(e -> {
-			 //////System.out.printf("MouseClick: %f, %f\n", e.getX(), e.getY());
 			 lastview = invview;
 			 Coordinate in = new Coordinate((float)e.getX(), (float)e.getY());
 			 Coordinate sin = lastview.transform(in);
@@ -181,7 +156,6 @@ public class MapRootPane extends AnchorPane{
 	     });
 		
 		mapPane.setOnMouseDragged(e -> {
-			//////System.out.printf("X: %f, Y: %f\n", e.getX(), e.getY());
 			Coordinate sin = new Coordinate((float)e.getX(), (float)e.getY());
 			Coordinate in = lastview.transform(sin);
 			if(e.isControlDown()){
@@ -191,7 +165,6 @@ public class MapRootPane extends AnchorPane{
 			} else {
 				Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
 				translate.setAll((float) translate.getX() + delta.getX(), (float)translate.getY() + delta.getY(), translate.getZ());
-				//////System.out.printf("Coord: %f, %f\n", translate.getX(), translate.getY());
 				render();
 			}
 			lastdragged.setAll(in.getX(), in.getY(), 0);
@@ -232,26 +205,6 @@ public class MapRootPane extends AnchorPane{
 	 * @param option Additional options to clear first or append onto current
 	 */
 	public void updateDisplay(Display newdisplay, String option){
-		// If the option is to clear the map first, do so
-		// otherwise, keep current content and just append
-		if(option.equals("NEW")){
-			//nodeLayer.getChildren().clear();
-			//edgeLayer.getChildren().clear();
-			//mapPane.getChildren().clear();
-			//Update the current map image
-			//updateMap(newdisplay.getMap());
-            mapPane.getChildren().addAll(pathPane, mapView);
-            localBounds = mapView.getBoundsInLocal();
-		}
-		//String mapName = newdisplay.getMap().getName();
-		//if(mapName == null) mapName = newdisplay.getMap().getImgUrl();
-		//Put the new display into the display list. Replace current if it already exists
-		//displayList.put(mapName, newdisplay);
-		//Current display is now the new one
-		//this.display = newdisplay;
-		//this.display.getMaps().addAll(newdisplay.getMaps());
-		//Graph g = newdisplay.getGraph();
-		//Draw new points onto map
 		updateDisplay(this.display.getGraph());
 	}
 	public void render(){
@@ -283,8 +236,6 @@ public class MapRootPane extends AnchorPane{
 	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
 	        mygc.scale(zoom * m.getScale(), zoom * m.getScale());
 			
-			////System.out.println(m.getImage());
-			//mygc.drawImage(m.getImage(), c.getX(), c.getY());
 			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
@@ -385,33 +336,7 @@ public class MapRootPane extends AnchorPane{
 	 * @param g 
 	 */
 	private void updateDisplay(Graph g){
-		
 		addNodeDisplayFromList(g.getNodes());
-		//addEdgeDisplayFromList(g, g.getEdges());
-	}
-	
-	/**
-	 * Preloads all the txt files in resources package and
-	 * stores them as display objects
-	 */
-	private void loadDisplays(){
-		/*
-		displayList = new HashMap<String, Display>();
-		// TODO the best way to do this is to look at a folder in the resources directory that holds all the txt files
-		// get each file name, and then store them in a string array. Then begin to load the display objects into a Hash
-		String[] fileNames = {"fullCampusMap", "projCenterFloorOne", "projCenterFloorTwo3"};
-		//This should be done in FileIO...?
-		File resources = new File("src" + resourceDir + "maps/txtfiles");
-		String[] lof = resources.list();
-		////System.out.println(lof);
-		for(String file : lof){
-			String path = "src" + resourceDir + "maps/txtfiles/" + file;
-			Display d = FileIO.load(path, null);
-			String mapName = d.getMaps().get(0).getName();
-			if(mapName == null) mapName = d.getMaps().get(0).getImgUrl();
-			displayList.put(mapName, d);
-		}
-		*/
 	}
 
     /**
@@ -452,11 +377,8 @@ public class MapRootPane extends AnchorPane{
 	    			}
 	    		}
     		}
-    		//If user double-click
-    		else{
-
-    		}
     	});
+    	
     	//Listen if editor pane sent out an Add/Edit/Delete event
     	//TODO remove later to work with new way
     	mapPane.addEventFilter(EditorEvent.EDIT_ELEMENT, e -> {
@@ -486,21 +408,6 @@ public class MapRootPane extends AnchorPane{
     	edgeLayer.addEventFilter(EditorEvent.DRAW_EDGES, e -> {
     		if(isEdgeEditor) addEdgeDisplayFromQueue();
     	});
-    }
-
-    /**
-     * Re-translates whatever object to it's intended place on the map
-     * @param x
-     * @param y
-     */
-    public void move(javafx.scene.Node obj, double x, double y){
-        Bounds localBounds = mapView.getBoundsInLocal();
-        ////System.out.println("MOVING");
-        ////System.out.println(localBounds.getMinX() + " " + localBounds.getMinY());
-        ////System.out.println(localBounds.getMaxX() + " " + localBounds.getMaxY());
-        obj.setTranslateX(x - (localBounds.getMaxX() / 2));
-        obj.setTranslateY(y - (localBounds.getMaxY() / 2));
-
     }
 
 	/**
@@ -541,7 +448,8 @@ public class MapRootPane extends AnchorPane{
 			    	newNode.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
 			    }
 			   // Add selected node to selected node queue
-			   mainPane.getNodeTool().displayNodeInfo(newNode);
+			   
+			   ControllerSingleton.getInstance().getMenuPane().getDevToolsMenuPane().getNodeDevToolPane().displayNodeInfo(newNode);
 	        });
 	        
 	        newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
@@ -602,8 +510,8 @@ public class MapRootPane extends AnchorPane{
 		    }
 		    ////System.out.println(newNode.getCenterX() + " " + newNode.getCenterY());
 		        // Add selected node to selected node queue
-		    mainPane.getNodeTool().displayNodeInfo(newNode);
-
+		    //ControllerSingleton.getInstance().getMainPane().getNodeTool().displayNodeInfo(newNode);
+		    ControllerSingleton.getInstance().getMenuPane().getDevToolsMenuPane().getNodeDevToolPane().displayNodeInfo(newNode);
 	        //TODO stuff regarding info about the node clicked
 	        //if double-clicked
 	        //if in edit mode
@@ -666,24 +574,9 @@ public class MapRootPane extends AnchorPane{
 
 	            Id newEdge = g.addEdgeRint(a.getId(), b.getId());
 	            EdgeDisplay e = new EdgeDisplay(display, newEdge);
-	            //e.setStroke(Color.BLUE);
-	            /*
-	        e.startXProperty().addListener(ev -> {
-	            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
-	            });
-	            e.startYProperty().addListener(ev -> {
-	            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
-	            });
-	            e.endXProperty().addListener(ev -> {
-	            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
-	            });
-	            e.endYProperty().addListener(ev -> {
-	            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
-	            });
-	            */
 	            edgeLayer.getChildren().add(e);
 	            aND.fireEvent(selectNodeEvent);
-	            
+	            /*
 	            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
 	            	if(isEdgeEditor){
 	            		////System.out.println("Edge deleted");
@@ -710,6 +603,7 @@ public class MapRootPane extends AnchorPane{
 	            	display.getGraph().deleteEdge(e.getEdge());
 	            	render();
 	            });
+	            */
 	        }
 	        nodeQueue.remove().fireEvent(selectNodeEvent);;
 	    } else {
@@ -741,23 +635,7 @@ public class MapRootPane extends AnchorPane{
 	        //////System.out.println("Edge size" + g.getEdges().size());
 	        EdgeDisplay e = new EdgeDisplay(display, aID, bID);
             
-            e.setStroke(Color.BLUE);
-            /*
-            e.setTranslateX((aLocX.get() + bLocX.get())/2);
-            e.setTranslateY((aLocY.get() + bLocY.get())/2);
-            e.startXProperty().addListener(ev -> {
-            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
-            });
-            e.startYProperty().addListener(ev -> {
-            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
-            });
-            e.endXProperty().addListener(ev -> {
-            	e.setTranslateX((aLocX.get() + bLocX.get())/2);
-            });
-            e.endYProperty().addListener(ev -> {
-            	e.setTranslateY((aLocY.get() + bLocY.get())/2);
-            });
-            */
+            //e.setStroke(Color.BLUE);
             edgeLayer.getChildren().add(e);
 
             e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
@@ -794,13 +672,11 @@ public class MapRootPane extends AnchorPane{
             //display.drawPath(startNode.node.getId(), endNode.node.getId());
             int idx = 0;
             Vector<Node> nodes = display.getGraph().getNodes();
-            //////System.out.println(nodes.size());
 
             p = new Path(startNode.getNode(), endNode.getNode());
             Graph g = display.getGraph();
-            //////System.out.println("Size graph " + g.getEdges().size());
             p.runAStar(g); //Change this later??
-           currentRoute = p.getRoute();
+            currentRoute = p.getRoute();
             
             render();
             SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
@@ -812,7 +688,7 @@ public class MapRootPane extends AnchorPane{
 
     public void showDirections(){
         ObservableList<String> pathList = FXCollections.observableList(p.getTextual());
-        mainPane.getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
+        ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
     }
 
 }

@@ -16,7 +16,7 @@
          <center>
             <StackPane maxHeight="Infinity">
                 <children>
-                    <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+                    <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" prefHeight="Infinity" prefWidth="Infinity" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
                         <content>
                             <MapRootPane fx:id="mapRootPane" />
                         </content>

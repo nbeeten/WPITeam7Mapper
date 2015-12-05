@@ -8,14 +8,13 @@ import javafx.scene.layout.*;
 
 import java.io.IOException;
 
+import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
 
 /**
  * Created by jules on 11/28/2015.
  */
 public class DirectionsMenuPane extends BorderPane {
-	
-	MainPane mainPane;
 	
 	@FXML Button routeButton;
     @FXML private ListView directionsListView;
@@ -35,11 +34,9 @@ public class DirectionsMenuPane extends BorderPane {
         this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/DirectionsPaneStyleSheet.css").toExternalForm());
     }
 
-	public void setMainPane(MainPane mainPane) { this.mainPane = mainPane; }
-	
 	private void setListeners(){
 		this.routeButton.setOnAction(e -> {
-			mainPane.getMapRootPane().drawPath();
+			ControllerSingleton.getInstance().getMapRootPane().drawPath();
 		});
 	}
 

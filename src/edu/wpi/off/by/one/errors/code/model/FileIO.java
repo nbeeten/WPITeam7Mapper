@@ -66,7 +66,6 @@ public class FileIO {
 		Coordinate c = new Coordinate(Float.parseFloat(args[1]), Float.parseFloat(args[2]), Float.parseFloat(args[3]));
 		Map m = new Map(args[0], c, Float.parseFloat(args[4]), Float.parseFloat(args[5]));
 		if(args.length > 6) m.setName(getTags(args[6])[0]);
-		System.out.println(m.getName());
 		dpy.addMap(m);
 		return 1;
 	}

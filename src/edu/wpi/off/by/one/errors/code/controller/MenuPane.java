@@ -15,8 +15,6 @@ import edu.wpi.off.by.one.errors.code.controller.menupanes.*;
  */
 public class MenuPane extends HBox {
 
-	MainPane mainPane;
-	
     //region FXML file attributes
     @FXML
     private ToggleButton hamburgerToggleButton;
@@ -58,24 +56,15 @@ public class MenuPane extends HBox {
         } catch (IOException excpt) {
             throw new RuntimeException(excpt);
         }
+        
         removeRadioButtonStyles();
         addListeners();
         this.getStylesheets().add(getClass().getResource("../resources/stylesheets/MenuPaneStyleSheet.css").toExternalForm());
-
+        ControllerSingleton.getInstance().registerMenuPane(this);
 
     }
     //endregion
-
-    public void setMainPane(MainPane m) { 
-    	mainPane = m; 
-    	searchMenuPane.setMainPane(mainPane);
-        directionsMenuPane.setMainPane(mainPane);
-        favoritesMenuPane.setMainPane(mainPane);
-        devToolsMenuPane.setMainPane(mainPane);
-        settingsMenuPane.setMainPane(mainPane);
-        helpMenuPane.setMainPane(mainPane);
-    }
-    public MainPane getMainPane() { return mainPane; }
+    
     public SearchMenuPane getSearchMenuPane() { return searchMenuPane; }
     public DirectionsMenuPane getDirectionsMenuPane() { return directionsMenuPane; }
 	public FavoritesMenuPane getFavoritesMenuPane() { return favoritesMenuPane; }
@@ -131,8 +120,6 @@ public class MenuPane extends HBox {
         devToolMenuRadioButton.getStyleClass().remove("radio-button");
         settingsMenuRadioButton.getStyleClass().remove("radio-button");
         helpMenuRadioButton.getStyleClass().remove("radio-button");
-
-
     }
 
 }

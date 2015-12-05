@@ -15,7 +15,9 @@ import java.util.LinkedList;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
+import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
 import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteTextField;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Map;
@@ -25,12 +27,11 @@ import edu.wpi.off.by.one.errors.code.model.Map;
  */
 public class SearchMenuPane extends BorderPane {
 	
-	MainPane mainPane;
 	@FXML AutoCompleteTextField searchField;
 	@FXML ChoiceBox<Integer> floorChoiceBox;
 	@FXML ComboBox<String> buildingChoiceBox;
 	
-
+	int currentLevel;
 	
     public SearchMenuPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/SearchMenuPane.fxml"));
@@ -39,41 +40,40 @@ public class SearchMenuPane extends BorderPane {
         loader.setController(this);
         try{
             loader.load();
-            setListeners();
+            
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
         this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/SearchPaneStyleSheet.css").toExternalForm());
+        setListeners();
+        
         floorChoiceBox.getItems().addAll(-1, 0, 1, 2, 3);
         
         SortedSet<String> entries = new TreeSet<String>();
-    }
-
-	public void setMainPane(MainPane mainPane) {
-		this.mainPane = mainPane;
-		for(Map m : mainPane.getMapRootPane().getDisplay().getMaps()){
+        /*
+        for(Map m : ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps()){
         	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
         	//buildingChoiceBox.getItems().add(name);
-        }
-	}
+        }*/
+    }
 	
 	public void updateMapList(ArrayList<Map> maps){
 		buildingChoiceBox.getItems().clear();
-		for(Map m : mainPane.getMapRootPane().getDisplay().getMaps()){
+		for(Map m : ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps()){
         	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
         	buildingChoiceBox.getItems().add(name);
         }
 	}
 	
 	private void setListeners(){
-		
 		this.floorChoiceBox.setOnAction(e->{
+			MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
 			int floor = floorChoiceBox.getSelectionModel().getSelectedItem();
 			//System.out.println(floor);
 			//do a thing with it
-			mainPane.getMapRootPane().currentLevel = floor;
-			mainPane.getMapRootPane().translate.setAll(mainPane.getMapRootPane().translate.getX(), mainPane.getMapRootPane().translate.getY(), floor);
-			mainPane.getMapRootPane().render();
+			maproot.currentLevel = floor;
+			maproot.getMapRootPane().translate.setAll(maproot.translate.getX(), maproot.translate.getY(), floor);
+			maproot.getMapRootPane().render();
 		});
 		
 		/*this.buildingChoiceBox.setOnContextMenuRequested(e -> {
