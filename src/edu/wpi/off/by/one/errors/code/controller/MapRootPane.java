@@ -69,7 +69,7 @@ public class MapRootPane extends AnchorPane{
 	StackPane nodeLayer = new StackPane();
 	StackPane edgeLayer = new StackPane();
 	StackPane pathPane = new StackPane();
-	public Coordinate translate;
+	public Coordinate translate = new Coordinate(0.0f, 0.0f);;
 	Coordinate release = new Coordinate(0, 0, 0);
 	public float rot = 0.0f;
 	public float zoom = 2.0f;
@@ -96,6 +96,7 @@ public class MapRootPane extends AnchorPane{
     public boolean isEditMode = false;
     public boolean isAddMode = false;		//Is editor currently adding nodes?
     public boolean isDeleteMode = false;	//Is editor currently deleting nodes?
+    public boolean isMultiSelectNodes = false;
     
     boolean isctrl = false;
 
@@ -182,9 +183,7 @@ public class MapRootPane extends AnchorPane{
 			}
 			else { zoom*=0.9; render(); }
 		});
-
-		
-		translate = new Coordinate(0.0f, 0.0f);
+ 
 		view = new Matrix();
 		invview  =new Matrix();
         render();
@@ -242,8 +241,8 @@ public class MapRootPane extends AnchorPane{
 		for(javafx.scene.Node np: nodeLayer.getChildren()){
 			NodeDisplay nd = (NodeDisplay)np;
 			if(nd == null) continue;
-
 			Node n = display.getGraph().returnNodeById(nd.getNode());
+			if(n == null) continue;
 			if(translate.getZ() > n.getCoordinate().getZ() + 0.1 || translate.getZ() < n.getCoordinate().getZ() - 0.1){
 				np.setVisible(false);
 				np.setMouseTransparent(true);
@@ -349,12 +348,11 @@ public class MapRootPane extends AnchorPane{
      */
     private void setListeners(){
     	// Listen to when the user clicks on the map
-    	
     	canvas.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
     			//TODO Add marker on map
-    			if (e.getButton() == MouseButton.PRIMARY) {
+    			if (isEditMode && e.getButton() == MouseButton.PRIMARY) {
     				System.out.println("Adding node");
 	                addNodeDisplay(e.getX(), e.getY());
 	            }
@@ -378,33 +376,6 @@ public class MapRootPane extends AnchorPane{
 	    		}
     		}
     	});
-    	
-    	//Listen if editor pane sent out an Add/Edit/Delete event
-    	//TODO remove later to work with new way
-    	mapPane.addEventFilter(EditorEvent.EDIT_ELEMENT, e -> {
-    		String eventName = e.getEventType().getName();
-    		if(eventName == "ADD") isAddMode = true;
-    		else isAddMode = false;
-    		if(eventName == "EDIT") isEditMode = true;
-    		else isEditMode = false;
-    		if(eventName == "DELETE") isDeleteMode = true;
-    		else isDeleteMode = false;
-    		////System.out.println(e.getEventType());
-    	});
-    	//Listen if editor pane sent out an Map/Node/Edge event
-    	//TODO do something with it. right now it only gets the name
-    	//		remove later to work with new way
-    	mapPane.addEventFilter(EditorEvent.DISPLAY_ITEM, e -> {
-    		String eventName = e.getEventType().getName();
-    		if(eventName == "MAP") isMapEditor = true;
-    		else isMapEditor = false;
-    		if(eventName == "NODE") isNodeEditor = true;
-    		else isNodeEditor = false;
-    		if(eventName == "EDGE") isEdgeEditor = true;
-    		else isEdgeEditor = false;
-
-    	});
-
     	edgeLayer.addEventFilter(EditorEvent.DRAW_EDGES, e -> {
     		if(isEdgeEditor) addEdgeDisplayFromQueue();
     	});
@@ -419,60 +390,18 @@ public class MapRootPane extends AnchorPane{
 		Node[] nodeArr = new Node[nodes.size()];
 		nodes.toArray(nodeArr); // To avoid ConcurrentModificationException
 		for(Node n : nodeArr){
-			if(n == null) {
-				continue;
-			}
+			if(n == null) continue;
 			Coordinate c = n.getCoordinate();
-			
-			double tx = c.getX();// - (localBounds.getMaxX() / 2);
-	        double ty = c.getY();// - (localBounds.getMaxY() / 2);
+			double tx = c.getX();
+	        double ty = c.getY();
 	        double tz = c.getZ();
-			
 			NodeDisplay newNode = new NodeDisplay(display, n.getId(),
 					new SimpleDoubleProperty(c.getX()), 
 					new SimpleDoubleProperty(c.getY()),
 					new SimpleDoubleProperty(c.getZ()));
-			newNode.centerXProperty().addListener(e -> {
-		    	newNode.setTranslateX(newNode.getCenterX());
-		    });
-		    newNode.centerYProperty().addListener(e -> {
-		    	newNode.setTranslateY(newNode.getCenterY());
-		    });
-	        newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
-	           ////System.out.println("Node Selected");
-		       newNode.selectNode();
-			   nodeQueue.add(newNode);
-			   if(nodeQueue.size() == 2 && !isEditMode){
-			    	drawPath();
-			    	nodeQueue.clear();
-			    	newNode.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
-			    }
-			   // Add selected node to selected node queue
-			   
-			   ControllerSingleton.getInstance().getMenuPane().getDevToolsMenuPane().getNodeDevToolPane().displayNodeInfo(newNode);
-	        });
-	        
-	        newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
-	            nodeQueue.remove(newNode);
-	        });
-	        
-	        newNode.addEventFilter(EditorEvent.DELETE_NODE, event -> {
-	        	if(isNodeEditor){
-		        	////System.out.println("Node deleted");
-		        	Graph g = display.getGraph();
-		        	Id id = newNode.getNode();
-		        	////System.out.println(id);
-		        	////System.out.println(display);
-		        	//for(int i = 0; i < edges.size(); i++)  g.deleteEdge(edges.get(i));
-		        	g.deleteNode(id);
-		        	//mapPane.getChildren().remove(this);
-		        	//remove edge display as well
-		        	//right now this throws nullpointerexception.
-		        	render();
-		        	//updateDisplay(display, "NEW");
-	        	}
-	        });
+			addNodeDisplayListeners(newNode);
 	        nodeLayer.getChildren().add(newNode);
+	        render();
 	    }
 	}
 
@@ -483,73 +412,61 @@ public class MapRootPane extends AnchorPane{
 	 * @param y
 	 */
 	void addNodeDisplay(double x, double y){
-		////System.out.println("Added Node");
-		float tx = (float) x;// - (localBounds.getMaxX() / 2);
-        float ty = (float) y;// - (localBounds.getMaxY() / 2);
+		float tx = (float) x;
+        float ty = (float) y;
 		Coordinate c = invview.transform(new Coordinate(tx, ty));
 		NodeDisplay newNode = new NodeDisplay(display, 
 				new SimpleDoubleProperty(c.getX()), 
 				new SimpleDoubleProperty(c.getY()),
 				new SimpleDoubleProperty(currentLevel));
-		newNode.centerXProperty().addListener(e -> {
-	    	newNode.setTranslateX(newNode.getCenterX());
-	    });
-	    newNode.centerYProperty().addListener(e -> {
-	    	newNode.setTranslateY(newNode.getCenterY());
-	    });
-	    ////System.out.println(newNode.getNode());
-	    newNode.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
-	    	
-	        ////System.out.println("Node Selected");
-	        newNode.selectNode();
-		    nodeQueue.add(newNode);
-		    if(nodeQueue.size() == 2 && !isEditMode){
-		    	drawPath();
-		    	nodeQueue.clear();
-		    	newNode.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
-		    }
-		    ////System.out.println(newNode.getCenterX() + " " + newNode.getCenterY());
-		        // Add selected node to selected node queue
-		    //ControllerSingleton.getInstance().getMainPane().getNodeTool().displayNodeInfo(newNode);
-		    ControllerSingleton.getInstance().getMenuPane().getDevToolsMenuPane().getNodeDevToolPane().displayNodeInfo(newNode);
-	        //TODO stuff regarding info about the node clicked
-	        //if double-clicked
-	        //if in edit mode
-	        //if in add edge mode
-	        //	if 2 nodes are already selected when add edge is pressed,
-	        //	then create an edge between those two nodes
-	        //	if >2 nodes are selected, then edges will be added in order
-	        //	of selection
-	    });
-
-	    newNode.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
-	        nodeQueue.remove(newNode);
-	    });
-
-	    newNode.addEventFilter(EditorEvent.DELETE_NODE, event -> {
-        	if(isNodeEditor){
-	        	////System.out.println("Node deleted");
-	        	////System.out.println(display);
-	        	Graph g = display.getGraph();
-	        	Id id = newNode.getNode();
-	        	////System.out.println(id);
-	        	g.deleteNode(id);
-	        	//mapPane.getChildren().remove(this);
-	        	//remove edge display as well
-	        	//right now this throws nullpointerexception.
-	        	render();
-	        	//updateDisplay(display, "NEW");
-	        	//mapPane.getChildren().remove();
-        	}
-        });
-
-	    //newNode.visibleProperty().bind(showNodes.selectedProperty());
-
-	    // Add to the scene
+		addNodeDisplayListeners(newNode);
 	    nodeLayer.getChildren().add(newNode);
 	    render();
 	}
 
+	private void addNodeDisplayListeners(NodeDisplay nd){
+		nd.centerXProperty().addListener(e -> {
+	    	nd.setTranslateX(nd.getCenterX());
+	    });
+	    nd.centerYProperty().addListener(e -> {
+	    	nd.setTranslateY(nd.getCenterY());
+	    });
+	    nd.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
+	    	nd.selectNode();
+	    	if(!isMultiSelectNodes && isEditMode){
+	    		NodeDisplay[] ndList = new NodeDisplay[nodeQueue.size()];
+	    		nodeQueue.toArray(ndList);
+	    		for(NodeDisplay n : ndList) {
+	    			n.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
+	    		}
+	    		nodeQueue.clear();
+	    	}
+	    	
+		    nodeQueue.add(nd);
+		    if(nodeQueue.size() == 2 && !isEditMode){
+		    	drawPath();
+		    	nodeQueue.clear();
+		    	nd.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
+		    }
+		   
+		    ControllerSingleton.getInstance().getMenuPane().getDevToolsMenuPane().getNodeDevToolPane().displayNodeInfo(nd);
+	    });
+
+	    nd.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
+	        nodeQueue.remove(nd);
+	    });
+
+	    nd.addEventFilter(EditorEvent.DELETE_NODE, event -> {
+        	if(isEditMode){
+	        	Graph g = display.getGraph();
+	        	Id id = nd.getNode();
+	        	g.deleteNode(id);
+	        	nodeLayer.getChildren().remove(nd);
+	        	render();
+        	}
+        });
+	}
+	
 	/**
 	 * Add EdgeDisplays from selected NodeQueue
 	 * Use to add a non-existing EdgeDisplay and Edge to the display
@@ -566,44 +483,14 @@ public class MapRootPane extends AnchorPane{
 	            Node b = g.returnNodeById(bND.getNode());
 	            try{
 	            }
-	            catch(NullPointerException exception){
-	                ////System.out.println("a thing broke");
-	                break;
-	            }
+	            catch(NullPointerException exception){ break; }
 
 
 	            Id newEdge = g.addEdgeRint(a.getId(), b.getId());
 	            EdgeDisplay e = new EdgeDisplay(display, newEdge);
 	            edgeLayer.getChildren().add(e);
 	            aND.fireEvent(selectNodeEvent);
-	            /*
-	            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
-	            	if(isEdgeEditor){
-	            		////System.out.println("Edge deleted");
-	    	        	Id id = e.getEdge();
-	    	        	display.getGraph().deleteEdge(id);
-	    	        	edgeLayer.getChildren().remove(e);
-	            	} else {
-	            		////System.out.println("Edge selected");
-		            	e.selectEdge();
-		            	edgeQueue.clear();
-		            	edgeQueue.add(e);
-		            	//TODO @jules find a way to display edge information using new controller
-		            	//ControllerMediator cm = ControllerMediator.getInstance();
-		            	//cm.viewDisplayItem(e);
-	            	}
-	            });
-	            e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
-	            	//do sth;
-	            	edgeQueue.remove(e);
-	            });
-	            
-	            e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
-	            	edgeLayer.getChildren().remove(e);
-	            	display.getGraph().deleteEdge(e.getEdge());
-	            	render();
-	            });
-	            */
+	            setEdgeDisplayListeners(e);
 	        }
 	        nodeQueue.remove().fireEvent(selectNodeEvent);;
 	    } else {
@@ -630,36 +517,40 @@ public class MapRootPane extends AnchorPane{
 		    	graph.deleteEdge(edge.getId());
 		    	continue;
 		    }
-
-	     
-	        //////System.out.println("Edge size" + g.getEdges().size());
 	        EdgeDisplay e = new EdgeDisplay(display, aID, bID);
-            
-            //e.setStroke(Color.BLUE);
+	        setEdgeDisplayListeners(e);
             edgeLayer.getChildren().add(e);
-
-            e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
-            	////System.out.println("Edge selected");
+	    }
+	}
+	
+	private void setEdgeDisplayListeners(EdgeDisplay e){
+		e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
+        	if(isEdgeEditor){
+        		////System.out.println("Edge deleted");
+	        	Id id = e.getEdge();
+	        	display.getGraph().deleteEdge(id);
+	        	edgeLayer.getChildren().remove(e);
+        	} else {
+        		////System.out.println("Edge selected");
             	e.selectEdge();
             	edgeQueue.clear();
             	edgeQueue.add(e);
-            	//TODO @jules same thing about viewing selected edge
+            	//TODO @jules find a way to display edge information using new controller
             	//ControllerMediator cm = ControllerMediator.getInstance();
             	//cm.viewDisplayItem(e);
-            });
+        	}
+        });
 
-            e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
-            	//do sth;
-            	edgeQueue.remove(e);
-            });
-            
-            e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
-            	edgeLayer.getChildren().remove(e);
-            	display.getGraph().deleteEdge(e.getEdge());
-            	render();
-            });
-     
-	    }
+        e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
+        	//do sth;
+        	edgeQueue.remove(e);
+        });
+        
+        e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
+        	edgeLayer.getChildren().remove(e);
+        	display.getGraph().deleteEdge(e.getEdge());
+        	render();
+        });
 	}
     /**
      * Draws a path from the last two selected nodes
