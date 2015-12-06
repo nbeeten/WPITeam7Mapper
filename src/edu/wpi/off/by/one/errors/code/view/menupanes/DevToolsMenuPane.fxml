@@ -12,10 +12,9 @@
                <Label fx:id="devModeLabel" minWidth="0.0" text="Developer Mode" BorderPane.alignment="CENTER_LEFT" />
                <GridPane BorderPane.alignment="CENTER">
                    <columnConstraints>
-                       <ColumnConstraints fillWidth="true" hgrow="SOMETIMES" minWidth="0" percentWidth="25" />
-                       <ColumnConstraints fillWidth="true" hgrow="SOMETIMES" minWidth="0" percentWidth="25" />
-                       <ColumnConstraints fillWidth="true" hgrow="SOMETIMES" minWidth="0" percentWidth="25" />
-                       <ColumnConstraints fillWidth="true" hgrow="SOMETIMES" minWidth="0" percentWidth="25" />
+                       <ColumnConstraints fillWidth="true" hgrow="SOMETIMES" minWidth="0" percentWidth="33" />
+                       <ColumnConstraints fillWidth="true" hgrow="SOMETIMES" minWidth="0" percentWidth="34" />
+                       <ColumnConstraints fillWidth="true" hgrow="SOMETIMES" minWidth="0" percentWidth="33" />
                    </columnConstraints>
                    <rowConstraints>
                        <RowConstraints fillHeight="true" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -28,7 +27,6 @@
                        </RadioButton>
                        <RadioButton fx:id="nodePaneRadioButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" text="Node" toggleGroup="$devToolsToggleGroup" GridPane.columnIndex="1" />
                        <RadioButton fx:id="edgePaneRadioButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" text="Edge" toggleGroup="$devToolsToggleGroup" GridPane.columnIndex="2" />
-                       <RadioButton fx:id="pathPaneRadioButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" text="Path" toggleGroup="$devToolsToggleGroup" GridPane.columnIndex="3" />
                    </children>
                </GridPane>
            </children>
@@ -40,7 +38,6 @@
             <MapDevToolPane fx:id="mapDevToolPane" visible="${mapPaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10"/>
              <NodeDevToolPane fx:id= "nodeDevToolPane" visible="${nodePaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10"/>
              <EdgeDevToolPane fx:id="edgeDevToolPane" visible="${edgePaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10"/>
-             <PathDevToolPane fx:id="pathDevToolPane" visible="${pathPaneRadioButton.selected}" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10"/>
          </children>
         </AnchorPane>
     </center>

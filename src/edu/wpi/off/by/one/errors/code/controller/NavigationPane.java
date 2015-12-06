@@ -36,8 +36,7 @@ public class NavigationPane extends GridPane {
         this.setVisible(false);
     }
 
-    @FXML
-    private void onClosePaneButtonClick(){
+    @FXML private void onClosePaneButtonClick(){
         close();
     }
 

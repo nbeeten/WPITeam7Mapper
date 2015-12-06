@@ -33,7 +33,6 @@ public class DevToolsMenuPane extends BorderPane {
 	@FXML MapDevToolPane mapDevToolPane;
 	@FXML NodeDevToolPane nodeDevToolPane;
 	@FXML EdgeDevToolPane edgeDevToolPane;
-	@FXML PathDevToolPane pathDevToolPane;
 	@FXML Button loadNewImageButton;
 	@FXML Button loadNewMapButton;
 	@FXML Button appendMapButton;
@@ -147,5 +146,4 @@ public class DevToolsMenuPane extends BorderPane {
     }
     public NodeDevToolPane getNodeDevToolPane() { return nodeDevToolPane; }
     public EdgeDevToolPane getEdgeDevToolPane() { return edgeDevToolPane; }
-    public PathDevToolPane getPathDevToolPane() { return pathDevToolPane; }
 }
