@@ -66,10 +66,10 @@ public class MapRootPane extends AnchorPane{
 	@FXML Button drawPathDisplayButton;
 	@FXML Button rotateLeftButton;
 	@FXML Button rotateRightButton;
-	StackPane nodeLayer = new StackPane();
-	StackPane edgeLayer = new StackPane();
-	StackPane pathPane = new StackPane();
-	public Coordinate translate = new Coordinate(0.0f, 0.0f);;
+	@FXML StackPane nodeLayer;
+	@FXML Pane edgeLayer;
+	@FXML StackPane pathPane;
+	public Coordinate translate = new Coordinate(0.0f, 0.0f, 1.0f);;
 	Coordinate release = new Coordinate(0, 0, 0);
 	public float rot = 0.0f;
 	public float zoom = 2.0f;
@@ -77,7 +77,7 @@ public class MapRootPane extends AnchorPane{
 	Matrix invview;
 	Matrix lastview;
 	//Change this as necessary
-	public Canvas canvas = new Canvas(1000, 1600);
+	@FXML public Canvas canvas;
 	public int currentLevel = 1;
 	private Path p;
 	
@@ -120,6 +120,7 @@ public class MapRootPane extends AnchorPane{
     public String getFilePath() {return this.filePath; }
     
     public void updateCanvasSize(double width, double height){
+    	//mapPane.setPrefSize(width, height);
     	canvas.setHeight(height);
     	canvas.setWidth(width);
     	render();
@@ -128,21 +129,15 @@ public class MapRootPane extends AnchorPane{
     private void initialize(){
     	//Load campus map from display list
 		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
-        display.getMaps().get(0).setRotation(0);
         pathPane.setMouseTransparent(true);
         nodeLayer.setMouseTransparent(false);
         edgeLayer.setPickOnBounds(false);
         nodeLayer.setPickOnBounds(false);
-		mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
+		//mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
 		nodeLayer.setAlignment(Pos.TOP_LEFT);
-		edgeLayer.setAlignment(Pos.TOP_LEFT);
 		//Set map image
-		mapView.preserveRatioProperty().set(true);
 		Coordinate lastdragged = new Coordinate(0);
 		Coordinate mydragged = new Coordinate(0);
-		//Update local bounds of the map view
-		localBounds = mapView.getBoundsInLocal();
-		//Updates display with nodes/edges
 		updateDisplay(display.getGraph());
 		// center the mapScrollPane contents.
         
@@ -185,7 +180,7 @@ public class MapRootPane extends AnchorPane{
 		});
  
 		view = new Matrix();
-		invview  =new Matrix();
+		invview = new Matrix();
         render();
     }
     
@@ -215,12 +210,8 @@ public class MapRootPane extends AnchorPane{
 		//grab graphics context
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		Graph mygraph = display.getGraph();
-		Vector<Node> nlist = mygraph.getNodes();
-		Vector<Edge> elist = mygraph.getEdges();
 		ArrayList<Map> mlist = display.getMaps();
 		
-		boolean isCurrentFloor = true;
 		for(Map m : mlist){
 			mygc.save();
 			if(m == null) continue;
@@ -256,54 +247,57 @@ public class MapRootPane extends AnchorPane{
 				nd.setCenterY(nc.getY()- 5.0f);
 			}
 		}
-//		for(javafx.scene.Node np: edgeLayer.getChildren()){
-//			EdgeDisplay nd = (EdgeDisplay)np;
-//			if(nd == null) continue;
-//			Edge n = display.getGraph().returnEdgeById(nd.getEdge());
-//			if(n == null){ edgeLayer.getChildren().remove(np); continue; }
-//			Node A = display.getGraph().returnNodeById(n.getNodeA());
-//			Node B = display.getGraph().returnNodeById(n.getNodeB());
-//			if(A == null || B == null){
-//				display.getGraph().deleteEdge(n.getId());
-//				edgeLayer.getChildren().remove(np); 
-//				continue; 
-//			}
-//			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
-//				np.setVisible(false);
-//				np.setMouseTransparent(true);
-//				continue;
-//			}
-//			np.setVisible(true);
-//			np.setMouseTransparent(false);
-//			Coordinate ac = view.transform(A.getCoordinate());
-//			Coordinate bc = view.transform(B.getCoordinate());
-//			nd.setStartX(ac.getX());
-//			nd.setStartY(ac.getY());
-//			nd.setEndX(bc.getX());
-//			nd.setEndY(bc.getY());
-//		}
 		if(isEditMode){
+			edgeLayer.setVisible(true);
 			mygc.save();
-			for(Edge e : elist){
-				if(e == null) continue;
+			for(javafx.scene.Node ep: edgeLayer.getChildren()){
+				EdgeDisplay ed = (EdgeDisplay)ep;
+				if(ed == null) continue;
+				Edge e = display.getGraph().returnEdgeById(ed.getEdge());
+				if(e == null){ edgeLayer.getChildren().remove(ep); continue; }
 				Node A = display.getGraph().returnNodeById(e.getNodeA());
 				Node B = display.getGraph().returnNodeById(e.getNodeB());
 				if(A == null || B == null){
 					display.getGraph().deleteEdge(e.getId());
+					edgeLayer.getChildren().remove(ep); 
 					continue; 
 				}
 				if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
+					ep.setVisible(false);
+					ep.setMouseTransparent(true);
 					continue;
+				} else {
+					ep.setVisible(true);
+					ep.setMouseTransparent(false);
+					Coordinate ac = view.transform(A.getCoordinate());
+					Coordinate bc = view.transform(B.getCoordinate());
+					ed.setStartX(ac.getX());
+					ed.setStartY(ac.getY());
+					ed.setEndX(bc.getX());
+					ed.setEndY(bc.getY());
 				}
-				Coordinate ac = view.transform(A.getCoordinate());
-				Coordinate bc = view.transform(B.getCoordinate());
-				mygc.setLineWidth(5.0f);
-				mygc.setFill(Color.AQUA);
-				mygc.setStroke(Color.AQUA);
-				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
-			} 
+			}
+			
+//			for(Edge e : elist){
+//				if(e == null) continue;
+//				Node A = display.getGraph().returnNodeById(e.getNodeA());
+//				Node B = display.getGraph().returnNodeById(e.getNodeB());
+//				if(A == null || B == null){
+//					display.getGraph().deleteEdge(e.getId());
+//					continue; 
+//				}
+//				if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
+//					continue;
+//				}
+//				Coordinate ac = view.transform(A.getCoordinate());
+//				Coordinate bc = view.transform(B.getCoordinate());
+//				mygc.setLineWidth(5.0f);
+//				mygc.setFill(Color.AQUA);
+//				mygc.setStroke(Color.AQUA);
+//				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
+//			} 
 			mygc.restore();
-		}
+		} else edgeLayer.setVisible(false);
 		Node last = null;
 		for(Id id : currentRoute){
 			mygc.save();
@@ -336,6 +330,7 @@ public class MapRootPane extends AnchorPane{
 	 */
 	private void updateDisplay(Graph g){
 		addNodeDisplayFromList(g.getNodes());
+		addEdgeDisplayFromList(g, g.getEdges());
 	}
 
     /**
@@ -474,23 +469,27 @@ public class MapRootPane extends AnchorPane{
 	public void addEdgeDisplayFromQueue(){
 		SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
 	    if(!nodeQueue.isEmpty()){
-	        //////System.out.println(nodeQueue.size());
 	        while(nodeQueue.size() > 1){
 	            NodeDisplay aND = nodeQueue.poll();
 	            NodeDisplay bND = nodeQueue.peek();
 	            Graph g = display.getGraph();
 	            Node a = g.returnNodeById(aND.getNode());
 	            Node b = g.returnNodeById(bND.getNode());
-	            try{
-	            }
-	            catch(NullPointerException exception){ break; }
-
 
 	            Id newEdge = g.addEdgeRint(a.getId(), b.getId());
-	            EdgeDisplay e = new EdgeDisplay(display, newEdge);
+	            Coordinate start = view.transform(a.getCoordinate());
+		        Coordinate end = view.transform(b.getCoordinate());
+		        
+	            EdgeDisplay e = new EdgeDisplay(display, newEdge, start, end);
+	            e.setStartX(start.getX());
+	    		e.setStartY(start.getY());
+	    		e.setEndX(end.getX());
+	    		e.setEndY(end.getY());
+	    		
+	            setEdgeDisplayListeners(e);
 	            edgeLayer.getChildren().add(e);
 	            aND.fireEvent(selectNodeEvent);
-	            setEdgeDisplayListeners(e);
+	            
 	        }
 	        nodeQueue.remove().fireEvent(selectNodeEvent);;
 	    } else {
@@ -517,28 +516,28 @@ public class MapRootPane extends AnchorPane{
 		    	graph.deleteEdge(edge.getId());
 		    	continue;
 		    }
-	        EdgeDisplay e = new EdgeDisplay(display, aID, bID);
-	        setEdgeDisplayListeners(e);
-            edgeLayer.getChildren().add(e);
+	        Coordinate start = a.getCoordinate();
+	        Coordinate end = b.getCoordinate();
+		    EdgeDisplay e = new EdgeDisplay(display, aID, bID, start, end);
+		    e.setStartX(start.getX());
+    		e.setStartY(start.getY());
+    		e.setEndX(end.getX());
+    		e.setEndY(end.getY());
+		    edgeLayer.getChildren().add(e);
+		    setEdgeDisplayListeners(e);
+		    render();
 	    }
+	   
 	}
 	
 	private void setEdgeDisplayListeners(EdgeDisplay e){
+		e.setStrokeWidth(5.0f);
+		e.setStroke(Color.AQUA);
 		e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
-        	if(isEdgeEditor){
-        		////System.out.println("Edge deleted");
-	        	Id id = e.getEdge();
-	        	display.getGraph().deleteEdge(id);
-	        	edgeLayer.getChildren().remove(e);
-        	} else {
-        		////System.out.println("Edge selected");
-            	e.selectEdge();
-            	edgeQueue.clear();
-            	edgeQueue.add(e);
-            	//TODO @jules find a way to display edge information using new controller
-            	//ControllerMediator cm = ControllerMediator.getInstance();
-            	//cm.viewDisplayItem(e);
-        	}
+        	e.selectEdge();
+        	edgeQueue.clear();
+        	edgeQueue.add(e);
+        	//TODO display edge data on select
         });
 
         e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {

@@ -14,11 +14,11 @@
    <center>
       <BorderPane BorderPane.alignment="CENTER">
          <center>
-            <StackPane maxHeight="Infinity">
+            <StackPane fx:id="mapContainer" maxHeight="Infinity">
                 <children>
-                    <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" prefHeight="Infinity" prefWidth="Infinity" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+                    <ScrollPane fx:id="mapScrollPane" hbarPolicy="ALWAYS" prefHeight="Infinity" prefWidth="Infinity" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
                         <content>
-                            <MapRootPane fx:id="mapRootPane" />
+                            <MapRootPane fx:id="mapRootPane" prefHeight="Infinity" prefWidth="Infinity"/>
                         </content>
                     </ScrollPane>
                     <VBox maxHeight="-Infinity" maxWidth="40" prefWidth="25" StackPane.alignment="CENTER_RIGHT">

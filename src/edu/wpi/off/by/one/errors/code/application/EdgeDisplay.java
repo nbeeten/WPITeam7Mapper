@@ -18,42 +18,32 @@ public class EdgeDisplay extends Line implements IDisplayItem {
 	Id edge;
 	Id nodeA, nodeB;
 	float length;
-	int selectedStrokeLength = 4;
-	int strokeLength = 2; //default
-	Color strokeColor = Color.BLUE;
+	int selectedStrokeLength = 8;
+	int strokeLength = 5; //default
+	Color strokeColor = Color.AQUA;
 	
 	
 	public boolean isSelected = false;
 	
-	public EdgeDisplay(Display display, Id edge){
-		setStrokeWidth(this.strokeLength);
-		setStrokeLineCap(StrokeLineCap.BUTT);
+	public EdgeDisplay(Display display, Id edge, Coordinate start, Coordinate end){
 		this.display = display;
 		this.edge = edge;
 		Edge temp = display.getGraph().returnEdgeById(edge);
 		this.nodeA = temp.getNodeA();
 		this.nodeB = temp.getNodeB();
 		this.length = temp.getLength();
-		this.setStartX(0.0);
-		this.setStartY(0.0);
-		this.setEndX(0.0);
-		this.setEndY(0.0);
-		
+
 		
 		setHandlers();
 	}
 	
-	public EdgeDisplay(Display display, Id nodeA, Id nodeB){
-		setStrokeWidth(this.strokeLength);
+	public EdgeDisplay(Display display, Id nodeA, Id nodeB, Coordinate start, Coordinate end){
 		this.display = display;
 		this.nodeA = nodeA;
 		this.nodeB = nodeB;
 		this.edge = display.getGraph().addEdgeRint(nodeA, nodeB);
 		this.length = display.getGraph().returnEdgeById(this.edge).getLength();
-		this.setStartX(0.0);
-		this.setStartY(0.0);
-		this.setEndX(0.0);
-		this.setEndY(0.0);
+		
 		setHandlers();
 	}
 	
@@ -118,7 +108,7 @@ public class EdgeDisplay extends Line implements IDisplayItem {
 		
 		public void handle(MouseEvent e){
 			if(!isSelected){
-				self.setStroke(Color.BLUE);
+				self.setStroke(Color.AQUA);
 				self.setStrokeWidth(self.strokeLength);
 			}
 		}

@@ -31,6 +31,7 @@ public class MainPane extends BorderPane {
 
 
 	Window window;
+	@FXML private StackPane mapContainer;
 	@FXML private Button rotateLeftButton;
 	@FXML private Button rotateRightButton;
 	@FXML private Button zoomInButton;
@@ -139,12 +140,14 @@ public class MainPane extends BorderPane {
     }
     public void setWindow(Window window) { 
     	this.window = window; 
+    	mapScrollPane.setVmax(0);
+    	mapScrollPane.setHmax(0);
     	window.heightProperty().addListener(e -> {
-    		mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
+    		mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
     	
     	window.widthProperty().addListener(e -> {
-    		mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
+    		mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
     }
     public Window getWindow() { return this.window; }
