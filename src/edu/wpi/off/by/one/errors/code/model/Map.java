@@ -52,12 +52,12 @@ public class Map {
 	public void setName(String name) { this.name = name; }
 	public void setImgUrl(String path) { this.imagePath = path; updateImg();}
 	public void setCenter(Coordinate coordinate) { this.center = coordinate; }
-	public void setRotation(float rotation) { this.rotation = rotation; }
+	public void setRotation(float rotationIn) { this.rotation = rotationIn; }
 	public void setScale(float scale) { this.scale = scale; }
 	public String getName() { return this.name; }
 	public String getImgUrl() { return this.imagePath; }
 	public Coordinate getCenter() { return this.center;}
-	public float getRotation() { return this.rotation; }
+	public float getRotation() { return this.rotation;  }
 	public float getScale() { return this.scale; }
 	public Image getImage() { return this.myimg; }
 
