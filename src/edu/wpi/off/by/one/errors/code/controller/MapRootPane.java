@@ -123,6 +123,7 @@ public class MapRootPane extends AnchorPane{
 		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
 		// Put all these sets into fxml
         pathPane.setMouseTransparent(true);
+        markerPane.setMouseTransparent(true);
         nodeLayer.setMouseTransparent(false);
         edgeLayer.setPickOnBounds(false);
         nodeLayer.setPickOnBounds(false);
@@ -365,38 +366,6 @@ public class MapRootPane extends AnchorPane{
      */
     private void setListeners(){
     	// Listen to when the user clicks on the map
-    	markerPane.setOnMouseClicked(e -> {
-    		if(e.isStillSincePress()){
-    			System.out.println(e.getX() + " " + e.getY());
-    			Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
-    			Id nearestNode = display.getGraph().GetNearestNode(click);
-//    			if (endMarker != null && startMarker != null){
-//    				System.out.println("Clearing");
-//    				startMarker = null;
-//    				endMarker = null;
-//    				markerPane.getChildren().clear();
-//    			}
-//    			if(startMarker != null && endMarker == null) {
-//    				System.out.println("Placing end");
-//    				endMarker = new Circle(click.getX(), click.getY(), 5, Color.YELLOWGREEN);
-//    				markerPane.getChildren().add(endMarker);
-//    			}
-//    			if(startMarker == null) {
-//    				System.out.println("Placing start");
-//    				startMarker = new Circle(click.getX(), click.getY(), 5, Color.GREEN);
-//    				markerPane.getChildren().add(startMarker);
-//    			}
-    			
-    			
-    			List<javafx.scene.Node> nearestList = nodeLayer.getChildren().stream()
-    					.filter((Predicate<? super javafx.scene.Node>) nd -> ((NodeDisplay) nd).getNode() == nearestNode)
-    					.collect(Collectors.toList());
-    			NodeDisplay nearest = (NodeDisplay) nearestList.get(0);
-    			nearest.fireEvent(new SelectEvent(SelectEvent.NODE_SELECTED));
-    			render();
-    		}
-			
-    	});
     	
     	canvas.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
@@ -425,7 +394,33 @@ public class MapRootPane extends AnchorPane{
 	    		}
 	    		else {
 	    			//Select nearest node on map	    			
+	    			System.out.println(e.getX() + " " + e.getY());
+	    			Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
+	    			Id nearestNode = display.getGraph().GetNearestNode(click);
+//	    			if (endMarker != null && startMarker != null){
+//	    				System.out.println("Clearing");
+//	    				startMarker = null;
+//	    				endMarker = null;
+//	    				markerPane.getChildren().clear();
+//	    			}
+//	    			if(startMarker != null && endMarker == null) {
+//	    				System.out.println("Placing end");
+//	    				endMarker = new Circle(click.getX(), click.getY(), 5, Color.YELLOWGREEN);
+//	    				markerPane.getChildren().add(endMarker);
+//	    			}
+//	    			if(startMarker == null) {
+//	    				System.out.println("Placing start");
+//	    				startMarker = new Circle(click.getX(), click.getY(), 5, Color.GREEN);
+//	    				markerPane.getChildren().add(startMarker);
+//	    			}
 	    			
+	    			
+	    			List<javafx.scene.Node> nearestList = nodeLayer.getChildren().stream()
+	    					.filter((Predicate<? super javafx.scene.Node>) nd -> ((NodeDisplay) nd).getNode() == nearestNode)
+	    					.collect(Collectors.toList());
+	    			NodeDisplay nearest = (NodeDisplay) nearestList.get(0);
+	    			nearest.fireEvent(new SelectEvent(SelectEvent.NODE_SELECTED));
+	    			render();
 	    		}
     		}
     	});
@@ -600,6 +595,11 @@ public class MapRootPane extends AnchorPane{
 		e.setStroke(Color.AQUA);
 		e.addEventFilter(SelectEvent.EDGE_SELECTED, ev -> {
         	e.selectEdge();
+        	EdgeDisplay[] edList = new EdgeDisplay[edgeQueue.size()];
+        	edgeQueue.toArray(edList);
+        	for(EdgeDisplay ed : edList) {
+        		ed.fireEvent(new SelectEvent(SelectEvent.EDGE_DESELECTED));
+        	}
         	edgeQueue.clear();
         	edgeQueue.add(e);
         	//TODO display edge data on select
