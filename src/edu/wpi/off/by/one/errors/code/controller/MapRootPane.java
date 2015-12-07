@@ -106,6 +106,9 @@ public class MapRootPane extends AnchorPane{
         }
         ControllerSingleton.getInstance().registerMapRootPane(this);
         initialize();
+        System.out.println(ControllerSingleton.getInstance().getMenuPane().searchMenuPane);
+        System.out.println(translate.getX() + " " + translate.getY() + " " + translate.getZ());
+        //ControllerSingleton.getInstance().getMenuPane().searchMenuPane.spinnyZoom(1);
     }
     
     public MapRootPane getMapRootPane() { return this; }
@@ -135,6 +138,8 @@ public class MapRootPane extends AnchorPane{
         
         //Setup event listeners for map
         setListeners();
+        ControllerSingleton.getInstance().getMenuPane().searchMenuPane.updateMapList(display.getMaps());
+
 		mapPane.setOnMousePressed(e -> {
 			if(!e.isSecondaryButtonDown()) return;
 			 lastview = invview;
