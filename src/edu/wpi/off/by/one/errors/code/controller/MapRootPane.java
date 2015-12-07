@@ -204,8 +204,10 @@ public class MapRootPane extends AnchorPane{
 			if(m == null) continue;
 
 			if(m.getImage() == null) continue;
+			if(currentLevel != 1 && m.getName().equals("Campus Map")) mygc.setGlobalAlpha(0.4);
+			else mygc.setGlobalAlpha(1);
 			if(translate.getZ() > m.getCenter().getZ() + 0.1 || translate.getZ() < m.getCenter().getZ() - 0.1){
-				continue;
+				if(!m.getName().equals("Campus Map")) continue;
 			}
 			Coordinate c = view.transform(m.getCenter());
 			//mygc.translate(c.getX(), c.getY());

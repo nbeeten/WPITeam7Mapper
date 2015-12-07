@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -19,7 +20,7 @@ import javafx.scene.layout.BorderPane;
 public class SearchMenuPane extends BorderPane {
 	
 	@FXML AutoCompleteTextField searchField;
-	@FXML ChoiceBox<Integer> floorChoiceBox;
+	@FXML Slider floorSlider;
 	@FXML ComboBox<String> buildingChoiceBox;
 	
 	int currentLevel;
@@ -38,8 +39,6 @@ public class SearchMenuPane extends BorderPane {
         this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/SearchPaneStyleSheet.css").toExternalForm());
         setListeners();
         
-        floorChoiceBox.getItems().addAll(-1, 0, 1, 2, 3);
-        
         //SortedSet<String> entries = new TreeSet<String>();
         /*
         for(Map m : ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps()){
@@ -57,9 +56,9 @@ public class SearchMenuPane extends BorderPane {
 	}
 	
 	private void setListeners(){
-		this.floorChoiceBox.setOnAction(e->{
+		this.floorSlider.setOnMouseClicked(e -> {
 			MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
-			int floor = floorChoiceBox.getSelectionModel().getSelectedItem();
+			int floor = (int) floorSlider.getValue();
 			//System.out.println(floor);
 			//do a thing with it
 			maproot.currentLevel = floor;
