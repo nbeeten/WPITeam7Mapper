@@ -21,7 +21,7 @@
             <BorderPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="30.0">
                <center>
                   <TextField fx:id="searchInputTextField" maxHeight="-Infinity" minWidth="0.0" prefHeight="30.0" BorderPane.alignment="CENTER" />
-                   <ClearableTextField fx:id="otherSearchInputTextField" promptText="stuff here" maxHeight="-Infinity" minWidth="0.0" prefHeight="30.0" BorderPane.alignment="CENTER" />
+                   <ClearableTextField fx:id="otherSearchInputTextField" promptText="Search for Location" maxHeight="-Infinity" minWidth="0.0" prefHeight="30.0" BorderPane.alignment="CENTER" />
                </center>
                <right>
                   <Button fx:id="searchLocationButton" minWidth="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Button" BorderPane.alignment="CENTER" />

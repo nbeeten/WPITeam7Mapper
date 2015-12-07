@@ -1,5 +1,6 @@
 package edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes;
 
+import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -26,7 +27,7 @@ public class NodeDevToolPane extends VBox {
 	Display currentDisplay;
 	NodeDisplay currentNd;
 	@FXML Label nodeIdLabel;
-	@FXML TextField xTextField;
+	@FXML ClearableTextField xTextField;
 	@FXML TextField yTextField;
 	@FXML TextField zTextField;
 	@FXML TextField tagTextField;

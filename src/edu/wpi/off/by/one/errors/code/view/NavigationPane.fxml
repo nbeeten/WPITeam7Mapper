@@ -4,6 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
+<?import edu.wpi.off.by.one.errors.code.controller.customcontrols.IconedLabel?>
 <fx:root minHeight="0.0" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="0" percentWidth="10.0" />
@@ -15,7 +16,7 @@
     </rowConstraints>
     <children>
         <Button fx:id="previousButton" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0"/>
-        <Label fx:id="InstructionLabel" minHeight="0.0" text="Navigation Instruction here" GridPane.columnIndex="1" />
+        <IconedLabel fx:id="InstructionLabel" minHeight="0.0" text="Navigation Instruction here" GridPane.columnIndex="1" />
         <StackPane minHeight="0.0" GridPane.columnIndex="2">
             <children>
                   <Button fx:id="nextButton" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0"/>

@@ -6,11 +6,12 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
+import javafx.scene.layout.VBox;
 
 /**
  * Created by jules on 11/28/2015.
  */
-public class SettingsMenuPane extends AnchorPane {
+public class SettingsMenuPane extends VBox {
 
     public SettingsMenuPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/SettingsMenuPane.fxml"));

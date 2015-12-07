@@ -1,6 +1,9 @@
 package edu.wpi.off.by.one.errors.code.controller.customcontrols;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -35,6 +38,7 @@ public class ClearableTextField extends BorderPane {
         this.getStyleClass().add("clearable-text-field");
 
         addListeners();
+        bind();
     }
     //endregion
 
@@ -62,6 +66,18 @@ public class ClearableTextField extends BorderPane {
     public void setPromptText(String text){
         promptTextProperty().set(text);
     }
+
+    public ObjectProperty<EventHandler<ActionEvent>> onActionProperty(){
+        return textField.onActionProperty();
+    }
+
+    public EventHandler<ActionEvent> getOnAction(){
+        return onActionProperty().get();
+    }
+
+    public void setOnAction(EventHandler<ActionEvent> actionEvent){
+        onActionProperty().set(actionEvent);
+    }
     //endregion
 
     //region listener Methods
@@ -74,8 +90,23 @@ public class ClearableTextField extends BorderPane {
 
     //endregion
 
-    private void addListeners(){
+    private void bind(){
         clearButton.disableProperty().bind(textField.textProperty().isEmpty());
     }
+
+    private void addListeners(){
+        /*textField.focusedProperty().addListener((v, oldValue, newValue) -> {
+            if(newValue)
+                textField.positionCaret(0);
+                textField.selectAll();
+        });
+        this.focusedProperty().addListener((v, oldValue, newValue) -> {
+            if(newValue)
+                textField.positionCaret(0);
+            textField.selectAll();
+        });*/
+    }
+
+
 
 }

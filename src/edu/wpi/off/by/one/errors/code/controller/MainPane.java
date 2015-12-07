@@ -31,6 +31,7 @@ public class MainPane extends BorderPane {
 
 
 	Window window;
+	@FXML private Slider floorSlider;
 	@FXML private Button rotateLeftButton;
 	@FXML private Button rotateRightButton;
 	@FXML private Button zoomInButton;

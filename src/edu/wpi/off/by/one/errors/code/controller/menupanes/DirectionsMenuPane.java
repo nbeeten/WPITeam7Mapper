@@ -1,5 +1,6 @@
 package edu.wpi.off.by.one.errors.code.controller.menupanes;
 
+import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -15,8 +16,9 @@ import edu.wpi.off.by.one.errors.code.controller.MainPane;
  * Created by jules on 11/28/2015.
  */
 public class DirectionsMenuPane extends BorderPane {
-	
-	@FXML Button routeButton;
+	@FXML private ClearableTextField originTextField;
+    @FXML private ClearableTextField destinationTextField;
+	@FXML private Button routeButton;
     @FXML private ListView directionsListView;
 	
     public DirectionsMenuPane(){
@@ -42,5 +44,11 @@ public class DirectionsMenuPane extends BorderPane {
 
     public ListView getdirectionsListView(){
         return this.directionsListView;
+    }
+
+    @FXML private void onSwitchDirectionsButtonClick(){
+        String originContent = originTextField.getText();
+        originTextField.setText(destinationTextField.getText());
+        destinationTextField.setText(originContent);
     }
 }

@@ -20,11 +20,12 @@ public class IconedLabel extends GridPane {
     //region FXML attributes
     @FXML private Label label;
 
-    @FXML private ImageView image;
+    @FXML private ImageView imageView;
+
+    @FXML private AnchorPane imageViewContainerAnchorPane;
     //endregion
 
-    public StringProperty imageURLProperty = new SimpleStringProperty();
-
+    //region Constructor/s
     public IconedLabel() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/customcontrols/IconedLabel.fxml"));
         loader.setRoot(this);
@@ -34,8 +35,12 @@ public class IconedLabel extends GridPane {
         } catch (IOException excpt) {
             throw new RuntimeException(excpt);
         }
-    }
+        imageView.fitWidthProperty().bind(imageViewContainerAnchorPane.widthProperty());
 
+    }
+    //endregion
+
+    //region Getter and Setters
     public StringProperty textProperty(){
         return label.textProperty();
     }
@@ -47,16 +52,17 @@ public class IconedLabel extends GridPane {
     public void setText(String text){
         textProperty().set(text);
     }
+    //endregion
 
     public ObjectProperty<Image> imageProperty(){
-        return image.imageProperty();
+        return imageView.imageProperty();
     }
 
     public Image getImage(){
         return imageProperty().get();
     }
 
-    public void setImage(String url){
-        imageProperty().set(new Image(url));
+    public void setImage(String image){
+        imageProperty().set(new Image(image));
     }
 }
