@@ -3,8 +3,10 @@ package edu.wpi.off.by.one.errors.code.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Vector;
 
 import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
@@ -239,16 +241,20 @@ public class MapRootPane extends AnchorPane{
 		if(isEditMode){
 			edgeLayer.setVisible(true);
 			mygc.save();
+			Set<javafx.scene.Node> toRemove = new HashSet<>();
 			for(javafx.scene.Node ep: edgeLayer.getChildren()){
 				EdgeDisplay ed = (EdgeDisplay)ep;
 				if(ed == null) continue;
 				Edge e = display.getGraph().returnEdgeById(ed.getEdge());
-				if(e == null){ edgeLayer.getChildren().remove(ep); continue; }
+				if(e == null){ 
+					toRemove.add(ep); 
+					continue; 
+				}
 				Node A = display.getGraph().returnNodeById(e.getNodeA());
 				Node B = display.getGraph().returnNodeById(e.getNodeB());
 				if(A == null || B == null){
 					display.getGraph().deleteEdge(e.getId());
-					edgeLayer.getChildren().remove(ep); 
+					toRemove.add(ep); 
 					continue; 
 				}
 				if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
@@ -266,6 +272,7 @@ public class MapRootPane extends AnchorPane{
 					ed.setEndY(bc.getY());
 				}
 			}
+			edgeLayer.getChildren().removeAll(toRemove);
 			
 //			for(Edge e : elist){
 //				if(e == null) continue;
