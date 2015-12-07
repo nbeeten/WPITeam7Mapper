@@ -1,7 +1,9 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
-import edu.wpi.off.by.one.errors.code.controller.menupanes.*;
-import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.*;
+import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
+import edu.wpi.off.by.one.errors.code.application.IDisplayItem;
+import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.MapDevToolPane;
 
 public class ControllerSingleton {
 	
@@ -25,6 +27,13 @@ public class ControllerSingleton {
 	public NavigationPane getNavigationPane() { return navigationController; }
 	
 	public MapDevToolPane getMapDevToolPane() { return mapDevToolController; }
+	
+	public void displayInDev(IDisplayItem d){
+		if(d.getClass() == NodeDisplay.class) menuPaneController.devToolsMenuPane.getNodeDevToolPane().displayNodeInfo((NodeDisplay) d);
+		else if(d.getClass() == EdgeDisplay.class) menuPaneController.devToolsMenuPane.getEdgeDevToolPane().displayEdgeInfo((EdgeDisplay) d);
+	}
+	
+	
 	
 	private ControllerSingleton() {}
 	

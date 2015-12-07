@@ -1,22 +1,11 @@
 package edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
@@ -24,6 +13,15 @@ import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Display;
 import edu.wpi.off.by.one.errors.code.model.Map;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * Created by jules on 11/30/2015.
@@ -81,48 +79,44 @@ public class MapDevToolPane extends VBox {
     	});
     	this.nameTextField.setOnKeyPressed(e -> {
     		String s = nameTextField.getText();
+    		s = s.trim();
     		currentMap.setName(s);
     		mapRoot.render();
     	});
     	
     	this.rotationTextField.setOnKeyPressed(e -> {
     		String s = rotationTextField.getText();
-    		if(s == null) s = "0";
-    		currentMap.setRotation(Float.parseFloat(s));
+    		currentMap.setRotation(toFloat(s));
     		mapRoot.render();
     	});
     	
     	this.scaleTextField.setOnKeyPressed(e -> {
     		String s = scaleTextField.getText();
-    		if(s == null) s = "0";
-    		currentMap.setScale(Float.parseFloat(s));
+    		currentMap.setScale(toFloat(s));
     		mapRoot.render();
     	});
     	
     	this.xTextField.setOnKeyPressed(e -> {
     		String s = xTextField.getText();
-    		if(s == null) s = "0";
     		Coordinate currentc = currentMap.getCenter();
-    		currentMap.setCenter(new Coordinate(Float.parseFloat(s),
+    		currentMap.setCenter(new Coordinate(toFloat(s),
     				currentc.getY(), currentc.getZ()));
     		mapRoot.render();
     	});
     	
     	this.yTextField.setOnKeyPressed(e -> {
     		String s = yTextField.getText();
-    		if(s == null) s = "0";
     		Coordinate currentc = currentMap.getCenter();
     		currentMap.setCenter(new Coordinate(currentc.getX(),
-    				Float.parseFloat(s), currentc.getZ()));
+    				toFloat(s), currentc.getZ()));
     		mapRoot.render();
     	});
     	
     	this.zTextField.setOnKeyPressed(e -> {
     		String s = zTextField.getText();
-    		if(s == null) s = "0";
     		Coordinate currentc = currentMap.getCenter();
     		currentMap.setCenter(new Coordinate(currentc.getX(),
-    				currentc.getY(), Float.parseFloat(s)));
+    				currentc.getY(), toFloat(s)));
     		mapRoot.render();
     	});
     }
@@ -156,14 +150,12 @@ public class MapDevToolPane extends VBox {
     }
     
     public void changeDisplay(){
-    	String k = mapChoiceBox.getSelectionModel().getSelectedItem();
     	int index = mapChoiceBox.getItems().indexOf(mapChoiceBox.getSelectionModel().getSelectedItem());
 		this.selectedMap = this.mapList.get(index);
 		setMap(this.selectedMap);
     }
     
     public void updateMapList(ArrayList<Map> maps){
-    	System.out.println(this.mapList.containsAll(maps));
     	if(!this.mapList.containsAll(maps)){
     		this.mapList = maps;
     		mapChoiceBox.getItems().clear();
@@ -172,5 +164,30 @@ public class MapDevToolPane extends VBox {
             	mapChoiceBox.getItems().add(name);
             }
     	}
+    }
+    
+    /**
+     * Parses/cleans input string to only contain
+     * numerical values
+     * TODO program still flips out at certain characters
+     * try-catching is the current backup to this
+     * @param s input string
+     * @return cleaned string
+     */
+    private float toFloat(String s){
+    	String regexString = "/^(-)?((\\d+(\\.\\d*)?)|(\\.\\d+))$/";
+       	Pattern regex = Pattern.compile(regexString);
+    	Matcher parser = regex.matcher(s);
+    	parser = regex.matcher(s);
+    	if(parser.matches()) s = parser.group(0);
+    	else s = "0";
+    	if(s == "" || s == null || s.isEmpty()) s = "0";
+    	float newNum;
+		try {
+			newNum = Float.parseFloat(s);
+		} catch (NumberFormatException ex){
+			newNum = 0;
+		}
+		return newNum;
     }
 }
