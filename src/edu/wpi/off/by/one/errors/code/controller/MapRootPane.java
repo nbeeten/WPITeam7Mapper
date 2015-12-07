@@ -144,14 +144,15 @@ public class MapRootPane extends AnchorPane{
         //Setup event listeners for map
         setListeners();
 		mapPane.setOnMousePressed(e -> {
+			if(!e.isSecondaryButtonDown()) return;
 			 lastview = invview;
 			 Coordinate in = new Coordinate((float)e.getX(), (float)e.getY());
 			 Coordinate sin = lastview.transform(in);
 			 mydragged.setAll(in.getX(), in.getY(), 0);
 			 lastdragged.setAll(sin.getX(), sin.getY(), 0);
 	     });
-		
 		mapPane.setOnMouseDragged(e -> {
+			if(!e.isSecondaryButtonDown()) return;
 			Coordinate sin = new Coordinate((float)e.getX(), (float)e.getY());
 			Coordinate in = lastview.transform(sin);
 			if(e.isControlDown()){
