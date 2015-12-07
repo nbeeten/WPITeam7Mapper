@@ -9,6 +9,7 @@ import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
 import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteTextField;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Map;
+import edu.wpi.off.by.one.errors.code.model.Matrix;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
@@ -95,7 +96,11 @@ public class SearchMenuPane extends BorderPane {
 		mainPane.dropEndC = new Coordinate((float) (m.getCenter().getX()-m.getImage().getWidth()/2), (float) (m.getCenter().getY()-m.getImage().getHeight()/2), m.getCenter().getZ());
 		}
 		else{
-			mainPane.dropEndC = new Coordinate((float) (0), (float) (0), m.getCenter().getZ());
+			Matrix matrix = new Matrix(m.getRotation(),0,0,1).scale(m.getScale());
+			Coordinate coord = new Coordinate((float)m.getImage().getWidth()/2, (float)m.getImage().getHeight()/2, 0);
+			coord = matrix.transform(coord);
+			
+			mainPane.dropEndC = new Coordinate(-m.getCenter().getX()-coord.getX(), -m.getCenter().getY()-coord.getY(), m.getCenter().getZ());
 		}
 		mainPane.dropEndR = -m.getRotation();
 		float mx = (float)(ControllerSingleton.getInstance().getMapRootPane().canvas.getWidth()/(m.getImage().getWidth() * m.getScale()) );
@@ -103,6 +108,10 @@ public class SearchMenuPane extends BorderPane {
 		mainPane.dropEndS = mx < my ? mx : my;
 		if(mainPane.dropEndS <= 0.05f) mainPane.dropEndS = 1.0f;
 		mainPane.dropzoom.play();
+		//ControllerSingleton.getInstance().getMapRootPane().translate = mainPane.dropEndC;
+	//	ControllerSingleton.getInstance().getMapRootPane().rot = mainPane.dropEndR;
+	//	ControllerSingleton.getInstance().getMapRootPane().translate = mainPane.dropEndC;
+		
 		ControllerSingleton.getInstance().getMapRootPane().render();
 		//buildingChoiceBox.getSelectionModel().clearSelection();
 	}
