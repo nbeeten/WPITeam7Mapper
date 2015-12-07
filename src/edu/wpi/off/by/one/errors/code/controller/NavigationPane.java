@@ -1,11 +1,10 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-
-import java.io.IOException;
 
 /**
  * Created by jules on 11/28/2015.

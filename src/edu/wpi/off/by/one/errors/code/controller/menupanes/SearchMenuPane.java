@@ -1,26 +1,18 @@
 package edu.wpi.off.by.one.errors.code.controller.menupanes;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
+import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
+import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteTextField;
+import edu.wpi.off.by.one.errors.code.model.Map;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.*;
-import javafx.util.Duration;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
-import edu.wpi.off.by.one.errors.code.controller.MainPane;
-import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
-import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteTextField;
-import edu.wpi.off.by.one.errors.code.model.Coordinate;
-import edu.wpi.off.by.one.errors.code.model.Map;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.BorderPane;
 
 /**
  * Created by jules on 11/28/2015.
@@ -28,7 +20,7 @@ import edu.wpi.off.by.one.errors.code.model.Map;
 public class SearchMenuPane extends BorderPane {
 	
 	@FXML AutoCompleteTextField searchField;
-	@FXML ChoiceBox<Integer> floorChoiceBox;
+	@FXML Slider floorSlider;
 	@FXML ComboBox<String> buildingChoiceBox;
 	
 	int currentLevel;
@@ -47,9 +39,7 @@ public class SearchMenuPane extends BorderPane {
         this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/SearchPaneStyleSheet.css").toExternalForm());
         setListeners();
         
-        floorChoiceBox.getItems().addAll(-1, 0, 1, 2, 3);
-        
-        SortedSet<String> entries = new TreeSet<String>();
+        //SortedSet<String> entries = new TreeSet<String>();
         /*
         for(Map m : ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps()){
         	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
@@ -66,9 +56,9 @@ public class SearchMenuPane extends BorderPane {
 	}
 	
 	private void setListeners(){
-		this.floorChoiceBox.setOnAction(e->{
+		this.floorSlider.setOnMouseClicked(e -> {
 			MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
-			int floor = floorChoiceBox.getSelectionModel().getSelectedItem();
+			int floor = (int) floorSlider.getValue();
 			//System.out.println(floor);
 			//do a thing with it
 			maproot.currentLevel = floor;

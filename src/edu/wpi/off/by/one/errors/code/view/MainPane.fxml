@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import edu.wpi.off.by.one.errors.code.controller.*?>
@@ -18,7 +17,7 @@
                     <children>
                         <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" prefHeight="Infinity" prefWidth="Infinity" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
                             <content>
-                                <MapRootPane fx:id="mapRootPane" maxHeight="Infinity" maxWidth="Infinity" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
+                                <MapRootPane fx:id="mapRootPane" maxHeight="Infinity" maxWidth="Infinity"/>
                             </content>
                         </ScrollPane>
                         <Slider fx:id="floorSlider" majorTickUnit="1" max="4" maxHeight="500" min="-1" minorTickCount="0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1" StackPane.alignment="CENTER_LEFT">
@@ -42,5 +41,4 @@
             </bottom>
         </BorderPane>
     </center>
-
 </fx:root>

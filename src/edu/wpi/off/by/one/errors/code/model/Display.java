@@ -3,12 +3,7 @@ package edu.wpi.off.by.one.errors.code.model;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
-import edu.wpi.off.by.one.errors.code.application.event.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class Display extends Pane{

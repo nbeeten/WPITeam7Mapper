@@ -1,22 +1,18 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
-import javafx.fxml.FXML;
+import java.io.IOException;
+
+import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
+import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.*;
 import javafx.stage.Window;
 import javafx.util.Duration;
-
-import java.io.IOException;
-
-import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
-import edu.wpi.off.by.one.errors.code.model.Coordinate;
 
 
 /**
@@ -32,6 +28,7 @@ public class MainPane extends BorderPane {
 
 	Window window;
 	@FXML private Slider floorSlider;
+	@FXML private StackPane mapContainer;
 	@FXML private Button rotateLeftButton;
 	@FXML private Button rotateRightButton;
 	@FXML private Button zoomInButton;
@@ -140,12 +137,14 @@ public class MainPane extends BorderPane {
     }
     public void setWindow(Window window) { 
     	this.window = window; 
+    	mapScrollPane.setVmax(0);
+    	mapScrollPane.setHmax(0);
     	window.heightProperty().addListener(e -> {
-    		mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
+    		//mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
     	
     	window.widthProperty().addListener(e -> {
-    		mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
+    		//mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
     }
     public Window getWindow() { return this.window; }
