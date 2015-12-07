@@ -140,11 +140,11 @@ public class MainPane extends BorderPane {
     	this.window = window; 
     	mapScrollPane.setVmax(0);
     	mapScrollPane.setHmax(0);
-    	window.heightProperty().addListener(e -> {
+    	mapContainer.heightProperty().addListener(e -> {
     		mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
     	
-    	window.widthProperty().addListener(e -> {
+    	mapContainer.widthProperty().addListener(e -> {
     		mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
     }
