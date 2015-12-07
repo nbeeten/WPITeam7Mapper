@@ -8,16 +8,11 @@ import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Display;
 import edu.wpi.off.by.one.errors.code.model.Id;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 
@@ -38,6 +33,7 @@ public class NodeDisplay extends Circle implements IDisplayItem{
 	int size = 5; // in px format
 	Color color = Color.BLUE;
 	public boolean isSelected = false;
+	public boolean isPivot = false;
 	
 	DoubleProperty x, y, z;
 	
@@ -78,9 +74,24 @@ public class NodeDisplay extends Circle implements IDisplayItem{
 		return false;
 	}
 	
+	public void deselectNode() {
+		this.isPivot = false;
+		this.isSelected = false;
+		SelectEvent selectNodeEvent;
+		setFill(Color.BLUE);
+		selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
+		self.fireEvent(selectNodeEvent);
+	}
+	
 	public void selectNode() {
 		this.isSelected = true;
 		setFill(Color.PURPLE);
+	}
+	
+	public void selectPivot() {
+		this.isSelected = true;
+		this.isPivot = true;
+		setFill(Color.SPRINGGREEN);
 	}
 	
 	/* Event handling */
@@ -94,22 +105,26 @@ public class NodeDisplay extends Circle implements IDisplayItem{
 				//TODO zoom and rotate onto location
 				
 			}
+			if(e.getButton() == MouseButton.SECONDARY){
+				EditorEvent deleteNodeEvent = new EditorEvent(EditorEvent.DELETE_NODE);
+				self.fireEvent(deleteNodeEvent);
+			} 
 			
-			if(!isSelected){
-				if(e.getButton() == MouseButton.SECONDARY){
-					EditorEvent deleteNodeEvent = new EditorEvent(EditorEvent.DELETE_NODE);
-					self.fireEvent(deleteNodeEvent);
-				} 
-				
-				else if(e.getButton() == MouseButton.PRIMARY) {
-					if(e.isShiftDown()) ControllerSingleton.getInstance().getMapRootPane().isMultiSelectNodes = true;
-					else ControllerSingleton.getInstance().getMapRootPane().isMultiSelectNodes = false;
-					SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_SELECTED);
-					self.fireEvent(selectNodeEvent);
+			else if(e.getButton() == MouseButton.PRIMARY) {
+				SelectEvent selectNodeEvent;
+				if(isSelected) deselectNode();
+				else{
+					if(e.isAltDown()){
+						selectNodeEvent = new SelectEvent(SelectEvent.PIVOT_NODE_SELECTED);
+						self.fireEvent(selectNodeEvent);
+					}
+					else {
+						if(e.isShiftDown()) ControllerSingleton.getInstance().getMapRootPane().isMultiSelectNodes = true;
+						else ControllerSingleton.getInstance().getMapRootPane().isMultiSelectNodes = false;
+						selectNodeEvent = new SelectEvent(SelectEvent.NODE_SELECTED);
+						self.fireEvent(selectNodeEvent);
+					}
 				}
-			} else {
-				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
-				self.fireEvent(selectNodeEvent);
 			}
 			
 		}

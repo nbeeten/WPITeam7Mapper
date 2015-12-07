@@ -1,47 +1,16 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.transform.Rotate;
-import javafx.util.Duration;
-
-import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Timer;
 import java.util.Vector;
-import java.util.stream.Collectors;
 
 import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
-import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.MapDevToolPane;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Display;
 import edu.wpi.off.by.one.errors.code.model.Edge;
@@ -49,9 +18,24 @@ import edu.wpi.off.by.one.errors.code.model.FileIO;
 import edu.wpi.off.by.one.errors.code.model.Graph;
 import edu.wpi.off.by.one.errors.code.model.Id;
 import edu.wpi.off.by.one.errors.code.model.Map;
+import edu.wpi.off.by.one.errors.code.model.Matrix;
 import edu.wpi.off.by.one.errors.code.model.Node;
 import edu.wpi.off.by.one.errors.code.model.Path;
-import edu.wpi.off.by.one.errors.code.model.Matrix;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 /**
  * Created by jules on 11/28/2015.
@@ -59,16 +43,16 @@ import edu.wpi.off.by.one.errors.code.model.Matrix;
  */
 public class MapRootPane extends AnchorPane{
 
-	@FXML StackPane mapPane;
-	@FXML ImageView mapView;
 	@FXML Button zoomInButton;
 	@FXML Button zoomOutButton;
-	@FXML Button drawPathDisplayButton;
 	@FXML Button rotateLeftButton;
 	@FXML Button rotateRightButton;
+	
+	@FXML StackPane mapPane;
 	@FXML StackPane nodeLayer;
 	@FXML Pane edgeLayer;
 	@FXML StackPane pathPane;
+	
 	public Coordinate translate = new Coordinate(0.0f, 0.0f, 1.0f);;
 	Coordinate release = new Coordinate(0, 0, 0);
 	public float rot = 0.0f;
@@ -76,7 +60,7 @@ public class MapRootPane extends AnchorPane{
 	Matrix view;
 	Matrix invview;
 	Matrix lastview;
-	//Change this as necessary
+	
 	@FXML public Canvas canvas;
 	public int currentLevel = 1;
 	private Path p;
@@ -84,12 +68,13 @@ public class MapRootPane extends AnchorPane{
 	//Where all the images and txt files should be
 	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
 	private String filePath = "src" + resourceDir + "maps/txtfiles/fullCampusMap.txt";
-	Bounds localBounds;
+	
 	Display display;												//Current display
-	HashMap<String, Display> displayList;
-    Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();	//Selected node queue
+	
+	Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();	//Selected node queue
     Queue<EdgeDisplay> edgeQueue = new LinkedList<EdgeDisplay>();
     ArrayList<Id> currentRoute = new ArrayList<Id>();
+    public NodeDisplay currentPivot = null;
     boolean isMapEditor = false;
     public boolean isNodeEditor = false;
     public boolean isEdgeEditor = false;
@@ -116,7 +101,6 @@ public class MapRootPane extends AnchorPane{
     }
     
     public MapRootPane getMapRootPane() { return this; }
-    public HashMap<String, Display> getAllDisplays() {return displayList; }
     public String getFilePath() {return this.filePath; }
     
     public void updateCanvasSize(double width, double height){
@@ -133,13 +117,11 @@ public class MapRootPane extends AnchorPane{
         nodeLayer.setMouseTransparent(false);
         edgeLayer.setPickOnBounds(false);
         nodeLayer.setPickOnBounds(false);
-		//mapPane.getChildren().addAll(canvas, edgeLayer, nodeLayer, pathPane);
 		nodeLayer.setAlignment(Pos.TOP_LEFT);
 		//Set map image
 		Coordinate lastdragged = new Coordinate(0);
 		Coordinate mydragged = new Coordinate(0);
 		updateDisplay(display.getGraph());
-		// center the mapScrollPane contents.
         
         //Setup event listeners for map
         setListeners();
@@ -202,6 +184,10 @@ public class MapRootPane extends AnchorPane{
 	public void updateDisplay(Display newdisplay, String option){
 		updateDisplay(this.display.getGraph());
 	}
+	/**
+	 * Handles all the zoom/rotation/translation of objects on the map
+	 * and draws them onto map
+	 */
 	public void render(){
 		if(zoom < 0.4f) zoom = Math.abs(zoom);
 		if(zoom < 0.4f) zoom = 0.4f;
@@ -349,10 +335,10 @@ public class MapRootPane extends AnchorPane{
     		if(e.isStillSincePress()){
     			//TODO Add marker on map
     			if (isEditMode && e.getButton() == MouseButton.PRIMARY) {
-    				System.out.println("Adding node");
-	                addNodeDisplay(e.getX(), e.getY());
+    				addNodeDisplay(e.getX(), e.getY());
 	            }
 	    		else if (isNodeEditor){
+	    			// TODO MAKE THE CLICK DRAGGY THINGN
 	    			if(!nodeQueue.isEmpty()){
 	    				////System.out.println("Editing node");
 	    				NodeDisplay n = nodeQueue.poll();
@@ -382,15 +368,11 @@ public class MapRootPane extends AnchorPane{
 	 * @param nodes
 	 */
 	void addNodeDisplayFromList(Collection<Node> nodes){
-		////System.out.println(nodes.size());
 		Node[] nodeArr = new Node[nodes.size()];
 		nodes.toArray(nodeArr); // To avoid ConcurrentModificationException
 		for(Node n : nodeArr){
 			if(n == null) continue;
 			Coordinate c = n.getCoordinate();
-			double tx = c.getX();
-	        double ty = c.getY();
-	        double tz = c.getZ();
 			NodeDisplay newNode = new NodeDisplay(display, n.getId(),
 					new SimpleDoubleProperty(c.getX()), 
 					new SimpleDoubleProperty(c.getY()),
@@ -427,27 +409,35 @@ public class MapRootPane extends AnchorPane{
 	    nd.centerYProperty().addListener(e -> {
 	    	nd.setTranslateY(nd.getCenterY());
 	    });
-	    nd.addEventFilter(SelectEvent.NODE_SELECTED, event -> {
-	    	nd.selectNode();
-	    	if(!isMultiSelectNodes && isEditMode){
-	    		NodeDisplay[] ndList = new NodeDisplay[nodeQueue.size()];
-	    		nodeQueue.toArray(ndList);
-	    		for(NodeDisplay n : ndList) {
-	    			n.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
-	    		}
-	    		nodeQueue.clear();
-	    	}
+	    nd.addEventFilter(SelectEvent.NODE, event -> {
 	    	
-		    nodeQueue.add(nd);
-		    if(nodeQueue.size() == 2 && !isEditMode){
-		    	drawPath();
-		    	nodeQueue.clear();
-		    	nd.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
-		    }
+	    	if(event.getEventType() == SelectEvent.PIVOT_NODE_SELECTED) {
+	    		if(currentPivot != null) currentPivot.deselectNode();
+	    		nd.selectPivot();
+	    		currentPivot = nd;
+	    	}
+	    	else if (event.getEventType() == SelectEvent.NODE_SELECTED){
+	    		nd.selectNode();
+		    	if(!isMultiSelectNodes && isEditMode){
+		    		NodeDisplay[] ndList = new NodeDisplay[nodeQueue.size()];
+		    		nodeQueue.toArray(ndList);
+		    		for(NodeDisplay n : ndList) {
+		    			n.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
+		    		}
+		    		nodeQueue.clear();
+		    	}
+		    	
+			    nodeQueue.add(nd);
+			    if(nodeQueue.size() == 2 && !isEditMode){
+			    	drawPath();
+			    	nodeQueue.clear();
+			    	nd.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
+			    }
+	    	}
 		   
-		    ControllerSingleton.getInstance().getMenuPane().getDevToolsMenuPane().getNodeDevToolPane().displayNodeInfo(nd);
+		    ControllerSingleton.getInstance().displayInDev(nd);
 	    });
-
+	    
 	    nd.addEventFilter(SelectEvent.NODE_DESELECTED, event -> {
 	        nodeQueue.remove(nd);
 	    });
@@ -467,36 +457,39 @@ public class MapRootPane extends AnchorPane{
 	 * Add EdgeDisplays from selected NodeQueue
 	 * Use to add a non-existing EdgeDisplay and Edge to the display
 	 */
-	public void addEdgeDisplayFromQueue(){
+	public boolean addEdgeDisplayFromQueue(){
 		SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
-	    if(!nodeQueue.isEmpty()){
-	        while(nodeQueue.size() > 1){
-	            NodeDisplay aND = nodeQueue.poll();
-	            NodeDisplay bND = nodeQueue.peek();
-	            Graph g = display.getGraph();
-	            Node a = g.returnNodeById(aND.getNode());
-	            Node b = g.returnNodeById(bND.getNode());
+		boolean addFromPivot = false;
+		int pollSize = 1;
+		if(currentPivot != null) { addFromPivot = true; pollSize = 0; }
+		else if(nodeQueue.isEmpty()) return false;
+        while(nodeQueue.size() > pollSize){
+        	NodeDisplay aND = nodeQueue.poll();
+    		NodeDisplay bND = nodeQueue.peek();
+        	if(addFromPivot) bND = currentPivot;
+            Graph g = display.getGraph();
+            Node a = g.returnNodeById(aND.getNode());
+            Node b = g.returnNodeById(bND.getNode());
 
-	            Id newEdge = g.addEdgeRint(a.getId(), b.getId());
-	            Coordinate start = view.transform(a.getCoordinate());
-		        Coordinate end = view.transform(b.getCoordinate());
-		        
-	            EdgeDisplay e = new EdgeDisplay(display, newEdge, start, end);
-	            e.setStartX(start.getX());
-	    		e.setStartY(start.getY());
-	    		e.setEndX(end.getX());
-	    		e.setEndY(end.getY());
-	    		
-	            setEdgeDisplayListeners(e);
-	            edgeLayer.getChildren().add(e);
-	            aND.fireEvent(selectNodeEvent);
-	            
-	        }
-	        nodeQueue.remove().fireEvent(selectNodeEvent);;
-	    } else {
-	    	//TODO: Display message in editor that says no nodes are being selected
-	    }
+            Id newEdge = g.addEdgeRint(a.getId(), b.getId());
+            Coordinate start = view.transform(a.getCoordinate());
+	        Coordinate end = view.transform(b.getCoordinate());
+	        
+            EdgeDisplay e = new EdgeDisplay(display, newEdge, start, end);
+            e.setStartX(start.getX());
+    		e.setStartY(start.getY());
+    		e.setEndX(end.getX());
+    		e.setEndY(end.getY());
+    		
+            setEdgeDisplayListeners(e);
+            edgeLayer.getChildren().add(e);
+            aND.fireEvent(selectNodeEvent);
+        }
+        if(!addFromPivot) { nodeQueue.remove().fireEvent(selectNodeEvent); }
+        else currentPivot.deselectNode();
+        currentPivot = null;
 	    render();
+	    return true;
 	}
 
 	/**
@@ -539,6 +532,7 @@ public class MapRootPane extends AnchorPane{
         	edgeQueue.clear();
         	edgeQueue.add(e);
         	//TODO display edge data on select
+        	ControllerSingleton.getInstance().displayInDev(e);
         });
 
         e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
@@ -560,9 +554,8 @@ public class MapRootPane extends AnchorPane{
         NodeDisplay startNode = nodeQueue.poll();
         NodeDisplay endNode = nodeQueue.poll();
         if(startNode != null && endNode != null){
-            //display.drawPath(startNode.node.getId(), endNode.node.getId());
-            int idx = 0;
-            Vector<Node> nodes = display.getGraph().getNodes();
+            //int idx = 0;
+            //Vector<Node> nodes = display.getGraph().getNodes();
 
             p = new Path(startNode.getNode(), endNode.getNode());
             Graph g = display.getGraph();
@@ -577,7 +570,8 @@ public class MapRootPane extends AnchorPane{
         }
 	}
 
-    public void showDirections(){
+    @SuppressWarnings("unchecked")
+	public void showDirections(){
         ObservableList<String> pathList = FXCollections.observableList(p.getTextual());
         ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
     }

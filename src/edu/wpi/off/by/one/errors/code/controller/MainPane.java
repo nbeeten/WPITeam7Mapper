@@ -1,22 +1,20 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
-import javafx.fxml.FXML;
+import java.io.IOException;
+
+import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
+import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Window;
 import javafx.util.Duration;
-
-import java.io.IOException;
-
-import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
-import edu.wpi.off.by.one.errors.code.model.Coordinate;
 
 
 /**

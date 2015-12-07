@@ -2,14 +2,15 @@ package edu.wpi.off.by.one.errors.code.application;
 
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
-import edu.wpi.off.by.one.errors.code.model.*;
-import javafx.beans.property.DoubleProperty;
+import edu.wpi.off.by.one.errors.code.model.Coordinate;
+import edu.wpi.off.by.one.errors.code.model.Display;
+import edu.wpi.off.by.one.errors.code.model.Edge;
+import edu.wpi.off.by.one.errors.code.model.Id;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.StrokeLineCap;
 
 public class EdgeDisplay extends Line implements IDisplayItem {
 	Display display;
