@@ -19,7 +19,6 @@ public class Map {
 		this.center = coordinate;
 		this.rotation = rotation;
 		this.scale = scale;
-		System.out.println(path);
 		updateImg();
 	}
 	
