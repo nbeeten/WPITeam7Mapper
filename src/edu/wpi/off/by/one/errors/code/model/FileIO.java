@@ -237,6 +237,9 @@ public class FileIO {
 		}
 		for( Edge e : g.getEdges()){
 			if(e == null) continue;
+			Node na = g.returnNodeById(e.getNodeA());
+			Node nb = g.returnNodeById(e.getNodeB());
+			if(na == null || nb == null) continue;
 			int indice1 = ids.get(e.getNodeA());
 			int indice2 = ids.get(e.getNodeB());
 			writer.printf("e %d %d", indice1, indice2);
