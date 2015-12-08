@@ -124,6 +124,8 @@ public class MapRootPane extends AnchorPane{
     }
     
     public MapRootPane getMapRootPane() { return this; }
+    public ArrayList<Map> getSelectedMaps() { return this.selectedMaps; }
+    public void setSelectedMaps(ArrayList<Map> maps) { this.selectedMaps = maps; }
     public String getFilePath() {return this.filePath; }
     
     public void updateCanvasSize(double width, double height){
@@ -139,7 +141,7 @@ public class MapRootPane extends AnchorPane{
 		// Put all these sets into fxml
         pathPane.setMouseTransparent(true);
         markerPane.setMouseTransparent(true);
-        nodeLayer.setMouseTransparent(false);
+        nodeLayer.setMouseTransparent(true);
         edgeLayer.setPickOnBounds(false);
         nodeLayer.setPickOnBounds(false);
 		nodeLayer.setAlignment(Pos.TOP_LEFT);
@@ -171,7 +173,6 @@ public class MapRootPane extends AnchorPane{
 			}
 			else if (e.isAltDown()){
 				rot += (0.4*(sin.getX() - mydragged.getX()));
-				System.out.println(rot);
 				render();
 				lastview = invview;
 			} else {
@@ -230,6 +231,8 @@ public class MapRootPane extends AnchorPane{
 		//grab graphics context
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		mygc.setFill(Color.web("c3dca5"));
+		mygc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
 		ArrayList<Map> mlist = display.getMaps();
 		for(Map m : mlist){
 			
@@ -249,6 +252,7 @@ public class MapRootPane extends AnchorPane{
 			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
 			mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
 			mygc.scale(zoom * m.getScale(), zoom * m.getScale());
+			
 			if(selectedMaps.contains(m)){
 				DropShadow ds = new DropShadow();
 				ds.setColor(Color.RED);
@@ -280,6 +284,7 @@ public class MapRootPane extends AnchorPane{
 		if(isEditMode){
 			edgeLayer.setVisible(true);
 			nodeLayer.setVisible(true);
+			nodeLayer.setMouseTransparent(false);
 			mygc.save();
 			for(javafx.scene.Node np: nodeLayer.getChildren()){
 				NodeDisplay nd = (NodeDisplay)np;
@@ -354,7 +359,7 @@ public class MapRootPane extends AnchorPane{
 			mygc.restore();
 		} else { edgeLayer.setVisible(false); nodeLayer.setVisible(false); }
 		Node last = null;
-		if(!isZooming){
+		if(currentRoute != null){
 			for(Id id : currentRoute){
 				mygc.save();
 				Node A = display.getGraph().returnNodeById(id);
@@ -401,7 +406,6 @@ public class MapRootPane extends AnchorPane{
      */
     private void setListeners(){
     	// Listen to when the user clicks on the map
-    	
     	canvas.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
@@ -412,6 +416,7 @@ public class MapRootPane extends AnchorPane{
 	    			Map nearestMap = display.getNearestMap(click, currentLevel);
 	    			if(selectedMaps.contains(nearestMap)) selectedMaps.remove(nearestMap);
 	    			else if(nearestMap != null) selectedMaps.add(nearestMap);
+	    			ControllerSingleton.getInstance().getMenuPane().getDevToolsMenuPane().getMapDevToolPane().setMap(nearestMap);
 	    			render();
     			}
     			else if (isEditMode && e.getButton() == MouseButton.PRIMARY) {
@@ -439,20 +444,24 @@ public class MapRootPane extends AnchorPane{
 	    		}
     			
 	    		else if(e.getClickCount() == 2){
+	    			e.consume();
 	    			//TODO if on building -> zoomyspin onto building
 	    			//else, standard zoom in
 	    			isZooming = true;
+	    			nodeQueue.clear();
 	    			ControllerSingleton.getInstance().getMainPane().zitl.setCycleCount(10);
 	    			ControllerSingleton.getInstance().getMainPane().zitl.setOnFinished(ev -> {
+	    				currentRoute = null;
 	    				isZooming = false;
 	    			});
 	    			ControllerSingleton.getInstance().getMainPane().zitl.play();
 	    			ControllerSingleton.getInstance().getMainPane().zitl.setCycleCount(Timeline.INDEFINITE);
+	    			
 	    			render();
 	    		}
     			
 	    		else {
-	    			//Select nearest node on map	    			
+	    			//Select nearest node on map
 	    			Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
 	    			Id nearestNode = display.getGraph().GetNearestNode(click);
 //	    			if (endMarker != null && startMarker != null){
@@ -477,7 +486,8 @@ public class MapRootPane extends AnchorPane{
 	    					.filter((Predicate<? super javafx.scene.Node>) nd -> ((NodeDisplay) nd).getNode() == nearestNode)
 	    					.collect(Collectors.toList());
 	    			NodeDisplay nearest = (NodeDisplay) nearestList.get(0);
-	    			if(!isZooming) nearest.fireEvent(new SelectEvent(SelectEvent.NODE_SELECTED));
+	    			if(nodeQueue.size() > 0) if(nearest == nodeQueue.peek()) return;
+	    			nearest.fireEvent(new SelectEvent(SelectEvent.NODE_SELECTED));
 	    			render();
 	    		}
     		}
@@ -552,7 +562,7 @@ public class MapRootPane extends AnchorPane{
 		    	}
 		    	
 			    nodeQueue.add(nd);
-			    if(nodeQueue.size() == 2 && !isEditMode && !isZooming){
+			    if(nodeQueue.size() == 2 && !isEditMode){
 			    	drawPath();
 			    	nodeQueue.clear();
 			    	nd.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
@@ -682,26 +692,29 @@ public class MapRootPane extends AnchorPane{
 		pathPane.getChildren().clear();
         NodeDisplay startNode = nodeQueue.poll();
         NodeDisplay endNode = nodeQueue.poll();
-        if(startNode != null && endNode != null && isZooming){
-            //int idx = 0;
-            //Vector<Node> nodes = display.getGraph().getNodes();
-        	
-            p = new Path(startNode.getNode(), endNode.getNode());
-            Graph g = display.getGraph();
-            p.runAStar(g); //Change this later??
-            currentRoute = p.getRoute();
-            render();
-            SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
-            startNode.fireEvent(selectNodeEvent);
-            endNode.fireEvent(selectNodeEvent);
-            showDirections();
-        }
+        //if(startNode != null && endNode != null && isZooming){
+            
+    	//int idx = 0;
+        //Vector<Node> nodes = display.getGraph().getNodes();
+    	
+        p = new Path(startNode.getNode(), endNode.getNode());
+        Graph g = display.getGraph();
+        p.runAStar(g); //Change this later??
+        currentRoute = p.getRoute();
+        render();
+        SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
+        startNode.fireEvent(selectNodeEvent);
+        endNode.fireEvent(selectNodeEvent);
+        showDirections();
+        
 	}
 
     @SuppressWarnings("unchecked")
 	public void showDirections(){
-        ObservableList<String> pathList = FXCollections.observableList(p.getTextual());
-        ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
+    	if(p != null){
+    		ObservableList<String> pathList = FXCollections.observableList(p.getTextual());
+            ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
+    	}
     }
 
 }
