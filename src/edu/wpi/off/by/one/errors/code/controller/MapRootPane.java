@@ -118,8 +118,7 @@ public class MapRootPane extends AnchorPane{
         }
         ControllerSingleton.getInstance().registerMapRootPane(this);
         initialize();
-        System.out.println(ControllerSingleton.getInstance().getMenuPane().searchMenuPane);
-        System.out.println(translate.getX() + " " + translate.getY() + " " + translate.getZ());
+
         //ControllerSingleton.getInstance().getMenuPane().searchMenuPane.spinnyZoom(1);
     }
     
@@ -171,7 +170,6 @@ public class MapRootPane extends AnchorPane{
 			}
 			else if (e.isAltDown()){
 				rot += (0.4*(sin.getX() - mydragged.getX()));
-				System.out.println(rot);
 				render();
 				lastview = invview;
 			} else {
@@ -665,7 +663,7 @@ public class MapRootPane extends AnchorPane{
         });
 
         e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
-        	//do sth;
+        	
         	edgeQueue.remove(e);
         });
         
