@@ -157,8 +157,14 @@ public class MapDevToolPane extends VBox {
 	}
 
 	public void changeDisplay(){
+		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
 		int index = mapChoiceBox.getItems().indexOf(mapChoiceBox.getSelectionModel().getSelectedItem());
 		this.selectedMap = this.mapList.get(index);
+		ArrayList<Map> selectedMaps = maproot.getSelectedMaps();
+		selectedMaps.clear();
+		selectedMaps.add(this.selectedMap);
+		maproot.setSelectedMaps(selectedMaps);
+		maproot.render();
 		setMap(this.selectedMap);
 	}
 
