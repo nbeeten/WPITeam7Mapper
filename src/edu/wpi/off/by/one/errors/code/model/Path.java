@@ -220,6 +220,7 @@ public class Path {
 		int cnt = 0;
 		Coordinate lastcoord = null;
 		float lastangle = -10000.0f;
+		float distFromTurn = 0;
 		//float lastdist = 0.0f; TODO
 		for(Id cur : route){
 			Node n = theGraph.returnNodeById(cur);
@@ -230,22 +231,50 @@ public class Path {
 				float my = thiscoord.getY() - lastcoord.getY();
 				float distsq =  mx * mx + my * my;
 				float dist = (float)Math.sqrt((double)distsq);
-				float angle = (float)Math.atan2(mx, my);
+				float angle = (float) (Math.atan2(mx, my)* 180 / Math.PI);
 				if(lastangle > -180.0f){
 					float dxangle = lastangle - angle;
-					float dangle = Math.abs(dxangle);
-					float degreedangle = (float) (dangle * 180 / Math.PI);
-					if(dangle >= 1.0f)
-						res.add("Turn " + Math.round(degreedangle) + " Degrees to the " + ((dxangle >= 0.0f) ? "right. " : "left. "));
+					float degreedangle = Math.abs(dxangle);
+					
+					System.out.println(degreedangle);
+					System.out.println(dxangle);
+					if(Math.abs(degreedangle) <= 10){ //determines magnitude of turn
+						distFromTurn += dist;
+					} else if(degreedangle <= 45){
+						res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						res.add("Make a slight " + (dxangle>=0 ? "right" : "left")+ " turn");
+						distFromTurn = dist;
+					} else if (degreedangle <= 90){
+						res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						res.add("Make a " + (dxangle>=0 ? "right" : "left")+ " turn");
+						distFromTurn = dist;
+					} else if (degreedangle <= 180){
+						res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						res.add("Make a hard " + (dxangle>=0 ? "right" : "left")+ " turn");
+						distFromTurn = dist;
+					} else {
+						res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						res.add("Make a sharp " + (dxangle>=0 ? "right" : "left")+ " turn");
+						distFromTurn = dist;
+					}
 				} else {
-					res.add("Face " + angle + " Degrees. ");
+					if((-45 <= angle && angle < 45)){
+						res.add("Face south");
+					} else if((45 <= angle && angle < 135)){
+						res.add("Face east");
+					} else if((-135 <= angle && angle < 135)){
+						res.add("Face west");
+					} else {
+						res.add("Face north");
+					}
+					distFromTurn = dist;
 				}
 				lastangle = angle;
-				res.add("Walk " + Math.round(dist) + " Meters. ");//TODO North south stuff
 			}
 			lastcoord = thiscoord;
 			cnt++;
 		}
+		res.add("Walk for "+ Math.round(distFromTurn) + " meters");
 		res.add("You have reached your destination");
 		return res;
 	}
