@@ -42,6 +42,7 @@ import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -141,7 +142,6 @@ public class MapRootPane extends AnchorPane{
 		// Put all these sets into fxml
         pathPane.setMouseTransparent(true);
         markerPane.setMouseTransparent(true);
-        nodeLayer.setMouseTransparent(true);
         edgeLayer.setPickOnBounds(false);
         nodeLayer.setPickOnBounds(false);
 		nodeLayer.setAlignment(Pos.TOP_LEFT);
@@ -406,43 +406,52 @@ public class MapRootPane extends AnchorPane{
      */
     private void setListeners(){
     	// Listen to when the user clicks on the map
+    	Coordinate lastdragged = new Coordinate(0);
+		Coordinate mydragged = new Coordinate(0);
+    	canvas.setOnMousePressed(e -> {
+    		if(e.getButton() == MouseButton.PRIMARY && isEditMode && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()){
+				//select map
+				if(!e.isShiftDown()) selectedMaps.clear();
+				Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
+    			Map nearestMap = display.getNearestMap(click, currentLevel);
+    			if(selectedMaps.contains(nearestMap)) selectedMaps.remove(nearestMap);
+    			else if(nearestMap != null) selectedMaps.add(nearestMap);
+    			ControllerSingleton.getInstance().getMenuPane().getDevToolsMenuPane().getMapDevToolPane().setMap(nearestMap);
+    			lastview = invview;
+	   			 Coordinate in = new Coordinate((float)e.getX(), (float)e.getY());
+	   			 Coordinate sin = lastview.transform(in);
+	   			 mydragged.setAll(in.getX(), in.getY(), 0);
+	   			 lastdragged.setAll(sin.getX(), sin.getY(), 0);
+			}
+			 
+	     });
+		canvas.setOnMouseDragged(e -> {
+			if(e.getButton() == MouseButton.PRIMARY && isEditMode && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()){
+				Coordinate sin = new Coordinate((float)e.getX(), (float)e.getY());
+				Coordinate in = lastview.transform(sin);
+				Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
+				for(Map m : selectedMaps){
+					Coordinate c = m.getCenter();
+					m.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), c.getZ());
+					render();
+				}
+				lastdragged.setAll(in.getX(), in.getY(), 0);
+				mydragged.setAll(sin.getX(), sin.getY(), 0);
+			}
+
+		});
+		
+		canvas.setOnMouseReleased(e -> {
+			if(e.getButton() == MouseButton.PRIMARY && isEditMode){
+				release.setAll((float)e.getX(), (float)e.getY(), 0);
+			}
+	     });
     	canvas.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
-    			if(isEditMode && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()){
-    				//select map
-    				if(!e.isShiftDown()) selectedMaps.clear();
-    				Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
-	    			Map nearestMap = display.getNearestMap(click, currentLevel);
-	    			if(selectedMaps.contains(nearestMap)) selectedMaps.remove(nearestMap);
-	    			else if(nearestMap != null) selectedMaps.add(nearestMap);
-	    			ControllerSingleton.getInstance().getMenuPane().getDevToolsMenuPane().getMapDevToolPane().setMap(nearestMap);
-	    			render();
-    			}
-    			else if (isEditMode && e.getButton() == MouseButton.PRIMARY) {
+       			if (isEditMode && e.getButton() == MouseButton.PRIMARY && !ControllerSingleton.getInstance().getMapDevToolPane().isVisible()) {
     				addNodeDisplay(e.getX(), e.getY());
 	            }
-
-	    		else if (isNodeEditor){
-	    			// TODO MAKE THE CLICK DRAGGY THINGN
-	    			if(!nodeQueue.isEmpty()){
-	    				////System.out.println("Editing node");
-	    				NodeDisplay n = nodeQueue.poll();
-	    				display.getGraph();
-	    				//Coordinate currentCoord = g.returnNodeById(n.getNode()).getCoordinate();
-	    				//Matrix transform = new Matrix(currentCoord);
-	    				//Coordinate newCoord = transform.transform(new Coordinate((float) e.getX(), (float) e.getY()));
-	    				//n.setCenterX(newCoord.getX());
-	    				//n.setCenterY(newCoord.getY());
-	    				n.setCenterX(e.getX());
-	    				n.setCenterY(e.getY());
-	    				display.getGraph().editNode(n.getNode(),
-	    						new Coordinate((float) e.getX(), (float)e.getY(), (float) currentLevel));
-	    				SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
-	    				n.fireEvent(selectNodeEvent);
-	    			}
-	    		}
-    			
 	    		else if(e.getClickCount() == 2){
 	    			e.consume();
 	    			//TODO if on building -> zoomyspin onto building
@@ -460,7 +469,7 @@ public class MapRootPane extends AnchorPane{
 	    			render();
 	    		}
     			
-	    		else {
+	    		else if (!isEditMode) {
 	    			//Select nearest node on map
 	    			Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
 	    			Id nearestNode = display.getGraph().GetNearestNode(click);
@@ -537,12 +546,52 @@ public class MapRootPane extends AnchorPane{
 	}
 
 	private void addNodeDisplayListeners(NodeDisplay nd){
+		Coordinate lastdragged = new Coordinate(0);
+		Coordinate mydragged = new Coordinate(0);
+		
 		nd.centerXProperty().addListener(e -> {
 	    	nd.setTranslateX(nd.getCenterX());
 	    });
 	    nd.centerYProperty().addListener(e -> {
 	    	nd.setTranslateY(nd.getCenterY());
 	    });
+	    
+	    nd.setOnMousePressed(e -> {
+	    	if(e.getButton() == MouseButton.PRIMARY && isEditMode){
+	    		if(!nodeQueue.contains(nd)) nodeQueue.add(nd);
+	    		lastview = invview;
+	   			 Coordinate in = new Coordinate((float)e.getX(), (float)e.getY());
+	   			 Coordinate sin = lastview.transform(in);
+	   			 mydragged.setAll(in.getX(), in.getY(), 0);
+	   			 lastdragged.setAll(sin.getX(), sin.getY(), 0);
+    		}
+	    });
+	    
+	    nd.setOnMouseDragged(e -> {
+	    	if(e.getButton() == MouseButton.PRIMARY && isEditMode){
+				Coordinate sin = new Coordinate((float)e.getX(), (float)e.getY());
+				Coordinate in = lastview.transform(sin);
+				Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
+				Graph g = display.getGraph();
+				for(NodeDisplay n : nodeQueue){
+					if(n == null) continue;
+					if(n.getNode() == null) continue;
+					Node node = g.returnNodeById(nd.getNode());
+					Coordinate c = node.getCoordinate();
+					node.setCoordinate(new Coordinate((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), c.getZ()));
+				}
+				render();
+				lastdragged.setAll(in.getX(), in.getY(), 0);
+				mydragged.setAll(sin.getX(), sin.getY(), 0);
+			}
+	    });
+	    
+	    nd.setOnMouseReleased(e -> {
+			if(e.getButton() == MouseButton.PRIMARY && isEditMode){
+				release.setAll((float)e.getX(), (float)e.getY(), 0);
+			}
+	     });
+	    
 	    nd.addEventFilter(SelectEvent.NODE, event -> {
 	    	
 	    	if(event.getEventType() == SelectEvent.PIVOT_NODE_SELECTED) {
