@@ -81,7 +81,7 @@ public class SearchMenuPane extends BorderPane {
 	public void spinnyZoom(int in){
 		MainPane mainPane = ControllerSingleton.getInstance().getMainPane();
 		int index = in;
-		System.out.println(index);
+
 		if(index == -1){return;}
 		Map m = ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps().get(index);
 		if(m == null) return;
