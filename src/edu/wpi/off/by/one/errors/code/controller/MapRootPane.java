@@ -409,29 +409,49 @@ public class MapRootPane extends AnchorPane{
     	Coordinate lastdragged = new Coordinate(0);
 		Coordinate mydragged = new Coordinate(0);
     	canvas.setOnMousePressed(e -> {
+    		Map nearestMap = null;
+    		
+    		Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
+			nearestMap = display.getNearestMap(click, currentLevel);
     		if(e.getButton() == MouseButton.PRIMARY && isEditMode && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()){
 				//select map
+    			lastview = invview;
 				if(!e.isShiftDown()) selectedMaps.clear();
-				Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
-    			Map nearestMap = display.getNearestMap(click, currentLevel);
+				if(nearestMap == null) return;
     			if(selectedMaps.contains(nearestMap)) selectedMaps.remove(nearestMap);
     			else if(nearestMap != null) selectedMaps.add(nearestMap);
     			ControllerSingleton.getInstance().getMenuPane().getDevToolsMenuPane().getMapDevToolPane().setMap(nearestMap);
-    			lastview = invview;
+    			
 	   			 Coordinate in = new Coordinate((float)e.getX(), (float)e.getY());
 	   			 Coordinate sin = lastview.transform(in);
 	   			 mydragged.setAll(in.getX(), in.getY(), 0);
 	   			 lastdragged.setAll(sin.getX(), sin.getY(), 0);
 			}
-			 
 	     });
 		canvas.setOnMouseDragged(e -> {
 			if(e.getButton() == MouseButton.PRIMARY && isEditMode && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()){
 				Coordinate sin = new Coordinate((float)e.getX(), (float)e.getY());
 				Coordinate in = lastview.transform(sin);
-				Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
+				Coordinate delta = new Coordinate(0);
+				float deltaZoom = 0;
+				float deltaRot = 0;
+				if(e.isControlDown()){
+					deltaZoom += (0.001*(sin.getY() - mydragged.getY()));
+					render();
+					lastview = invview;
+				}
+				else if (e.isAltDown()){
+					deltaRot += (0.4*(sin.getX() - mydragged.getX()));
+					render();
+					lastview = invview;
+				} else {
+					delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
+					
+				}
 				for(Map m : selectedMaps){
 					Coordinate c = m.getCenter();
+					m.setRotation(m.getRotation() + deltaRot);
+					m.setScale(m.getScale() + deltaZoom);
 					m.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), c.getZ());
 					render();
 				}
