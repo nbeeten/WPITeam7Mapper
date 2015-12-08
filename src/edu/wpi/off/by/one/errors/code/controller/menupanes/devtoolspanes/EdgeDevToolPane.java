@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 public class EdgeDevToolPane extends VBox {
 	
 	MainPane mainPane;
-	@FXML CheckBox accessibleCheckbox;
+	//@FXML CheckBox accessibleCheckbox;
 	
 	@FXML Label edgeIDLabel;
 	@FXML Label edgeLengthLabel;
@@ -70,11 +70,11 @@ public class EdgeDevToolPane extends VBox {
     	edgeLengthLabel.setText(Float.toString(len));
     }
     
-    @FXML public void switchAccessible(){
-    	if(accessibleCheckbox.isSelected()){
+   // @FXML public void switchAccessible(){
+    	//if(accessibleCheckbox.isSelected()){
     		//swap accessible once edges are selectable
-    	} else{
+    	//} else{
     		//swap accessible once edges are selectable
-    	}
-    }
+    //	}
+    //}
 }

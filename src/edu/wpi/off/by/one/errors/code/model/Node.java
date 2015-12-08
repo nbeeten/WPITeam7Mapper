@@ -8,6 +8,7 @@ public class Node {
     private Vector<Id> edges;//list of indexes of edges
     private Id id;
     private ArrayList<String> tags;//list of tags the node has
+    private TagMap tagMap;
     
     /**
      *
@@ -18,6 +19,7 @@ public class Node {
         this.coord = coordIn;
         this.id = new Id();//default, set when added
         tags = new ArrayList<String>();
+        tagMap = TagMap.getTagMap();
     }
     /**
      *
@@ -30,6 +32,7 @@ public class Node {
         this.coord = coordIn;
         this.id = nid;//default, set when added
         tags = new ArrayList<String>();
+        tagMap = TagMap.getTagMap();
     }
     
 	/**
@@ -123,6 +126,7 @@ public class Node {
      */
     public void addTag(String newTag){
     	tags.add(newTag);
+    	tagMap.add(newTag, id);
     }
     
     /**
@@ -131,6 +135,7 @@ public class Node {
      */
     public void removeTag(String tag){
     	tags.remove(tag);
+    	tagMap.remove(tag, id);
     }
     
     /**
@@ -138,6 +143,7 @@ public class Node {
      * @param i: index to remove tag from
      */
     public void removeTagAtIndex(int i){
+    	tagMap.remove(tags.get(i), id);
     	tags.remove(i);
     }
     
@@ -148,6 +154,7 @@ public class Node {
      */
     public void modifyTag(String oldTag, String newTag){
     	tags.set(tags.indexOf(oldTag), newTag);
+    	tagMap.modify(oldTag, newTag);
     }
     
     /**
@@ -156,6 +163,7 @@ public class Node {
      * @param newTag: the new tag to replace it with
      */
     public void modifyTagAtIndex(int i, String newTag){
+    	tagMap.modify(tags.get(i), newTag);
     	tags.set(i, newTag);
     }
 
