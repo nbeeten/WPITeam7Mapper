@@ -10,19 +10,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 
 /**
  * Created by jules on 11/30/2015.
  */
-public class IconedLabel extends GridPane {
+public class IconedLabel extends BorderPane {
     //region FXML attributes
     @FXML private Label label;
 
     @FXML private ImageView imageView;
-
-    @FXML private AnchorPane imageViewContainerAnchorPane;
     //endregion
 
     //region Constructor/s
@@ -35,7 +32,6 @@ public class IconedLabel extends GridPane {
         } catch (IOException excpt) {
             throw new RuntimeException(excpt);
         }
-        imageView.fitWidthProperty().bind(imageViewContainerAnchorPane.widthProperty());
 
     }
     //endregion
