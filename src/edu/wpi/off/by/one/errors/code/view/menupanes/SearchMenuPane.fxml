@@ -27,9 +27,18 @@
                   <Button fx:id="searchLocationButton" minWidth="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Button" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
-            <ComboBox fx:id="buildingChoiceBox" />
+            <ComboBox fx:id="buildingChoiceBox" prefHeight="25.0" prefWidth="250.0">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></ComboBox>
             <Label text="Select Floor:" />
             <Slider fx:id="floorSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="-2.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+            <HBox prefHeight="0.0" prefWidth="248.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#setDirectionsFrom" text="Directions from Here" />
+                  <Button mnemonicParsing="false" onAction="#setDirectionsTo" prefHeight="25.0" prefWidth="121.0" text="Directions to Here" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </top>

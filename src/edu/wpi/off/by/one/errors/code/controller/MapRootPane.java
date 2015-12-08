@@ -473,10 +473,7 @@ public class MapRootPane extends AnchorPane{
     	markerPane.setOnMouseClicked(e -> {
     		if (!isEditMode && e.getButton() == MouseButton.PRIMARY) {
     			//Select nearest node on map
-    			System.out.println(e.getX() + " " + e.getY());
     			Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
-
-    			System.out.println(click.getX() + " " + click.getY());
     			Id nearestNode = display.getGraph().GetNearestNode(click, currentLevel);
     			if (endMarker != null && startMarker != null){
     				startMarker = null;
@@ -744,6 +741,7 @@ public class MapRootPane extends AnchorPane{
      */
 	public void drawPath(){
 		pathPane.getChildren().clear();
+		ControllerSingleton.getInstance().getMenuPane().showDirections();
         NodeDisplay startNode = nodeQueue.poll();
         NodeDisplay endNode = nodeQueue.poll();
         //if(startNode != null && endNode != null && isZooming){

@@ -12,9 +12,12 @@ import edu.wpi.off.by.one.errors.code.model.Map;
 import edu.wpi.off.by.one.errors.code.model.Matrix;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -24,7 +27,10 @@ public class SearchMenuPane extends BorderPane {
 	
 	@FXML AutoCompleteTextField searchField;
 	@FXML Slider floorSlider;
+	@FXML Button searchLocationButton;
+	@FXML TextField searchInputTextField;
 	@FXML ComboBox<String> buildingChoiceBox;
+	@FXML ListView<String> locationResultListView;
 	
 	int currentLevel;
 	
@@ -58,6 +64,24 @@ public class SearchMenuPane extends BorderPane {
         }
 	}
 	
+	@FXML private void setDirectionsTo(){
+		//get selected place from search
+		//ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsToNode(/*NODE*/);
+	}
+	
+	@FXML private void setDirectionsFrom(){
+		//ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsToNode(/*NODE*/);
+	}
+	
+	private void showResults(){
+		// should take in whatever search spits out
+		// if empty, display a message for user saying that there's no result
+		// Should be called after search is complete
+		// Possibly concatenate tags for each node
+		// i.e. Fuller Labs, Level 2, Room 222; Salisbury, Floor 3, Women's Bathroom
+		//populate locationResultListView
+	}
+	
 	private void setListeners(){
 		this.floorSlider.setOnMouseClicked(e -> {
 			MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
@@ -72,6 +96,12 @@ public class SearchMenuPane extends BorderPane {
 		/*this.buildingChoiceBox.setOnContextMenuRequested(e -> {
 			//TODO update map list
 		});*/
+		
+		
+		this.searchLocationButton.setOnAction(e -> {
+			//call search
+			showResults();
+		});
 		
 		this.buildingChoiceBox.setOnAction(e -> {
 			spinnyZoom(buildingChoiceBox.getItems().indexOf(buildingChoiceBox.getSelectionModel().getSelectedItem()));
