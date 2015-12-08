@@ -275,7 +275,7 @@ public class Graph {
 		Returns the nearest node to a point on the map
 		unoptimized, linear search through all nodes, can optimize later with an acceleration structure or sorted node list
 	*/
-	public Id GetNearestNode(Coordinate coord){
+	public Id GetNearestNode(Coordinate coord, int cz){
 		float distsq = Float.MAX_VALUE;
 		float cx = coord.getX();
 		float cy = coord.getY();
@@ -284,8 +284,9 @@ public class Graph {
 			if(n == null) continue;
 			float mx = n.getCoordinate().getX() - cx;
 			float my = n.getCoordinate().getY() - cy;
+			float mz = n.getCoordinate().getZ() - cz;
 			float mydistsq = mx * mx + my * my;
-			if(mydistsq < distsq){
+			if(mydistsq < distsq && mz == 0){
 				distsq = mydistsq;
 				nearest = n.getId();
 			}
