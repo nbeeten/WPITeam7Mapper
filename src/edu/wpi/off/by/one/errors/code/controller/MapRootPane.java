@@ -279,6 +279,8 @@ public class MapRootPane extends AnchorPane{
 		}
 
 		if(isEditMode){
+			markerPane.setMouseTransparent(false);
+			markerPane.setVisible(false);
 			edgeLayer.setVisible(true);
 			nodeLayer.setVisible(true);
 			nodeLayer.setMouseTransparent(false);
@@ -302,20 +304,17 @@ public class MapRootPane extends AnchorPane{
 				}
 			}
 
-			Set<javafx.scene.Node> toRemove = new HashSet<>();
+			Set<EdgeDisplay> toRemove = new HashSet<>();
 			for(javafx.scene.Node ep: edgeLayer.getChildren()){
 				EdgeDisplay ed = (EdgeDisplay)ep;
 				if(ed == null) continue;
 				Edge e = display.getGraph().returnEdgeById(ed.getEdge());
-				if(e == null){ 
-					toRemove.add(ep); 
-					continue; 
-				}
+				if(e == null){ toRemove.add((EdgeDisplay) ep); continue; }
 				Node A = display.getGraph().returnNodeById(e.getNodeA());
 				Node B = display.getGraph().returnNodeById(e.getNodeB());
 				if(A == null || B == null){
 					display.getGraph().deleteEdge(e.getId());
-					toRemove.add(ep); 
+					toRemove.add((EdgeDisplay) ep); 
 					continue; 
 				}
 				if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
@@ -335,7 +334,12 @@ public class MapRootPane extends AnchorPane{
 			}
 			edgeLayer.getChildren().removeAll(toRemove);
 			mygc.restore();
-		} else { edgeLayer.setVisible(false); nodeLayer.setVisible(false); }
+		} else { 
+			markerPane.setVisible(true);
+			markerPane.setMouseTransparent(false);
+			edgeLayer.setVisible(false); 
+			nodeLayer.setVisible(false); 
+			}
 		Node last = null;
 		if(currentRoute != null){
 			for(Id id : currentRoute){
@@ -657,6 +661,9 @@ public class MapRootPane extends AnchorPane{
             Node b = g.returnNodeById(bND.getNode());
 
             Id newEdge = g.addEdgeRint(a.getId(), b.getId());
+            if(newEdge == null) {
+            	continue;
+            }
             Coordinate start = view.transform(a.getCoordinate());
 	        Coordinate end = view.transform(b.getCoordinate());
 	        
@@ -702,11 +709,11 @@ public class MapRootPane extends AnchorPane{
     		e.setStartY(start.getY());
     		e.setEndX(end.getX());
     		e.setEndY(end.getY());
+    		setEdgeDisplayListeners(e);
 		    edgeLayer.getChildren().add(e);
-		    setEdgeDisplayListeners(e);
-		    render();
+		    
 	    }
-	   
+	   render();
 	}
 	
 	private void setEdgeDisplayListeners(EdgeDisplay e){
@@ -726,13 +733,12 @@ public class MapRootPane extends AnchorPane{
         });
 
         e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
-        	
         	edgeQueue.remove(e);
         });
         
         e.addEventFilter(EditorEvent.DELETE_EDGE, ev -> {
-        	edgeLayer.getChildren().remove(e);
         	display.getGraph().deleteEdge(e.getEdge());
+        	edgeLayer.getChildren().remove(e);
         	render();
         });
 	}
