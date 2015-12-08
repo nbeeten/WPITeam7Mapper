@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Timer;
 import java.util.Vector;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -26,15 +27,21 @@ import edu.wpi.off.by.one.errors.code.model.Map;
 import edu.wpi.off.by.one.errors.code.model.Matrix;
 import edu.wpi.off.by.one.errors.code.model.Node;
 import edu.wpi.off.by.one.errors.code.model.Path;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -42,6 +49,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
+import javafx.util.Duration;
 
 /**
  * Created by jules on 11/28/2015.
@@ -81,6 +91,7 @@ public class MapRootPane extends AnchorPane{
 	
 	Queue<NodeDisplay> nodeQueue = new LinkedList<NodeDisplay>();	//Selected node queue
     Queue<EdgeDisplay> edgeQueue = new LinkedList<EdgeDisplay>();
+    ArrayList<Map> selectedMaps = new ArrayList<Map>();
     ArrayList<Id> currentRoute = new ArrayList<Id>();
     public NodeDisplay currentPivot = null;
     boolean isMapEditor = false;
@@ -90,6 +101,7 @@ public class MapRootPane extends AnchorPane{
     public boolean isAddMode = false;		//Is editor currently adding nodes?
     public boolean isDeleteMode = false;	//Is editor currently deleting nodes?
     public boolean isMultiSelectNodes = false;
+    boolean isZooming = false;
     
     boolean isctrl = false;
 
@@ -151,6 +163,12 @@ public class MapRootPane extends AnchorPane{
 				zoom *= (1.0f - 0.01*(sin.getY() - mydragged.getY()));
 				render();
 				lastview = invview;
+			}
+			else if (e.isAltDown()){
+				rot += (0.4*(sin.getX() - mydragged.getX()));
+				System.out.println(rot);
+				render();
+				lastview = invview;
 			} else {
 				Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
 				translate.setAll((float) translate.getX() + delta.getX(), (float)translate.getY() + delta.getY(), translate.getZ());
@@ -208,23 +226,32 @@ public class MapRootPane extends AnchorPane{
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		ArrayList<Map> mlist = display.getMaps();
-		
 		for(Map m : mlist){
+			
 			mygc.save();
 			if(m == null) continue;
-
 			if(m.getImage() == null) continue;
+			
 			if(currentLevel != 1 && m.getName().equals("Campus Map")) mygc.setGlobalAlpha(0.4);
 			else mygc.setGlobalAlpha(1);
+			
 			if(translate.getZ() > m.getCenter().getZ() + 0.1 || translate.getZ() < m.getCenter().getZ() - 0.1){
 				if(!m.getName().equals("Campus Map")) continue;
 			}
 			Coordinate c = view.transform(m.getCenter());
 			//mygc.translate(c.getX(), c.getY());
-			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
-	        mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
-	        mygc.scale(zoom * m.getScale(), zoom * m.getScale());
 			
+			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
+			mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
+			mygc.scale(zoom * m.getScale(), zoom * m.getScale());
+			if(selectedMaps.contains(m)){
+				DropShadow ds = new DropShadow();
+				ds.setColor(Color.RED);
+				ds.setRadius(50 / m.getScale());
+				ds.setSpread(0.5);
+				ds.setBlurType(BlurType.ONE_PASS_BOX);
+				mygc.setEffect(ds);
+			}
 			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
@@ -322,28 +349,31 @@ public class MapRootPane extends AnchorPane{
 			mygc.restore();
 		} else { edgeLayer.setVisible(false); nodeLayer.setVisible(false); }
 		Node last = null;
-		for(Id id : currentRoute){
-			mygc.save();
-			Node A = display.getGraph().returnNodeById(id);
-			if(A == null) continue;
-			if(last == null){
-				last = A;
-				continue;
-			}
-			if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
-				last = A;
-				continue;
-			}
+		if(!isZooming){
+			for(Id id : currentRoute){
+				mygc.save();
+				Node A = display.getGraph().returnNodeById(id);
+				if(A == null) continue;
+				if(last == null){
+					last = A;
+					continue;
+				}
+				if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
+					last = A;
+					continue;
+				}
 
-			Coordinate ac = view.transform(A.getCoordinate());
-			Coordinate bc = view.transform(last.getCoordinate());
-			mygc.setLineWidth(5.0f);
-			mygc.setFill(Color.RED);
-			mygc.setStroke(Color.RED);
-			mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
-			last = A;
-			mygc.restore();
+				Coordinate ac = view.transform(A.getCoordinate());
+				Coordinate bc = view.transform(last.getCoordinate());
+				mygc.setLineWidth(5.0f);
+				mygc.setFill(Color.RED);
+				mygc.setStroke(Color.RED);
+				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
+				last = A;
+				mygc.restore();
+			}
 		}
+		
 
 	}
 	/**
@@ -370,9 +400,19 @@ public class MapRootPane extends AnchorPane{
     	canvas.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
     		if(e.isStillSincePress()){
-    			if (isEditMode && e.getButton() == MouseButton.PRIMARY) {
+    			if(isEditMode && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()){
+    				//select map
+    				if(!e.isShiftDown()) selectedMaps.clear();
+    				Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
+	    			Map nearestMap = display.getNearestMap(click, currentLevel);
+	    			if(selectedMaps.contains(nearestMap)) selectedMaps.remove(nearestMap);
+	    			else if(nearestMap != null) selectedMaps.add(nearestMap);
+	    			render();
+    			}
+    			else if (isEditMode && e.getButton() == MouseButton.PRIMARY) {
     				addNodeDisplay(e.getX(), e.getY());
 	            }
+
 	    		else if (isNodeEditor){
 	    			// TODO MAKE THE CLICK DRAGGY THINGN
 	    			if(!nodeQueue.isEmpty()){
@@ -392,9 +432,22 @@ public class MapRootPane extends AnchorPane{
 	    				n.fireEvent(selectNodeEvent);
 	    			}
 	    		}
+    			
+	    		else if(e.getClickCount() == 2){
+	    			//TODO if on building -> zoomyspin onto building
+	    			//else, standard zoom in
+	    			isZooming = true;
+	    			ControllerSingleton.getInstance().getMainPane().zitl.setCycleCount(10);
+	    			ControllerSingleton.getInstance().getMainPane().zitl.setOnFinished(ev -> {
+	    				isZooming = false;
+	    			});
+	    			ControllerSingleton.getInstance().getMainPane().zitl.play();
+	    			ControllerSingleton.getInstance().getMainPane().zitl.setCycleCount(Timeline.INDEFINITE);
+	    			render();
+	    		}
+    			
 	    		else {
 	    			//Select nearest node on map	    			
-	    			System.out.println(e.getX() + " " + e.getY());
 	    			Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
 	    			Id nearestNode = display.getGraph().GetNearestNode(click);
 //	    			if (endMarker != null && startMarker != null){
@@ -419,7 +472,7 @@ public class MapRootPane extends AnchorPane{
 	    					.filter((Predicate<? super javafx.scene.Node>) nd -> ((NodeDisplay) nd).getNode() == nearestNode)
 	    					.collect(Collectors.toList());
 	    			NodeDisplay nearest = (NodeDisplay) nearestList.get(0);
-	    			nearest.fireEvent(new SelectEvent(SelectEvent.NODE_SELECTED));
+	    			if(!isZooming) nearest.fireEvent(new SelectEvent(SelectEvent.NODE_SELECTED));
 	    			render();
 	    		}
     		}
@@ -494,7 +547,7 @@ public class MapRootPane extends AnchorPane{
 		    	}
 		    	
 			    nodeQueue.add(nd);
-			    if(nodeQueue.size() == 2 && !isEditMode){
+			    if(nodeQueue.size() == 2 && !isEditMode && !isZooming){
 			    	drawPath();
 			    	nodeQueue.clear();
 			    	nd.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
@@ -624,15 +677,14 @@ public class MapRootPane extends AnchorPane{
 		pathPane.getChildren().clear();
         NodeDisplay startNode = nodeQueue.poll();
         NodeDisplay endNode = nodeQueue.poll();
-        if(startNode != null && endNode != null){
+        if(startNode != null && endNode != null && isZooming){
             //int idx = 0;
             //Vector<Node> nodes = display.getGraph().getNodes();
-
+        	
             p = new Path(startNode.getNode(), endNode.getNode());
             Graph g = display.getGraph();
             p.runAStar(g); //Change this later??
             currentRoute = p.getRoute();
-            
             render();
             SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
             startNode.fireEvent(selectNodeEvent);
