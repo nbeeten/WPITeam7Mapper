@@ -119,8 +119,7 @@ public class MapRootPane extends AnchorPane{
         }
         ControllerSingleton.getInstance().registerMapRootPane(this);
         initialize();
-        System.out.println(ControllerSingleton.getInstance().getMenuPane().searchMenuPane);
-        System.out.println(translate.getX() + " " + translate.getY() + " " + translate.getZ());
+
         //ControllerSingleton.getInstance().getMenuPane().searchMenuPane.spinnyZoom(1);
     }
     
@@ -590,15 +589,16 @@ public class MapRootPane extends AnchorPane{
 	    nd.setOnMouseDragged(e -> {
 	    	if(e.getButton() == MouseButton.PRIMARY && isEditMode){
 				Coordinate sin = new Coordinate((float)e.getX(), (float)e.getY());
-				Coordinate in = lastview.transform(sin);
-				Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
+				Coordinate in = invview.transform(sin);
+				//Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
 				Graph g = display.getGraph();
 				for(NodeDisplay n : nodeQueue){
 					if(n == null) continue;
 					if(n.getNode() == null) continue;
 					Node node = g.returnNodeById(nd.getNode());
+					if(node == null) continue;
 					Coordinate c = node.getCoordinate();
-					node.setCoordinate(new Coordinate((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), c.getZ()));
+					node.setCoordinate(new Coordinate(in.getX(), in.getY(), c.getZ()));
 				}
 				render();
 				lastdragged.setAll(in.getX(), in.getY(), 0);
@@ -610,6 +610,7 @@ public class MapRootPane extends AnchorPane{
 			if(e.getButton() == MouseButton.PRIMARY && isEditMode){
 				release.setAll((float)e.getX(), (float)e.getY(), 0);
 			}
+			render();
 	     });
 	    
 	    nd.addEventFilter(SelectEvent.NODE, event -> {
@@ -744,7 +745,7 @@ public class MapRootPane extends AnchorPane{
         });
 
         e.addEventFilter(SelectEvent.EDGE_DESELECTED, ev -> {
-        	//do sth;
+        	
         	edgeQueue.remove(e);
         });
         
