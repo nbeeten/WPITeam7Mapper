@@ -1,14 +1,19 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
-import edu.wpi.off.by.one.errors.code.controller.menupanes.*;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-
 import java.io.IOException;
 
-import edu.wpi.off.by.one.errors.code.controller.menupanes.*;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.DevToolsMenuPane;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.DirectionsMenuPane;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.FavoritesMenuPane;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.HelpMenuPane;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.SearchMenuPane;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.SettingsMenuPane;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 /**
  * Created by jules on 11/28/2015.

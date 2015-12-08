@@ -1,22 +1,23 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
-import javafx.fxml.FXML;
+import java.io.IOException;
+
+import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
+import edu.wpi.off.by.one.errors.code.model.Coordinate;
+import edu.wpi.off.by.one.errors.code.model.Display;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Window;
 import javafx.util.Duration;
-
-import java.io.IOException;
-
-import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
-import edu.wpi.off.by.one.errors.code.model.Coordinate;
 
 
 /**
@@ -31,6 +32,7 @@ public class MainPane extends BorderPane {
 
 
 	Window window;
+	@FXML private StackPane mapContainer;
 	@FXML private Button rotateLeftButton;
 	@FXML private Button rotateRightButton;
 	@FXML private Button zoomInButton;
@@ -42,7 +44,7 @@ public class MainPane extends BorderPane {
 	@FXML private NavigationPane navigationPane;
 	
 	public Coordinate dropStartC;
-	public	Coordinate dropEndC;
+	public	Coordinate dropEndC; 
 	public float dropStartR = 0.0f;
 	public float dropEndR = 0.0f;
 	public float dropStartS = 1.0f;
@@ -122,7 +124,7 @@ public class MainPane extends BorderPane {
         this.getStylesheets().add(getClass().getResource("../resources/stylesheets/MainPaneStyleSheet.css").toExternalForm());
     }
 
-    private void addListeners(){
+	private void addListeners(){
         openNavigationPaneButton.visibleProperty().bind(navigationPane.visibleProperty().not());
     	rotateLeftButton.setOnMousePressed(e -> lttl.play());
     	rotateLeftButton.setOnMouseReleased(e -> lttl.stop());
@@ -132,6 +134,8 @@ public class MainPane extends BorderPane {
     	zoomInButton.setOnMouseReleased(e -> zitl.stop() );
     	zoomOutButton.setOnMousePressed(e -> zotl.play());
     	zoomOutButton.setOnMouseReleased(e -> zotl.stop() );
+    	ControllerSingleton.getInstance().getMenuPane().searchMenuPane.updateMapList(ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps());
+    	ControllerSingleton.getInstance().getMenuPane().searchMenuPane.spinnyZoom(1);
     }
 
     @FXML private void onOpenNavigationPaneButtonClick(){
@@ -139,16 +143,17 @@ public class MainPane extends BorderPane {
     }
     public void setWindow(Window window) { 
     	this.window = window; 
-    	window.heightProperty().addListener(e -> {
-    		mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
+    	mapScrollPane.setVmax(0);
+    	mapScrollPane.setHmax(0);
+    	mapContainer.heightProperty().addListener(e -> {
+    		mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
     	
-    	window.widthProperty().addListener(e -> {
-    		mapRootPane.updateCanvasSize(mapScrollPane.getWidth(), mapScrollPane.getHeight());
+    	mapContainer.widthProperty().addListener(e -> {
+    		mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
     }
     public Window getWindow() { return this.window; }
     public NodeDevToolPane getNodeTool() { return this.menuPane.getDevToolsMenuPane().getNodeDevToolPane(); }
-    
 }
 

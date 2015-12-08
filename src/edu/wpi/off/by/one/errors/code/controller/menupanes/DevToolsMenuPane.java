@@ -1,28 +1,24 @@
 package edu.wpi.off.by.one.errors.code.controller.menupanes;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
 
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
-import edu.wpi.off.by.one.errors.code.controller.MainPane;
 import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
-import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.*;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.EdgeDevToolPane;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.MapDevToolPane;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
+import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.PathDevToolPane;
 import edu.wpi.off.by.one.errors.code.model.Display;
-import edu.wpi.off.by.one.errors.code.model.Edge;
 import edu.wpi.off.by.one.errors.code.model.FileIO;
-import edu.wpi.off.by.one.errors.code.model.Graph;
 import edu.wpi.off.by.one.errors.code.model.Map;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * Created by jules on 11/28/2015.
@@ -145,4 +141,5 @@ public class DevToolsMenuPane extends BorderPane {
     public NodeDevToolPane getNodeDevToolPane() { return nodeDevToolPane; }
     public EdgeDevToolPane getEdgeDevToolPane() { return edgeDevToolPane; }
     public PathDevToolPane getPathDevToolPane() { return pathDevToolPane; }
+    public MapDevToolPane getMapDevToolPane() { return mapDevToolPane; }
 }

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <ListView fx:id="locationResultListView" minWidth="0.0" BorderPane.alignment="CENTER">
@@ -16,7 +18,7 @@
    <top>
       <VBox minWidth="0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="searchLabel" minWidth="0.0" maxHeight="40" text="Search" />
+            <Label fx:id="searchLabel" maxHeight="40" minWidth="0.0" text="Search" />
             <BorderPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="30.0">
                <center>
                   <TextField fx:id="searchInputTextField" maxHeight="-Infinity" minWidth="0.0" prefHeight="30.0" BorderPane.alignment="CENTER" />
@@ -25,8 +27,9 @@
                   <Button fx:id="searchLocationButton" minWidth="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Button" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
+            <ComboBox fx:id="buildingChoiceBox" />
             <Label text="Select Floor:" />
-            <ChoiceBox fx:id="floorChoiceBox" />
+            <Slider fx:id="floorSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="-2.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
          </children>
       </VBox>
    </top>

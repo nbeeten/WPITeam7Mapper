@@ -3,12 +3,7 @@ package edu.wpi.off.by.one.errors.code.model;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
-import edu.wpi.off.by.one.errors.code.application.event.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class Display extends Pane{
@@ -41,6 +36,25 @@ public class Display extends Pane{
 	public void setGraph(Graph g) { this.currentGraph = g; }
 	public ArrayList<Map> getMaps() { return Maps; }
 	public Graph getGraph() { return currentGraph; }
+	
+	public Map getNearestMap(Coordinate coord, int cz){
+		float distsq = Float.MAX_VALUE;
+		float cx = coord.getX();
+		float cy = coord.getY();
+		Map nearest = null;
+		for(Map m : Maps){
+			if(m == null) continue;
+			float mx = m.getCenter().getX() - cx;
+			float my = m.getCenter().getY() - cy;
+			float mz = m.getCenter().getZ();
+			float mydistsq = mx * mx + my * my;
+			if(mydistsq < distsq && mz == cz){
+				distsq = mydistsq;
+				nearest = m;
+			}
+		}
+		return nearest;
+	}
 	
 	/**
 	 * Draws a graphical path between two nodes on the map
