@@ -577,8 +577,8 @@ public class MapRootPane extends AnchorPane{
 					if(n.getNode() == null) continue;
 					Node node = g.returnNodeById(nd.getNode());
 					if(node == null) continue;
-					//Coordinate c = node.getCoordinate();
-					node.setCoordinate(in);
+					Coordinate c = node.getCoordinate();
+					node.setCoordinate(new Coordinate(in.getX(), in.getY(), c.getZ()));
 				}
 				render();
 				lastdragged.setAll(in.getX(), in.getY(), 0);
