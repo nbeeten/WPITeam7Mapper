@@ -117,6 +117,10 @@ public class MenuPane extends HBox {
             hamburgerToggleButton.setSelected(false);
     }
     //endregion
+    
+    public void showDirections(){
+    	directionsMenuRadioButton.setSelected(true);
+    }
 
     public void removeRadioButtonStyles(){
         searchMenuRadioButton.getStyleClass().remove("radio-button");

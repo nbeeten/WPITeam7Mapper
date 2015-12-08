@@ -3,6 +3,7 @@ package edu.wpi.off.by.one.errors.code.controller.menupanes;
 import java.io.IOException;
 
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
+import edu.wpi.off.by.one.errors.code.model.Node;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -36,6 +37,21 @@ public class DirectionsMenuPane extends BorderPane {
 		this.routeButton.setOnAction(e -> {
 			ControllerSingleton.getInstance().getMapRootPane().drawPath();
 		});
+	}
+	
+	public Node getDirectionsToNode() { return null; }
+	public Node getDirectionsFromNode() { return null; }
+	
+	public void setDirectionsToNode(){
+		//TODO Should take an input (String? NodeDisplay? Node?)
+		//Put String name in the To box
+		//set directionsTo variable (NOT MADE YET)
+	}
+	
+	public void setDirectionsFromNode(){
+		//TODO Should take an input (String? NodeDisplay? Node?)
+		//Put String name in the From box
+		//set directionsFrom variable (NOT MADE YET)
 	}
 
     public ListView<String> getdirectionsListView(){
