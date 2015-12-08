@@ -14,6 +14,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
+import edu.wpi.off.by.one.errors.code.application.MarkerDisplay;
+import edu.wpi.off.by.one.errors.code.application.MarkerDisplay.Marker;
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
@@ -82,8 +84,8 @@ public class MapRootPane extends AnchorPane{
 	@FXML public Canvas canvas;
 	public int currentLevel = 1;
 	private Path p;
-	private Circle startMarker = null;
-	private Circle endMarker = null;
+	private MarkerDisplay startMarker = null;
+	private MarkerDisplay endMarker = null;
 	//Where all the images and txt files should be
 	String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
 	private String filePath = "src" + resourceDir + "maps/txtfiles/fullCampusMap.txt";
@@ -140,7 +142,8 @@ public class MapRootPane extends AnchorPane{
 		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
 		// Put all these sets into fxml
         pathPane.setMouseTransparent(true);
-        markerPane.setMouseTransparent(true);
+        markerPane.setMouseTransparent(false);
+        markerPane.setPickOnBounds(true);
         edgeLayer.setPickOnBounds(false);
         nodeLayer.setPickOnBounds(false);
 		nodeLayer.setAlignment(Pos.TOP_LEFT);
@@ -246,13 +249,12 @@ public class MapRootPane extends AnchorPane{
 				if(!m.getName().equals("Campus Map")) continue;
 			}
 			Coordinate c = view.transform(m.getCenter());
-			//mygc.translate(c.getX(), c.getY());
-			
 			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
 			mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
 			mygc.scale(zoom * m.getScale(), zoom * m.getScale());
 			
-			if(selectedMaps.contains(m)){
+			if(selectedMaps.contains(m) && isEditMode){
+				mygc.setGlobalAlpha(1);
 				DropShadow ds = new DropShadow();
 				ds.setColor(Color.RED);
 				ds.setRadius(50 / m.getScale());
@@ -263,23 +265,19 @@ public class MapRootPane extends AnchorPane{
 			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
-		
+
 		if(startMarker != null) {
-			mygc.save();
-			Coordinate c = view.transform(new Coordinate((float)startMarker.getCenterX(), (float)startMarker.getCenterY(), currentLevel));
-			startMarker.setCenterX(c.getX());
-			startMarker.setCenterY(c.getY());
-			mygc.restore();
+			Coordinate c = view.transform(new Coordinate((float)startMarker.x, (float)startMarker.y, (float)startMarker.z));
+			startMarker.setTranslateX(c.getX() - (startMarker.getImage().getWidth()/2));
+			startMarker.setTranslateY(c.getY() - startMarker.getImage().getHeight());
 		}
 		
 		if(endMarker != null) {
-			mygc.save();
-			Coordinate c = view.transform(new Coordinate((float)endMarker.getCenterX(), (float)endMarker.getCenterY(), currentLevel));
-			endMarker.setCenterX(c.getX());
-			endMarker.setCenterY(c.getY());
-			mygc.restore();
+			Coordinate c = view.transform(new Coordinate((float)endMarker.x, (float)endMarker.y, (float)endMarker.z));
+			endMarker.setTranslateX(c.getX() - (endMarker.getImage().getWidth()/2));
+			endMarker.setTranslateY(c.getY() - (endMarker.getImage().getHeight()/2));
 		}
-		
+
 		if(isEditMode){
 			edgeLayer.setVisible(true);
 			nodeLayer.setVisible(true);
@@ -336,25 +334,6 @@ public class MapRootPane extends AnchorPane{
 				}
 			}
 			edgeLayer.getChildren().removeAll(toRemove);
-			
-//			for(Edge e : elist){
-//				if(e == null) continue;
-//				Node A = display.getGraph().returnNodeById(e.getNodeA());
-//				Node B = display.getGraph().returnNodeById(e.getNodeB());
-//				if(A == null || B == null){
-//					display.getGraph().deleteEdge(e.getId());
-//					continue; 
-//				}
-//				if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > B.getCoordinate().getZ() + 0.1 || translate.getZ() < B.getCoordinate().getZ() - 0.1)){
-//					continue;
-//				}
-//				Coordinate ac = view.transform(A.getCoordinate());
-//				Coordinate bc = view.transform(B.getCoordinate());
-//				mygc.setLineWidth(5.0f);
-//				mygc.setFill(Color.AQUA);
-//				mygc.setStroke(Color.AQUA);
-//				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
-//			} 
 			mygc.restore();
 		} else { edgeLayer.setVisible(false); nodeLayer.setVisible(false); }
 		Node last = null;
@@ -377,6 +356,7 @@ public class MapRootPane extends AnchorPane{
 				mygc.setLineWidth(5.0f);
 				mygc.setFill(Color.RED);
 				mygc.setStroke(Color.RED);
+				mygc.setLineDashes(10);
 				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
 				last = A;
 				mygc.restore();
@@ -487,39 +467,42 @@ public class MapRootPane extends AnchorPane{
 	    			
 	    			render();
 	    		}
-    			
-	    		else if (!isEditMode) {
-	    			//Select nearest node on map
-	    			Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
-	    			Id nearestNode = display.getGraph().GetNearestNode(click);
-//	    			if (endMarker != null && startMarker != null){
-//	    				System.out.println("Clearing");
-//	    				startMarker = null;
-//	    				endMarker = null;
-//	    				markerPane.getChildren().clear();
-//	    			}
-//	    			if(startMarker != null && endMarker == null) {
-//	    				System.out.println("Placing end");
-//	    				endMarker = new Circle(click.getX(), click.getY(), 5, Color.YELLOWGREEN);
-//	    				markerPane.getChildren().add(endMarker);
-//	    			}
-//	    			if(startMarker == null) {
-//	    				System.out.println("Placing start");
-//	    				startMarker = new Circle(click.getX(), click.getY(), 5, Color.GREEN);
-//	    				markerPane.getChildren().add(startMarker);
-//	    			}
-	    			
-	    			
-	    			List<javafx.scene.Node> nearestList = nodeLayer.getChildren().stream()
-	    					.filter((Predicate<? super javafx.scene.Node>) nd -> ((NodeDisplay) nd).getNode() == nearestNode)
-	    					.collect(Collectors.toList());
-	    			NodeDisplay nearest = (NodeDisplay) nearestList.get(0);
-	    			if(nodeQueue.size() > 0) if(nearest == nodeQueue.peek()) return;
-	    			nearest.fireEvent(new SelectEvent(SelectEvent.NODE_SELECTED));
-	    			render();
-	    		}
     		}
     	});
+    	
+    	markerPane.setOnMouseClicked(e -> {
+    		if (!isEditMode && e.getButton() == MouseButton.PRIMARY) {
+    			//Select nearest node on map
+    			System.out.println(e.getX() + " " + e.getY());
+    			Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
+
+    			System.out.println(click.getX() + " " + click.getY());
+    			Id nearestNode = display.getGraph().GetNearestNode(click, currentLevel);
+    			if (endMarker != null && startMarker != null){
+    				startMarker = null;
+    				endMarker = null;
+    				markerPane.getChildren().clear();
+    			}
+    			if(startMarker != null && endMarker == null) {
+    				endMarker = new MarkerDisplay(click.getX(), click.getY(), currentLevel, Marker.END);
+    				markerPane.getChildren().add(endMarker);
+    			}
+    			if(startMarker == null) {
+    				startMarker = new MarkerDisplay(click.getX(), click.getY(), currentLevel, Marker.START);
+    				markerPane.getChildren().add(startMarker);
+    				
+    			}
+    			
+    			List<javafx.scene.Node> nearestList = nodeLayer.getChildren().stream()
+    					.filter((Predicate<? super javafx.scene.Node>) nd -> ((NodeDisplay) nd).getNode() == nearestNode)
+    					.collect(Collectors.toList());
+    			NodeDisplay nearest = (NodeDisplay) nearestList.get(0);
+    			if(nodeQueue.size() > 0) if(nearest == nodeQueue.peek()) return;
+    			nearest.fireEvent(new SelectEvent(SelectEvent.NODE_SELECTED));
+    			render();
+    		}
+    	});
+    	
     	edgeLayer.addEventFilter(EditorEvent.DRAW_EDGES, e -> {
     		if(isEdgeEditor) addEdgeDisplayFromQueue();
     	});
@@ -577,7 +560,6 @@ public class MapRootPane extends AnchorPane{
 	    
 	    nd.setOnMousePressed(e -> {
 	    	if(e.getButton() == MouseButton.PRIMARY && isEditMode){
-	    		if(!nodeQueue.contains(nd)) nodeQueue.add(nd);
 	    		lastview = invview;
 	   			 Coordinate in = new Coordinate((float)e.getX(), (float)e.getY());
 	   			 Coordinate sin = lastview.transform(in);
@@ -590,9 +572,11 @@ public class MapRootPane extends AnchorPane{
 	    	if(e.getButton() == MouseButton.PRIMARY && isEditMode){
 				Coordinate sin = new Coordinate((float)e.getX(), (float)e.getY());
 				Coordinate in = invview.transform(sin);
-				//Coordinate delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
 				Graph g = display.getGraph();
-				for(NodeDisplay n : nodeQueue){
+				
+				NodeDisplay[] list = new NodeDisplay[nodeQueue.size()];
+				nodeQueue.toArray(list);
+				for(NodeDisplay n : list){
 					if(n == null) continue;
 					if(n.getNode() == null) continue;
 					Node node = g.returnNodeById(nd.getNode());
@@ -781,7 +765,7 @@ public class MapRootPane extends AnchorPane{
 
     @SuppressWarnings("unchecked")
 	public void showDirections(){
-    	if(p != null){
+    	if(p != null && p.getTextual() != null){
     		ObservableList<String> pathList = FXCollections.observableList(p.getTextual());
             ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
     	}
