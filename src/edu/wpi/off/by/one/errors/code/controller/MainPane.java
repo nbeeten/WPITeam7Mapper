@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
+import edu.wpi.off.by.one.errors.code.model.Display;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -40,7 +41,7 @@ public class MainPane extends BorderPane {
 	@FXML private NavigationPane navigationPane;
 	
 	public Coordinate dropStartC;
-	public	Coordinate dropEndC;
+	public	Coordinate dropEndC; 
 	public float dropStartR = 0.0f;
 	public float dropEndR = 0.0f;
 	public float dropStartS = 1.0f;
@@ -130,6 +131,8 @@ public class MainPane extends BorderPane {
     	zoomInButton.setOnMouseReleased(e -> zitl.stop() );
     	zoomOutButton.setOnMousePressed(e -> zotl.play());
     	zoomOutButton.setOnMouseReleased(e -> zotl.stop() );
+    	ControllerSingleton.getInstance().getMenuPane().searchMenuPane.updateMapList(ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps());
+    	ControllerSingleton.getInstance().getMenuPane().searchMenuPane.spinnyZoom(1);
     }
 
     @FXML private void onOpenNavigationPaneButtonClick(){
@@ -139,13 +142,14 @@ public class MainPane extends BorderPane {
     	this.window = window; 
     	mapScrollPane.setVmax(0);
     	mapScrollPane.setHmax(0);
-    	window.heightProperty().addListener(e -> {
+
+    	/*mapContainer.heightProperty().addListener(e -> {
     		//mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
     	
-    	window.widthProperty().addListener(e -> {
+    	mapContainer.widthProperty().addListener(e -> {
     		//mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
-    	});
+    	});*/
     }
     public Window getWindow() { return this.window; }
     public NodeDevToolPane getNodeTool() { return this.menuPane.getDevToolsMenuPane().getNodeDevToolPane(); }

@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
+import edu.wpi.off.by.one.errors.code.controller.MainPane;
 import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
 import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteTextField;
+import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Map;
+import edu.wpi.off.by.one.errors.code.model.Matrix;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
@@ -68,29 +71,48 @@ public class SearchMenuPane extends BorderPane {
 		
 		/*this.buildingChoiceBox.setOnContextMenuRequested(e -> {
 			//TODO update map list
-		});
+		});*/
 		
 		this.buildingChoiceBox.setOnAction(e -> {
-			int index = buildingChoiceBox.getItems().indexOf(buildingChoiceBox.getSelectionModel().getSelectedItem());
-			//System.out.println(index);
-			Map m = mainPane.getMapRootPane().getDisplay().getMaps().get(index);
-			if(m == null) return;
-
-			mainPane.dropStartC = mainPane.getMapRootPane().translate;
-			mainPane.dropStartR = mainPane.getMapRootPane().rot;
-			mainPane.dropStartS = mainPane.getMapRootPane().zoom;
+			spinnyZoom(buildingChoiceBox.getItems().indexOf(buildingChoiceBox.getSelectionModel().getSelectedItem()));
+		});
+		
+	}
+	public void spinnyZoom(int in){
+		MainPane mainPane = ControllerSingleton.getInstance().getMainPane();
+		int index = in;
+		System.out.println(index);
+		if(index == -1){return;}
+		Map m = ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps().get(index);
+		if(m == null) return;
+		ControllerSingleton.getInstance().getMapRootPane().currentLevel = (int) m.getCenter().getZ();
+		mainPane.dropStartC = ControllerSingleton.getInstance().getMapRootPane().translate;
+		mainPane.dropStartR = ControllerSingleton.getInstance().getMapRootPane().rot;
+		mainPane.dropStartS = ControllerSingleton.getInstance().getMapRootPane().zoom;
+		
+		//float zx = (float) (m.getCenter().getX() + m.getImage().getWidth() * 0.5f * m.getScale());
+		//float zy = (float) (m.getCenter().getY() + m.getImage().getHeight() * 0.5f * m.getScale());
+		if(index == 1){
+		mainPane.dropEndC = new Coordinate((float) (m.getCenter().getX()-m.getImage().getWidth()/2), (float) (m.getCenter().getY()-m.getImage().getHeight()/2), m.getCenter().getZ());
+		}
+		else{
+			Matrix matrix = new Matrix(m.getRotation(),0,0,1).scale(m.getScale());
+			Coordinate coord = new Coordinate((float)m.getImage().getWidth()/2, (float)m.getImage().getHeight()/2, 0);
+			coord = matrix.transform(coord);
 			
-			//float zx = (float) (m.getCenter().getX() + m.getImage().getWidth() * 0.5f * m.getScale());
-			//float zy = (float) (m.getCenter().getY() + m.getImage().getHeight() * 0.5f * m.getScale());
-			mainPane.dropEndC = m.getCenter();
-			mainPane.dropEndR = -m.getRotation();
-			float mx = (float)(mainPane.getMapRootPane().canvas.getWidth()/(m.getImage().getWidth() * m.getScale()) );
-			float my = (float)(mainPane.getMapRootPane().canvas.getHeight()/(m.getImage().getHeight() * m.getScale()));
-			mainPane.dropEndS = mx < my ? mx : my;
-			if(mainPane.dropEndS <= 0.05f) mainPane.dropEndS = 1.0f;
-			mainPane.dropzoom.play();
-			mainPane.getMapRootPane().render();
-			buildingChoiceBox.getSelectionModel().clearSelection();
-		});*/
+			mainPane.dropEndC = new Coordinate(-m.getCenter().getX()-coord.getX(), -m.getCenter().getY()-coord.getY(), m.getCenter().getZ());
+		}
+		mainPane.dropEndR = -m.getRotation();
+		float mx = (float)(ControllerSingleton.getInstance().getMapRootPane().canvas.getWidth()/(m.getImage().getWidth() * m.getScale()) );
+		float my = (float)(ControllerSingleton.getInstance().getMapRootPane().canvas.getHeight()/(m.getImage().getHeight() * m.getScale()));
+		mainPane.dropEndS = mx < my ? mx : my;
+		if(mainPane.dropEndS <= 0.05f) mainPane.dropEndS = 1.0f;
+		mainPane.dropzoom.play();
+		//ControllerSingleton.getInstance().getMapRootPane().translate = mainPane.dropEndC;
+	//	ControllerSingleton.getInstance().getMapRootPane().rot = mainPane.dropEndR;
+	//	ControllerSingleton.getInstance().getMapRootPane().translate = mainPane.dropEndC;
+		
+		ControllerSingleton.getInstance().getMapRootPane().render();
+		//buildingChoiceBox.getSelectionModel().clearSelection();
 	}
 }

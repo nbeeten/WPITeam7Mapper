@@ -10,7 +10,8 @@
             <Canvas fx:id="canvas" height="200.0" width="200.0" />
             <Pane fx:id="edgeLayer" prefHeight="200.0" prefWidth="200.0" />
             <StackPane fx:id="nodeLayer" prefHeight="150.0" prefWidth="200.0" />
-            <StackPane fx:id="pathPane" prefHeight="150.0" prefWidth="200.0" />
+            <Pane fx:id="pathPane" prefHeight="150.0" prefWidth="200.0" />
+            <Pane fx:id="markerPane" prefHeight="200.0" prefWidth="200.0" />
          </children>
         </StackPane>
     </children>

@@ -2,6 +2,7 @@ package edu.wpi.off.by.one.errors.code.controller.customcontrols;
 
 import java.io.IOException;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -33,6 +34,8 @@ public class IconedLabel extends BorderPane {
             throw new RuntimeException(excpt);
         }
 
+        imageView.fitWidthProperty().bind(imageView.fitHeightProperty());
+
     }
     //endregion
 
@@ -60,5 +63,18 @@ public class IconedLabel extends BorderPane {
 
     public void setImage(String image){
         imageProperty().set(new Image(image));
+    }
+
+    @FXML
+    public DoubleProperty imageWidthProperty(){
+        return imageView.fitWidthProperty();
+    }
+    @FXML
+    public double getImageWidth(){
+        return imageWidthProperty().get();
+    }
+    @FXML
+    public void setImageWidth(Number imageWidth){
+        imageWidthProperty().setValue(imageWidth);
     }
 }

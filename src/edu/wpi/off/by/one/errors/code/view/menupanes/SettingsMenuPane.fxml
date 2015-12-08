@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root spacing="5.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Label text="Settings Pane" />
-        <ToggleButton text="Pirate Mode"/>
-        <Label text="Units"/>
-        <ChoiceBox/>
-        <Label text="History"/>
-        <CheckBox text="Save My Searches"/>
-        <Button text="Clear History"/>
+      <Label text="Profile" />
+      <Label text="Name" />
+      <TextField promptText="Enter your name" />
+      <Label text="Phone Number" />
+      <TextField promptText="(555)555-5555" />
+      <Label text="Email" />
+      <TextField promptText="email@wpi.edu" />
+        <Label text="Units" />
+        <ChoiceBox />
+        <Label text="History" />
+        <CheckBox text="Remember Searches" />
+        <Button alignment="TOP_LEFT" text="Clear History" />
+      <Label text="Other" />
+        <ToggleButton text="Pirate Mode" />
     </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </fx:root>
