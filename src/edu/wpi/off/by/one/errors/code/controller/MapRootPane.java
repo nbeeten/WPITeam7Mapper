@@ -13,20 +13,11 @@ import java.util.Vector;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import edu.wpi.off.by.one.errors.code.application.EdgeDisplay;
+import edu.wpi.off.by.one.errors.code.application.*;
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.application.event.EditorEvent;
 import edu.wpi.off.by.one.errors.code.application.event.SelectEvent;
-import edu.wpi.off.by.one.errors.code.model.Coordinate;
-import edu.wpi.off.by.one.errors.code.model.Display;
-import edu.wpi.off.by.one.errors.code.model.Edge;
-import edu.wpi.off.by.one.errors.code.model.FileIO;
-import edu.wpi.off.by.one.errors.code.model.Graph;
-import edu.wpi.off.by.one.errors.code.model.Id;
-import edu.wpi.off.by.one.errors.code.model.Map;
-import edu.wpi.off.by.one.errors.code.model.Matrix;
-import edu.wpi.off.by.one.errors.code.model.Node;
-import edu.wpi.off.by.one.errors.code.model.Path;
+import edu.wpi.off.by.one.errors.code.model.*;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -117,8 +108,8 @@ public class MapRootPane extends AnchorPane{
             throw new RuntimeException(excpt);
         }
         ControllerSingleton.getInstance().registerMapRootPane(this);
-        canvas.widthProperty().bind(this.widthProperty());
-        canvas.heightProperty().bind(this.heightProperty());
+        //canvas.widthProperty().bind(this.widthProperty());
+        //canvas.heightProperty().bind(this.heightProperty());
         initialize();
 
         //ControllerSingleton.getInstance().getMenuPane().searchMenuPane.spinnyZoom(1);

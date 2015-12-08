@@ -143,13 +143,13 @@ public class MainPane extends BorderPane {
     	mapScrollPane.setVmax(0);
     	mapScrollPane.setHmax(0);
 
-    	/*mapContainer.heightProperty().addListener(e -> {
-    		//mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
+    	mapContainer.heightProperty().addListener(e -> {
+    		mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
     	
     	mapContainer.widthProperty().addListener(e -> {
-    		//mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
-    	});*/
+    		mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
+    	});
     }
     public Window getWindow() { return this.window; }
     public NodeDevToolPane getNodeTool() { return this.menuPane.getDevToolsMenuPane().getNodeDevToolPane(); }

@@ -21,8 +21,8 @@
 #zoomOutButton,
 #openNavigationPaneButton
 {
-    -fx-background-color: rgba(0,0,0,0.1);
-    -fx-text-fill: Black;
+    -fx-background-color: rgba(27,41,10,0.4);
+    -fx-text-fill: White;
 }
 
 #floorSlider:hover,
@@ -32,7 +32,8 @@
 #zoomOutButton:hover,
 #openNavigationPaneButton:hover
 {
-    -fx-background-color: rgba(0,0,0,0.2);
+    -fx-background-color: rgba(27,41,10,0.6);
+    -fx-text-fill: White;
 }
 
 

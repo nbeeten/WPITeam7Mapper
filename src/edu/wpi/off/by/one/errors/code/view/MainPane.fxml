@@ -13,7 +13,7 @@
     <center>
         <BorderPane BorderPane.alignment="CENTER">
             <center>
-                <StackPane maxHeight="Infinity">
+                <StackPane fx:id="mapContainer" maxHeight="Infinity">
                     <children>
                         <ScrollPane fx:id="mapScrollPane" hbarPolicy="NEVER" prefHeight="Infinity" prefWidth="Infinity" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
                             <content>
