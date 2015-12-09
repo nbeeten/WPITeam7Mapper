@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root minWidth="0.0" prefHeight="357.0" prefWidth="235" spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root minWidth="0.0" prefHeight="413.0" prefWidth="235" spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label text="Select a map" />
       <ChoiceBox fx:id="mapChoiceBox" prefHeight="25.0" prefWidth="222.0" />
@@ -88,5 +88,13 @@
             <Button fx:id="changeImageButton" alignment="TOP_LEFT" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" onAction="#changeImage" text="Change" StackPane.alignment="CENTER_RIGHT" />
          </children>
       </StackPane>
+      <CheckBox fx:id="autoEdgeSelector" contentDisplay="CENTER" mnemonicParsing="false" onAction="#toggleAutoEdge" text="AutoEdge" />
+      <ToggleButton fx:id="selectColorButton" mnemonicParsing="false" onAction="#selectColorOnMap" text="Select Color" />
+      <Label text="Walkable Color" />
+      <ColorPicker fx:id="walkableColorSelector" onAction="#setWalkableColor">
+         <VBox.margin>
+            <Insets top="-10.0" />
+         </VBox.margin>
+      </ColorPicker>
    </children>
 </fx:root>
