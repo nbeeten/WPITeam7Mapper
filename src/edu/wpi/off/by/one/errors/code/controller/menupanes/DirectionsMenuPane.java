@@ -1,6 +1,8 @@
 package edu.wpi.off.by.one.errors.code.controller.menupanes;
 
 import java.io.IOException;
+import java.util.List;
+
 import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField;
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.model.GoogleMail;
@@ -87,9 +89,16 @@ public class DirectionsMenuPane extends BorderPane {
     }
 
     @FXML private void onEmailButtonClick(){
-        String userEmail =settingsMenuPane.getUserEmail();
+        settingsMenuPane = ControllerSingleton.getInstance().getSettingsMenuPane();
+        String userEmail = settingsMenuPane.getUserEmail();
+        List<String> directions = ControllerSingleton.getInstance().getMapRootPane().getPath().getTextual();
+        String body = "";
+
+        for (String s : directions){
+            body += (s + "\n");
+        }
         GoogleMail googleMail = new GoogleMail();
-        googleMail.send(userEmail, "Directions from goatThere()", "Here are your directions");
+        googleMail.send(userEmail, "Directions from goatThere()", body);
     }
     public void disableEmailButton(boolean b){
         emailButton.setDisable(b);
