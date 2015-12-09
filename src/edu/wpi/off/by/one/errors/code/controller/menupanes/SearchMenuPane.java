@@ -30,9 +30,8 @@ import javafx.scene.layout.BorderPane;
  * Created by jules on 11/28/2015.
  */
 public class SearchMenuPane extends BorderPane {
-	
+
 	@FXML AutoCompleteTextField searchField;
-	@FXML Slider floorSlider;
 	@FXML Button toButton;
 	@FXML Button fromButton;
 	@FXML Button searchLocationButton;

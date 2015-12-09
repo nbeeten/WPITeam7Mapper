@@ -219,21 +219,34 @@ public class MapRootPane extends AnchorPane{
 	public void updateDisplay(Display newdisplay, String option){
 		updateDisplay(this.display.getGraph());
 	}
+
+
+	double renderavg1 = 0.0;
+	double renderavg2 = 0.0;
+	double renderavg3 = 0.0;
+	double renderavg4 = 0.0;
+	double renderavg5 = 0.0;
+
+
+	int renderavgcount = 0;
 	/**
 	 * Handles all the zoom/rotation/translation of objects on the map
 	 * and draws them onto map
 	 */
 	public void render(){
+		long time1 = System.nanoTime();
 		if(zoom < 0.4f) zoom = Math.abs(zoom);
 		if(zoom < 0.4f) zoom = 0.4f;
 		else if(zoom > 11.4f) zoom = 11.4f;
 		view = new Matrix().translate(new Coordinate((float)canvas.getWidth()/2.0f, (float)canvas.getHeight()/2.0f)).rotate(rot, 0.0f, 0.0f, 1.0f).scale(zoom).translate(new Coordinate(translate.getX(), translate.getY(), translate.getZ()));
 		invview = new Matrix(new Coordinate(-1.0f * translate.getX(), -1.0f *translate.getY(), -1.0f * translate.getZ())).scale(1.0/zoom).rotate(-rot, 0.0, 0.0, 1.0).translate(new Coordinate((float)canvas.getWidth()/-2.0f, (float)canvas.getHeight()/-2.0f));
+		long time2 = System.nanoTime();
 		//grab graphics context
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		mygc.setFill(Color.rgb(173, 221, 116));
 		mygc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
+		long time3 = System.nanoTime();
 		ArrayList<Map> mlist = display.getMaps();
 		for(Map m : mlist){
 			
@@ -258,12 +271,12 @@ public class MapRootPane extends AnchorPane{
 				ds.setColor(Color.RED);
 				ds.setRadius(50 / m.getScale());
 				ds.setSpread(0.5);
-				ds.setBlurType(BlurType.ONE_PASS_BOX);
 				mygc.setEffect(ds);
 			}
 			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
+		long time4 = System.nanoTime();
 		/*
 		if(startMarker != null) {
 			Coordinate c = view.transform(new Coordinate((float)startMarker.x, (float)startMarker.y, (float)startMarker.z));
@@ -271,8 +284,8 @@ public class MapRootPane extends AnchorPane{
 			startMarker.setTranslateY(c.getY() - startMarker.getImage().getHeight());
 		}
 		*/
-		
-		
+
+
 
 		if(isEditMode){
 			markerPane.setMouseTransparent(false);
@@ -299,6 +312,7 @@ public class MapRootPane extends AnchorPane{
 					nd.setCenterY(nc.getY()- 5.0f);
 				}
 			}
+
 
 			Set<EdgeDisplay> toRemove = new HashSet<>();
 			for(javafx.scene.Node ep: edgeLayer.getChildren()){
@@ -369,7 +383,7 @@ public class MapRootPane extends AnchorPane{
 					mygc.restore();
 				}
 			}
-			
+
 			for(javafx.scene.Node mp: markerPane.getChildren()){
 				MarkerDisplay md = (MarkerDisplay)mp;
 				if(mp == null) continue;
@@ -385,7 +399,7 @@ public class MapRootPane extends AnchorPane{
 					mp.setTranslateY(c.getY() - md.getImage().getHeight());
 				}
 			}
-			
+
 
 			//render big red X
 			if(currentRoute != null){
@@ -403,9 +417,30 @@ public class MapRootPane extends AnchorPane{
 				}
 			}
 		}
+		long time10 = System.nanoTime();
+		renderavg1 += (double)(time10 - time1);
+		renderavg2 += (double)(time2 - time1);
+		renderavg3 += (double)(time3 - time2);
+		renderavg4 += (double)(time4 - time3);
+		renderavg5 += (double)(time10 - time4);
 
-		
+		renderavgcount++;
+		if(renderavgcount >= 100){
+			System.out.println("Render averages in ms: ");
+			System.out.println("Avg1 " + (renderavg1 * 0.001) / (double) renderavgcount);
+			System.out.println("Avg2 " + (renderavg2 * 0.001) / (double) renderavgcount);
+			System.out.println("Avg3 " + (renderavg3 * 0.001) / (double) renderavgcount);
+			System.out.println("Avg4 " + (renderavg4 * 0.001) / (double) renderavgcount);
+			System.out.println("Avg5 " + (renderavg5 * 0.001) / (double) renderavgcount);
 
+			renderavg1 = 0.0;
+			renderavg2 = 0.0;
+			renderavg3 = 0.0;
+			renderavg4 = 0.0;
+			renderavg5 = 0.0;
+
+			renderavgcount = 0;
+		}
 	}
 	/**
 	 * Internal updater/Helper function
@@ -460,9 +495,10 @@ public class MapRootPane extends AnchorPane{
 		Coordinate mydragged = new Coordinate(0);
     	canvas.setOnMousePressed(e -> {
     		Map nearestMap = null;
-    		
+    		if(!selectedMaps.isEmpty() && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()) nearestMap = selectedMaps.get(0);
+    		else selectedMaps.clear();
     		Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
-			nearestMap = display.getNearestMap(click, currentLevel);
+			//nearestMap = display.getNearestMap(click, currentLevel);
 			if(e.getButton() == MouseButton.PRIMARY && isEditMode && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()){
 				//select map
 				lastview = invview;
@@ -865,7 +901,6 @@ public class MapRootPane extends AnchorPane{
 	}
 
 	public void drawPath(Id nodeAId, Id nodeBId){
-		pathPane.getChildren().clear();
 		 p = new Path(nodeAId, nodeBId);
 	        Graph g = display.getGraph();
 	        if(ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode){
@@ -885,5 +920,7 @@ public class MapRootPane extends AnchorPane{
             ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
     	}
     }
-
+	public Path getPath(){
+		return this.p;
+	}
 }

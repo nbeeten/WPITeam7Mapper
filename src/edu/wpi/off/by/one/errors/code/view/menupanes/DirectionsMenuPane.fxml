@@ -51,7 +51,7 @@
         <ListView fx:id="directionsListView" minWidth="0.0" BorderPane.alignment="CENTER" />
     </center>
     <bottom>
-    	<Button text="Email" minWidth="0" maxWidth="Infinity" onAction="#onEmailButtonClick" />
+    	<Button fx:id="emailButton" text="Email" minWidth="0" maxWidth="Infinity" onAction="#onEmailButtonClick" />
         <!--GridPane hgap="5">
             <columnConstraints>
                 <ColumnConstraints fillWidth="true" percentWidth="50"/>
@@ -62,7 +62,11 @@
             </rowConstraints>
             <children>
                 <Button text="SMS" minWidth="0" maxWidth="Infinity" GridPane.columnIndex="0"/>
+<<<<<<< HEAD
+                <Button fx:id="emailButton" text="Email" minWidth="0" maxWidth="Infinity" GridPane.columnIndex="1" onAction="#onEmailButtonClick" />
+=======
                 
+>>>>>>> upstream/dev
             </children>
         </GridPane-->
     </bottom>
