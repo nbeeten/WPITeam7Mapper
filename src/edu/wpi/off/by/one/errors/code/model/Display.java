@@ -3,6 +3,7 @@ package edu.wpi.off.by.one.errors.code.model;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
@@ -65,7 +66,10 @@ public class Display extends Pane{
 		int idx = 0;
 		Vector<Node> nodes = currentGraph.getNodes();
 		Path p = new Path(start, end);
-		p.runAStar(currentGraph); //Change this later??
+        if(ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode){
+        	p.runAccessibleAStar(currentGraph);
+        }
+        else p.runAStar(currentGraph); //Change this later??
 		ArrayList<Id> idList = p.getRoute();
 		while(idx < idList.size()){
 			Node a = nodes.get(idx);
