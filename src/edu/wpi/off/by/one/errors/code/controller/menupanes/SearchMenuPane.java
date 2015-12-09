@@ -32,7 +32,6 @@ import javafx.scene.layout.BorderPane;
 public class SearchMenuPane extends BorderPane {
 	
 	@FXML ClearableTextField searchField;
-	@FXML Slider floorSlider;
 	@FXML Button searchLocationButton;
 	@FXML ComboBox<String> buildingChoiceBox;
 	@FXML ListView<Id> locationResultListView;
