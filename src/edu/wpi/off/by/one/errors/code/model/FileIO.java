@@ -100,9 +100,9 @@ public class FileIO {
 		Node n = g.addNode(c);
 		if(args.length >= 4) {
 			String[] tags = getTags(args[3]);
-			for(int i = 0; i < tags.length; i++){
-				if(i == 0) n.setName(tags[i]);
-				else n.addTag(tags[i]);
+			n.setName(tags[0]);
+			for(int i = 1; i < tags.length; i++){ 
+				n.addTag(tags[i]);
 			}
 			//for(String j : getTags(args[3])) n.addTag(j);
 		}
@@ -232,7 +232,7 @@ public class FileIO {
 			ids.put(n.getId(), i);
 			Coordinate c = n.getCoordinate();
 			writer.printf("p %f %f %f", c.getX(), c.getY(), c.getZ());
-			if(!n.GetTags().isEmpty()){
+			if(!n.GetTags().isEmpty() || !n.getName().isEmpty()){
 				ArrayList<String> tagList = n.GetTags();
 				tagList.add(0, n.getName());
 				String[] tagListReborn = tagList.toArray(new String[tagList.size()]);

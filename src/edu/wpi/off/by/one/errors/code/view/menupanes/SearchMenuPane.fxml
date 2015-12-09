@@ -20,7 +20,7 @@
             <Label fx:id="searchLabel" maxHeight="40" minWidth="0.0" text="Search" />
             <BorderPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="30.0">
                <center>
-                   <ClearableTextField fx:id="searchField" maxHeight="-Infinity" minWidth="0.0" prefHeight="30.0" promptText="Search for Location" BorderPane.alignment="CENTER" />
+                   <AutoCompleteTextField fx:id="searchField" maxHeight="-Infinity" minWidth="0.0" prefHeight="30.0" promptText="Search for Location" BorderPane.alignment="CENTER" />
                </center>
                <right>
                   <Button fx:id="searchLocationButton" minWidth="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Button" BorderPane.alignment="CENTER" />

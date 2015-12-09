@@ -22,7 +22,7 @@
          <children>
             <BorderPane minWidth="0.0">
                <center>
-                  <ClearableTextField fx:id="xTextField" minWidth="0.0" promptText="X" BorderPane.alignment="CENTER" />
+                  <TextField fx:id="xTextField" minWidth="0.0" promptText="X" BorderPane.alignment="CENTER" />
                </center>
                <left>
                   <Label minWidth="0.0" text="X" BorderPane.alignment="CENTER">
@@ -90,7 +90,7 @@
             <Button fx:id="addTagButton" minWidth="0.0" mnemonicParsing="false" text="Add" BorderPane.alignment="CENTER" />
          </right>
       </BorderPane>
-      <ListView fx:id="tagListView" minWidth="0.0" prefHeight="30.0" />
+      <ListView fx:id="tagListView" minWidth="0.0" prefHeight="100.0" />
       <BorderPane minWidth="0.0">
          <center>
             <BorderPane minWidth="0.0" BorderPane.alignment="CENTER">

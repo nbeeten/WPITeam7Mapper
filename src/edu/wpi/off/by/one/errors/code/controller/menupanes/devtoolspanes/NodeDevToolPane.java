@@ -17,11 +17,13 @@ import edu.wpi.off.by.one.errors.code.model.Display;
 import edu.wpi.off.by.one.errors.code.model.Graph;
 import edu.wpi.off.by.one.errors.code.model.Id;
 import edu.wpi.off.by.one.errors.code.model.Node;
+import edu.wpi.off.by.one.errors.code.model.TagMap;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
 
 /**
  * Created by jules on 11/30/2015.
@@ -33,7 +35,7 @@ public class NodeDevToolPane extends VBox {
 	NodeDisplay currentNd;
 	@FXML TextField nodeNameTextField;
 	@FXML Label nodeIdLabel;
-	@FXML ClearableTextField xTextField;
+	@FXML TextField xTextField;
 	@FXML TextField yTextField;
 	@FXML TextField zTextField;
 	@FXML TextField tagTextField;
@@ -72,7 +74,7 @@ public class NodeDevToolPane extends VBox {
     	edgeListView.getItems().clear();
     	tagListView.getItems().addAll((n.GetTags() != null) ? n.GetTags() : new ArrayList<String>());
     	edgeListView.getItems().addAll((n.getEdgelist() != null) ? n.getEdgelist() : new ArrayList<Id>());
-    	
+    	tagTextField.clear();
     	accessibleCheckbox.setSelected(g.returnNodeById(nd.getNode()).isAccessible());
     }
     
@@ -133,6 +135,13 @@ public class NodeDevToolPane extends VBox {
     		}
     		
     	});
+    	this.tagListView.setOnMouseClicked(e -> {
+    		if(e.getButton() == MouseButton.SECONDARY){
+    			String toRemove = tagListView.getSelectionModel().getSelectedItem();
+    			TagMap.getTagMap().remove(toRemove, currentNd.getNode());
+    			tagListView.getItems().remove(toRemove);
+    		}
+		});
     }
     
     @FXML private void toggleIsBathroom() {}
@@ -155,6 +164,7 @@ public class NodeDevToolPane extends VBox {
     	n.addTag(s);
     	tagListView.getItems().clear();
     	tagListView.getItems().addAll((n.GetTags() != null) ? n.GetTags() : new ArrayList<String>());
+    	tagTextField.clear();
     }
     
     /**

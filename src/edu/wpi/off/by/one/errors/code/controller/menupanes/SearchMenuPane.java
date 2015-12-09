@@ -31,7 +31,7 @@ import javafx.scene.layout.BorderPane;
  */
 public class SearchMenuPane extends BorderPane {
 	
-	@FXML ClearableTextField searchField;
+	@FXML AutoCompleteTextField searchField;
 	@FXML Slider floorSlider;
 	@FXML Button toButton;
 	@FXML Button fromButton;
@@ -39,6 +39,7 @@ public class SearchMenuPane extends BorderPane {
 	@FXML ComboBox<String> buildingChoiceBox;
 	@FXML ListView<String> locationResultListView;
 	HashMap<String, Node> resultReference = new HashMap<String, Node>();
+	String selectedNode;
 	int currentLevel;
 	
     public SearchMenuPane(){
@@ -54,7 +55,6 @@ public class SearchMenuPane extends BorderPane {
         }
         this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/SearchPaneStyleSheet.css").toExternalForm());
         setListeners();
-        
         //SortedSet<String> entries = new TreeSet<String>();
         /*
         for(Map m : ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps()){
@@ -73,11 +73,21 @@ public class SearchMenuPane extends BorderPane {
 	
 	@FXML private void setDirectionsTo(){
 		//get selected place from search
+		if(resultReference == null || selectedNode == null) return;
+		Node n = resultReference.get(selectedNode);
+		if(n != null) {
+			ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsToNode(n);
+		}
 		//ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsToNode(/*NODE*/);
 	}
 	
 	@FXML private void setDirectionsFrom(){
 		//ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsToNode(/*NODE*/);
+		if(resultReference == null || selectedNode == null) return;
+		Node n = resultReference.get(selectedNode);
+		if(n != null) {
+			ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsFromNode(n);
+		}
 	}
 	
 	private void showResults(ArrayList<Id> results){
@@ -120,13 +130,14 @@ public class SearchMenuPane extends BorderPane {
 			}
 			toButton.setDisable(false);
 			fromButton.setDisable(false);
-			String selectedNode = locationResultListView.getSelectionModel().getSelectedItem();
+			selectedNode = locationResultListView.getSelectionModel().getSelectedItem();
 			System.out.println(selectedNode);
 			Node n = resultReference.get(selectedNode);
 			//TODO tell render to draw a selected point on map
 			//ControllerSingleton.getInstance().getMapRootPane().zoomTo
 			//spinnyZoom(n);
-			ControllerSingleton.getInstance().getMapRootPane().placeMarker(n);
+			if(e.getClickCount() == 2) ControllerSingleton.getInstance().getMapRootPane().placeStartMarker(n);
+			else ControllerSingleton.getInstance().getMapRootPane().placeMarker(n);
 		});
 		this.buildingChoiceBox.setOnAction(e -> {
 			spinnyZoom(buildingChoiceBox.getItems().indexOf(buildingChoiceBox.getSelectionModel().getSelectedItem()));
