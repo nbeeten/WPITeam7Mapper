@@ -258,7 +258,6 @@ public class MapRootPane extends AnchorPane{
 				ds.setColor(Color.RED);
 				ds.setRadius(50 / m.getScale());
 				ds.setSpread(0.5);
-				ds.setBlurType(BlurType.ONE_PASS_BOX);
 				mygc.setEffect(ds);
 			}
 			mygc.drawImage(m.getImage(), 0, 0);
@@ -460,9 +459,10 @@ public class MapRootPane extends AnchorPane{
 		Coordinate mydragged = new Coordinate(0);
     	canvas.setOnMousePressed(e -> {
     		Map nearestMap = null;
-    		
+    		if(!selectedMaps.isEmpty() && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()) nearestMap = selectedMaps.get(0);
+    		else selectedMaps.clear();
     		Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
-			nearestMap = display.getNearestMap(click, currentLevel);
+			//nearestMap = display.getNearestMap(click, currentLevel);
 			if(e.getButton() == MouseButton.PRIMARY && isEditMode && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()){
 				//select map
 				lastview = invview;
@@ -865,7 +865,6 @@ public class MapRootPane extends AnchorPane{
 	}
 
 	public void drawPath(Id nodeAId, Id nodeBId){
-		pathPane.getChildren().clear();
 		 p = new Path(nodeAId, nodeBId);
 	        Graph g = display.getGraph();
 	        if(ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode){
