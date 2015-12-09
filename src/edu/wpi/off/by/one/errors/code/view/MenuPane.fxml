@@ -6,11 +6,11 @@
 <?import javafx.scene.control.*?>
 <?import edu.wpi.off.by.one.errors.code.controller.menupanes.*?>
 
-<fx:root type="HBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="HBox" prefWidth="0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane fx:id="menuBar" maxWidth="-Infinity">
             <top>
-                <ToggleButton fx:id="hamburgerToggleButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" selected="true" BorderPane.alignment="CENTER" />
+                <ToggleButton fx:id="hamburgerToggleButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" selected="false" BorderPane.alignment="CENTER" />
             </top>
             <center>
                 <VBox BorderPane.alignment="CENTER">
@@ -35,7 +35,7 @@
                 </VBox>
             </bottom>
         </BorderPane>
-        <AnchorPane fx:id="detailsMenuContainerAnchorPane" minWidth="0">
+        <AnchorPane fx:id="detailsMenuContainerAnchorPane" visible="false" minWidth="0">
             <children>
                 <SearchMenuPane fx:id="searchMenuPane" visible="${searchMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
                 <DirectionsMenuPane fx:id="directionsMenuPane" visible="${directionsMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
