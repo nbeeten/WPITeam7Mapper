@@ -435,6 +435,17 @@ public class MapRootPane extends AnchorPane{
 		render();
 	}
 	
+	public void placeEndMarker(Node n){
+//		markerPane.getChildren().clear();
+//		currentRoute = null;
+//		Coordinate nc = n.getCoordinate();
+//		startMarker = new MarkerDisplay(nc.getX(), nc.getY(), nc.getZ(), Marker.START);
+//		startMarker.setNodePoint(n.getId());
+//		markerPane.getChildren().add(startMarker);
+		drawPath(startMarker.getNodePoint(), n.getId());
+		render();
+	}
+	
     /**
      * Sets up event listener functions for whenever user does something on the mapPane/mapView
      * 

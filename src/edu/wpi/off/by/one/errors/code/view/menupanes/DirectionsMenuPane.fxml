@@ -29,9 +29,9 @@
                         <VBox minHeight="0.0" minWidth="0.0">
                            <children>
                            	   <CheckBox fx:id="accessibleCheckbox" onAction="#selectAccessible" text="Prioritize Accessibility" />
-                               <CheckBox text="Indoors" />
-                               <CheckBox text="Stairs" />
-                               <CheckBox text="Wind Tunnel" />
+                               <!-- CheckBox text="Indoors" /-->
+                               <!-- CheckBox text="Stairs" /-->
+                               <!-- CheckBox text="Wind Tunnel" /-->
                            </children>
                         </VBox>
                     </content>
@@ -51,7 +51,8 @@
         <ListView fx:id="directionsListView" minWidth="0.0" BorderPane.alignment="CENTER" />
     </center>
     <bottom>
-        <GridPane hgap="5">
+    	<Button text="Email" minWidth="0" maxWidth="Infinity" onAction="#onEmailButtonClick" />
+        <!--GridPane hgap="5">
             <columnConstraints>
                 <ColumnConstraints fillWidth="true" percentWidth="50"/>
                 <ColumnConstraints fillWidth="true" percentWidth="50"/>
@@ -61,9 +62,9 @@
             </rowConstraints>
             <children>
                 <Button text="SMS" minWidth="0" maxWidth="Infinity" GridPane.columnIndex="0"/>
-                <Button text="Email" minWidth="0" maxWidth="Infinity" GridPane.columnIndex="1" onAction="#onEmailButtonClick" />
+                
             </children>
-        </GridPane>
+        </GridPane-->
     </bottom>
     <padding>
         <Insets bottom="0" left="10.0" right="10.0" top="0" />

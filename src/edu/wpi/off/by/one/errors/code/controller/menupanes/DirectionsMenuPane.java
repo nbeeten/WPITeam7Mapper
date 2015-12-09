@@ -41,7 +41,8 @@ public class DirectionsMenuPane extends BorderPane {
 
 	private void setListeners(){
 		this.routeButton.setOnAction(e -> {
-			ControllerSingleton.getInstance().getMapRootPane().drawPath();
+			ControllerSingleton.getInstance().getMapRootPane().placeMarker(originNode);
+			ControllerSingleton.getInstance().getMapRootPane().drawPath(originNode.getId(), destinationNode.getId());
 		});
 	}
 	

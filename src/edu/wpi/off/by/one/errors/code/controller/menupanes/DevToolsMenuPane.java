@@ -29,9 +29,9 @@ public class DevToolsMenuPane extends BorderPane {
 	@FXML MapDevToolPane mapDevToolPane;
 	@FXML NodeDevToolPane nodeDevToolPane;
 	@FXML EdgeDevToolPane edgeDevToolPane;
-	@FXML Button loadNewImageButton;
-	@FXML Button loadNewMapButton;
-	@FXML Button appendMapButton;
+	//@FXML Button loadNewImageButton;
+	//@FXML Button loadNewMapButton;
+	//@FXML Button appendMapButton;
 	@FXML Button saveCurrentMapButton;
 	
 
@@ -61,7 +61,7 @@ public class DevToolsMenuPane extends BorderPane {
         		mapDevToolPane.updateMapList(maproot.getDisplay().getMaps());
             }
     	});
-    	
+    	/*
     	this.loadNewImageButton.setOnAction(e -> {
     		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
             
@@ -89,7 +89,7 @@ public class DevToolsMenuPane extends BorderPane {
                 ControllerSingleton.getInstance().getMenuPane().getSearchMenuPane().updateMapList(maproot.getDisplay().getMaps());
 
             }
-    	});
+    	});*/
     	/*
     	this.loadNewMapButton.setOnAction(e -> {
     		Display newdisp = null;
@@ -108,6 +108,7 @@ public class DevToolsMenuPane extends BorderPane {
             }
     	});
     	*/
+    	/*
     	// TODO Append new map onto current map on a separate pane layer
     	this.appendMapButton.setOnAction(e -> {
     		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
@@ -128,10 +129,8 @@ public class DevToolsMenuPane extends BorderPane {
                 //mapDevToolPane.setMap(newdisp.getMap());
                 ControllerSingleton.getInstance().getMenuPane().getSearchMenuPane().updateMapList(maproot.getDisplay().getMaps());
             }
-           
-            
     	});
-    	
+    	*/
     	this.saveCurrentMapButton.setOnAction(e -> {
     		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
             FileIO.save(maproot.getFilePath(), maproot.getDisplay());
