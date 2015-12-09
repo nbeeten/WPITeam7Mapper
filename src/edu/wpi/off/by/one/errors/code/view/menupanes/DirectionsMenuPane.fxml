@@ -26,13 +26,14 @@
                 </BorderPane>
                 <TitledPane animated="false" expanded="false" minWidth="0.0" text="Options">
                     <content>
-                        <HBox minHeight="0.0" minWidth="0.0">
+                        <VBox minHeight="0.0" minWidth="0.0">
                            <children>
+                           	   <CheckBox fx:id="accessibleCheckbox" onAction="#selectAccessible" text="Prioritize Accessibility" />
                                <CheckBox text="Indoors" />
                                <CheckBox text="Stairs" />
                                <CheckBox text="Wind Tunnel" />
                            </children>
-                        </HBox>
+                        </VBox>
                     </content>
                 </TitledPane>
                 <StackPane alignment="CENTER_RIGHT">

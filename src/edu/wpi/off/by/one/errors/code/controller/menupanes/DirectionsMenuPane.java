@@ -6,7 +6,10 @@ import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.model.GoogleMail;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import edu.wpi.off.by.one.errors.code.model.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -15,8 +18,9 @@ import javafx.scene.layout.BorderPane;
 public class DirectionsMenuPane extends BorderPane {
 	@FXML private ClearableTextField originTextField;
     @FXML private ClearableTextField destinationTextField;
-	@FXML private Button routeButton;
-    @FXML private ListView directionsListView;
+	@FXML Button routeButton;
+    @FXML private ListView<String> directionsListView;
+    @FXML CheckBox accessibleCheckbox;
 	
     public DirectionsMenuPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/DirectionsMenuPane.fxml"));
@@ -37,6 +41,26 @@ public class DirectionsMenuPane extends BorderPane {
 		this.routeButton.setOnAction(e -> {
 			ControllerSingleton.getInstance().getMapRootPane().drawPath();
 		});
+	}
+	
+	@FXML private void selectAccessible(){
+		ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode = accessibleCheckbox.isSelected() ? true : false;
+		System.out.println("Accessibility: " + ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode);
+	}
+	
+	public Node getDirectionsToNode() { return null; }
+	public Node getDirectionsFromNode() { return null; }
+	
+	public void setDirectionsToNode(){
+		//TODO Should take an input (String? NodeDisplay? Node?)
+		//Put String name in the To box
+		//set directionsTo variable (NOT MADE YET)
+	}
+	
+	public void setDirectionsFromNode(){
+		//TODO Should take an input (String? NodeDisplay? Node?)
+		//Put String name in the From box
+		//set directionsFrom variable (NOT MADE YET)
 	}
 
     public ListView<String> getdirectionsListView(){

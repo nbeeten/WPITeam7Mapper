@@ -2,19 +2,28 @@ package edu.wpi.off.by.one.errors.code.controller.menupanes;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
 import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
 import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteTextField;
+import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
+import edu.wpi.off.by.one.errors.code.model.Graph;
+import edu.wpi.off.by.one.errors.code.model.Id;
 import edu.wpi.off.by.one.errors.code.model.Map;
 import edu.wpi.off.by.one.errors.code.model.Matrix;
+import edu.wpi.off.by.one.errors.code.model.Node;
+import edu.wpi.off.by.one.errors.code.model.TagMap;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -22,8 +31,11 @@ import javafx.scene.layout.BorderPane;
  */
 public class SearchMenuPane extends BorderPane {
 	
-	@FXML AutoCompleteTextField searchField;
+	@FXML ClearableTextField searchField;
+	@FXML Slider floorSlider;
+	@FXML Button searchLocationButton;
 	@FXML ComboBox<String> buildingChoiceBox;
+	@FXML ListView<Id> locationResultListView;
 	
 	int currentLevel;
 	
@@ -56,12 +68,46 @@ public class SearchMenuPane extends BorderPane {
         	buildingChoiceBox.getItems().add(name);
         }
 	}
+	
+	@FXML private void setDirectionsTo(){
+		//get selected place from search
+		//ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsToNode(/*NODE*/);
+	}
+	
+	@FXML private void setDirectionsFrom(){
+		//ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsToNode(/*NODE*/);
+	}
+	
+	private void showResults(ArrayList<Id> results){
+		// should take in whatever search spits out
+		if(results == null) return;
+		if(results.size() == 0) return; // if empty, display a message for user saying that there's no result
+		// Should be called after search is complete
+		// Possibly concatenate tags for each node
+		// i.e. Fuller Labs, Level 2, Room 222; Salisbury, Floor 3, Women's Bathroom
+		//populate locationResultListView
+		locationResultListView.getItems().clear();
+		locationResultListView.getItems().addAll(results);
+		//TODO tell render to draw markers of results on map
+	}
+	
+	private void search(String tag){
+		ArrayList<Id> results = TagMap.getTagMap().find(tag);
+		showResults(results);
+	}
 
 	private void setListeners(){
 		/*this.buildingChoiceBox.setOnContextMenuRequested(e -> {
 			//TODO update map list
 		});*/
+		this.searchField.setOnAction(e -> search(searchField.getText()));
+		this.searchLocationButton.setOnAction(e -> search(searchField.getText()));
 		
+		this.locationResultListView.setOnMouseClicked(e -> {
+			Id selectedNode = locationResultListView.getSelectionModel().getSelectedItem();
+			System.out.println(selectedNode);
+			//TODO tell render to draw a selected point on map
+		});
 		this.buildingChoiceBox.setOnAction(e -> {
 			spinnyZoom(buildingChoiceBox.getItems().indexOf(buildingChoiceBox.getSelectionModel().getSelectedItem()));
 		});

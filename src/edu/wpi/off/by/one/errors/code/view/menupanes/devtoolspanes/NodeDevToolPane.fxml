@@ -76,7 +76,7 @@
         </rowConstraints>
          <children>
             <CheckBox mnemonicParsing="false" onAction="#toggleIsBathroom" text="Bathroom" />
-            <CheckBox mnemonicParsing="false" onAction="#toggleIsAccessible" text="Accessibility" GridPane.columnIndex="1" />
+            <CheckBox fx:id="accessibleCheckbox" mnemonicParsing="false" onAction="#toggleIsAccessible" text="Accessibility" GridPane.columnIndex="1" />
             <CheckBox mnemonicParsing="false" onAction="#toggleIsFood" text="Food" GridPane.rowIndex="1" />
          </children>
       </GridPane>
