@@ -128,6 +128,7 @@ public class Graph {
 	 * @return node that matches the id; null if couldn't find it
 	 */
 	public Node returnNodeById(Id id){
+		if(id.indice >= listOfNodes.size()) return null;
 		Node n = listOfNodes.elementAt(id.indice);
 		if(n == null) return null;
 		Id nid = n.getId();
@@ -222,6 +223,7 @@ public class Graph {
 	 * @return edge that matches the id; null if couldn't find it
 	 */
 	public Edge returnEdgeById(Id id){
+		if(id.indice >= listOfEdges.size()) return null;
 		Edge e = listOfEdges.elementAt(id.indice);
 		if(e == null) return null;
 		Id eid = e.getId();
