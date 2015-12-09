@@ -21,6 +21,9 @@ public class DirectionsMenuPane extends BorderPane {
 	@FXML Button routeButton;
     @FXML private ListView<String> directionsListView;
     @FXML CheckBox accessibleCheckbox;
+    @FXML Button emailButton;
+
+    private SettingsMenuPane settingsMenuPane;
 	
     public DirectionsMenuPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/DirectionsMenuPane.fxml"));
@@ -33,7 +36,7 @@ public class DirectionsMenuPane extends BorderPane {
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
-
+        settingsMenuPane = ControllerSingleton.getInstance().getSettingsMenuPane();
         this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/DirectionsPaneStyleSheet.css").toExternalForm());
     }
 
@@ -74,7 +77,11 @@ public class DirectionsMenuPane extends BorderPane {
     }
 
     @FXML private void onEmailButtonClick(){
+        String userEmail =settingsMenuPane.getUserEmail();
         GoogleMail googleMail = new GoogleMail();
-        googleMail.send("", "Testing Mapper Email", "This is a test to see if the email class works");
+        googleMail.send(userEmail, "Directions from goatThere()", "Here are your directions");
+    }
+    public void disableEmailButton(boolean b){
+        emailButton.setDisable(b);
     }
 }

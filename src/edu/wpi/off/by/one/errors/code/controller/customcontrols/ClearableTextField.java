@@ -1,5 +1,6 @@
 package edu.wpi.off.by.one.errors.code.controller.customcontrols;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -78,6 +79,7 @@ public class ClearableTextField extends BorderPane {
     public void setOnAction(EventHandler<ActionEvent> actionEvent){
         onActionProperty().set(actionEvent);
     }
+
     //endregion
 
     //region listener Methods
