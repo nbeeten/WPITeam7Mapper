@@ -9,6 +9,7 @@ public class Node {
     private Id id;
     private ArrayList<String> tags;//list of tags the node has
     private TagMap tagMap;
+    private boolean accessible = true;
     
     /**
      *
@@ -175,5 +176,13 @@ public class Node {
     }
     public float getDistance(Coordinate c){
         return (float)Math.sqrt((double)getDistanceSq(c));
+    }
+    
+    public boolean isAccessible(){
+    	return accessible;
+    }
+    
+    public void setAccessible(boolean accessibility){
+    	accessible = accessibility;
     }
 }

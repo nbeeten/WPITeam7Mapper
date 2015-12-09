@@ -17,6 +17,7 @@ import edu.wpi.off.by.one.errors.code.model.Node;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -38,6 +39,7 @@ public class NodeDevToolPane extends VBox {
 	@FXML ListView<String> tagListView;
 	@FXML ListView<Id> edgeListView;
 	@FXML Button addTagButton;
+	@FXML CheckBox accessibleCheckbox;
 	
     public NodeDevToolPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../../../view/menupanes/devtoolspanes/NodeDevToolPane.fxml"));
@@ -68,6 +70,8 @@ public class NodeDevToolPane extends VBox {
     	edgeListView.getItems().clear();
     	tagListView.getItems().addAll((n.GetTags() != null) ? n.GetTags() : new ArrayList<String>());
     	edgeListView.getItems().addAll((n.getEdgelist() != null) ? n.getEdgelist() : new ArrayList<Id>());
+    	
+    	accessibleCheckbox.setSelected(g.returnNodeById(nd.getNode()).isAccessible());
     }
     
     private void setListeners(){
@@ -121,7 +125,10 @@ public class NodeDevToolPane extends VBox {
     }
     
     @FXML private void toggleIsBathroom() {}
-    @FXML private void toggleIsAccessible() {}
+    @FXML private void toggleIsAccessible() {
+    	Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
+    	n.setAccessible(accessibleCheckbox.isSelected() ? true : false);
+    }
     @FXML private void toggleIsFood() {}
     
     /**
