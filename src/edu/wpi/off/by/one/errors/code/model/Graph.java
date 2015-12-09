@@ -50,6 +50,24 @@ public class Graph {
 	 */
 
 	public Node addNode(Coordinate coordIn){//adds a node to the list
+		//linear search to make sure the node already isnt there
+		int i;
+		float inx = coordIn.getX();
+		float iny = coordIn.getY();
+		float inz = coordIn.getZ();
+		Node n = null;
+		for(i = 0; i < listOfNodes.size(); i++){
+			n = listOfNodes.get(i);
+			if(n==null) continue;
+			float ox = n.getCoordinate().getX();
+			float oy = n.getCoordinate().getY();
+			float oz = n.getCoordinate().getZ();
+			if(inx <= ox + 0.01f && inx >= ox - 0.01f && iny <= oy + 0.01f && iny >= oy - 0.01f && inz <= oz + 0.01f && inz >= oz - 0.01f)break;
+		}
+		if(i < listOfNodes.size()){ // found duplicate
+			return n;
+		}
+
 		node_count++;
 		for(; node_arrayfirstopen < node_arraysize && listOfNodes.get(node_arrayfirstopen) != null; node_arrayfirstopen++);
 		if(node_arrayfirstopen >= node_arraysize){	//resize
@@ -58,7 +76,7 @@ public class Graph {
 			listOfNodes.setSize(node_arraysize);
 		}
 		Id nid = new Id(node_arrayfirstopen, node_count);
-		Node n = new Node(coordIn, nid);
+		n = new Node(coordIn, nid);
 		listOfNodes.set(node_arrayfirstopen, n);
 		updateAABBGrow(n.getCoordinate());
 		
@@ -72,6 +90,22 @@ public class Graph {
 	 * @return node's id 
 	 */
 	public Id addNodeRint(Coordinate coordIn){//adds a node to the list, returns ID instead of node
+		int i;
+		float inx = coordIn.getX();
+		float iny = coordIn.getY();
+		float inz = coordIn.getZ();
+		Node n = null;
+		for(i = 0; i < listOfNodes.size(); i++){
+			n = listOfNodes.get(i);
+			if(n==null) continue;
+			float ox = n.getCoordinate().getX();
+			float oy = n.getCoordinate().getY();
+			float oz = n.getCoordinate().getZ();
+			if(inx <= ox + 0.01f && inx >= ox - 0.01f && iny <= oy + 0.01f && iny >= oy - 0.01f && inz <= oz + 0.01f && inz >= oz - 0.01f)break;
+		}
+		if(i < listOfNodes.size()){ // found duplicate
+			return n.getId();
+		}
 		node_count++;
 		for(; node_arrayfirstopen < node_arraysize && listOfNodes.get(node_arrayfirstopen) != null; node_arrayfirstopen++);
 		if(node_arrayfirstopen >= node_arraysize){	//resize
@@ -80,7 +114,7 @@ public class Graph {
 			listOfNodes.setSize(node_arraysize);
 		}
 		Id nid = new Id(node_arrayfirstopen, node_count);
-		Node n = new Node(coordIn, nid);
+		n = new Node(coordIn, nid);
 		listOfNodes.set(node_arrayfirstopen, n);
 		updateAABBGrow(n.getCoordinate());
 		
@@ -108,6 +142,17 @@ public class Graph {
 	 * @return added edge
 	 */
 	public Edge addEdge(Id nodeAIn, Id nodeBIn){//adds an edge to the list
+		int i;
+		Edge e = null;
+		for(i = 0; i < listOfEdges.size(); i++){
+			e = listOfEdges.get(i);
+			if(e==null) continue;
+			if((nodeAIn.compare(e.getNodeA()) && nodeBIn.compare(e.getNodeB())) || (nodeBIn.compare(e.getNodeA()) && nodeAIn.compare(e.getNodeB())))break;
+		}
+		if(i < listOfEdges.size()){ // found duplicate
+			//System.out.println("found dupe");
+			return e;
+		}
 		Node A = returnNodeById(nodeAIn);
 		Node B = returnNodeById(nodeBIn);
 		if(A == null || B == null) return null;
@@ -119,7 +164,7 @@ public class Graph {
 			listOfEdges.setSize(edge_arraysize);
 		}
 		Id eid = new Id(edge_arrayfirstopen, edge_count);
-		Edge e = new Edge(nodeAIn, nodeBIn, eid);
+		e = new Edge(nodeAIn, nodeBIn, eid);
 		listOfEdges.set(edge_arrayfirstopen, e);
 		
 		if(edge_arraylasttaken < edge_arrayfirstopen) edge_arraylasttaken = edge_arrayfirstopen; //todo redo
@@ -136,6 +181,19 @@ public class Graph {
 	 * @return id of added edge
 	 */
 	public Id addEdgeRint(Id nodeAIn, Id nodeBIn){//adds an edge to the list, returns ID instead of edge
+
+		int i;
+		Edge e = null;
+		for(i = 0; i < listOfEdges.size(); i++){
+			e = listOfEdges.get(i);
+			if(e==null) continue;
+			if((nodeAIn.compare(e.getNodeA()) && nodeBIn.compare(e.getNodeB())) || (nodeBIn.compare(e.getNodeA()) && nodeAIn.compare(e.getNodeB())))break;
+		}
+		if(i < listOfEdges.size()){ // found duplicate
+			//System.out.println("found dupe");
+			return e.getId();
+		}
+
 		Node A = returnNodeById(nodeAIn);
 		Node B = returnNodeById(nodeBIn);
 		if(A == null || B == null) return null;
@@ -147,7 +205,7 @@ public class Graph {
 			listOfEdges.setSize(edge_arraysize);
 		}
 		Id eid = new Id(edge_arrayfirstopen, edge_count);
-		Edge e = new Edge(nodeAIn, nodeBIn, eid);
+		e = new Edge(nodeAIn, nodeBIn, eid);
 		listOfEdges.set(edge_arrayfirstopen, e);
 		
 		if(edge_arraylasttaken < edge_arrayfirstopen) edge_arraylasttaken = edge_arrayfirstopen; //todo redo
