@@ -139,4 +139,5 @@ public class DevToolsMenuPane extends BorderPane {
     }
     public NodeDevToolPane getNodeDevToolPane() { return nodeDevToolPane; }
     public EdgeDevToolPane getEdgeDevToolPane() { return edgeDevToolPane; }
+    public MapDevToolPane getMapDevToolPane() { return mapDevToolPane; }
 }

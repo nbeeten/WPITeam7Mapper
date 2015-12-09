@@ -12,6 +12,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
@@ -121,7 +127,7 @@ public class MainPane extends BorderPane {
         this.getStylesheets().add(getClass().getResource("../resources/stylesheets/MainPaneStyleSheet.css").toExternalForm());
     }
 
-    private void addListeners(){
+	private void addListeners(){
         openNavigationPaneButton.visibleProperty().bind(navigationPane.visibleProperty().not());
     	rotateLeftButton.setOnMousePressed(e -> lttl.play());
     	rotateLeftButton.setOnMouseReleased(e -> lttl.stop());
@@ -153,6 +159,15 @@ public class MainPane extends BorderPane {
     }
     public Window getWindow() { return this.window; }
     public NodeDevToolPane getNodeTool() { return this.menuPane.getDevToolsMenuPane().getNodeDevToolPane(); }
-    
+
+    /**
+     * Listener for when mouse is clicked on the floor slider
+     */
+    @FXML private void onFloorSliderMouseCLicked(){
+        int floor = (int) floorSlider.getValue();
+        mapRootPane.currentLevel = floor;
+        mapRootPane.getMapRootPane().translate.setAll(mapRootPane.translate.getX(), mapRootPane.translate.getY(), floor);
+        mapRootPane.getMapRootPane().render();
+    }
 }
 

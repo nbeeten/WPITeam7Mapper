@@ -23,7 +23,6 @@ import javafx.scene.layout.BorderPane;
 public class SearchMenuPane extends BorderPane {
 	
 	@FXML AutoCompleteTextField searchField;
-	@FXML Slider floorSlider;
 	@FXML ComboBox<String> buildingChoiceBox;
 	
 	int currentLevel;
@@ -57,18 +56,8 @@ public class SearchMenuPane extends BorderPane {
         	buildingChoiceBox.getItems().add(name);
         }
 	}
-	
+
 	private void setListeners(){
-		this.floorSlider.setOnMouseClicked(e -> {
-			MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
-			int floor = (int) floorSlider.getValue();
-			//System.out.println(floor);
-			//do a thing with it
-			maproot.currentLevel = floor;
-			maproot.getMapRootPane().translate.setAll(maproot.translate.getX(), maproot.translate.getY(), floor);
-			maproot.getMapRootPane().render();
-		});
-		
 		/*this.buildingChoiceBox.setOnContextMenuRequested(e -> {
 			//TODO update map list
 		});*/

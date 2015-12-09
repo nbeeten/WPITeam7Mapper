@@ -41,7 +41,7 @@
                 <DirectionsMenuPane fx:id="directionsMenuPane" visible="${directionsMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
                 <FavoritesMenuPane fx:id="favoritesMenuPane" visible="${favoritesMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
                 <DevToolsMenuPane fx:id="devToolsMenuPane" visible="${devToolMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
-                <SettingsMenuPane fx:id="settingsMenuPane" visible="${settingsMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" spacing="10" />
+                <SettingsMenuPane fx:id="settingsMenuPane" visible="${settingsMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
                 <HelpMenuPane fx:id="helpMenuPane" visible="${helpMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
             </children>
         </AnchorPane>

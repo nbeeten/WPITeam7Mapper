@@ -20,7 +20,7 @@
                                 <MapRootPane fx:id="mapRootPane" maxHeight="Infinity" maxWidth="Infinity"/>
                             </content>
                         </ScrollPane>
-                        <Slider fx:id="floorSlider" majorTickUnit="1" max="4" maxHeight="500" min="-1" minorTickCount="0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1" StackPane.alignment="CENTER_LEFT">
+                        <Slider fx:id="floorSlider" blockIncrement="1" majorTickUnit="1" max="5" maxHeight="500" min="-2" minorTickCount="0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1" StackPane.alignment="CENTER_LEFT" onMouseClicked="#onFloorSliderMouseCLicked">
                      <padding>
                         <Insets left="5.0" right="5.0" />
                      </padding></Slider>

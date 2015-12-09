@@ -3,6 +3,7 @@ package edu.wpi.off.by.one.errors.code.controller.menupanes;
 import java.io.IOException;
 import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField;
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
+import edu.wpi.off.by.one.errors.code.model.GoogleMail;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -46,5 +47,10 @@ public class DirectionsMenuPane extends BorderPane {
         String originContent = originTextField.getText();
         originTextField.setText(destinationTextField.getText());
         destinationTextField.setText(originContent);
+    }
+
+    @FXML private void onEmailButtonClick(){
+        GoogleMail googleMail = new GoogleMail();
+        googleMail.send("", "Testing Mapper Email", "This is a test to see if the email class works");
     }
 }

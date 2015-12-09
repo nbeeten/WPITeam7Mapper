@@ -60,7 +60,7 @@
             </rowConstraints>
             <children>
                 <Button text="SMS" minWidth="0" maxWidth="Infinity" GridPane.columnIndex="0"/>
-                <Button text="Email" minWidth="0" maxWidth="Infinity" GridPane.columnIndex="1"/>
+                <Button text="Email" minWidth="0" maxWidth="Infinity" GridPane.columnIndex="1" onAction="#onEmailButtonClick" />
             </children>
         </GridPane>
     </bottom>
