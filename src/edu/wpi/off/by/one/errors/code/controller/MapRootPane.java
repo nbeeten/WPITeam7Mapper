@@ -785,7 +785,10 @@ public class MapRootPane extends AnchorPane{
     	
         p = new Path(startNode.getNode(), endNode.getNode());
         Graph g = display.getGraph();
-        p.runAStar(g); //Change this later??
+        if(ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode){
+        	p.runAccessibleAStar(g);
+        }
+        else p.runAStar(g); //Change this later??
         currentRoute = p.getRoute();
         render();
         SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
