@@ -106,6 +106,7 @@ public class MapRootPane extends AnchorPane{
     public boolean isDeleteMode = false;	//Is editor currently deleting nodes?
     public boolean isMultiSelectNodes = false;
     public boolean isPirateMode = false;
+    public boolean isAccessibleMode = false;
     boolean isZooming = false;
 	Image pirateX = null;
     
