@@ -26,6 +26,7 @@ public class Map {
 		Coordinate sc = mat.transform(c);
 		int sx = Math.round(sc.getX());
 		int sy = Math.round(sc.getY());
+		System.out.printf(" %s Eyedrop X %d Eyedrop Y %d, coord X %f coord Y %f, center X %f, center Y %f\n", name, sx, sy, c.getX(), c.getY(), center.getX(), center.getY());
 		if(sx < 0 || sx >= myimg.getWidth()) return 0;
 		if(sy < 0 || sy >= myimg.getHeight()) return 0;
 		return myimg.getPixelReader().getArgb(sx, sy);
