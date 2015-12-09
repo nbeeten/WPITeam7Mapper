@@ -10,6 +10,7 @@ public class Node {
     private ArrayList<String> tags;//list of tags the node has
     private TagMap tagMap;
     private boolean accessible = true;
+    private String name = "";
     
     /**
      *
