@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
+
 public class Path {
 	private Id startNode;
 	private Id endNode;
@@ -182,7 +184,7 @@ public class Path {
 				fScore.put(neighborId, gScore.get(neighborId)+calcHeuristic(neighborId  , endNode));
 			}
 		}
-		
+
 		
 	}
 	/**
