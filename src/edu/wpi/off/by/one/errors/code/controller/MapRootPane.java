@@ -43,6 +43,7 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -105,7 +106,9 @@ public class MapRootPane extends AnchorPane{
     public boolean isDeleteMode = false;	//Is editor currently deleting nodes?
     public boolean isMultiSelectNodes = false;
     public boolean isPirateMode = false;
+    public boolean isAccessibleMode = false;
     boolean isZooming = false;
+	Image pirateX = null;
     
     boolean isctrl = false;
 
@@ -236,7 +239,7 @@ public class MapRootPane extends AnchorPane{
 		//grab graphics context
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		mygc.setFill(Color.web("c3dca5"));
+		mygc.setFill(Color.rgb(173, 221, 116));
 		mygc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
 		ArrayList<Map> mlist = display.getMaps();
 		for(Map m : mlist){
@@ -344,6 +347,7 @@ public class MapRootPane extends AnchorPane{
 			nodeLayer.setVisible(false); 
 			}
 		Node last = null;
+
 		if(currentRoute != null){
 			for(Id id : currentRoute){
 				mygc.save();
@@ -375,7 +379,16 @@ public class MapRootPane extends AnchorPane{
 				mygc.restore();
 			}
 		}
-		
+		//render big red X
+		if(last != null){
+			Coordinate c = view.transform(last.getCoordinate());
+			mygc.save();
+			//Rotate r = new Rotate(rot, 0, 0);
+			//mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
+			if(pirateX == null) pirateX = new Image(MarkerDisplay.pirate_endImg);
+			mygc.drawImage(pirateX, c.getX()-pirateX.getWidth()/2.0, c.getY()-pirateX.getHeight()/2.0);
+			mygc.restore();
+		}
 
 	}
 	/**
