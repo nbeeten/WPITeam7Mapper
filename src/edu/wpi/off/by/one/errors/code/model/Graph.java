@@ -1,5 +1,7 @@
 package edu.wpi.off.by.one.errors.code.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 
 //graph class manages edges and nodes
@@ -16,6 +18,7 @@ public class Graph {
 	private Vector<Edge> listOfEdges;
 	private Coordinate AABBmin = null;
 	private Coordinate AABBmax = null;
+	private TagMap tagMap;
 
 	private void updateAABBGrow(Coordinate add){ //todo have AABB shrinking
 		if(AABBmax == null)AABBmax = new Coordinate(add.getX(), add.getY(), add.getZ());
@@ -37,6 +40,7 @@ public class Graph {
 	public Graph(){
 		listOfNodes = new Vector<Node>(); //array list of nodes
 		listOfEdges = new Vector<Edge>(); //array list of edges
+		tagMap = TagMap.getTagMap(); //map of tags pointing to nodes
 	}
 	
 	/**
@@ -309,16 +313,9 @@ public class Graph {
 	/**
 	 * search for a node by tags
 	 * @param searchTerm: the string being searched for
-	 * @return: returns id of node with tag being searched for. If none are found returns null
+	 * @return: returns ArrayList of ids of nodes with tag being searched for. If none are found returns null
 	 */
-	public Id search(String searchTerm){
-		for(Node searched : listOfNodes){
-			for(String tag : searched.GetTags()){
-				if(searchTerm == tag){
-					return searched.getId();
-				}
-			}
-		}
-		return null;
+	public ArrayList<Id> search(String searchTerm){
+		return tagMap.find(searchTerm);
 	}
 }
