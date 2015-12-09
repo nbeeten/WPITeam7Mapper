@@ -1,10 +1,13 @@
 package edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes;
 
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField;
 import edu.wpi.off.by.one.errors.code.application.NodeDisplay;
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
@@ -14,14 +17,11 @@ import edu.wpi.off.by.one.errors.code.model.Display;
 import edu.wpi.off.by.one.errors.code.model.Graph;
 import edu.wpi.off.by.one.errors.code.model.Id;
 import edu.wpi.off.by.one.errors.code.model.Node;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 
 /**
  * Created by jules on 11/30/2015.
@@ -32,7 +32,7 @@ public class NodeDevToolPane extends VBox {
 	Display currentDisplay;
 	NodeDisplay currentNd;
 	@FXML Label nodeIdLabel;
-	@FXML TextField xTextField;
+	@FXML ClearableTextField xTextField;
 	@FXML TextField yTextField;
 	@FXML TextField zTextField;
 	@FXML TextField tagTextField;

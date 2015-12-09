@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
 <?import edu.wpi.off.by.one.errors.code.controller.customcontrols.*?>
-
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <ListView fx:id="locationResultListView" minWidth="0.0" BorderPane.alignment="CENTER">
@@ -22,7 +18,7 @@
             <Label fx:id="searchLabel" maxHeight="40" minWidth="0.0" text="Search" />
             <BorderPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="30.0">
                <center>
-                  <AutoCompleteTextField fx:id="searchField" maxHeight="-Infinity" minWidth="0.0" prefHeight="30.0" BorderPane.alignment="CENTER" />
+                   <ClearableTextField fx:id="searchField" promptText="Search for Location" maxHeight="-Infinity" minWidth="0.0" prefHeight="30.0" BorderPane.alignment="CENTER" />
                </center>
                <right>
                   <Button fx:id="searchLocationButton" minWidth="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Button" BorderPane.alignment="CENTER" />
@@ -31,9 +27,8 @@
             <ComboBox fx:id="buildingChoiceBox" prefHeight="25.0" prefWidth="250.0">
                <VBox.margin>
                   <Insets top="10.0" />
-               </VBox.margin></ComboBox>
-            <Label text="Select Floor:" />
-            <Slider fx:id="floorSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="-2.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+               </VBox.margin>
+            </ComboBox>
             <HBox prefHeight="0.0" prefWidth="248.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#setDirectionsFrom" text="Directions from Here" />

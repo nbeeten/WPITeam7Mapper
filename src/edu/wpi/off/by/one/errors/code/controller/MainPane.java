@@ -10,6 +10,8 @@ import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
@@ -32,6 +34,7 @@ public class MainPane extends BorderPane {
 
 
 	Window window;
+	@FXML private Slider floorSlider;
 	@FXML private StackPane mapContainer;
 	@FXML private Button rotateLeftButton;
 	@FXML private Button rotateRightButton;
@@ -145,6 +148,7 @@ public class MainPane extends BorderPane {
     	this.window = window; 
     	mapScrollPane.setVmax(0);
     	mapScrollPane.setHmax(0);
+
     	mapContainer.heightProperty().addListener(e -> {
     		mapRootPane.updateCanvasSize(mapContainer.getWidth(), mapContainer.getHeight());
     	});
@@ -155,5 +159,15 @@ public class MainPane extends BorderPane {
     }
     public Window getWindow() { return this.window; }
     public NodeDevToolPane getNodeTool() { return this.menuPane.getDevToolsMenuPane().getNodeDevToolPane(); }
+
+    /**
+     * Listener for when mouse is clicked on the floor slider
+     */
+    @FXML private void onFloorSliderMouseCLicked(){
+        int floor = (int) floorSlider.getValue();
+        mapRootPane.currentLevel = floor;
+        mapRootPane.getMapRootPane().translate.setAll(mapRootPane.translate.getX(), mapRootPane.translate.getY(), floor);
+        mapRootPane.getMapRootPane().render();
+    }
 }
 
