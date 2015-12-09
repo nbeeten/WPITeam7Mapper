@@ -1,7 +1,7 @@
 p 627.000000 1208.000000 1.000000
 p 625.000000 1171.000000 1.000000
 p 644.000000 1119.000000 1.000000
-p 688.000000 1175.000000 1.000000
+p 688.000000 1175.000000 1.000000 ,,,seal
 p 665.000000 1231.000000 1.000000
 p 738.000000 1242.000000 1.000000
 p 751.000000 1127.000000 1.000000
@@ -22,7 +22,7 @@ p 951.000000 1203.000000 1.000000
 p 948.000000 1288.000000 1.000000
 p 938.000000 1275.000000 1.000000
 p 915.000000 1321.000000 1.000000
-p 931.000000 1069.000000 1.000000 Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,fountain
+p 931.000000 1069.000000 1.000000 Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,Fountain,fountain
 p 864.000000 1056.000000 1.000000
 p 866.920105 1044.520142 1.000000
 p 845.459839 1054.697876 1.000000
@@ -53,7 +53,7 @@ p 1036.275146 974.896423 1.000000
 p 1055.000000 1016.000000 1.000000
 p 1041.000000 1094.000000 1.000000
 p 995.000000 1089.000000 1.000000
-p 998.000000 1056.000000 1.000000
+p 989.112305 1067.605469 1.000000
 p 971.000000 1089.000000 1.000000
 p 973.000000 1072.000000 1.000000
 p 995.000000 1076.000000 1.000000
@@ -66,16 +66,16 @@ p 1052.000000 1156.000000 1.000000
 p 1042.000000 1161.000000 1.000000
 p 1067.000000 1031.000000 1.000000
 p 1064.000000 961.000000 1.000000
-p 1076.000000 961.000000 1.000000
+p 1074.373901 967.656372 1.000000
 p 1106.000000 921.000000 1.000000
 p 1081.000000 931.000000 1.000000
 p 1123.000000 949.000000 1.000000
 p 802.000000 1044.000000 1.000000
 p 829.000000 991.000000 1.000000
 p 814.000000 998.000000 1.000000
-p 801.000000 992.000000 1.000000
-p 760.000000 976.000000 1.000000
-p 804.000000 940.000000 1.000000
+p 796.061340 992.265808 1.000000
+p 789.753052 980.416992 1.000000
+p 802.561951 959.204407 1.000000
 p 827.000000 971.000000 1.000000
 p 839.000000 929.000000 1.000000
 p 869.000000 918.000000 1.000000
@@ -228,7 +228,7 @@ p 1006.059692 959.895203 1.000000
 p 1002.340515 957.532593 1.000000
 p 1000.409241 956.316284 1.000000
 p 996.035217 953.892273 1.000000
-p 1009.022705 952.274536 1.000000 Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,ak,Atwater_Kent
+p 1009.022705 952.274536 1.000000 Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,Pumpkin_Lounge,ak,Atwater_Kent
 p 996.055847 944.382935 1.000000
 p 995.123047 946.174011 1.000000
 p 991.532227 943.796997 1.000000
@@ -247,7 +247,7 @@ p 1034.257690 941.724121 1.000000
 p 1030.939209 946.594604 1.000000
 p 1028.844238 945.486389 1.000000
 p 1028.056274 951.412659 1.000000
-p 1030.659546 953.219543 1.000000 Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,ak,Atwater_Kent
+p 1030.659546 953.219543 1.000000 Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,Robotics_Lab,ak,Atwater_Kent
 p 1031.887329 960.917419 1.000000
 p 1036.457275 963.353149 1.000000
 p 1042.926147 966.885437 1.000000
@@ -284,7 +284,7 @@ p 1038.979370 944.247620 1.000000
 p 1043.398682 951.154602 1.000000
 p 1034.662476 946.110718 1.000000
 p 1021.895569 961.732422 1.000000
-p 1019.432495 960.209106 1.000000 ,,,,,,,,,,,,,,,,,,,ak,Atwater_Kent
+p 1019.432495 960.209106 1.000000 ,,,,,,,,,,,,,,,,,,,,,ak,Atwater_Kent
 p 1022.216003 955.738831 1.000000
 p 1015.770569 951.814941 1.000000
 p 1025.002686 950.561279 1.000000
@@ -315,7 +315,7 @@ p 1003.205017 929.374634 2.000000
 p 999.937012 927.237732 2.000000
 p 1006.126892 930.811462 2.000000
 p 819.111572 1033.231567 1.000000
-p 826.567749 1034.547363 1.000000 Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,cc,Campus_Center
+p 826.567749 1034.547363 1.000000 Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,Women's_Bathroom,cc,Campus_Center
 p 822.971252 1033.933228 1.000000
 p 823.234375 1031.564819 1.000000
 p 824.287048 1026.564819 1.000000
@@ -331,13 +331,13 @@ p 820.690552 1020.687683 1.000000
 p 818.848450 1015.249084 1.000000
 p 819.023865 1013.143799 1.000000
 p 820.778259 1015.336792 1.000000
-p 850.982910 1033.147095 1.000000 Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,cc,Campus_Center,octowedge,fireplace
+p 850.982910 1033.147095 1.000000 Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,Octowedge,cc,Campus_Center,octowedge,fireplace
 p 835.375366 1052.065063 1.000000
 p 839.043396 1035.192261 1.000000
 p 839.776978 1028.406494 1.000000
 p 829.020691 1016.955322 1.000000
 p 841.433228 1020.827148 1.000000
-p 834.120178 1022.298157 1.000000 Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,cc,Campus_Center,helpdesk,infodesk
+p 834.120178 1022.298157 1.000000 Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,Helpdesk,cc,Campus_Center,helpdesk,infodesk
 p 831.412048 1027.545898 1.000000
 p 825.085144 1026.508545 1.000000
 p 825.786926 1022.648926 1.000000
@@ -348,9 +348,9 @@ p 827.892212 1008.701599 1.000000
 p 829.295715 1006.333130 1.000000
 p 830.260620 1032.912109 1.000000
 p 843.593933 1011.947205 1.000000
-p 851.225464 978.526184 1.000000 Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,cc,Campus_Center,dunkin_donuts
+p 851.225464 978.526184 1.000000 Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,Dunkin'_Donuts,cc,Campus_Center,dunkin_donuts
 p 846.268005 986.148438 1.000000
-p 855.660156 987.674683 1.000000 Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,barnes&noble,bookstore,cc,Campus_Center
+p 855.660156 987.674683 1.000000 Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,Bookstore,barnes&noble,bookstore,cc,Campus_Center
 p 986.168884 941.031433 1.000000
 p 985.554871 934.013916 1.000000
 p 988.712769 935.592834 1.000000
@@ -375,13 +375,13 @@ p 981.432068 923.487610 1.000000
 p 993.625061 917.610413 1.000000
 p 1001.607483 922.522644 1.000000
 p 1003.011047 919.364807 1.000000
-p 1004.765381 915.680542 1.000000 ,,,,,,,,,,,,,,,,,,,ak116,ak,Atwater_Kent
-p 990.116272 907.961243 1.000000 ,,,,,,,,,,,,,,,,,,,ak,Atwater_Kent,ak116
+p 1004.765381 915.680542 1.000000 ,,,,,,,,,,,,,,,,,,,,,ak116,ak,Atwater_Kent
+p 990.116272 907.961243 1.000000 ,,,,,,,,,,,,,,,,,,,,,ak,Atwater_Kent,ak116
 p 988.361877 910.856018 1.000000
 p 982.923279 908.399841 1.000000
 p 986.695251 914.189331 1.000000
 p 990.554871 916.294617 1.000000
-p 1001.432068 902.522644 1.000000 AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,ak,Atwater_Kent,ak116,lecture_hall,Newell_Lecture_Hall,electronic_classroom
+p 1001.432068 902.522644 1.000000 AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,AK116,ak,Atwater_Kent,ak116,lecture_hall,Newell_Lecture_Hall,electronic_classroom
 p 950.852966 1082.933105 1.000000
 p 944.449463 1083.284058 1.000000
 p 959.624878 1093.108643 1.000000
@@ -781,7 +781,7 @@ p 1079.653564 991.117371 1.000000
 p 1083.751099 988.753418 1.000000
 p 1090.263428 984.790649 0.000000
 p 1093.255737 983.558533 0.000000
-p 1094.782959 983.237427 1.000000
+p 1074.707153 989.003479 1.000000
 p 1098.536377 980.742188 0.000000
 p 1106.809326 975.637573 -1.000000
 p 1108.569580 974.757446 -1.000000
@@ -822,7 +822,7 @@ p 1086.430298 943.995422 1.000000
 p 1090.685425 948.092957 1.000000
 p 1091.788574 951.244934 1.000000
 p 1071.773560 997.736511 1.000000
-p 1074.610352 1006.089233 1.000000
+p 1074.610352 1006.089233 1.000000 IMGD_Lab,IMGD_Lab,IMGD_Lab,fuller,fuller_labs
 p 1093.837402 986.862244 1.000000
 p 1097.146973 991.905396 1.000000
 p 1093.049438 993.481323 1.000000
@@ -896,7 +896,7 @@ p 1109.598511 992.493896 2.000000
 p 1108.486084 989.434570 2.000000
 p 1112.796997 988.322021 2.000000
 p 1105.287598 983.037659 2.000000
-p 1113.631348 977.753296 2.000000 Becket_Conference_Room
+p 1113.631348 977.753296 2.000000 Becket_Conference_Room,Becket_Conference_Room,Becket_Conference_Room
 p 1113.307617 965.092712 -1.000000
 p 1112.001099 962.251404 -1.000000
 p 1109.847168 963.076660 -1.000000
@@ -1046,6 +1046,21 @@ p 1079.733154 1014.271423 0.000000
 p 1094.901733 983.158630 0.000000
 p 1093.565796 980.853882 0.000000
 p 1096.671509 976.827576 0.000000
+p 1074.173584 992.752747 1.000000
+p 1071.917603 989.669556 1.000000 Fuller_Upper_Lecture_Hall,Fuller_Upper_Lecture_Hall,Fuller_Upper_Lecture_Hall,flupper,fuller_labs,fuller
+p 1060.255249 991.367432 1.000000 Fuller_Commons,Fuller_Commons,Fuller_Commons,fuller,fuller_labs
+p 1067.529785 971.615784 1.000000
+p 1075.207764 971.010010 1.000000
+p 1081.322388 983.311340 1.000000
+p 1082.760742 985.257324 1.000000
+p 1082.100342 986.476990 1.000000
+p 992.060181 1053.153442 1.000000
+p 1062.880737 1112.560669 1.000000
+p 1079.116455 1113.068848 1.000000
+p 1090.336914 1115.346680 1.000000
+p 1100.244141 1118.993896 1.000000
+p 1100.707397 1114.275146 1.000000 Print_Center,Print_Center,Print_Center,library,Gordon_Library
+p 1081.718872 1123.418579 1.000000 Helpdesk,Helpdesk,Helpdesk,library,Gordon_Library
 e 17 22
 e 22 21
 e 21 86
@@ -1057,7 +1072,7 @@ e 141 142
 e 142 143
 e 143 144
 e 144 145
-e 145 62
+e 63 1058
 e 62 53
 e 53 59
 e 59 54
@@ -2027,7 +2042,7 @@ e 837 835
 e 838 840
 e 823 824
 e 824 775
-e 775 774
+e 1049 1048
 e 774 770
 e 770 769
 e 770 771
@@ -2231,6 +2246,30 @@ e 1046 1045
 e 1045 784
 e 1047 1046
 e 1045 782
+e 777 1048
+e 778 1048
+e 1049 1050
+e 780 1055
+e 1055 1054
+e 1054 1053
+e 1053 1052
+e 1052 68
+e 1052 1051
+e 1051 783
+e 783 1049
+e 783 1053
+e 58 55
+e 55 57
+e 55 1056
+e 1062 1059
+e 1058 1059
+e 63 1059
+e 1059 1060
+e 1061 1060
+e 1060 1062
+e 62 1057
+e 1057 145
+e 1057 1058
 m  0.0 0.0 0.0 0.0 0.0 
 m campusmap.png -1.0464134 2.3540468 1.0 0.0 1.0 Campus_Map
 m ak0.png 1042.8943 1000.479 0.0 210.0 0.13 Atwater_Kent_0
@@ -2271,7 +2310,7 @@ m BoyntonHall1.png 947.6036 1199.623 1.0 9.0 0.07 Boynton_Hall_1
 m BoyntonHall2.png 946.9095 1200.5587 2.0 9.0 0.07 Boynton_Hall_2
 m BoyntonHall3.png 946.9095 1200.5587 3.0 9.0 0.07 Boynton_Hall_3
 m salisburylabs0.png 972.3327 979.4093 0.0 10.0 0.11 Salisbury_Labs_Basement
-m salisburylabs1.png 972.3327 979.4093 1.0 10.0 0.11 Salisbury_Labs_1
+m salisburylabs1.png 971.94727 980.2014 1.0 10.0 0.11 Salisbury_Labs_1
 m salisburylabs2.png 972.3327 979.4093 2.0 10.0 0.11 Salisbury_Labs_2
 m salisburylabs3.png 971.05383 990.27954 3.0 10.0 0.11 Salisbury_Labs_3
 m salisburylabs4.png 971.05383 991.87805 4.0 10.0 0.11 Salisbury_Labs_4

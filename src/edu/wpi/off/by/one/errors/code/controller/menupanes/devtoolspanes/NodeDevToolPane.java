@@ -71,9 +71,9 @@ public class NodeDevToolPane extends VBox {
     	yTextField.setText(Float.toString(c.getY()));
     	zTextField.setText(Float.toString(c.getZ()));
     	tagListView.getItems().clear();
-    	edgeListView.getItems().clear();
+    	//edgeListView.getItems().clear();
     	tagListView.getItems().addAll((n.GetTags() != null) ? n.GetTags() : new ArrayList<String>());
-    	edgeListView.getItems().addAll((n.getEdgelist() != null) ? n.getEdgelist() : new ArrayList<Id>());
+    	//edgeListView.getItems().addAll((n.getEdgelist() != null) ? n.getEdgelist() : new ArrayList<Id>());
     	tagTextField.clear();
     	accessibleCheckbox.setSelected(g.returnNodeById(nd.getNode()).isAccessible());
     }
