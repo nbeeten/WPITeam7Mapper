@@ -22,7 +22,7 @@ public class Map {
 		goodcolors.add(Integer.valueOf(color));
 	}
 	public int getColor(Coordinate c){
-		Matrix mat = new Matrix(center).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
+		Matrix mat = new Matrix(new Coordinate(-center.getX(), -center.getY())).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
 		Coordinate sc = mat.transform(c);
 		int sx = Math.round(sc.getX());
 		int sy = Math.round(sc.getY());
@@ -32,7 +32,7 @@ public class Map {
 	}
 	public boolean checkLines(Coordinate start, Coordinate finish){
 		//get start/end x and y ints
-		Matrix mat = new Matrix(center).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
+		Matrix mat = new Matrix(new Coordinate(-center.getX(), -center.getY())).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
 		Coordinate sc = mat.transform(start);
 		Coordinate ec = mat.transform(finish);
 		int sx = Math.round(sc.getX());
