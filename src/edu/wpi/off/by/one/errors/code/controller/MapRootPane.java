@@ -278,11 +278,6 @@ public class MapRootPane extends AnchorPane{
 			startMarker.setTranslateY(c.getY() - startMarker.getImage().getHeight());
 		}
 		
-		if(endMarker != null) {
-			Coordinate c = view.transform(new Coordinate((float)endMarker.x, (float)endMarker.y, (float)endMarker.z));
-			endMarker.setTranslateX(c.getX() - (endMarker.getImage().getWidth()/2));
-			endMarker.setTranslateY(c.getY() - (endMarker.getImage().getHeight()/2));
-		}
 
 		if(isEditMode){
 			markerPane.setMouseTransparent(false);
@@ -483,6 +478,7 @@ public class MapRootPane extends AnchorPane{
        			if (isEditMode && e.getButton() == MouseButton.PRIMARY && !ControllerSingleton.getInstance().getMapDevToolPane().isVisible()) {
     				addNodeDisplay(e.getX(), e.getY());
 	            }
+       			/* Single click event always fires so it does that and then the zoom
 	    		else if(e.getClickCount() == 2){
 	    			e.consume();
 	    			//TODO if on building -> zoomyspin onto building
@@ -499,14 +495,17 @@ public class MapRootPane extends AnchorPane{
 	    			
 	    			render();
 	    		}
+	    		*/
     		}
     	});
     	
     	markerPane.setOnMouseClicked(e -> {
-    		if (!isEditMode && e.getButton() == MouseButton.PRIMARY) {
+    		if (e.getClickCount() == 2) e.consume();
+    		else if (!isEditMode && e.getButton() == MouseButton.PRIMARY) {
     			//Select nearest node on map
     			Coordinate click = invview.transform(new Coordinate((float)e.getX(), (float)e.getY()));
-    			Id nearestNode = display.getGraph().GetNearestNode(click, currentLevel);
+    			Id nearestNodeId = display.getGraph().GetNearestNode(click, currentLevel);
+    			Node nearestNode = display.getGraph().returnNodeById(nearestNodeId);
     			if (endMarker != null && startMarker != null){
     				startMarker = null;
     				endMarker = null;
@@ -514,16 +513,17 @@ public class MapRootPane extends AnchorPane{
     			}
     			if(startMarker != null && endMarker == null) {
     				endMarker = new MarkerDisplay(click.getX(), click.getY(), currentLevel, Marker.END);
-    				markerPane.getChildren().add(endMarker);
+    				//markerPane.getChildren().add(endMarker);
     			}
     			if(startMarker == null) {
-    				startMarker = new MarkerDisplay(click.getX(), click.getY(), currentLevel, Marker.START);
+    				//snap to nearest available node
+    				startMarker = new MarkerDisplay(nearestNode.getCoordinate().getX(), nearestNode.getCoordinate().getY(), currentLevel, Marker.START);
     				markerPane.getChildren().add(startMarker);
     				
     			}
     			
     			List<javafx.scene.Node> nearestList = nodeLayer.getChildren().stream()
-    					.filter((Predicate<? super javafx.scene.Node>) nd -> ((NodeDisplay) nd).getNode() == nearestNode)
+    					.filter((Predicate<? super javafx.scene.Node>) nd -> ((NodeDisplay) nd).getNode() == nearestNodeId)
     					.collect(Collectors.toList());
     			NodeDisplay nearest = (NodeDisplay) nearestList.get(0);
     			if(nodeQueue.size() > 0) if(nearest == nodeQueue.peek()) return;
