@@ -2,10 +2,10 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root minWidth="0.0" prefWidth="235.0" spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<?import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField?>
+<fx:root type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane minWidth="0.0">
          <left>
@@ -20,7 +20,7 @@
          <children>
             <BorderPane minWidth="0.0">
                <center>
-                  <TextField minWidth="0.0" promptText="X" BorderPane.alignment="CENTER" fx:id="xTextField" />
+                  <ClearableTextField fx:id="xTextField" minWidth="0.0" promptText="X" BorderPane.alignment="CENTER" />
                </center>
                <left>
                   <Label minWidth="0.0" text="X" BorderPane.alignment="CENTER">

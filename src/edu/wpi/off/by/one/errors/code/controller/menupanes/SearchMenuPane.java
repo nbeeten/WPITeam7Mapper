@@ -8,6 +8,7 @@ import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MainPane;
 import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
 import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteTextField;
+import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Graph;
 import edu.wpi.off.by.one.errors.code.model.Id;
@@ -30,10 +31,9 @@ import javafx.scene.layout.BorderPane;
  */
 public class SearchMenuPane extends BorderPane {
 	
-	@FXML AutoCompleteTextField searchField;
+	@FXML ClearableTextField searchField;
 	@FXML Slider floorSlider;
 	@FXML Button searchLocationButton;
-	@FXML TextField searchInputTextField;
 	@FXML ComboBox<String> buildingChoiceBox;
 	@FXML ListView<Id> locationResultListView;
 	
@@ -95,18 +95,8 @@ public class SearchMenuPane extends BorderPane {
 		ArrayList<Id> results = TagMap.getTagMap().find(tag);
 		showResults(results);
 	}
-	
+
 	private void setListeners(){
-		this.floorSlider.setOnMouseClicked(e -> {
-			MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
-			int floor = (int) floorSlider.getValue();
-			//System.out.println(floor);
-			//do a thing with it
-			maproot.currentLevel = floor;
-			maproot.getMapRootPane().translate.setAll(maproot.translate.getX(), maproot.translate.getY(), floor);
-			maproot.getMapRootPane().render();
-		});
-		
 		/*this.buildingChoiceBox.setOnContextMenuRequested(e -> {
 			//TODO update map list
 		});*/
