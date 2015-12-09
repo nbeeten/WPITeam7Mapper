@@ -43,6 +43,7 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -104,7 +105,9 @@ public class MapRootPane extends AnchorPane{
     public boolean isAddMode = false;		//Is editor currently adding nodes?
     public boolean isDeleteMode = false;	//Is editor currently deleting nodes?
     public boolean isMultiSelectNodes = false;
+    public boolean isPirateMode = false;
     boolean isZooming = false;
+	Image pirateX = null;
     
     boolean isctrl = false;
 
@@ -343,6 +346,7 @@ public class MapRootPane extends AnchorPane{
 			nodeLayer.setVisible(false); 
 			}
 		Node last = null;
+
 		if(currentRoute != null){
 			for(Id id : currentRoute){
 				mygc.save();
@@ -360,15 +364,30 @@ public class MapRootPane extends AnchorPane{
 				Coordinate ac = view.transform(A.getCoordinate());
 				Coordinate bc = view.transform(last.getCoordinate());
 				mygc.setLineWidth(5.0f);
-				mygc.setFill(Color.RED);
-				mygc.setStroke(Color.RED);
-				mygc.setLineDashes(10);
+                if(isPirateMode) {
+                    mygc.setFill(Color.RED);
+                    mygc.setStroke(Color.RED);
+                    mygc.setLineDashes(10);
+                } else {
+                    mygc.setFill(Color.BLUE);
+                    mygc.setStroke(Color.BLUE);
+                    mygc.setLineDashes(null);
+                }
 				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
 				last = A;
 				mygc.restore();
 			}
 		}
-		
+		//render big red X
+		if(last != null){
+			Coordinate c = view.transform(last.getCoordinate());
+			mygc.save();
+			//Rotate r = new Rotate(rot, 0, 0);
+			//mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
+			if(pirateX == null) pirateX = new Image(MarkerDisplay.pirate_endImg);
+			mygc.drawImage(pirateX, c.getX()-pirateX.getWidth()/2.0, c.getY()-pirateX.getHeight()/2.0);
+			mygc.restore();
+		}
 
 	}
 	/**
