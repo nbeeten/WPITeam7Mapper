@@ -77,6 +77,8 @@ public class SearchMenuPane extends BorderPane {
 		Node n = resultReference.get(selectedNode);
 		if(n != null) {
 			ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsToNode(n);
+			ControllerSingleton.getInstance().getMapRootPane().placeMarker(n);
+			ControllerSingleton.getInstance().getMenuPane().showDirections();
 		}
 		//ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsToNode(/*NODE*/);
 	}
@@ -87,6 +89,8 @@ public class SearchMenuPane extends BorderPane {
 		Node n = resultReference.get(selectedNode);
 		if(n != null) {
 			ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().setDirectionsFromNode(n);
+			ControllerSingleton.getInstance().getMapRootPane().placeMarker(n);
+			ControllerSingleton.getInstance().getMenuPane().showDirections();
 		}
 	}
 	
