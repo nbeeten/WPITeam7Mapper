@@ -18,7 +18,17 @@ public class Map {
 	}
 	public void addColor(int color){
 		if(goodcolors == null) goodcolors = new ArrayList<Integer>();
+		if(goodcolors.contains(Integer.valueOf(color))) return;
 		goodcolors.add(Integer.valueOf(color));
+	}
+	public int getColor(Coordinate c){
+		Matrix mat = new Matrix(center).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
+		Coordinate sc = mat.transform(c);
+		int sx = Math.round(sc.getX());
+		int sy = Math.round(sc.getY());
+		if(sx < 0 || sx >= myimg.getWidth()) return 0;
+		if(sy < 0 || sy >= myimg.getHeight()) return 0;
+		return myimg.getPixelReader().getArgb(sx, sy);
 	}
 	public boolean checkLines(Coordinate start, Coordinate finish){
 		//get start/end x and y ints
