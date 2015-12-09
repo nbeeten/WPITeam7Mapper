@@ -346,6 +346,22 @@ public class MapRootPane extends AnchorPane{
 			edgeLayer.setVisible(false); 
 			nodeLayer.setVisible(false); 
 			}
+
+		//render big red X
+		if(currentRoute != null){
+			Node mest = null;
+			int i = currentRoute.size()-1;
+			if(i >= 0)for(mest = display.getGraph().returnNodeById(currentRoute.get(i)); mest == null && i >= 0; i--);
+			if(mest != null) {
+				Coordinate c = view.transform(mest.getCoordinate());
+				mygc.save();
+				//Rotate r = new Rotate(rot, 0, 0);
+				//mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
+				if (pirateX == null) pirateX = new Image(MarkerDisplay.pirate_endImg);
+				mygc.drawImage(pirateX, c.getX() - pirateX.getWidth() / 2.0, c.getY() - pirateX.getHeight() / 2.0);
+				mygc.restore();
+			}
+		}
 		Node last = null;
 
 		if(currentRoute != null){
@@ -378,16 +394,6 @@ public class MapRootPane extends AnchorPane{
 				last = A;
 				mygc.restore();
 			}
-		}
-		//render big red X
-		if(last != null){
-			Coordinate c = view.transform(last.getCoordinate());
-			mygc.save();
-			//Rotate r = new Rotate(rot, 0, 0);
-			//mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
-			if(pirateX == null) pirateX = new Image(MarkerDisplay.pirate_endImg);
-			mygc.drawImage(pirateX, c.getX()-pirateX.getWidth()/2.0, c.getY()-pirateX.getHeight()/2.0);
-			mygc.restore();
 		}
 
 	}
