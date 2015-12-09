@@ -150,7 +150,7 @@ public class Graph {
 			if((nodeAIn.compare(e.getNodeA()) && nodeBIn.compare(e.getNodeB())) || (nodeBIn.compare(e.getNodeA()) && nodeAIn.compare(e.getNodeB())))break;
 		}
 		if(i < listOfEdges.size()){ // found duplicate
-			System.out.println("found dupe");
+			//System.out.println("found dupe");
 			return e;
 		}
 		Node A = returnNodeById(nodeAIn);
@@ -190,7 +190,7 @@ public class Graph {
 			if((nodeAIn.compare(e.getNodeA()) && nodeBIn.compare(e.getNodeB())) || (nodeBIn.compare(e.getNodeA()) && nodeAIn.compare(e.getNodeB())))break;
 		}
 		if(i < listOfEdges.size()){ // found duplicate
-			System.out.println("found dupe");
+			//System.out.println("found dupe");
 			return e.getId();
 		}
 
