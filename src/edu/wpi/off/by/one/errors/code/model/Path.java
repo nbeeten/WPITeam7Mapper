@@ -118,12 +118,14 @@ public class Path {
 				coordB = elem.getCoordinate();
 			}
 		}*/
-		coordA = theGraph.returnNodeById(current).getCoordinate();
-		coordB = theGraph.returnNodeById(destination).getCoordinate();
-
-		float xDist = coordA.getX()-coordB.getX();
-		float yDist = coordA.getY()-coordB.getY();
-		return (float) Math.sqrt(xDist*xDist+yDist*yDist); //return the pythagorean length
+		if(theGraph.returnNodeById(current) != null && theGraph.returnNodeById(destination) != null) {
+			coordA = theGraph.returnNodeById(current).getCoordinate();
+			coordB = theGraph.returnNodeById(destination).getCoordinate();
+			float xDist = coordA.getX()-coordB.getX();
+			float yDist = coordA.getY()-coordB.getY();
+			return (float) Math.sqrt(xDist*xDist+yDist*yDist); //return the pythagorean length
+		}
+		return Float.MAX_VALUE;
 	}
 	
 	/**

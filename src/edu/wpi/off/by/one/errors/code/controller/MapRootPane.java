@@ -235,7 +235,7 @@ public class MapRootPane extends AnchorPane{
 		//grab graphics context
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		mygc.setFill(Color.web("c3dca5"));
+		mygc.setFill(Color.rgb(173, 221, 116));
 		mygc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
 		ArrayList<Map> mlist = display.getMaps();
 		for(Map m : mlist){
