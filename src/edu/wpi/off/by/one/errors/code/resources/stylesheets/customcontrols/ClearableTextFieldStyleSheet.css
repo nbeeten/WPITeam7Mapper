@@ -1,7 +1,20 @@
 .clearable-text-field{
     -fx-background-color: White;
+}
+
+.textFieldButtonContainer{
     -fx-border-width: 1;
     -fx-border-color: #A9B0B7;
+}
+
+.textFieldButtonContainerError{
+    -fx-border-color: Red;
+}
+
+#errorLabel{
+    -fx-text-fill: Red;
+    -fx-border-color: Transparent #A9B0B7 #A9B0B7 #A9B0B7;
+
 }
 
 .button{

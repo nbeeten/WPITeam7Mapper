@@ -5,6 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField?>
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <center>
         <VBox spacing="5.0">
@@ -12,11 +13,11 @@
                <Label text="Settings Pane" />
                <Label text="Profile" />
                <Label text="Name" />
-               <TextField promptText="Enter your name" />
+               <ClearableTextField fx:id="nameTextField" promptText="Enter your name" />
                <Label text="Phone Number" />
-               <TextField promptText="(555)555-5555" />
+               <ClearableTextField fx:id="phoneTextField" promptText="(555)555-5555" />
                <Label text="Email" />
-               <TextField promptText="email@wpi.edu" />
+               <ClearableTextField fx:id="emailTextField" promptText="email@wpi.edu" />
                <Label text="Units" />
                <ChoiceBox />
                <Label text="History" />
@@ -28,7 +29,7 @@
         </VBox>
     </center>
     <bottom>
-        <Button text="Save" BorderPane.alignment="CENTER_RIGHT" />
+        <Button text="Save" BorderPane.alignment="CENTER_RIGHT" onAction="#onSaveButtonClick"/>
     </bottom>
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
