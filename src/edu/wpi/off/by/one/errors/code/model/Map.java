@@ -1,7 +1,10 @@
 package edu.wpi.off.by.one.errors.code.model;
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
+
 public class Map {
+	public ArrayList<Integer> goodcolors;
 	
 	String name;
 	String imagePath;
@@ -12,6 +15,82 @@ public class Map {
 
 	private void updateImg(){
 		myimg = new Image("/edu/wpi/off/by/one/errors/code/resources/maps/images/" + imagePath);
+	}
+	public void addColor(int color){
+		if(goodcolors == null) goodcolors = new ArrayList<Integer>();
+		goodcolors.add(Integer.valueOf(color));
+	}
+	public boolean checkLines(Coordinate start, Coordinate finish){
+		//get start/end x and y ints
+		Matrix mat = new Matrix(center).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
+		Coordinate sc = mat.transform(start);
+		Coordinate ec = mat.transform(finish);
+		int sx = Math.round(sc.getX());
+		int sy = Math.round(sc.getY());
+		int ex = Math.round(ec.getX());
+		int ey = Math.round(ec.getY());
+
+
+
+
+
+
+		if(sy > ey){
+			int t = sy;
+			sy = ey;
+			ey = t;
+			t = sx;
+			sx = ex;
+			ex = t;
+		}
+		//todo walk the tree
+		float dx = sx - ex;
+		if(dx != 0.0){
+			float dy = sy - ey;
+			float err = 0;
+			float derr = Math.abs(dy / dx);
+			int x, y = sy;
+			for(x = sx; x < ex; x++){
+				if(x >= 0 && x < myimg.getWidth() && y >= 0 && y < myimg.getHeight()){
+					int color = myimg.getPixelReader().getArgb(x, y);
+					int cal;
+					for(cal = 0; cal < goodcolors.size(); cal++){
+						int clp = goodcolors.get(cal).intValue();
+						if(color == clp) break;
+					}
+					if(cal == goodcolors.size()) return false;
+				}
+				err += derr;
+				while(err >= 0.5f){
+					if(x >= 0 && x < myimg.getWidth() && y >= 0 && y < myimg.getHeight()){
+						//test all colors
+						int color = myimg.getPixelReader().getArgb(x, y);
+						int cal;
+						for(cal = 0; cal < goodcolors.size(); cal++){
+							int clp = goodcolors.get(cal).intValue();
+							if(color == clp) break;
+						}
+						if(cal == goodcolors.size()) return false;
+					}
+					y++;
+					err-=1.0;
+				}
+			}
+		} else { //vertical
+			int y;
+			for(y = sy; y < ey; y++){
+				if(y >= 0 && y < myimg.getHeight()){
+					int color = myimg.getPixelReader().getArgb(sx, y);
+					int cal;
+					for(cal = 0; cal < goodcolors.size(); cal++){
+						int clp = goodcolors.get(cal).intValue();
+						if(color == clp) break;
+					}
+					if(cal == goodcolors.size()) return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public Map(String path, Coordinate coordinate, float rotation, float scale){
