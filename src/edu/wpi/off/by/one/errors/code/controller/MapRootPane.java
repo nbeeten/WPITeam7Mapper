@@ -68,7 +68,7 @@ public class MapRootPane extends AnchorPane{
 	Coordinate release = new Coordinate(0, 0, 0);
 	public float rot = 0.0f;
 	public float zoom = 2.0f;
-	Matrix view;
+	public Matrix view;
 	Matrix invview;
 	Matrix lastview;
 	
@@ -264,11 +264,27 @@ public class MapRootPane extends AnchorPane{
 			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
-
+		/*
 		if(startMarker != null) {
 			Coordinate c = view.transform(new Coordinate((float)startMarker.x, (float)startMarker.y, (float)startMarker.z));
 			startMarker.setTranslateX(c.getX() - (startMarker.getImage().getWidth()/2));
 			startMarker.setTranslateY(c.getY() - startMarker.getImage().getHeight());
+		}
+		*/
+		for(javafx.scene.Node mp: markerPane.getChildren()){
+			MarkerDisplay md = (MarkerDisplay)mp;
+			if(mp == null) continue;
+			if(translate.getZ() > md.z + 0.1 || translate.getZ() < md.z - 0.1){
+				mp.setVisible(false);
+				mp.setMouseTransparent(true);
+				continue;
+			} else {
+				mp.setVisible(true);
+				mp.setMouseTransparent(false);
+				Coordinate c = view.transform(new Coordinate((float)md.x, (float)md.y, (float)md.z));
+				mp.setTranslateX(c.getX() - (md.getImage().getWidth()/2));
+				mp.setTranslateY(c.getY() - md.getImage().getHeight());
+			}
 		}
 		
 
@@ -395,6 +411,13 @@ public class MapRootPane extends AnchorPane{
 		addEdgeDisplayFromList(g, g.getEdges());
 	}
 
+	public void placeMarker(Node n){
+		markerPane.getChildren().clear();
+		Coordinate nc = n.getCoordinate();
+		markerPane.getChildren().add(new MarkerDisplay(nc.getX(), nc.getY(), nc.getZ(), Marker.START));
+		render();
+	}
+	
     /**
      * Sets up event listener functions for whenever user does something on the mapPane/mapView
      * 
@@ -511,6 +534,7 @@ public class MapRootPane extends AnchorPane{
     			if (endMarker != null && startMarker != null){
     				startMarker = null;
     				endMarker = null;
+    				currentRoute.clear();
     				markerPane.getChildren().clear();
     			}
     			if(startMarker != null && endMarker == null) {
@@ -519,6 +543,7 @@ public class MapRootPane extends AnchorPane{
     			}
     			if(startMarker == null) {
     				//snap to nearest available node
+    				markerPane.getChildren().clear();
     				startMarker = new MarkerDisplay(nearestNode.getCoordinate().getX(), nearestNode.getCoordinate().getY(), currentLevel, Marker.START);
     				markerPane.getChildren().add(startMarker);
     				

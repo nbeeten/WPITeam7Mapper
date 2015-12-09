@@ -5,12 +5,13 @@ import javafx.scene.image.ImageView;
 
 public class MarkerDisplay extends ImageView{
 	public enum Marker{
-		START, END, PIRATE;
+		START, END, SELECT, PIRATE;
 	}
 	public double x, y, z;
 	boolean isOnNode = false;
 	static String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
-	static String startImg = resourceDir + "marker.png";
+	static String startImg = resourceDir + "markerSelect.png";
+	static String selectImg = resourceDir + "marker.png";
 	static String endImg = resourceDir + "endnode.png";
 	public static String pirate_endImg = resourceDir + "pirate_endnode.png";
 	
@@ -25,10 +26,12 @@ public class MarkerDisplay extends ImageView{
 	public MarkerDisplay(double x, double y, double z, Marker m, Marker options){
 		if(options == Marker.PIRATE){
 			if (m == Marker.START) setImage(new Image(startImg));
+			else if (m == Marker.SELECT) setImage(new Image(selectImg));
 			else if (m == Marker.END) setImage(new Image(pirate_endImg));
 		}
 		else{
 			if (m == Marker.START) setImage(new Image(startImg));
+			else if (m == Marker.SELECT) setImage(new Image(selectImg));
 			else if (m == Marker.END) setImage(new Image(endImg));
 		}
 		this.x = x;

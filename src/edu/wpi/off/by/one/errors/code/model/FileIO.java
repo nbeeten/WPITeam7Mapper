@@ -99,7 +99,12 @@ public class FileIO {
 		Coordinate c = new Coordinate(Float.parseFloat(args[0]), Float.parseFloat(args[1]), Float.parseFloat(args[2]));
 		Node n = g.addNode(c);
 		if(args.length >= 4) {
-			for(String j : getTags(args[3])) n.addTag(j);
+			String[] tags = getTags(args[3]);
+			for(int i = 0; i < tags.length; i++){
+				if(i == 0) n.setName(tags[i]);
+				else n.addTag(tags[i]);
+			}
+			//for(String j : getTags(args[3])) n.addTag(j);
 		}
 		return n.getId();
 	}
@@ -229,6 +234,7 @@ public class FileIO {
 			writer.printf("p %f %f %f", c.getX(), c.getY(), c.getZ());
 			if(!n.GetTags().isEmpty()){
 				ArrayList<String> tagList = n.GetTags();
+				tagList.add(0, n.getName());
 				String[] tagListReborn = tagList.toArray(new String[tagList.size()]);
 				writer.printf(" %s", toTags(tagListReborn));
 			}

@@ -31,6 +31,7 @@ public class NodeDevToolPane extends VBox {
 	MainPane mainPane;
 	Display currentDisplay;
 	NodeDisplay currentNd;
+	@FXML TextField nodeNameTextField;
 	@FXML Label nodeIdLabel;
 	@FXML ClearableTextField xTextField;
 	@FXML TextField yTextField;
@@ -62,6 +63,7 @@ public class NodeDevToolPane extends VBox {
     	Graph g = currentDisplay.getGraph();
     	Node n = g.returnNodeById(nd.getNode());
     	Coordinate c = g.returnNodeById(nd.getNode()).getCoordinate();
+    	nodeNameTextField.setText(n.getName());
     	nodeIdLabel.setText(nd.getNode().toString());
     	xTextField.setText(Float.toString(c.getX()));
     	yTextField.setText(Float.toString(c.getY()));
@@ -121,6 +123,15 @@ public class NodeDevToolPane extends VBox {
     	});
     	this.addTagButton.setOnAction(e -> {
     		addTag();
+    	});
+    	this.nodeNameTextField.setOnAction(e -> {
+    		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
+    		String s = nodeNameTextField.getText();
+    		if(currentNd != null) {
+    			Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
+    			n.setName(s);
+    		}
+    		
     	});
     }
     
