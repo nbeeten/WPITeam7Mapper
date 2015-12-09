@@ -102,7 +102,7 @@ public class MainPane extends BorderPane {
 
 				mapRootPane.rot = dosmooth(dropStartR, dropEndR, dropTime);
 				mapRootPane.zoom = dosmooth(dropStartS, dropEndS, dropTime);
-				System.out.println(dosmooth(2.0f, 10.0f, dropTime) + " " + dropTime);
+			//	System.out.println(dosmooth(2.0f, 10.0f, dropTime) + " " + dropTime);
 				dropTime+= 0.05;
 				if(dropTime >= 1.0) stopdrop();
 				mapRootPane.render();
