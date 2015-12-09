@@ -89,7 +89,7 @@
          </children>
       </StackPane>
       <CheckBox fx:id="autoEdgeSelector" contentDisplay="CENTER" mnemonicParsing="false" onAction="#toggleAutoEdge" text="AutoEdge" />
-      <Button fx:id="selectColorButton" mnemonicParsing="false" onAction="#selectColorOnMap" text="Select Color" />
+      <ToggleButton fx:id="selectColorButton" mnemonicParsing="false" onAction="#selectColorOnMap" text="Select Color" />
       <Label text="Walkable Color" />
       <ColorPicker fx:id="walkableColorSelector" onAction="#setWalkableColor">
          <VBox.margin>

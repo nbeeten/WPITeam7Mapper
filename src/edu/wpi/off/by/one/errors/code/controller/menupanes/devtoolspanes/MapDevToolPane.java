@@ -20,6 +20,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -45,8 +46,11 @@ public class MapDevToolPane extends VBox {
 	@FXML TextField scaleTextField;
 	@FXML Label pathLabel;
 	@FXML Button changeImageButton;
+	@FXML ToggleButton selectColorButton;
 	@FXML CheckBox autoEdgeSelector;
 	@FXML ColorPicker walkableColorSelector;
+	
+	int eyedroppedColor = 0;
 	
 	private ArrayList<Map> mapList = new ArrayList<Map>();
 	private Map selectedMap;
@@ -73,7 +77,9 @@ public class MapDevToolPane extends VBox {
 			//should be change map info
 			changeDisplay();
 		});
-
+		
+		this.selectColorButton.setStyle("-fx-background-color: #CC3341;");
+		
 		this.mapChoiceBox.setOnContextMenuRequested(e->{
 			MapRootPane mapRoot = ControllerSingleton.getInstance().getMapRootPane();
 			mapChoiceBox.getItems().clear();
@@ -197,7 +203,13 @@ public class MapDevToolPane extends VBox {
 	}
 	
 	@FXML private void selectColorOnMap(){
-		//
+		ControllerSingleton.getInstance().getMapRootPane().isEyedrop = selectColorButton.isSelected() ? true : false;
+	}
+	
+	public void setEyedroppedColor(int color){
+		this.eyedroppedColor = color;
+		System.out.println(color);
+		//walkableColorSelector.setValue();
 	}
 	
 	/**
