@@ -22,17 +22,18 @@ public class Map {
 		goodcolors.add(Integer.valueOf(color));
 	}
 	public int getColor(Coordinate c){
-		Matrix mat = new Matrix(center).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
+		Matrix mat = new Matrix(new Coordinate(-center.getX(), -center.getY())).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
 		Coordinate sc = mat.transform(c);
 		int sx = Math.round(sc.getX());
 		int sy = Math.round(sc.getY());
+		System.out.printf(" %s Eyedrop X %d Eyedrop Y %d, coord X %f coord Y %f, center X %f, center Y %f\n", name, sx, sy, c.getX(), c.getY(), center.getX(), center.getY());
 		if(sx < 0 || sx >= myimg.getWidth()) return 0;
 		if(sy < 0 || sy >= myimg.getHeight()) return 0;
 		return myimg.getPixelReader().getArgb(sx, sy);
 	}
 	public boolean checkLines(Coordinate start, Coordinate finish){
 		//get start/end x and y ints
-		Matrix mat = new Matrix(center).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
+		Matrix mat = new Matrix(new Coordinate(-center.getX(), -center.getY())).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
 		Coordinate sc = mat.transform(start);
 		Coordinate ec = mat.transform(finish);
 		int sx = Math.round(sc.getX());

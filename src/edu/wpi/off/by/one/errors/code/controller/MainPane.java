@@ -40,11 +40,11 @@ public class MainPane extends BorderPane {
 	@FXML private Button rotateRightButton;
 	@FXML private Button zoomInButton;
 	@FXML private Button zoomOutButton;
-    @FXML private Button openNavigationPaneButton;
+    //@FXML private Button openNavigationPaneButton;
 	@FXML private ScrollPane mapScrollPane;
 	@FXML private MenuPane menuPane;
 	@FXML private MapRootPane mapRootPane;
-	@FXML private NavigationPane navigationPane;
+	//@FXML private NavigationPane navigationPane;
 	
 	public Coordinate dropStartC;
 	public	Coordinate dropEndC; 
@@ -53,6 +53,32 @@ public class MainPane extends BorderPane {
 	public float dropStartS = 1.0f;
 	public float dropEndS = 1.0f;
 	public float dropTime = 0.0f;
+
+	static float smoothstep(float edge0, float edge1, float x){
+		x = ((x - edge0) / (edge1 - edge0));
+		if(x > 1.0f) x = 1.0f; else if (x< 0.0f) x = 0.0f;
+		return x * x * (3.0f - 2.0f * x);
+	}
+	static float smootherstep(float edge0, float edge1, float x){
+		x = ((x - edge0) / (edge1 - edge0));
+		if(x > 1.0f) x = 1.0f; else if (x< 0.0f) x = 0.0f;
+		return x*x*x*(x*(x*6.0f - 15.0f) + 10.0f);
+	}
+	static float dosmooth(float edge0, float edge1, float x){
+
+		if(edge0 > edge1){
+			float t = edge1;
+			edge1 = edge0;
+			edge0 = t;
+			x = 1.0f - x;
+		} else if( edge0 == edge1){
+			return edge0;
+		}
+
+		float inbete = edge0 * (1.0f - x) + edge1 * x;
+		float retty = smootherstep(edge0, edge1, inbete);
+		return edge0 * (1.0f - retty) + edge1 * retty;
+	}
 	
 	public Timeline dropzoom = new Timeline(new KeyFrame(
 			Duration.millis(33.3),
@@ -63,13 +89,20 @@ public class MainPane extends BorderPane {
 				float ex = dropEndC.getX();
 				float ey = dropEndC.getY();
 				float ez = dropEndC.getZ();
-				float inbetx = sx* (1.0f - dropTime) + ex * dropTime;
-				float inbety = sy* (1.0f - dropTime) + ey * dropTime;
-				float inbetz = sz* (1.0f - dropTime) + ez * dropTime;
+				//float inbetx = sx* (1.0f - dropTime) + ex * dropTime;
+				//float inbety = sy* (1.0f - dropTime) + ey * dropTime;
+				//float inbetz = sz* (1.0f - dropTime) + ez * dropTime;
+				float inbetx = dosmooth(sx, ex, dropTime);
+				float inbety = dosmooth(sy, ey, dropTime);
+				float inbetz = dosmooth(sz, ez, dropTime);
 				mapRootPane.translate.setAll(inbetx, inbety, inbetz);
 				
-				mapRootPane.rot = dropStartR * (1.0f - dropTime) + dropEndR * dropTime;
-				mapRootPane.zoom = dropStartS * (1.0f - dropTime) + dropEndS * dropTime;
+				//mapRootPane.rot = dropStartR * (1.0f - dropTime) + dropEndR * dropTime;
+				//mapRootPane.zoom = dropStartS * (1.0f - dropTime) + dropEndS * dropTime;
+
+				mapRootPane.rot = dosmooth(dropStartR, dropEndR, dropTime);
+				mapRootPane.zoom = dosmooth(dropStartS, dropEndS, dropTime);
+			//	System.out.println(dosmooth(2.0f, 10.0f, dropTime) + " " + dropTime);
 				dropTime+= 0.05;
 				if(dropTime >= 1.0) stopdrop();
 				mapRootPane.render();
@@ -128,7 +161,7 @@ public class MainPane extends BorderPane {
     }
 
 	private void addListeners(){
-        openNavigationPaneButton.visibleProperty().bind(navigationPane.visibleProperty().not());
+        //openNavigationPaneButton.visibleProperty().bind(navigationPane.visibleProperty().not());
     	rotateLeftButton.setOnMousePressed(e -> lttl.play());
     	rotateLeftButton.setOnMouseReleased(e -> lttl.stop());
     	rotateRightButton.setOnMousePressed(e -> rttl.play());
@@ -142,7 +175,7 @@ public class MainPane extends BorderPane {
     }
 
     @FXML private void onOpenNavigationPaneButtonClick(){
-        navigationPane.open();
+        //navigationPane.open();
     }
     public void setWindow(Window window) { 
     	this.window = window; 

@@ -24,6 +24,8 @@ public class DirectionsMenuPane extends BorderPane {
     @FXML Button emailButton;
 
     private SettingsMenuPane settingsMenuPane;
+    Node originNode;
+    Node destinationNode;
 	
     public DirectionsMenuPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/DirectionsMenuPane.fxml"));
@@ -42,7 +44,8 @@ public class DirectionsMenuPane extends BorderPane {
 
 	private void setListeners(){
 		this.routeButton.setOnAction(e -> {
-			ControllerSingleton.getInstance().getMapRootPane().drawPath();
+			ControllerSingleton.getInstance().getMapRootPane().placeMarker(originNode);
+			ControllerSingleton.getInstance().getMapRootPane().drawPath(originNode.getId(), destinationNode.getId());
 		});
 	}
 	
@@ -54,13 +57,17 @@ public class DirectionsMenuPane extends BorderPane {
 	public Node getDirectionsToNode() { return null; }
 	public Node getDirectionsFromNode() { return null; }
 	
-	public void setDirectionsToNode(){
+	public void setDirectionsToNode(Node n){
+		destinationTextField.setText(n.getName());
+		destinationNode = n;
 		//TODO Should take an input (String? NodeDisplay? Node?)
 		//Put String name in the To box
 		//set directionsTo variable (NOT MADE YET)
 	}
 	
-	public void setDirectionsFromNode(){
+	public void setDirectionsFromNode(Node n){
+		originTextField.setText(n.getName());
+		originNode = n;
 		//TODO Should take an input (String? NodeDisplay? Node?)
 		//Put String name in the From box
 		//set directionsFrom variable (NOT MADE YET)
@@ -74,6 +81,9 @@ public class DirectionsMenuPane extends BorderPane {
         String originContent = originTextField.getText();
         originTextField.setText(destinationTextField.getText());
         destinationTextField.setText(originContent);
+        Node buffer = originNode;
+        originNode = destinationNode;
+        destinationNode = buffer;
     }
 
     @FXML private void onEmailButtonClick(){

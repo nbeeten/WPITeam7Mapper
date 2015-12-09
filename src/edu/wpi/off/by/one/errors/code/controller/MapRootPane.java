@@ -68,7 +68,7 @@ public class MapRootPane extends AnchorPane{
 	Coordinate release = new Coordinate(0, 0, 0);
 	public float rot = 0.0f;
 	public float zoom = 2.0f;
-	Matrix view;
+	public Matrix view;
 	Matrix invview;
 	Matrix lastview;
 	
@@ -219,21 +219,34 @@ public class MapRootPane extends AnchorPane{
 	public void updateDisplay(Display newdisplay, String option){
 		updateDisplay(this.display.getGraph());
 	}
+
+
+	double renderavg1 = 0.0;
+	double renderavg2 = 0.0;
+	double renderavg3 = 0.0;
+	double renderavg4 = 0.0;
+	double renderavg5 = 0.0;
+
+
+	int renderavgcount = 0;
 	/**
 	 * Handles all the zoom/rotation/translation of objects on the map
 	 * and draws them onto map
 	 */
 	public void render(){
+		long time1 = System.nanoTime();
 		if(zoom < 0.4f) zoom = Math.abs(zoom);
 		if(zoom < 0.4f) zoom = 0.4f;
 		else if(zoom > 11.4f) zoom = 11.4f;
 		view = new Matrix().translate(new Coordinate((float)canvas.getWidth()/2.0f, (float)canvas.getHeight()/2.0f)).rotate(rot, 0.0f, 0.0f, 1.0f).scale(zoom).translate(new Coordinate(translate.getX(), translate.getY(), translate.getZ()));
 		invview = new Matrix(new Coordinate(-1.0f * translate.getX(), -1.0f *translate.getY(), -1.0f * translate.getZ())).scale(1.0/zoom).rotate(-rot, 0.0, 0.0, 1.0).translate(new Coordinate((float)canvas.getWidth()/-2.0f, (float)canvas.getHeight()/-2.0f));
+		long time2 = System.nanoTime();
 		//grab graphics context
 		GraphicsContext mygc = canvas.getGraphicsContext2D();
 		mygc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		mygc.setFill(Color.rgb(173, 221, 116));
 		mygc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
+		long time3 = System.nanoTime();
 		ArrayList<Map> mlist = display.getMaps();
 		for(Map m : mlist){
 			
@@ -264,13 +277,16 @@ public class MapRootPane extends AnchorPane{
 			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
-
+		long time4 = System.nanoTime();
+		/*
 		if(startMarker != null) {
 			Coordinate c = view.transform(new Coordinate((float)startMarker.x, (float)startMarker.y, (float)startMarker.z));
 			startMarker.setTranslateX(c.getX() - (startMarker.getImage().getWidth()/2));
 			startMarker.setTranslateY(c.getY() - startMarker.getImage().getHeight());
 		}
-		
+		*/
+
+
 
 		if(isEditMode){
 			markerPane.setMouseTransparent(false);
@@ -297,6 +313,7 @@ public class MapRootPane extends AnchorPane{
 					nd.setCenterY(nc.getY()- 5.0f);
 				}
 			}
+
 
 			Set<EdgeDisplay> toRemove = new HashSet<>();
 			for(javafx.scene.Node ep: edgeLayer.getChildren()){
@@ -333,57 +350,98 @@ public class MapRootPane extends AnchorPane{
 			markerPane.setMouseTransparent(false);
 			edgeLayer.setVisible(false); 
 			nodeLayer.setVisible(false); 
+		
+			Node last = null;
+
+			if(currentRoute != null){
+				for(Id id : currentRoute){
+					mygc.save();
+					Node A = display.getGraph().returnNodeById(id);
+					if(A == null) continue;
+					if(last == null){
+						last = A;
+						continue;
+					}
+					if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
+						last = A;
+						continue;
+					}
+
+					Coordinate ac = view.transform(A.getCoordinate());
+					Coordinate bc = view.transform(last.getCoordinate());
+					mygc.setLineWidth(5.0f);
+	                if(isPirateMode) {
+	                    mygc.setFill(Color.RED);
+	                    mygc.setStroke(Color.RED);
+	                    mygc.setLineDashes(10);
+	                } else {
+	                    mygc.setFill(Color.BLUE);
+	                    mygc.setStroke(Color.BLUE);
+	                    mygc.setLineDashes(null);
+	                }
+					mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
+					last = A;
+					mygc.restore();
+				}
 			}
 
-		//render big red X
-		if(currentRoute != null){
-			Node mest = null;
-			int i = currentRoute.size()-1;
-			if(i >= 0)for(mest = display.getGraph().returnNodeById(currentRoute.get(i)); mest == null && i >= 0; i--);
-			if(mest != null) {
-				Coordinate c = view.transform(mest.getCoordinate());
-				mygc.save();
-				//Rotate r = new Rotate(rot, 0, 0);
-				//mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
-				if (pirateX == null) pirateX = new Image(MarkerDisplay.pirate_endImg);
-				mygc.drawImage(pirateX, c.getX() - pirateX.getWidth() / 2.0, c.getY() - pirateX.getHeight() / 2.0);
-				mygc.restore();
+			for(javafx.scene.Node mp: markerPane.getChildren()){
+				MarkerDisplay md = (MarkerDisplay)mp;
+				if(mp == null) continue;
+				if(translate.getZ() > md.z + 0.1 || translate.getZ() < md.z - 0.1){
+					mp.setVisible(false);
+					mp.setMouseTransparent(true);
+					continue;
+				} else {
+					mp.setVisible(true);
+					mp.setMouseTransparent(false);
+					Coordinate c = view.transform(new Coordinate((float)md.x, (float)md.y, (float)md.z));
+					mp.setTranslateX(c.getX() - (md.getImage().getWidth()/2));
+					mp.setTranslateY(c.getY() - md.getImage().getHeight());
+				}
+			}
+
+
+			//render big red X
+			if(currentRoute != null){
+				Node mest = null;
+				int i = currentRoute.size()-1;
+				if(i >= 0)for(mest = display.getGraph().returnNodeById(currentRoute.get(i)); mest == null && i >= 0; i--);
+				if(mest != null) {
+					Coordinate c = view.transform(mest.getCoordinate());
+					mygc.save();
+					//Rotate r = new Rotate(rot, 0, 0);
+					//mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
+					if (pirateX == null) pirateX = new Image(MarkerDisplay.pirate_endImg);
+					mygc.drawImage(pirateX, c.getX() - pirateX.getWidth() / 2.0, c.getY() - pirateX.getHeight() / 2.0);
+					mygc.restore();
+				}
 			}
 		}
-		Node last = null;
+		long time10 = System.nanoTime();
+		renderavg1 += (double)(time10 - time1);
+		renderavg2 += (double)(time2 - time1);
+		renderavg3 += (double)(time3 - time2);
+		renderavg4 += (double)(time4 - time3);
+		renderavg5 += (double)(time10 - time4);
 
-		if(currentRoute != null){
-			for(Id id : currentRoute){
-				mygc.save();
-				Node A = display.getGraph().returnNodeById(id);
-				if(A == null) continue;
-				if(last == null){
-					last = A;
-					continue;
-				}
-				if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
-					last = A;
-					continue;
-				}
+		renderavgcount++;
+		if(renderavgcount >= 100){
+			System.out.println("Render averages in ms: ");
+			System.out.println("Avg1 " + (renderavg1 * 0.001) / (double) renderavgcount);
+			System.out.println("Avg2 " + (renderavg2 * 0.001) / (double) renderavgcount);
+			System.out.println("Avg3 " + (renderavg3 * 0.001) / (double) renderavgcount);
+			System.out.println("Avg4 " + (renderavg4 * 0.001) / (double) renderavgcount);
+			System.out.println("Avg5 " + (renderavg5 * 0.001) / (double) renderavgcount);
 
-				Coordinate ac = view.transform(A.getCoordinate());
-				Coordinate bc = view.transform(last.getCoordinate());
-				mygc.setLineWidth(5.0f);
-                if(isPirateMode) {
-                    mygc.setFill(Color.RED);
-                    mygc.setStroke(Color.RED);
-                    mygc.setLineDashes(10);
-                } else {
-                    mygc.setFill(Color.BLUE);
-                    mygc.setStroke(Color.BLUE);
-                    mygc.setLineDashes(null);
-                }
-				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
-				last = A;
-				mygc.restore();
-			}
+			renderavg1 = 0.0;
+			renderavg2 = 0.0;
+			renderavg3 = 0.0;
+			renderavg4 = 0.0;
+			renderavg5 = 0.0;
+
+			renderavgcount = 0;
 		}
-
 	}
 	/**
 	 * Internal updater/Helper function
@@ -395,6 +453,35 @@ public class MapRootPane extends AnchorPane{
 		addEdgeDisplayFromList(g, g.getEdges());
 	}
 
+	public void placeMarker(Node n){
+		markerPane.getChildren().clear();
+		currentRoute = null;
+		Coordinate nc = n.getCoordinate();
+		markerPane.getChildren().add(new MarkerDisplay(nc.getX(), nc.getY(), nc.getZ(), Marker.SELECT));
+		render();
+	}
+	
+	public void placeStartMarker(Node n){
+		markerPane.getChildren().clear();
+		currentRoute = null;
+		Coordinate nc = n.getCoordinate();
+		startMarker = new MarkerDisplay(nc.getX(), nc.getY(), nc.getZ(), Marker.START);
+		startMarker.setNodePoint(n.getId());
+		markerPane.getChildren().add(startMarker);
+		render();
+	}
+	
+	public void placeEndMarker(Node n){
+//		markerPane.getChildren().clear();
+//		currentRoute = null;
+//		Coordinate nc = n.getCoordinate();
+//		startMarker = new MarkerDisplay(nc.getX(), nc.getY(), nc.getZ(), Marker.START);
+//		startMarker.setNodePoint(n.getId());
+//		markerPane.getChildren().add(startMarker);
+		drawPath(startMarker.getNodePoint(), n.getId());
+		render();
+	}
+	
     /**
      * Sets up event listener functions for whenever user does something on the mapPane/mapView
      * 
@@ -511,25 +598,38 @@ public class MapRootPane extends AnchorPane{
     			if (endMarker != null && startMarker != null){
     				startMarker = null;
     				endMarker = null;
+    				currentRoute.clear();
     				markerPane.getChildren().clear();
     			}
     			if(startMarker != null && endMarker == null) {
-    				endMarker = new MarkerDisplay(click.getX(), click.getY(), currentLevel, Marker.END);
+    				endMarker = new MarkerDisplay(nearestNode.getCoordinate().getX(), nearestNode.getCoordinate().getY(), currentLevel, Marker.END);
+    				endMarker.setNodePoint(nearestNodeId);
+    				drawPath(startMarker.getNodePoint(), endMarker.getNodePoint());
     				//markerPane.getChildren().add(endMarker);
     			}
-    			if(startMarker == null) {
+    			if(startMarker == null && nodeQueue.size() == 0) {
     				//snap to nearest available node
+    				markerPane.getChildren().clear();
     				startMarker = new MarkerDisplay(nearestNode.getCoordinate().getX(), nearestNode.getCoordinate().getY(), currentLevel, Marker.START);
+    				startMarker.setNodePoint(nearestNodeId);
     				markerPane.getChildren().add(startMarker);
     				
-    			}
-    			
+    			} else { nodeQueue.clear(); }
+    			/*
     			List<javafx.scene.Node> nearestList = nodeLayer.getChildren().stream()
     					.filter((Predicate<? super javafx.scene.Node>) nd -> ((NodeDisplay) nd).getNode() == nearestNodeId)
     					.collect(Collectors.toList());
+    					*/
+    			/*
     			NodeDisplay nearest = (NodeDisplay) nearestList.get(0);
-    			if(nodeQueue.size() > 0) if(nearest == nodeQueue.peek()) return;
+    			if(nodeQueue.size() > 0) {
+    				if(nearest == nodeQueue.peek()) {
+    					nodeQueue.clear();
+    					return;
+    				}
+    			}
     			nearest.fireEvent(new SelectEvent(SelectEvent.NODE_SELECTED));
+    			*/
     			render();
     		}
     	});
@@ -778,7 +878,7 @@ public class MapRootPane extends AnchorPane{
      */
 	public void drawPath(){
 		pathPane.getChildren().clear();
-		ControllerSingleton.getInstance().getMenuPane().showDirections();
+		
         NodeDisplay startNode = nodeQueue.poll();
         NodeDisplay endNode = nodeQueue.poll();
         //if(startNode != null && endNode != null && isZooming){
@@ -798,12 +898,25 @@ public class MapRootPane extends AnchorPane{
         startNode.fireEvent(selectNodeEvent);
         endNode.fireEvent(selectNodeEvent);
         showDirections();
-        
 	}
 
+	public void drawPath(Id nodeAId, Id nodeBId){
+		pathPane.getChildren().clear();
+		 p = new Path(nodeAId, nodeBId);
+	        Graph g = display.getGraph();
+	        if(ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode){
+	        	p.runAccessibleAStar(g);
+	        }
+	        else p.runAStar(g); //Change this later??
+	        currentRoute = p.getRoute();
+	        render();
+	        showDirections();
+	}
+	
     @SuppressWarnings("unchecked")
 	public void showDirections(){
     	if(p != null && p.getTextual() != null){
+    		ControllerSingleton.getInstance().getMenuPane().showDirections();
     		ObservableList<String> pathList = FXCollections.observableList(p.getTextual());
             ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
     	}

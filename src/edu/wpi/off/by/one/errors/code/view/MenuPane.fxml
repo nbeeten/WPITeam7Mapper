@@ -21,7 +21,7 @@
                             </toggleGroup>
                         </RadioButton>
                         <RadioButton fx:id="directionsMenuRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#extend" prefHeight="50.0" prefWidth="50.0" styleClass="toggle-button" toggleGroup="$menuButtonToggleGroup" />
-                        <RadioButton fx:id="favoritesMenuRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#extend" prefHeight="50.0" prefWidth="50.0" styleClass="toggle-button" toggleGroup="$menuButtonToggleGroup" />
+                        <RadioButton visible="false" fx:id="favoritesMenuRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#extend" prefHeight="50.0" prefWidth="50.0" styleClass="toggle-button" toggleGroup="$menuButtonToggleGroup" />
                     </children>
                 </VBox>
             </center>
@@ -30,7 +30,7 @@
                     <children>
                         <RadioButton fx:id="devToolMenuRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#extend" prefHeight="50.0" prefWidth="50.0" styleClass="toggle-button" toggleGroup="$menuButtonToggleGroup" />
                         <RadioButton fx:id="settingsMenuRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#extend" prefHeight="50.0" prefWidth="50.0" styleClass="toggle-button" toggleGroup="$menuButtonToggleGroup" />
-                        <RadioButton fx:id="helpMenuRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#extend" prefHeight="50.0" prefWidth="50.0" styleClass="toggle-button" toggleGroup="$menuButtonToggleGroup" />
+                        <!--RadioButton visible="false" fx:id="helpMenuRadioButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#extend" prefHeight="50.0" prefWidth="50.0" styleClass="toggle-button" toggleGroup="$menuButtonToggleGroup" /-->
                     </children>
                 </VBox>
             </bottom>
@@ -39,10 +39,10 @@
             <children>
                 <SearchMenuPane fx:id="searchMenuPane" visible="${searchMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
                 <DirectionsMenuPane fx:id="directionsMenuPane" visible="${directionsMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
-                <FavoritesMenuPane fx:id="favoritesMenuPane" visible="${favoritesMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
+                <!-- FavoritesMenuPane fx:id="favoritesMenuPane" visible="${favoritesMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" /-->
                 <DevToolsMenuPane fx:id="devToolsMenuPane" visible="${devToolMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
                 <SettingsMenuPane fx:id="settingsMenuPane" visible="${settingsMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
-                <HelpMenuPane fx:id="helpMenuPane" visible="${helpMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
+                <!-- HelpMenuPane fx:id="helpMenuPane" visible="${helpMenuRadioButton.selected}" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" /-->
             </children>
         </AnchorPane>
     </children>
