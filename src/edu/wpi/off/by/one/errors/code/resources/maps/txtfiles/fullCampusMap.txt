@@ -1389,3 +1389,23 @@ m fullerlabs1.png 1024.818 946.1912 0.0 334.0 0.105 Fuller_Labs_1
 m fullerlabs0.png 1027.0052 946.85626 -1.0 334.0 0.105 Fuller_Labs_Basement
 m fullerlabsA.png 1032.8525 941.3205 -2.0 334.0 0.105 Fuller_Labs_Subbasement
 m fullerlabs3.png 1022.6156 945.092 2.0 334.0 0.105 Fuller_Labs_3
+m Alden00.png 0.0 0.0 -1.0 0.0 0.1 Alden_Hall_00
+m Alden0.png 0.0 0.0 0.0 0.0 0.1 Alden_Hall_0
+m Alden1.png 0.0 0.0 1.0 0.0 0.1 Alden_Hall_1
+m Alden2.png 0.0 0.0 2.0 0.0 0.1 Alden_Hall_2
+m Bartlett1.png 0.0 0.0 1.0 0.0 0.1 Bartlett_Center_1
+m Bartlett2.png 0.0 0.0 2.0 0.0 0.1 Bartlett_Center_2
+m BoyntonHall0.png 0.0 0.0 0.0 0.0 0.1 Boynton_Hall_Basement
+m BoyntonHall1.png 0.0 0.0 1.0 0.0 0.1 Boynton_Hall_1
+m BoyntonHall2.png 0.0 0.0 2.0 0.0 0.1 Boynton_Hall_2
+m BoyntonHall3.png 0.0 0.0 3.0 0.0 0.1 Boynton_Hall_3
+m salisburylabs0.png 0.0 0.0 0.0 0.0 0.1 Salisbury_Labs_Basement
+m salisburylabs1.png 0.0 0.0 1.0 0.0 0.1 Salisbury_Labs_1
+m salisburylabs2.png 0.0 0.0 2.0 0.0 0.1 Salisbury_Labs_2
+m salisburylabs3.png 0.0 0.0 3.0 0.0 0.1 Salisbury_Labs_3
+m salisburylabs4.png 0.0 0.0 4.0 0.0 0.1 Salisbury_Labs_4
+m salisburylabs5.png 0.0 0.0 5.0 0.0 0.1 Salisbury_Labs_5
+higgins0.png 0.0 0.0 0.0 0.0 0.1 Higgins_Labs_Basement
+higgins1.png 0.0 0.0 1.0 0.0 0.1 Higgins_Labs_1
+higgins2.png 0.0 0.0 2.0 0.0 0.1 Higgins_Labs_2
+higgins3.png 0.0 0.0 3.0 0.0 0.1 Higgins_Labs_3
