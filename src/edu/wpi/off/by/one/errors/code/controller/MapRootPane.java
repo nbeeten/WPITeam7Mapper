@@ -104,6 +104,7 @@ public class MapRootPane extends AnchorPane{
     public boolean isAddMode = false;		//Is editor currently adding nodes?
     public boolean isDeleteMode = false;	//Is editor currently deleting nodes?
     public boolean isMultiSelectNodes = false;
+    public boolean isPirateMode = false;
     boolean isZooming = false;
     
     boolean isctrl = false;
@@ -358,9 +359,15 @@ public class MapRootPane extends AnchorPane{
 				Coordinate ac = view.transform(A.getCoordinate());
 				Coordinate bc = view.transform(last.getCoordinate());
 				mygc.setLineWidth(5.0f);
-				mygc.setFill(Color.RED);
-				mygc.setStroke(Color.RED);
-				mygc.setLineDashes(10);
+                if(isPirateMode) {
+                    mygc.setFill(Color.RED);
+                    mygc.setStroke(Color.RED);
+                    mygc.setLineDashes(10);
+                } else {
+                    mygc.setFill(Color.BLUE);
+                    mygc.setStroke(Color.BLUE);
+                    mygc.setLineDashes(null);
+                }
 				mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
 				last = A;
 				mygc.restore();
