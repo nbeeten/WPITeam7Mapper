@@ -53,6 +53,14 @@ public class Node {
         this.coord = newCoord;
     }
     
+    public void setName(String name){
+    	this.name = name;
+    }
+    
+    public String getName(){
+    	return this.name;
+    }
+    
     public boolean addEdgeId(Id id){
         return this.edges.add(id);
     }
