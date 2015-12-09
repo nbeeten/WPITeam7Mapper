@@ -536,6 +536,7 @@ public class MapRootPane extends AnchorPane{
     		if(isEdgeEditor) addEdgeDisplayFromQueue();
     	});
     }
+    
 
 	/**
 	 * Add a NodeDisplay using existing Node
