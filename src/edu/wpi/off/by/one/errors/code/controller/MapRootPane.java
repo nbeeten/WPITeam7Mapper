@@ -129,6 +129,8 @@ public class MapRootPane extends AnchorPane{
     public MapRootPane getMapRootPane() { return this; }
     public ArrayList<Map> getSelectedMaps() { return this.selectedMaps; }
     public void setSelectedMaps(ArrayList<Map> maps) { this.selectedMaps = maps; }
+    public Queue<NodeDisplay> getSelectedNodes() { return this.nodeQueue; }
+    public Queue<EdgeDisplay> getSelectedEdges() { return this.edgeQueue; }
     public String getFilePath() {return this.filePath; }
     
     public void updateCanvasSize(double width, double height){

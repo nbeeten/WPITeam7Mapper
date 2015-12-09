@@ -2,9 +2,12 @@ package edu.wpi.off.by.one.errors.code.controller.customcontrols;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
+import edu.wpi.off.by.one.errors.code.model.TagMap;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Side;
@@ -27,8 +30,13 @@ public class AutoCompleteTextField extends TextField{
 		entriesPopup = new ContextMenu();
 		//TODO ADD MORE ENTRIES
 		//TODO SMART SEARCH
-		entries.add("CC");
-        entries.add("Campus Center");
+		update();
+		
+		this.setOnMouseClicked(e -> {
+			update();
+			System.out.println(entries.size());
+		});
+		
 		textProperty().addListener(new ChangeListener<String>(){
 
 			@Override
@@ -61,6 +69,11 @@ public class AutoCompleteTextField extends TextField{
 	}
 	
 	public SortedSet<String> getEntries() { return entries; }
+	
+	public void update(){
+		Set<String> tags = TagMap.getTagMap().getTags();
+		entries.addAll(tags);
+	}
 	
 	private void populatePopup(List<String> result){
 		List<CustomMenuItem> menuItems = new LinkedList<>();

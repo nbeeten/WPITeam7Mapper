@@ -2,6 +2,7 @@ package edu.wpi.off.by.one.errors.code.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class TagMap {
 	private static TagMap tagMap = new TagMap();
@@ -13,6 +14,10 @@ public class TagMap {
 	
 	public static TagMap getTagMap(){
 		return tagMap;
+	}
+	
+	public Set<String> getTags(){
+		return tmap.keySet();
 	}
 	
 	public void add(String newTag, Id n){

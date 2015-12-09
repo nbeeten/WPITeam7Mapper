@@ -50,8 +50,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <CheckBox mnemonicParsing="false" text="Accessible" />
-            <CheckBox mnemonicParsing="false" text="Walkway" GridPane.columnIndex="1" />
+            <CheckBox fx:id="accessibleCheckbox" mnemonicParsing="false" onAction="#switchAccessible" text="Accessible" />
+            <CheckBox fx:id="walkwayCheckbox" mnemonicParsing="false" onAction="#switchWalkway" text="Walkway" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <Separator prefWidth="200.0" />
