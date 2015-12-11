@@ -407,13 +407,18 @@ public class MapRootPane extends AnchorPane{
 				int i = currentRoute.size()-1;
 				if(i >= 0)for(mest = display.getGraph().returnNodeById(currentRoute.get(i)); mest == null && i >= 0; i--);
 				if(mest != null) {
-					Coordinate c = view.transform(mest.getCoordinate());
-					mygc.save();
-					//Rotate r = new Rotate(rot, 0, 0);
-					//mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
-					if (pirateX == null) pirateX = new Image(MarkerDisplay.pirate_endImg);
-					mygc.drawImage(pirateX, c.getX() - pirateX.getWidth() / 2.0, c.getY() - pirateX.getHeight() / 2.0);
-					mygc.restore();
+					Id endPointId = currentRoute.get(i);
+					Coordinate endPoint = display.getGraph().returnNodeById(endPointId).getCoordinate();
+					if(!(translate.getZ() > endPoint.getZ() + 0.1 || translate.getZ() < endPoint.getZ() - 0.1)){
+						Coordinate c = view.transform(mest.getCoordinate());
+						mygc.save();
+						//Rotate r = new Rotate(rot, 0, 0);
+						//mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
+						if (pirateX == null) pirateX = new Image(MarkerDisplay.pirate_endImg);
+						//mygc.scale(0.5, 0.5);
+						mygc.drawImage(pirateX, c.getX() - pirateX.getWidth() / 2.0, c.getY() - pirateX.getHeight() / 2.0);
+						mygc.restore();
+					}
 				}
 			}
 		}
