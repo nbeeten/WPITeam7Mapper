@@ -1,6 +1,8 @@
 package edu.wpi.off.by.one.errors.code.controller.menupanes;
 
 import java.io.IOException;
+import java.util.List;
+
 import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField;
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.model.GoogleMail;
@@ -21,6 +23,9 @@ public class DirectionsMenuPane extends BorderPane {
 	@FXML Button routeButton;
     @FXML private ListView<String> directionsListView;
     @FXML CheckBox accessibleCheckbox;
+    @FXML Button emailButton;
+
+    private SettingsMenuPane settingsMenuPane;
     Node originNode;
     Node destinationNode;
 	
@@ -35,7 +40,7 @@ public class DirectionsMenuPane extends BorderPane {
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
-
+        settingsMenuPane = ControllerSingleton.getInstance().getSettingsMenuPane();
         this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/DirectionsPaneStyleSheet.css").toExternalForm());
     }
 
@@ -84,7 +89,18 @@ public class DirectionsMenuPane extends BorderPane {
     }
 
     @FXML private void onEmailButtonClick(){
+        settingsMenuPane = ControllerSingleton.getInstance().getSettingsMenuPane();
+        String userEmail = settingsMenuPane.getUserEmail();
+        List<String> directions = ControllerSingleton.getInstance().getMapRootPane().getPath().getTextual();
+        String body = "";
+
+        for (String s : directions){
+            body += (s + "\n");
+        }
         GoogleMail googleMail = new GoogleMail();
-        googleMail.send("", "Testing Mapper Email", "This is a test to see if the email class works");
+        googleMail.send(userEmail, "Directions from goatThere()", body);
+    }
+    public void disableEmailButton(boolean b){
+        emailButton.setDisable(b);
     }
 }

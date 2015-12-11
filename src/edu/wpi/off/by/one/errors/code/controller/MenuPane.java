@@ -8,6 +8,8 @@ import edu.wpi.off.by.one.errors.code.controller.menupanes.FavoritesMenuPane;
 import edu.wpi.off.by.one.errors.code.controller.menupanes.HelpMenuPane;
 import edu.wpi.off.by.one.errors.code.controller.menupanes.SearchMenuPane;
 import edu.wpi.off.by.one.errors.code.controller.menupanes.SettingsMenuPane;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.RadioButton;
@@ -42,6 +44,8 @@ public class MenuPane extends HBox {
     @FXML private RadioButton settingsMenuRadioButton;
    // @FXML private RadioButton helpMenuRadioButton;
 
+    private BooleanProperty isCompactProperty;
+
     //endregion
 
     //region Constructors
@@ -61,11 +65,14 @@ public class MenuPane extends HBox {
         } catch (IOException excpt) {
             throw new RuntimeException(excpt);
         }
-        
+        isCompactProperty = new SimpleBooleanProperty();
+
         removeRadioButtonStyles();
         addListeners();
         this.getStylesheets().add(getClass().getResource("../resources/stylesheets/MenuPaneStyleSheet.css").toExternalForm());
         ControllerSingleton.getInstance().registerMenuPane(this);
+
+        compact();
 
     }
     //endregion
@@ -83,8 +90,7 @@ public class MenuPane extends HBox {
      * adds all the listeners needed
      */
     private void addListeners(){
-        //listener to compact or extend this pane once the hamburgerToggleButton is clicked(the selected value is changed)
-        hamburgerToggleButton.selectedProperty().addListener((v, oldValue, newValue) -> {
+        isCompactProperty.addListener((v, oldValue, newValue) -> {
             if (newValue){
                 this.setPrefWidth(this.getMaxWidth());
                 detailsMenuContainerAnchorPane.setVisible(true);
@@ -95,8 +101,7 @@ public class MenuPane extends HBox {
             }
         });
 
-
-
+        isCompactProperty.bindBidirectional(hamburgerToggleButton.selectedProperty());
     }
     //endregion
 
@@ -105,16 +110,18 @@ public class MenuPane extends HBox {
      * Extends the pane by selecting the toggle button
      */
     public void extend(){
-        if(!hamburgerToggleButton.isSelected())
-            hamburgerToggleButton.setSelected(true);
+        if(!isCompactProperty.get()){
+            isCompactProperty.setValue(true);
+        }
     }
 
     /**
      * Compacts the pane by deselection the toggle button
      */
     public void compact(){
-        if(hamburgerToggleButton.isSelected())
-            hamburgerToggleButton.setSelected(false);
+        if(isCompactProperty.get()){
+            isCompactProperty.setValue(false);
+        }
     }
     //endregion
     

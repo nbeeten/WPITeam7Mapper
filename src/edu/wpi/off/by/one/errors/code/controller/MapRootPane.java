@@ -925,5 +925,7 @@ public class MapRootPane extends AnchorPane{
             ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().getdirectionsListView().setItems(pathList);
     	}
     }
-
+	public Path getPath(){
+		return this.p;
+	}
 }
