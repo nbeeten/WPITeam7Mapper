@@ -40,7 +40,7 @@ public class NodeDevToolPane extends VBox {
 	@FXML TextField zTextField;
 	@FXML TextField tagTextField;
 	@FXML ListView<String> tagListView;
-	@FXML ListView<Id> edgeListView;
+	//@FXML ListView<Id> edgeListView;
 	@FXML Button addTagButton;
 	@FXML CheckBox accessibleCheckbox;
 	
@@ -87,6 +87,11 @@ public class NodeDevToolPane extends VBox {
     			//mainPane.getMapRootPane().isNodeEditor = false;
     		}
     		
+    	});
+    	
+    	this.accessibleCheckbox.selectedProperty().addListener(e -> {
+    		Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
+    		n.setAccessible(this.accessibleCheckbox.isSelected());
     	});
     	
     	//do sth to adjust node display on map as well
