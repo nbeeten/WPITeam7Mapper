@@ -10,6 +10,10 @@ public class Node {
     private ArrayList<String> tags;//list of tags the node has
     private TagMap tagMap;
     private boolean accessible = true;
+    private boolean food = false;
+    private boolean mens = false;
+    private boolean womens = false;
+    private boolean genderNeutral = false;
     private String name = "";
     
     /**
@@ -193,5 +197,33 @@ public class Node {
     
     public void setAccessible(boolean accessibility){
     	accessible = accessibility;
+    }
+    public boolean isFood(){
+    	return food;
+    }
+    
+    public void setFood(boolean foodIn){
+    	food = foodIn;
+    }
+    public boolean isMens(){
+    	return mens;
+    }
+    
+    public void setMens(boolean mensIn){
+    	mens = mensIn;
+    }
+    public boolean isWomens(){
+    	return womens;
+    }
+    
+    public void setWomens(boolean womensIn){
+    	womens = womensIn;
+    }
+    public boolean isGenderNeutral(){
+    	return genderNeutral;
+    }
+    
+    public void setGenderNeutral(boolean genNeutIn){
+    	genderNeutral = genNeutIn;
     }
 }
