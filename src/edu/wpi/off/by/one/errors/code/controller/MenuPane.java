@@ -29,7 +29,7 @@ public class MenuPane extends HBox {
     @FXML
     private AnchorPane detailsMenuContainerAnchorPane;
     
-    @FXML SearchMenuPane searchMenuPane;
+    @FXML public SearchMenuPane searchMenuPane;
     @FXML DirectionsMenuPane directionsMenuPane;
     //@FXML FavoritesMenuPane favoritesMenuPane;
     @FXML DevToolsMenuPane devToolsMenuPane;

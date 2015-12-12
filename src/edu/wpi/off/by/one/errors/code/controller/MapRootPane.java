@@ -120,7 +120,7 @@ public class MapRootPane extends AnchorPane{
         //canvas.heightProperty().bind(this.heightProperty());
         initialize();
 
-        //ControllerSingleton.getInstance().getMenuPane().searchMenuPane.spinnyZoom(1);
+        
     }
     
     public MapRootPane getMapRootPane() { return this; }

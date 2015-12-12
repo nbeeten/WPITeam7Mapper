@@ -171,7 +171,7 @@ public class MainPane extends BorderPane {
     	zoomOutButton.setOnMousePressed(e -> zotl.play());
     	zoomOutButton.setOnMouseReleased(e -> zotl.stop() );
     	ControllerSingleton.getInstance().getMenuPane().searchMenuPane.updateMapList(ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps());
-    	ControllerSingleton.getInstance().getMenuPane().searchMenuPane.spinnyZoom(1);
+
     }
 
     @FXML private void onOpenNavigationPaneButtonClick(){
