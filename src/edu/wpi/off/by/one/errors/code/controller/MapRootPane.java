@@ -100,7 +100,8 @@ public class MapRootPane extends AnchorPane{
     public boolean isEyedrop = false;
     boolean isZooming = false;
 	Image pirateX = null;
-    
+    Image endNode = null;
+    Image endImg = null;
     boolean isctrl = false;
 
     
@@ -414,9 +415,10 @@ public class MapRootPane extends AnchorPane{
 						mygc.save();
 						//Rotate r = new Rotate(rot, 0, 0);
 						//mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
-						if (pirateX == null) pirateX = new Image(MarkerDisplay.pirate_endImg);
+						endImg = new Image(MarkerDisplay.endImg);
+						if(isPirateMode) endImg = new Image(MarkerDisplay.pirate_endImg);
 						//mygc.scale(0.5, 0.5);
-						mygc.drawImage(pirateX, c.getX() - pirateX.getWidth() / 2.0, c.getY() - pirateX.getHeight() / 2.0);
+						mygc.drawImage(endImg, c.getX() - endImg.getWidth() / 2.0, c.getY() - endImg.getHeight() / 2.0);
 						mygc.restore();
 					}
 				}
