@@ -30,6 +30,7 @@ public class FileIO {
 	static ArrayList<String[]> nodebuf;
 	static ArrayList<String[]> edgebuf;
 	static ArrayList<String[]> mapbuf;
+	static ArrayList<String[]> imgbuf;
 
 	/**
 	 * flush node and edge's buffer
@@ -47,10 +48,14 @@ public class FileIO {
 			String[] args = edgebuf.get(i);
 			parseedgeline(args, g, nodeids);
 		}
-		for (i = 1; i < mapbuf.size(); i++) {
+		for (i = 1; i < mapbuf.size(); i++) {//why do we do 1?
 			String[] args = mapbuf.get(i);
 			parsemapline(args, dpy);
-		}		
+		}
+		for (i = 0; i < imgbuf.size(); i++) {
+			String[] args = imgbuf.get(i);
+			parseimgline(args, dpy);
+		}
 		nodeids = null;// best i can do to "free" it
 	}
 	
@@ -67,6 +72,18 @@ public class FileIO {
 		if(args.length > 6) m.setName(getTags(args[6])[0]);
 		dpy.addMap(m);
 		return 1;
+	}
+	static int parseimgline(String[] args, Display dpy){
+		//arg map name
+		//arg filename
+		//for(String s : args) System.out.println("arg:" + s);
+		for(Map m : dpy.getMaps()){
+			if(m.name == getTags(args[0])[0]){
+				m.addImg(args[1]);
+				return 1;
+			}
+		}
+		return 0;
 	}
 	/**
 	 * 
@@ -156,6 +173,9 @@ public class FileIO {
 			mapbuf.add(line.substring(i + 1).trim().split("\\s"));
 			//parsemapline(line.substring(i + 1).trim().split("\\s"), dpy);
 			break;
+		case 'i': // map image;
+			imgbuf.add(line.substring(i + 1).trim().split("\\s"));
+			break;
 		default: // some sorta error, or unrecognized element type
 			break;
 		}
@@ -182,6 +202,7 @@ public class FileIO {
 		edgebuf = new ArrayList<String[]>();
 		nodebuf = new ArrayList<String[]>();
 		mapbuf = new ArrayList<String[]>();
+		imgbuf = new ArrayList<String[]>();
 		List<String> lines = null;
 		// todo should fix this try catch BS
 		try {
@@ -264,7 +285,10 @@ public class FileIO {
 				//writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
 				String[] aaa = new String[1];
 				aaa[0] = map.getName();
-				writer.println("m " + map.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
+				writer.println("m " + "no"+ " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
+				for(String s : map.getPaths()){
+					writer.println("i " + toTags(aaa) + " " + s + " ");
+				}
 			}
 		if (writer != null) writer.close();
 		System.out.println("Writing completed");

@@ -252,14 +252,14 @@ public class MapRootPane extends AnchorPane{
 			
 			mygc.save();
 			if(m == null) continue;
-			if(m.getImage() == null) continue;
+			if(m.getImages() == null) continue;
 			
 			if(currentLevel != 1 && m.getName().equals("Campus Map")) mygc.setGlobalAlpha(0.4);
 			else mygc.setGlobalAlpha(1);
 			
-			if(translate.getZ() > m.getCenter().getZ() + 0.1 || translate.getZ() < m.getCenter().getZ() - 0.1){
+			//if(translate.getZ() > m.getCenter().getZ() + 0.1 || translate.getZ() < m.getCenter().getZ() - 0.1){
 				if(!m.getName().equals("Campus Map")) continue;
-			}
+			//}
 			Coordinate c = view.transform(m.getCenter());
 			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
 			mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
@@ -273,7 +273,9 @@ public class MapRootPane extends AnchorPane{
 				ds.setSpread(0.5);
 				mygc.setEffect(ds);
 			}
-			mygc.drawImage(m.getImage(), 0, 0);
+			for(Image im : m.getImages()) {
+				mygc.drawImage(im, 0, 0);
+			}
 			mygc.restore();
 		}
 		long time4 = System.nanoTime();
@@ -511,7 +513,7 @@ public class MapRootPane extends AnchorPane{
 				if(nearestMap == null) return;
 				if(isEyedrop){
 					System.out.println("EYEDROP");
-					int eyedroppedColor = nearestMap.getColor(click);
+					int eyedroppedColor = 0;//nearestMap.getColor(click);
 					ControllerSingleton.getInstance().getMapDevToolPane().setEyedroppedColor(eyedroppedColor);
 				} else {
 					
