@@ -2299,6 +2299,10 @@ m GordonLibrary0.png 1133.0 1075.0 -1.0 102.0 0.08 Gordon_Library_0
 m GordonLibrary1.png 1132.0106 1078.0215 0.0 102.0 0.08 Gordon_Library_1
 m gl2.png 1120.0 1167.0 1.0 191.0 0.085 Gordon_Library_2
 m GordonLibrary3.png 1143.0 1075.0 2.0 102.0 0.09 Gordon_Library_3
+m Harrington1.png 641.6455 1014.17236 -1.0 9.0 0.11 Harrington_Basement
+m Harrington2.png 641.6455 1014.17236 0.0 9.0 0.11 Harrington_Gymnasium
+m Harrington3.png 641.6455 1014.17236 1.0 9.0 0.11 Harrington_Entrance_Level
+m Harrington4.png 641.6455 1014.17236 2.0 9.0 0.11 Harrington_Upper_Stands_and_Balcony
 m hh0.png 860.0 890.0 0.0 124.0 0.1 Higgins_House_0
 m hh1.png 860.0 890.0 1.0 124.0 0.1 Higgins_House_1
 m hh2.png 860.0 890.0 2.0 124.0 0.1 Higgins_House_2

@@ -1,8 +1,10 @@
 package edu.wpi.off.by.one.errors.code.model;
 
+import java.awt.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 
@@ -413,19 +415,27 @@ public class Path {
 					if(Math.abs(degreedangle) <= 20){ //determines magnitude of turn
 						distFromTurn += dist;
 					} else if(degreedangle <= 45){
-						res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						if(true){
+							res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						}else res.add("Walk for " + Math.round(distFromTurn) + " paces");
 						res.add("Make a slight " + (dxangle>=0 ? "right" : "left")+ " turn");
 						distFromTurn = dist;
 					} else if (degreedangle <= 90){
-						res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						if(true){
+							res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						}else res.add("Walk for " + Math.round(distFromTurn) + " paces");
 						res.add("Make a " + (dxangle>=0 ? "right" : "left")+ " turn");
 						distFromTurn = dist;
 					} else if (degreedangle <= 180){
-						res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						if(true){
+							res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						}else res.add("Walk for " + Math.round(distFromTurn) + " paces");
 						res.add("Make a hard " + (dxangle>=0 ? "right" : "left")+ " turn");
 						distFromTurn = dist;
 					} else {
-						res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						if(true){
+							res.add("Walk for " + Math.round(distFromTurn) + " meters");
+						}else res.add("Walk for " + Math.round(distFromTurn) + " paces");
 						res.add("Make a sharp " + (dxangle>=0 ? "right" : "left")+ " turn");
 						distFromTurn = dist;
 					}
@@ -446,8 +456,14 @@ public class Path {
 			lastcoord = thiscoord;
 			cnt++;
 		}
-		res.add("Walk for "+ Math.round(distFromTurn) + " meters");
+		if(true){
+		res.add("Walk for " + Math.round(distFromTurn) + " meters");
 		res.add("You have reached your destination");
+		}else {
+			res.add("Walk for " + Math.round(distFromTurn) + " paces");
+			res.add("You have found the booty");
+		}
+
 		return res;
 	}
 
