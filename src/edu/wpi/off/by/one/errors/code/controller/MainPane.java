@@ -40,11 +40,11 @@ public class MainPane extends BorderPane {
 	@FXML private Button rotateRightButton;
 	@FXML private Button zoomInButton;
 	@FXML private Button zoomOutButton;
-    //@FXML private Button openNavigationPaneButton;
+    @FXML private Button openNavigationPaneButton;
 	@FXML private ScrollPane mapScrollPane;
 	@FXML private MenuPane menuPane;
 	@FXML private MapRootPane mapRootPane;
-	//@FXML private NavigationPane navigationPane;
+	@FXML private NavigationPane navigationPane;
 	
 	public Coordinate dropStartC;
 	public	Coordinate dropEndC; 
@@ -175,7 +175,7 @@ public class MainPane extends BorderPane {
     }
 
     @FXML private void onOpenNavigationPaneButtonClick(){
-        //navigationPane.open();
+        navigationPane.open();
     }
     public void setWindow(Window window) { 
     	this.window = window; 

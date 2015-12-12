@@ -32,12 +32,12 @@
                                 <Button fx:id="zoomOutButton" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="-" />
                             </children>
                         </VBox>
-                        <Button visible="false" fx:id="openNavigationPaneButton" onAction="#onOpenNavigationPaneButtonClick" prefWidth="75" text="^" StackPane.alignment="BOTTOM_CENTER" />
+                        <Button fx:id="openNavigationPaneButton" onAction="#onOpenNavigationPaneButtonClick" prefWidth="75" text="^" StackPane.alignment="BOTTOM_CENTER" />
                     </children>
                 </StackPane>
             </center>
             <bottom>
-                <!--NavigationPane fx:id="navigationPane" minHeight="0" prefHeight="0" prefWidth="Infinity" visible="false" /-->
+                <NavigationPane fx:id="navigationPane" minHeight="0" prefHeight="150" prefWidth="Infinity" />
             </bottom>
         </BorderPane>
     </center>
