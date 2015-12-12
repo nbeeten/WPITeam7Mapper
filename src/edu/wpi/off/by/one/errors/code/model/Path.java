@@ -410,7 +410,7 @@ public class Path {
 					
 					System.out.println(degreedangle);
 					System.out.println(dxangle);
-					if(Math.abs(degreedangle) <= 10){ //determines magnitude of turn
+					if(Math.abs(degreedangle) <= 20){ //determines magnitude of turn
 						distFromTurn += dist;
 					} else if(degreedangle <= 45){
 						res.add("Walk for " + Math.round(distFromTurn) + " meters");
