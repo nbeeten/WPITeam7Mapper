@@ -102,7 +102,8 @@ public class FileIO {
 			String[] tags = getTags(args[3]);
 			n.setName(tags[0]);
 			for(int i = 1; i < tags.length; i++){ 
-				n.addTag(tags[i]);
+				if(tags[0].equals(tags[i])) continue;
+				else n.addTag(tags[i]);
 			}
 			//for(String j : getTags(args[3])) n.addTag(j);
 		}
@@ -227,14 +228,15 @@ public class FileIO {
 		//will change this to ID, Integer
 		HashMap<Id, Integer> ids = new HashMap<Id, Integer>();
 		int i = 0;
-		for( Node n : g.getNodes()){
+		for(Node n : g.getNodes()){
 			if(n == null) continue;
 			ids.put(n.getId(), i);
 			Coordinate c = n.getCoordinate();
 			writer.printf("p %f %f %f", c.getX(), c.getY(), c.getZ());
-			if(!n.GetTags().isEmpty() || !n.getName().isEmpty()){
-				ArrayList<String> tagList = n.GetTags();
-				tagList.add(0, n.getName());
+			ArrayList<String> tagList = new ArrayList<String>();
+			if(!n.getName().isEmpty()) tagList.add(n.getName());
+			if(!n.GetTags().isEmpty()) tagList.addAll(n.GetTags());
+			if(!tagList.isEmpty()){
 				String[] tagListReborn = tagList.toArray(new String[tagList.size()]);
 				writer.printf(" %s", toTags(tagListReborn));
 			}
