@@ -45,10 +45,10 @@
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
-         <children>
+         <!--children>
             <CheckBox fx:id="accessibleCheckbox" mnemonicParsing="false" onAction="#switchAccessible" text="Accessible" />
             <CheckBox fx:id="walkwayCheckbox" mnemonicParsing="false" onAction="#switchWalkway" text="Walkway" visible="false" GridPane.columnIndex="1" />
-         </children>
+         </children-->
       </GridPane>
       <Separator prefWidth="200.0" />
       <Label text="Connect Edges to Nodes" />

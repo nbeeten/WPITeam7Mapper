@@ -105,6 +105,7 @@ public class Path {
 	}
 	
 	public void runAccessibleAStar(Graph graphin){
+		System.out.println("accessible");
 		theGraph = graphin;
 		////System.out.println("started a*");
 		ArrayList<Id> visited = new ArrayList<Id>();	//These nodes we have already seen
@@ -173,7 +174,10 @@ public class Path {
 					if(theGraph.returnNodeById(neighborId).isAccessible()){
 						open.add(neighborId);		//add the neighbor to the list of places to go
 					}
-					else continue;
+					else {
+						System.out.println("skipping");
+						continue;
+					}
 					
 				}
 				else if(tentativeGScore>gScore.get(neighborId)){	//if this path to this node isn't better than the existing one

@@ -40,7 +40,7 @@ public class NodeDevToolPane extends VBox {
 	@FXML TextField zTextField;
 	@FXML TextField tagTextField;
 	@FXML ListView<String> tagListView;
-	@FXML ListView<Id> edgeListView;
+	//@FXML ListView<Id> edgeListView;
 	@FXML Button addTagButton;
 	@FXML CheckBox accessibleCheckbox;
 	
@@ -71,9 +71,9 @@ public class NodeDevToolPane extends VBox {
     	yTextField.setText(Float.toString(c.getY()));
     	zTextField.setText(Float.toString(c.getZ()));
     	tagListView.getItems().clear();
-    	edgeListView.getItems().clear();
+    	//edgeListView.getItems().clear();
     	tagListView.getItems().addAll((n.GetTags() != null) ? n.GetTags() : new ArrayList<String>());
-    	edgeListView.getItems().addAll((n.getEdgelist() != null) ? n.getEdgelist() : new ArrayList<Id>());
+    	//edgeListView.getItems().addAll((n.getEdgelist() != null) ? n.getEdgelist() : new ArrayList<Id>());
     	tagTextField.clear();
     	accessibleCheckbox.setSelected(g.returnNodeById(nd.getNode()).isAccessible());
     }
@@ -87,6 +87,11 @@ public class NodeDevToolPane extends VBox {
     			//mainPane.getMapRootPane().isNodeEditor = false;
     		}
     		
+    	});
+    	
+    	this.accessibleCheckbox.selectedProperty().addListener(e -> {
+    		Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
+    		n.setAccessible(this.accessibleCheckbox.isSelected());
     	});
     	
     	//do sth to adjust node display on map as well

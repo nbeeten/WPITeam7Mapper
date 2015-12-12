@@ -22,8 +22,8 @@ import javafx.scene.layout.VBox;
 public class EdgeDevToolPane extends VBox {
 	
 	MainPane mainPane;
-	@FXML CheckBox accessibleCheckbox;
-	@FXML CheckBox walkwayCheckbox;
+	//@FXML CheckBox accessibleCheckbox;
+	//@FXML CheckBox walkwayCheckbox;
 	@FXML Label edgeIDLabel;
 	@FXML Label edgeLengthLabel;
 	@FXML Label addEdgeMessage;
@@ -90,17 +90,17 @@ public class EdgeDevToolPane extends VBox {
 //    		}
 //    		accessibleCheckbox.setSelected(isAllSelected);
 //    	}
-    	accessibleCheckbox.setSelected(g.returnEdgeById(ed.getEdge()).getAccessible());
+    	//accessibleCheckbox.setSelected(g.returnEdgeById(ed.getEdge()).getAccessible());
     }
-    
+    /*
     @FXML public void switchAccessible(){
     	Graph g = ControllerSingleton.getInstance().getMapRootPane().getDisplay().getGraph();
     	for(EdgeDisplay ed : edges){
     		Edge e = g.returnEdgeById(ed.getEdge());
-    		e.setAccessible(accessibleCheckbox.isSelected() ? true : false);
+    		//e.setAccessible(accessibleCheckbox.isSelected() ? true : false);
     	}
     }
     @FXML public void switchWalkway(){
     	// TODO
-    }
+    }*/
 }
