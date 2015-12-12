@@ -187,16 +187,13 @@ public class SearchMenuPane extends BorderPane {
 		
 		//float zx = (float) (m.getCenter().getX() + m.getImage().getWidth() * 0.5f * m.getScale());
 		//float zy = (float) (m.getCenter().getY() + m.getImage().getHeight() * 0.5f * m.getScale());
-		if(index == 1){
-		mainPane.dropEndC = new Coordinate((float) (m.getCenter().getX()-m.getImage().getWidth()/2), (float) (m.getCenter().getY()-m.getImage().getHeight()/2), m.getCenter().getZ());
-		}
-		else{
-			Matrix matrix = new Matrix(m.getRotation(),0,0,1).scale(m.getScale());
-			Coordinate coord = new Coordinate((float)m.getImage().getWidth()/2, (float)m.getImage().getHeight()/2, 0);
-			coord = matrix.transform(coord);
+	
+		Matrix matrix = new Matrix(m.getRotation(),0,0,1).scale(m.getScale());
+		Coordinate coord = new Coordinate((float)m.getImage().getWidth()/2, (float)m.getImage().getHeight()/2, 0);
+		coord = matrix.transform(coord);
 			
-			mainPane.dropEndC = new Coordinate(-m.getCenter().getX()-coord.getX(), -m.getCenter().getY()-coord.getY(), m.getCenter().getZ());
-		}
+		mainPane.dropEndC = new Coordinate(-m.getCenter().getX()-coord.getX(), -m.getCenter().getY()-coord.getY(), m.getCenter().getZ());
+		
 		mainPane.dropEndR = -m.getRotation();
 		float mx = (float)(ControllerSingleton.getInstance().getMapRootPane().canvas.getWidth()/(m.getImage().getWidth() * m.getScale()) );
 		float my = (float)(ControllerSingleton.getInstance().getMapRootPane().canvas.getHeight()/(m.getImage().getHeight() * m.getScale()));
