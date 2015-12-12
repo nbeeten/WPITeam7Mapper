@@ -21,6 +21,10 @@ public class DirectionsMenuPane extends BorderPane {
 	@FXML private ClearableTextField originTextField;
     @FXML private ClearableTextField destinationTextField;
 	@FXML Button routeButton;
+	@FXML Button foodButton;
+	@FXML Button mensRoomButton;
+	@FXML Button womensRoomButton;
+	@FXML Button genderNeutralRestroomButton;
     @FXML private ListView<String> directionsListView;
     @FXML CheckBox accessibleCheckbox;
     @FXML Button emailButton;
@@ -48,6 +52,22 @@ public class DirectionsMenuPane extends BorderPane {
 		this.routeButton.setOnAction(e -> {
 			ControllerSingleton.getInstance().getMapRootPane().placeMarker(originNode);
 			ControllerSingleton.getInstance().getMapRootPane().drawPath(originNode.getId(), destinationNode.getId());
+		});
+		this.foodButton.setOnAction(e-> {
+			//ControllerSingleton.getInstance().getMapRootPane().placeMarker(originNode);
+			ControllerSingleton.getInstance().getMapRootPane().drawFoodPath();
+		});
+		this.mensRoomButton.setOnAction(e-> {
+			//ControllerSingleton.getInstance().getMapRootPane().placeMarker(originNode);
+			ControllerSingleton.getInstance().getMapRootPane().drawMensRoomPath();
+		});
+		this.womensRoomButton.setOnAction(e-> {
+			//ControllerSingleton.getInstance().getMapRootPane().placeMarker(originNode);
+			ControllerSingleton.getInstance().getMapRootPane().drawWomensRoomPath();
+		});
+		this.genderNeutralRestroomButton.setOnAction(e-> {
+			//ControllerSingleton.getInstance().getMapRootPane().placeMarker(originNode);
+			ControllerSingleton.getInstance().getMapRootPane().drawGenderNeutralRestroomPath();
 		});
 	}
 	

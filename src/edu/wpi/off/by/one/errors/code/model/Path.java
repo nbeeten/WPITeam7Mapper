@@ -303,6 +303,86 @@ public class Path {
 		return route;
 	}
 	/**
+	 * 
+	 * @param StartID the location to find the nearest food to.
+	 * @return the nearest location for food by linear distance
+	 */
+	public Id findNearestFood(Id startID, Graph graphIn){
+		theGraph = graphIn;
+		Node best = null;
+		float bestDist = Float.MAX_VALUE;
+		for(Node elem: theGraph.getNodes()){
+			if(elem.isFood()){
+				float dist = calcHeuristic(startID, elem.getId());
+				if(bestDist>dist){
+					best = elem;
+					bestDist = dist;
+				}
+			}
+		}
+		return best.getId();
+	}
+	/**
+	 * 
+	 * @param StartID the location to find the nearest mens room to.
+	 * @return the nearest mens room by linear distance
+	 */
+	public Id findNearestMensRoom(Id startID, Graph graphIn){
+		theGraph = graphIn;
+		Node best = null;
+		float bestDist = Float.MAX_VALUE;
+		for(Node elem: theGraph.getNodes()){
+			if(elem.isMens()){
+				float dist = calcHeuristic(startID, elem.getId());
+				if(bestDist>dist){
+					best = elem;
+					bestDist = dist;
+				}
+			}
+		}
+		return best.getId();
+	}
+	/**
+	 * 
+	 * @param StartID the location to find the nearest womens room to.
+	 * @return the nearest womens room by linear distance
+	 */
+	public Id findNearestWomensRoom(Id startID, Graph graphIn){
+		theGraph = graphIn;
+		Node best = null;
+		float bestDist = Float.MAX_VALUE;
+		for(Node elem: theGraph.getNodes()){
+			if(elem.isWomens()){
+				float dist = calcHeuristic(startID, elem.getId());
+				if(bestDist>dist){
+					best = elem;
+					bestDist = dist;
+				}
+			}
+		}
+		return best.getId();
+	}
+	/**
+	 * 
+	 * @param StartID the location to find the nearest gender neutral restroom to.
+	 * @return the nearest gender neutral restroom by linear distance
+	 */
+	public Id findNearestGenderNeutralRestroom(Id startID, Graph graphIn){
+		theGraph = graphIn;
+		Node best = null;
+		float bestDist = Float.MAX_VALUE;
+		for(Node elem: theGraph.getNodes()){
+			if(elem.isGenderNeutral()){
+				float dist = calcHeuristic(startID, elem.getId());
+				if(bestDist>dist){
+					best = elem;
+					bestDist = dist;
+				}
+			}
+		}
+		return best.getId();
+	}
+	/**
 	 * gets the textual path
 	 * @return the textual path
 	 */
