@@ -396,7 +396,6 @@ public class Path {
 		float lastangle = -10000.0f;
 		float distFromTurn = 0;
 		//float lastdist = 0.0f; TODO
-		LinkedList<Id> turnPoints = new LinkedList<Id>();
 		for(Id cur : route){
 			Node n = theGraph.returnNodeById(cur);
 			if(n == null) continue;
@@ -421,31 +420,26 @@ public class Path {
 						}else res.add("Walk for " + Math.round(distFromTurn) + " paces");
 						res.add("Make a slight " + (dxangle>=0 ? "right" : "left")+ " turn");
 						distFromTurn = dist;
-						turnPoints.add(cur);
 					} else if (degreedangle <= 90){
 						if(true){
 							res.add("Walk for " + Math.round(distFromTurn) + " meters");
 						}else res.add("Walk for " + Math.round(distFromTurn) + " paces");
 						res.add("Make a " + (dxangle>=0 ? "right" : "left")+ " turn");
 						distFromTurn = dist;
-						turnPoints.add(cur);
 					} else if (degreedangle <= 180){
 						if(true){
 							res.add("Walk for " + Math.round(distFromTurn) + " meters");
 						}else res.add("Walk for " + Math.round(distFromTurn) + " paces");
 						res.add("Make a hard " + (dxangle>=0 ? "right" : "left")+ " turn");
 						distFromTurn = dist;
-						turnPoints.add(cur);
 					} else {
 						if(true){
 							res.add("Walk for " + Math.round(distFromTurn) + " meters");
 						}else res.add("Walk for " + Math.round(distFromTurn) + " paces");
 						res.add("Make a sharp " + (dxangle>=0 ? "right" : "left")+ " turn");
 						distFromTurn = dist;
-						turnPoints.add(cur);
 					}
 				} else {
-					turnPoints.add(cur);
 					if((-45 <= angle && angle < 45)){
 						res.add("Face south");
 					} else if((45 <= angle && angle < 135)){
