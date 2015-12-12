@@ -14,6 +14,7 @@ public class Map {
 	private Image myimg;
 
 	private void updateImg(){
+		System.out.println("/edu/wpi/off/by/one/errors/code/resources/maps/images/" + imagePath);
 		myimg = new Image("/edu/wpi/off/by/one/errors/code/resources/maps/images/" + imagePath);
 	}
 	public void addColor(int color){
