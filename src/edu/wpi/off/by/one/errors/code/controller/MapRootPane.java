@@ -473,6 +473,9 @@ public class MapRootPane extends AnchorPane{
 		Coordinate nc = n.getCoordinate();
 		startMarker = new MarkerDisplay(nc.getX(), nc.getY(), nc.getZ(), Marker.START);
 		startMarker.setNodePoint(n.getId());
+		System.out.println("start set");
+		//nodeQueue.clear();
+		//nodeQueue.add(e)
 		markerPane.getChildren().add(startMarker);
 		render();
 	}
@@ -605,7 +608,7 @@ public class MapRootPane extends AnchorPane{
     			if (endMarker != null && startMarker != null){
     				startMarker = null;
     				endMarker = null;
-    				currentRoute.clear();
+    				if(currentRoute != null) currentRoute.clear();
     				markerPane.getChildren().clear();
     			}
     			if(startMarker != null && endMarker == null) {
@@ -622,21 +625,6 @@ public class MapRootPane extends AnchorPane{
     				markerPane.getChildren().add(startMarker);
     				
     			} else { nodeQueue.clear(); }
-    			/*
-    			List<javafx.scene.Node> nearestList = nodeLayer.getChildren().stream()
-    					.filter((Predicate<? super javafx.scene.Node>) nd -> ((NodeDisplay) nd).getNode() == nearestNodeId)
-    					.collect(Collectors.toList());
-    					*/
-    			/*
-    			NodeDisplay nearest = (NodeDisplay) nearestList.get(0);
-    			if(nodeQueue.size() > 0) {
-    				if(nearest == nodeQueue.peek()) {
-    					nodeQueue.clear();
-    					return;
-    				}
-    			}
-    			nearest.fireEvent(new SelectEvent(SelectEvent.NODE_SELECTED));
-    			*/
     			render();
     		}
     	});
@@ -756,7 +744,7 @@ public class MapRootPane extends AnchorPane{
 		    	
 			    nodeQueue.add(nd);
 			    if(nodeQueue.size() == 2 && !isEditMode){
-			    	drawPath();
+			    	//drawPath();
 			    	nodeQueue.clear();
 			    	nd.fireEvent(new SelectEvent(SelectEvent.NODE_DESELECTED));
 			    }
@@ -879,32 +867,6 @@ public class MapRootPane extends AnchorPane{
         	edgeLayer.getChildren().remove(e);
         	render();
         });
-	}
-    /**
-     * Draws a path from the last two selected nodes
-     */
-	public void drawPath(){
-		pathPane.getChildren().clear();
-		
-        NodeDisplay startNode = nodeQueue.poll();
-        NodeDisplay endNode = nodeQueue.poll();
-        //if(startNode != null && endNode != null && isZooming){
-            
-    	//int idx = 0;
-        //Vector<Node> nodes = display.getGraph().getNodes();
-    	
-        p = new Path(startNode.getNode(), endNode.getNode());
-        Graph g = display.getGraph();
-        if(ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode){
-        	p.runAccessibleAStar(g);
-        }
-        else p.runAStar(g); //Change this later??
-        currentRoute = p.getRoute();
-        render();
-        SelectEvent selectNodeEvent = new SelectEvent(SelectEvent.NODE_DESELECTED);
-        startNode.fireEvent(selectNodeEvent);
-        endNode.fireEvent(selectNodeEvent);
-        showDirections();
 	}
 
 	public void drawPath(Id nodeAId, Id nodeBId){

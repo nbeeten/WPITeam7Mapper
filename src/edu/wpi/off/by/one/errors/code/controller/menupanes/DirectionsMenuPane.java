@@ -3,12 +3,16 @@ package edu.wpi.off.by.one.errors.code.controller.menupanes;
 import java.io.IOException;
 import java.util.List;
 
+import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteNameTextField;
+import edu.wpi.off.by.one.errors.code.controller.customcontrols.AutoCompleteTextField;
 import edu.wpi.off.by.one.errors.code.controller.customcontrols.ClearableTextField;
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.model.GoogleMail;
+import edu.wpi.off.by.one.errors.code.model.Id;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import edu.wpi.off.by.one.errors.code.model.Node;
+import edu.wpi.off.by.one.errors.code.model.TagMap;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
@@ -18,8 +22,8 @@ import javafx.scene.layout.BorderPane;
  * Created by jules on 11/28/2015.
  */
 public class DirectionsMenuPane extends BorderPane {
-	@FXML private ClearableTextField originTextField;
-    @FXML private ClearableTextField destinationTextField;
+	@FXML private AutoCompleteNameTextField originTextField;
+    @FXML private AutoCompleteNameTextField destinationTextField;
 	@FXML Button routeButton;
     @FXML private ListView<String> directionsListView;
     @FXML CheckBox accessibleCheckbox;
@@ -44,9 +48,11 @@ public class DirectionsMenuPane extends BorderPane {
         this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/DirectionsPaneStyleSheet.css").toExternalForm());
     }
 
-	private void setListeners(){
+	private void setListeners(){ 
 		this.routeButton.setOnAction(e -> {
-			ControllerSingleton.getInstance().getMapRootPane().placeMarker(originNode);
+			setDirectionsFromNode();
+			setDirectionsToNode();
+			ControllerSingleton.getInstance().getMapRootPane().placeStartMarker(originNode);
 			ControllerSingleton.getInstance().getMapRootPane().drawPath(originNode.getId(), destinationNode.getId());
 		});
 	}
@@ -58,6 +64,16 @@ public class DirectionsMenuPane extends BorderPane {
 	
 	public Node getDirectionsToNode() { return null; }
 	public Node getDirectionsFromNode() { return null; }
+	
+	public void setDirectionsToNode() {
+		Id toId = TagMap.getTagMap().findName(destinationTextField.getText());
+		destinationNode = ControllerSingleton.getInstance().getMapRootPane().getDisplay().getGraph().returnNodeById(toId);
+	}
+	
+	public void setDirectionsFromNode(){
+		Id fromId = TagMap.getTagMap().findName(originTextField.getText());
+		originNode = ControllerSingleton.getInstance().getMapRootPane().getDisplay().getGraph().returnNodeById(fromId);
+	}
 	
 	public void setDirectionsToNode(Node n){
 		destinationTextField.setText(n.getName());
