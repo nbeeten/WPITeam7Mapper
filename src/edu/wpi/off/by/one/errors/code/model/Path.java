@@ -317,8 +317,10 @@ public class Path {
 			if(elem.isFood()){
 				float dist = calcHeuristic(startID, elem.getId());
 				if(bestDist>dist){
-					best = elem;
-					bestDist = dist;
+					if(!ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode||elem.isAccessible()){
+						best = elem;
+						bestDist = dist;
+					}
 				}
 			}
 		}
@@ -337,8 +339,10 @@ public class Path {
 			if(elem.isMens()){
 				float dist = calcHeuristic(startID, elem.getId());
 				if(bestDist>dist){
-					best = elem;
-					bestDist = dist;
+					if(!ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode||elem.isAccessible()){
+						best = elem;
+						bestDist = dist;
+					}
 				}
 			}
 		}
@@ -357,8 +361,10 @@ public class Path {
 			if(elem.isWomens()){
 				float dist = calcHeuristic(startID, elem.getId());
 				if(bestDist>dist){
-					best = elem;
-					bestDist = dist;
+					if(!ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode||elem.isAccessible()){
+						best = elem;
+						bestDist = dist;
+					}
 				}
 			}
 		}
@@ -377,8 +383,11 @@ public class Path {
 			if(elem.isGenderNeutral()){
 				float dist = calcHeuristic(startID, elem.getId());
 				if(bestDist>dist){
-					best = elem;
-					bestDist = dist;
+					if(!ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode||elem.isAccessible()){
+						best = elem;
+						bestDist = dist;
+					}
+
 				}
 			}
 		}
