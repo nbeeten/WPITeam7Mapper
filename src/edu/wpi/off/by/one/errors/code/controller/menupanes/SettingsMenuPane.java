@@ -123,6 +123,7 @@ public class SettingsMenuPane extends BorderPane {
 	@FXML private void selectPirate(){
 		ControllerSingleton.getInstance().getMapRootPane().isPirateMode = pirateCheckbox.isSelected() ? true : false;
 		System.out.println(ControllerSingleton.getInstance().getMapRootPane().isPirateMode);
+		ControllerSingleton.getInstance().getMapRootPane().render();
 	}
     public boolean isEmailValid(){
         boolean isValid;
