@@ -115,7 +115,7 @@ public class SearchMenuPane extends BorderPane {
 	}
 	
 	private void search(String tag){
-		ArrayList<Id> results = TagMap.getTagMap().find(tag);
+		ArrayList<Id> results = TagMap.getTagMap().findTag(tag);
 		showResults(results);
 	}
 

@@ -59,6 +59,7 @@ public class Node {
     
     public void setName(String name){
     	this.name = name;
+    	TagMap.getTagMap().addName(name, id);
     }
     
     public String getName(){
@@ -140,7 +141,7 @@ public class Node {
      */
     public void addTag(String newTag){
     	tags.add(newTag);
-    	tagMap.add(newTag, id);
+    	tagMap.addTag(newTag, id);
     }
     
     /**
@@ -149,7 +150,7 @@ public class Node {
      */
     public void removeTag(String tag){
     	tags.remove(tag);
-    	tagMap.remove(tag, id);
+    	tagMap.removeTag(tag, id);
     }
     
     /**
@@ -157,7 +158,7 @@ public class Node {
      * @param i: index to remove tag from
      */
     public void removeTagAtIndex(int i){
-    	tagMap.remove(tags.get(i), id);
+    	tagMap.removeTag(tags.get(i), id);
     	tags.remove(i);
     }
     
@@ -168,7 +169,7 @@ public class Node {
      */
     public void modifyTag(String oldTag, String newTag){
     	tags.set(tags.indexOf(oldTag), newTag);
-    	tagMap.modify(oldTag, newTag);
+    	tagMap.modifyTag(oldTag, newTag);
     }
     
     /**
@@ -177,7 +178,7 @@ public class Node {
      * @param newTag: the new tag to replace it with
      */
     public void modifyTagAtIndex(int i, String newTag){
-    	tagMap.modify(tags.get(i), newTag);
+    	tagMap.modifyTag(tags.get(i), newTag);
     	tags.set(i, newTag);
     }
 

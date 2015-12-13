@@ -152,7 +152,7 @@ public class NodeDevToolPane extends VBox {
     	this.tagListView.setOnMouseClicked(e -> {
     		if(e.getButton() == MouseButton.SECONDARY){
     			String toRemove = tagListView.getSelectionModel().getSelectedItem();
-    			TagMap.getTagMap().remove(toRemove, currentNd.getNode());
+    			TagMap.getTagMap().removeTag(toRemove, currentNd.getNode());
     			tagListView.getItems().remove(toRemove);
     		}
 		});
