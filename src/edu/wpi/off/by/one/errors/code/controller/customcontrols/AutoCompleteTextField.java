@@ -85,6 +85,9 @@ public class AutoCompleteTextField extends TextField{
 		Set<String> tags = TagMap.getTagMap().getTags();
 		entries.addAll(tags);
 	}
+	protected void add(Set<String> tags){
+		entries.addAll(tags);
+	}
 	
 	private void populatePopup(List<String> result){
 		List<CustomMenuItem> menuItems = new LinkedList<>();

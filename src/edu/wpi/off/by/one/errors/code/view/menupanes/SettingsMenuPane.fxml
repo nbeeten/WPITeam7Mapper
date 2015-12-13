@@ -24,7 +24,7 @@
                <CheckBox text="Remember Searches" />
                <Button alignment="TOP_LEFT" text="Clear History" />
                <Label text="Other" />
-               <ToggleButton text="Pirate Mode" />
+               <CheckBox fx:id="pirateCheckbox" onAction="#selectPirate" text="Pirate Mode"/>
            </children>
         </VBox>
     </center>

@@ -62,7 +62,7 @@ public class Display extends Pane{
 	 * @param start First node
 	 * @param end Second node
 	 */
-	public void drawPath(Id start, Id end) {
+	/*public void drawPath(Id start, Id end) {
 		int idx = 0;
 		Vector<Node> nodes = currentGraph.getNodes();
 		Path p = new Path(start, end);
@@ -83,7 +83,7 @@ public class Display extends Pane{
 			//mapPane.getChildren().add(l);
 		}
 		//TODO: Add code to actually draw the line on the map
-	}
+	}*/
 	/*
 	private ImageView GetMapView() {
 		Maps.getImgUrl();
