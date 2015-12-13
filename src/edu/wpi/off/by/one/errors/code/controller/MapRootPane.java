@@ -120,7 +120,7 @@ public class MapRootPane extends AnchorPane{
         //canvas.heightProperty().bind(this.heightProperty());
         initialize();
 
-        //ControllerSingleton.getInstance().getMenuPane().searchMenuPane.spinnyZoom(1);
+        
     }
     
     public MapRootPane getMapRootPane() { return this; }
@@ -623,6 +623,7 @@ public class MapRootPane extends AnchorPane{
     				startMarker = new MarkerDisplay(nearestNode.getCoordinate().getX(), nearestNode.getCoordinate().getY(), currentLevel, Marker.START);
     				startMarker.setNodePoint(nearestNodeId);
     				markerPane.getChildren().add(startMarker);
+    				currentRoute.clear();
     				
     			} else { nodeQueue.clear(); }
     			render();
@@ -869,6 +870,119 @@ public class MapRootPane extends AnchorPane{
         });
 	}
 
+	public void drawFoodPath(){
+		pathPane.getChildren().clear();
+		
+        //NodeDisplay startNode = nodeQueue.poll();
+        Id startPoint = startMarker.getNodePoint();
+        //NodeDisplay endNode = nodeQueue.poll();
+        //if(startNode != null && endNode != null && isZooming){
+            
+    	//int idx = 0;
+        //Vector<Node> nodes = display.getGraph().getNodes();
+    	
+        p = new Path(startPoint, null);
+
+        Graph g = display.getGraph();
+        p.setEndNode(p.findNearestFood(startPoint, g));
+        if(ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode){
+        	p.runAccessibleAStar(g);
+        }
+        else p.runAStar(g); //Change this later??
+        currentRoute = p.getRoute();
+        render();
+
+        //startNode.fireEvent(selectNodeEvent);
+        //endNode.fireEvent(selectNodeEvent);
+        endMarker = null;
+        startMarker = null;
+        showDirections();
+	}
+	public void drawMensRoomPath(){
+		pathPane.getChildren().clear();
+		
+        //NodeDisplay startNode = nodeQueue.poll();
+        Id startPoint = startMarker.getNodePoint();
+        //NodeDisplay endNode = nodeQueue.poll();
+        //if(startNode != null && endNode != null && isZooming){
+            
+    	//int idx = 0;
+        //Vector<Node> nodes = display.getGraph().getNodes();
+    	
+        p = new Path(startPoint, null);
+
+        Graph g = display.getGraph();
+        p.setEndNode(p.findNearestMensRoom(startPoint, g));
+        if(ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode){
+        	p.runAccessibleAStar(g);
+        }
+        else p.runAStar(g); //Change this later??
+        currentRoute = p.getRoute();
+        render();
+
+        //startNode.fireEvent(selectNodeEvent);
+        //endNode.fireEvent(selectNodeEvent);
+        endMarker = null;
+        startMarker = null;
+        showDirections();
+	}
+	public void drawWomensRoomPath(){
+		pathPane.getChildren().clear();
+		
+        //NodeDisplay startNode = nodeQueue.poll();
+        Id startPoint = startMarker.getNodePoint();
+        //NodeDisplay endNode = nodeQueue.poll();
+        //if(startNode != null && endNode != null && isZooming){
+            
+    	//int idx = 0;
+        //Vector<Node> nodes = display.getGraph().getNodes();
+    	
+        p = new Path(startPoint, null);
+
+        Graph g = display.getGraph();
+        p.setEndNode(p.findNearestWomensRoom(startPoint, g));
+        if(ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode){
+        	p.runAccessibleAStar(g);
+        }
+        else p.runAStar(g); //Change this later??
+        currentRoute = p.getRoute();
+        render();
+
+        //startNode.fireEvent(selectNodeEvent);
+        //endNode.fireEvent(selectNodeEvent);
+        endMarker = null;
+        startMarker = null;
+        showDirections();
+	}
+	public void drawGenderNeutralRestroomPath(){
+		pathPane.getChildren().clear();
+		
+        //NodeDisplay startNode = nodeQueue.poll();
+        Id startPoint = startMarker.getNodePoint();
+        //NodeDisplay endNode = nodeQueue.poll();
+        //if(startNode != null && endNode != null && isZooming){
+            
+    	//int idx = 0;
+        //Vector<Node> nodes = display.getGraph().getNodes();
+    	
+        p = new Path(startPoint, null);
+
+        Graph g = display.getGraph();
+        p.setEndNode(p.findNearestGenderNeutralRestroom(startPoint, g));
+        if(ControllerSingleton.getInstance().getMapRootPane().isAccessibleMode){
+        	p.runAccessibleAStar(g);
+        }
+        else p.runAStar(g); //Change this later??
+        currentRoute = p.getRoute();
+        render();
+
+        //startNode.fireEvent(selectNodeEvent);
+        //endNode.fireEvent(selectNodeEvent);
+        endMarker = null;
+        startMarker = null;
+        showDirections();
+	}
+	
 	public void drawPath(Id nodeAId, Id nodeBId){
 		 p = new Path(nodeAId, nodeBId);
 	        Graph g = display.getGraph();
@@ -880,7 +994,7 @@ public class MapRootPane extends AnchorPane{
 	        render();
 	        showDirections();
 	}
-	
+
     @SuppressWarnings("unchecked")
 	public void showDirections(){
     	if(p != null && p.getTextual() != null){

@@ -43,6 +43,11 @@ public class NodeDevToolPane extends VBox {
 	//@FXML ListView<Id> edgeListView;
 	@FXML Button addTagButton;
 	@FXML CheckBox accessibleCheckbox;
+	@FXML CheckBox foodCheckbox;
+	@FXML CheckBox mensCheckbox;
+	@FXML CheckBox womensCheckbox;
+	@FXML CheckBox genderNeutralCheckbox;
+	
 	
     public NodeDevToolPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../../../view/menupanes/devtoolspanes/NodeDevToolPane.fxml"));
@@ -76,6 +81,10 @@ public class NodeDevToolPane extends VBox {
     	//edgeListView.getItems().addAll((n.getEdgelist() != null) ? n.getEdgelist() : new ArrayList<Id>());
     	tagTextField.clear();
     	accessibleCheckbox.setSelected(g.returnNodeById(nd.getNode()).isAccessible());
+    	foodCheckbox.setSelected(g.returnNodeById(nd.getNode()).isFood());
+    	mensCheckbox.setSelected(g.returnNodeById(nd.getNode()).isMens());
+    	womensCheckbox.setSelected(g.returnNodeById(nd.getNode()).isWomens());
+    	genderNeutralCheckbox.setSelected(g.returnNodeById(nd.getNode()).isGenderNeutral());
     }
     
     private void setListeners(){
@@ -149,12 +158,27 @@ public class NodeDevToolPane extends VBox {
 		});
     }
     
-    @FXML private void toggleIsBathroom() {}
+
     @FXML private void toggleIsAccessible() {
     	Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
     	n.setAccessible(accessibleCheckbox.isSelected() ? true : false);
     }
-    @FXML private void toggleIsFood() {}
+    @FXML private void toggleIsFood() {
+    	Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
+    	n.setFood(foodCheckbox.isSelected() ? true : false);
+    }
+    @FXML private void toggleIsMens() {
+    	Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
+    	n.setMens(mensCheckbox.isSelected() ? true : false);
+    }
+    @FXML private void toggleIsWomens() {
+    	Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
+    	n.setWomens(womensCheckbox.isSelected() ? true : false);
+    }
+    @FXML private void toggleIsGenderNeutral() {
+    	Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
+    	n.setGenderNeutral(genderNeutralCheckbox.isSelected() ? true : false);
+    }
     
     /**
      * Retrieves text input from field and adds it to
