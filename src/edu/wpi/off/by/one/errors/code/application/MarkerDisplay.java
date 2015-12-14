@@ -14,7 +14,7 @@ public class MarkerDisplay extends ImageView{
 	static String resourceDir = "/edu/wpi/off/by/one/errors/code/resources/";
 	static String startImg = resourceDir + "markerSelect.png";
 	static String selectImg = resourceDir + "marker.png";
-	static String endImg = resourceDir + "endnode.png";
+	public static String endImg = resourceDir + "endnode.png";
 	public static String pirate_endImg = resourceDir + "pirate_endnode.png";
 	
 	public MarkerDisplay(double x, double y, double z, Marker m){

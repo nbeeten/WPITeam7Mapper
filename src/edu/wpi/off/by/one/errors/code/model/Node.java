@@ -10,6 +10,10 @@ public class Node {
     private ArrayList<String> tags;//list of tags the node has
     private TagMap tagMap;
     private boolean accessible = true;
+    private boolean food = false;
+    private boolean mens = false;
+    private boolean womens = false;
+    private boolean genderNeutral = false;
     private String name = "";
     
     /**
@@ -55,6 +59,7 @@ public class Node {
     
     public void setName(String name){
     	this.name = name;
+    	TagMap.getTagMap().addName(name, id);
     }
     
     public String getName(){
@@ -136,7 +141,7 @@ public class Node {
      */
     public void addTag(String newTag){
     	tags.add(newTag);
-    	tagMap.add(newTag, id);
+    	tagMap.addTag(newTag, id);
     }
     
     /**
@@ -145,7 +150,7 @@ public class Node {
      */
     public void removeTag(String tag){
     	tags.remove(tag);
-    	tagMap.remove(tag, id);
+    	tagMap.removeTag(tag, id);
     }
     
     /**
@@ -153,7 +158,7 @@ public class Node {
      * @param i: index to remove tag from
      */
     public void removeTagAtIndex(int i){
-    	tagMap.remove(tags.get(i), id);
+    	tagMap.removeTag(tags.get(i), id);
     	tags.remove(i);
     }
     
@@ -164,7 +169,7 @@ public class Node {
      */
     public void modifyTag(String oldTag, String newTag){
     	tags.set(tags.indexOf(oldTag), newTag);
-    	tagMap.modify(oldTag, newTag);
+    	tagMap.modifyTag(oldTag, newTag);
     }
     
     /**
@@ -173,7 +178,7 @@ public class Node {
      * @param newTag: the new tag to replace it with
      */
     public void modifyTagAtIndex(int i, String newTag){
-    	tagMap.modify(tags.get(i), newTag);
+    	tagMap.modifyTag(tags.get(i), newTag);
     	tags.set(i, newTag);
     }
 
@@ -193,5 +198,33 @@ public class Node {
     
     public void setAccessible(boolean accessibility){
     	accessible = accessibility;
+    }
+    public boolean isFood(){
+    	return food;
+    }
+    
+    public void setFood(boolean foodIn){
+    	food = foodIn;
+    }
+    public boolean isMens(){
+    	return mens;
+    }
+    
+    public void setMens(boolean mensIn){
+    	mens = mensIn;
+    }
+    public boolean isWomens(){
+    	return womens;
+    }
+    
+    public void setWomens(boolean womensIn){
+    	womens = womensIn;
+    }
+    public boolean isGenderNeutral(){
+    	return genderNeutral;
+    }
+    
+    public void setGenderNeutral(boolean genNeutIn){
+    	genderNeutral = genNeutIn;
     }
 }

@@ -376,6 +376,6 @@ public class Graph {
 	 * @return: returns ArrayList of ids of nodes with tag being searched for. If none are found returns null
 	 */
 	public ArrayList<Id> search(String searchTerm){
-		return tagMap.find(searchTerm);
+		return tagMap.findTag(searchTerm);
 	}
 }

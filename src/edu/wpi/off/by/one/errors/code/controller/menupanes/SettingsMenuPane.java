@@ -19,6 +19,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
@@ -39,6 +40,7 @@ public class SettingsMenuPane extends BorderPane {
     @FXML private ClearableTextField nameTextField;
     @FXML private ClearableTextField phoneTextField;
     @FXML private ClearableTextField emailTextField;
+    @FXML CheckBox pirateCheckbox;
     //endregion
 
     //region Other attributes
@@ -118,7 +120,11 @@ public class SettingsMenuPane extends BorderPane {
     public String getUserEmail(){
         return emailTextField.getText();
     }
-
+	@FXML private void selectPirate(){
+		ControllerSingleton.getInstance().getMapRootPane().isPirateMode = pirateCheckbox.isSelected() ? true : false;
+		System.out.println(ControllerSingleton.getInstance().getMapRootPane().isPirateMode);
+		ControllerSingleton.getInstance().getMapRootPane().render();
+	}
     public boolean isEmailValid(){
         boolean isValid;
         Pattern EMAIL_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
