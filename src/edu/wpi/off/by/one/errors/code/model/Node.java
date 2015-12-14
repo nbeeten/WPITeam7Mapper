@@ -10,6 +10,8 @@ public class Node {
     private ArrayList<String> tags;//list of tags the node has
     private TagMap tagMap;
     private boolean accessible = true;
+    private boolean stairs = false;
+    private boolean elevator = false;
     private boolean food = false;
     private boolean mens = false;
     private boolean womens = false;
@@ -199,6 +201,23 @@ public class Node {
     public void setAccessible(boolean accessibility){
     	accessible = accessibility;
     }
+    
+    public boolean isStairs(){
+    	return stairs;
+    }
+    
+    public void setStairs(boolean stairs){
+    	this.stairs = stairs;
+    }
+    
+    public boolean isElevator(){
+    	return elevator;
+    }
+    
+    public void setElevator(boolean elevator){
+    	this.elevator = elevator;
+    }
+    
     public boolean isFood(){
     	return food;
     }

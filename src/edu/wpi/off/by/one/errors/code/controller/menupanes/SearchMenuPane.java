@@ -180,7 +180,7 @@ public class SearchMenuPane extends BorderPane {
 		if(index == -1){return;}
 		Map m = ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps().get(index);
 		if(m == null) return;
-		ControllerSingleton.getInstance().getMapRootPane().currentLevel = (int) m.getCenter().getZ();
+		ControllerSingleton.getInstance().getMapRootPane().currentLevel.setValue(m.getCenter().getZ());
 		mainPane.dropStartC = ControllerSingleton.getInstance().getMapRootPane().translate;
 		//mainPane.dropStartR = ControllerSingleton.getInstance().getMapRootPane().rot;
 		mainPane.dropStartS = ControllerSingleton.getInstance().getMapRootPane().zoom;
@@ -203,7 +203,6 @@ public class SearchMenuPane extends BorderPane {
 		//ControllerSingleton.getInstance().getMapRootPane().translate = mainPane.dropEndC;
 	//	ControllerSingleton.getInstance().getMapRootPane().rot = mainPane.dropEndR;
 	//	ControllerSingleton.getInstance().getMapRootPane().translate = mainPane.dropEndC;
-		
 		ControllerSingleton.getInstance().getMapRootPane().render();
 		//buildingChoiceBox.getSelectionModel().clearSelection();
 	}
