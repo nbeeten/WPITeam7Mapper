@@ -5,6 +5,7 @@ import java.io.IOException;
 import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Display;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -45,7 +46,7 @@ public class MainPane extends BorderPane {
 	@FXML private MenuPane menuPane;
 	@FXML private MapRootPane mapRootPane;
 	@FXML private NavigationPane navigationPane;
-	
+
 	public Coordinate dropStartC;
 	public	Coordinate dropEndC; 
 	public float dropStartR = 0.0f;
@@ -158,10 +159,11 @@ public class MainPane extends BorderPane {
         addListeners();
 
         this.getStylesheets().add(getClass().getResource("../resources/stylesheets/MainPaneStyleSheet.css").toExternalForm());
+
     }
 
 	private void addListeners(){
-        //openNavigationPaneButton.visibleProperty().bind(navigationPane.visibleProperty().not());
+        openNavigationPaneButton.visibleProperty().bind(navigationPane.getIsExpandedProperty().not());
     	rotateLeftButton.setOnMousePressed(e -> lttl.play());
     	rotateLeftButton.setOnMouseReleased(e -> lttl.stop());
     	rotateRightButton.setOnMousePressed(e -> rttl.play());
@@ -175,7 +177,7 @@ public class MainPane extends BorderPane {
     }
 
     @FXML private void onOpenNavigationPaneButtonClick(){
-        navigationPane.open();
+        navigationPane.expand();
     }
     public void setWindow(Window window) { 
     	this.window = window; 

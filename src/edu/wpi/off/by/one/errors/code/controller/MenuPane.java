@@ -8,6 +8,8 @@ import edu.wpi.off.by.one.errors.code.controller.menupanes.FavoritesMenuPane;
 import edu.wpi.off.by.one.errors.code.controller.menupanes.HelpMenuPane;
 import edu.wpi.off.by.one.errors.code.controller.menupanes.SearchMenuPane;
 import edu.wpi.off.by.one.errors.code.controller.menupanes.SettingsMenuPane;
+import javafx.animation.Animation;
+import javafx.animation.Transition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -16,6 +18,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 
 /**
  * Created by jules on 11/28/2015.
@@ -23,11 +26,9 @@ import javafx.scene.layout.HBox;
 public class MenuPane extends HBox {
 
     //region FXML file attributes
-    @FXML
-    private ToggleButton hamburgerToggleButton;
+    @FXML private ToggleButton hamburgerToggleButton;
 
-    @FXML
-    private AnchorPane detailsMenuContainerAnchorPane;
+    @FXML private AnchorPane detailsMenuContainerAnchorPane;
     
     @FXML SearchMenuPane searchMenuPane;
     @FXML DirectionsMenuPane directionsMenuPane;
@@ -65,7 +66,7 @@ public class MenuPane extends HBox {
         } catch (IOException excpt) {
             throw new RuntimeException(excpt);
         }
-        isCompactProperty = new SimpleBooleanProperty();
+        isCompactProperty = new SimpleBooleanProperty(true);
 
         removeRadioButtonStyles();
         addListeners();

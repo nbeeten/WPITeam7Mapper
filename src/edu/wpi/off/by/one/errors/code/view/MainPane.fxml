@@ -8,7 +8,7 @@
 
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <left>
-        <MenuPane fx:id="menuPane" maxWidth="300" minWidth="50" />
+        <MenuPane fx:id="menuPane" prefWidth="50" maxWidth="300" minWidth="50" />
     </left>
     <center>
         <BorderPane BorderPane.alignment="CENTER">
@@ -37,7 +37,7 @@
                 </StackPane>
             </center>
             <bottom>
-                <NavigationPane fx:id="navigationPane" minHeight="0" prefHeight="150" prefWidth="Infinity" />
+                <NavigationPane fx:id="navigationPane" minHeight="0"/>
             </bottom>
         </BorderPane>
     </center>
