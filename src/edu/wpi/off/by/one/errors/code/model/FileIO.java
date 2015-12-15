@@ -340,6 +340,17 @@ public class FileIO {
 				writer.println("m " + map.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
 
 			}
+		for(Mapstack ms : indpy.mapstecks.values()) {
+			if(ms == null) continue;
+			writer.printf("m %s ", ms.name);
+			for (int k : ms.meps) {
+				if (k > indpy.getMaps().size()) continue;
+				Map j = indpy.getMaps().get(k);
+				if (j == null) continue;
+				writer.printf("%s ", j.getName());
+			}
+			writer.printf("\n");
+		}
 		if (writer != null) writer.close();
 		System.out.println("Writing completed");
 		return i;
