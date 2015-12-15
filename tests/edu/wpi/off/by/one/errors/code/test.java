@@ -119,7 +119,7 @@ public class test extends TestCase{
     }
     */
     //test Path
-    @Test
+  /*  @Test
     public void testAStar(){
 
     	String dir = System.getProperty("user.dir");
@@ -160,5 +160,5 @@ public class test extends TestCase{
     	nonTraversablePath.runAStar(g);
     	assertEquals(nonTraversablePath.getRoute(), expNTPath);
 
-    }
+    }*/
 }
