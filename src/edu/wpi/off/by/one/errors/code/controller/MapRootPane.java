@@ -386,13 +386,22 @@ public class MapRootPane extends AnchorPane{
 						last = A;
 						continue;
 					}
-					if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
-						//last = A;
-						difflevel = true;
-						//continue;
-					}
 					Coordinate ac = view.transform(A.getCoordinate());
 					Coordinate bc = view.transform(last.getCoordinate());
+					if(last.getCoordinate().getZ() > A.getCoordinate().getZ()) {
+						Image icon = new Image(Icon.stairsDown);
+						mygc.drawImage(icon, (ac.getX() + bc.getX())/2, (ac.getY() + bc.getY())/2 -(icon.getHeight()/2));//add going down icon
+					}
+					else if (last.getCoordinate().getZ() < A.getCoordinate().getZ()) {
+						Image icon = new Image(Icon.stairsUp);
+						mygc.drawImage(icon, (ac.getX() + bc.getX())/2, (ac.getY() + bc.getY())/2); //add going up icon
+					}
+					if((translate.getZ() > A.getCoordinate().getZ() + 0.1 || translate.getZ() < A.getCoordinate().getZ() - 0.1) && (translate.getZ() > last.getCoordinate().getZ() + 0.1 || translate.getZ() < last.getCoordinate().getZ() - 0.1)){
+						difflevel = true;
+						
+						last = A;
+						continue;
+					}
 					mygc.setLineWidth(5.0f);
 	                if(isPirateMode) {
 	                    mygc.setFill(Color.RED);
@@ -406,6 +415,7 @@ public class MapRootPane extends AnchorPane{
 	                    mygc.setLineDashes(null);
 	                }
 					mygc.strokeLine(ac.getX(), ac.getY(), bc.getX(), bc.getY());
+					
 					last = A;
 					mygc.restore();
 				}
