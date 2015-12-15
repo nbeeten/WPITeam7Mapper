@@ -334,7 +334,7 @@ public class MapRootPane extends AnchorPane{
 					if(icon != null) {
 						Rotate r = new Rotate(0, 0, 0);
 						mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
-						System.out.println("Zoom: " + zoom);
+						//System.out.println("Zoom: " + zoom);
 //						if(zoom > max) mygc.scale(max/2, max/2);
 //						else if(zoom < min) mygc.scale(min/2, min/2);
 //						else mygc.scale((zoom/2), (zoom/2));
@@ -637,13 +637,14 @@ public class MapRootPane extends AnchorPane{
 					m.setScale(m.getScale() + deltaZoom);
 					m.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), c.getZ());
 					//find all connected maps
-					if(m.mapstackname != null){
+					if(m.mapstackname != null) {
+						System.out.println("mapsteck " + m.mapstackname);
 						Mapstack ms = display.addmapstack(m.mapstackname);
-						for(int i : ms.meps){
-							if(i > display.getMaps().size()) continue;
+						for (int i : ms.meps) {
+							if (i > display.getMaps().size()) continue;
 							Map j = display.getMaps().get(i);
-							if(j == null) continue;
-							j.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), j.getCenter().getZ());
+							if (j == null) continue;
+							j.getCenter().setAll((float) c.getX() + delta.getX(), (float) c.getY() + delta.getY(), j.getCenter().getZ());
 						}
 					}
 					render();

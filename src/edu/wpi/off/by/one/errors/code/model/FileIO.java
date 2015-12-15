@@ -84,7 +84,7 @@ public class FileIO {
 		return 1;
 	}
 	static int parsesteckline(String[] args, Display dpy){
-		//for(String s : args) System.out.println("arg:" + s);
+		for(String s : args) System.out.println("arg:" + s);
 		if(args.length < 2) return 0;
 		if(args[0] == null) return 0;
 		dpy.addmapstack(args[0]);
