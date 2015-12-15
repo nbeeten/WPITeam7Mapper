@@ -16,6 +16,14 @@
                <ClearableTextField fx:id="nameTextField" promptText="Enter your name" />
                <Label text="Phone Number" />
                <ClearableTextField fx:id="phoneTextField" promptText="(555)555-5555" />
+               
+               <Label text="Carrier"/>
+                <ComboBox fx:id="carrierChoiceBox" prefHeight="25.0" prefWidth="250.0">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ComboBox>
+               
                <Label text="Email" />
                <ClearableTextField fx:id="emailTextField" promptText="email@wpi.edu" />
                <Label text="Units" />

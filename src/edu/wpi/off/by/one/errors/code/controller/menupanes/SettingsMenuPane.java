@@ -20,6 +20,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
@@ -41,6 +42,7 @@ public class SettingsMenuPane extends BorderPane {
     @FXML private ClearableTextField phoneTextField;
     @FXML private ClearableTextField emailTextField;
     @FXML CheckBox pirateCheckbox;
+    @FXML protected ComboBox carrierChoiceBox;
     //endregion
 
     //region Other attributes
@@ -71,6 +73,7 @@ public class SettingsMenuPane extends BorderPane {
 
         loadUserSettings();
         ControllerSingleton.getInstance().registerSettingsMenuPane(this);
+        populateCarrierChoiceBox();
     }
     //endregion
 
@@ -81,7 +84,7 @@ public class SettingsMenuPane extends BorderPane {
                 fileWriter = new FileWriter(FILE_LOCATION);
                 printWriter = new PrintWriter(fileWriter);
                 printWriter.println(NAME_LINE_ID + nameTextField.getText());
-                printWriter.println(PHONE_LINE_ID + phoneTextField.getText());
+               // printWriter.println(PHONE_LINE_ID + phoneTextField.getText());
                 if(isEmailValid()) {
                     printWriter.println(EMAIL_LINE_ID + emailTextField.getText());
                     ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().disableEmailButton(false);
@@ -91,12 +94,27 @@ public class SettingsMenuPane extends BorderPane {
                     emailTextField.showErrorLabel("!Error Invalid Email");
                     ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().disableEmailButton(true);
                 }
+                if(isNumberValid()) {
+                    printWriter.println(PHONE_LINE_ID + phoneTextField.getText());
+                    ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().disableSMSButton(false);
+                    phoneTextField.hideErrorLabel();
+                }
+                else {
+                    phoneTextField.showErrorLabel("!Error Invalid Phone Number");
+                    ControllerSingleton.getInstance().getMenuPane().getDirectionsMenuPane().disableSMSButton(true);
+                }
                 printWriter.close();
             }catch (IOException excpt){
                 excpt.printStackTrace();
             }
         }
 
+    }
+    
+    private void populateCarrierChoiceBox(){
+    	carrierChoiceBox.getItems().addAll("Alltel Wireless", "AT&T Wireless", "AT&T Mobility",
+    			"Boost Mobile", "Cricket", "Metro PCS", "Sprint PCS", "Sprint Nextel", "Straight Talk",
+    			"T-Mobile", "U.S. Cellular", "Verizon", "Virgin Mobile");
     }
 
     private void loadUserSettings(){
@@ -120,6 +138,21 @@ public class SettingsMenuPane extends BorderPane {
     public String getUserEmail(){
         return emailTextField.getText();
     }
+    
+    public String getUserNumber(){
+    	return phoneTextField.getText();
+    }
+    
+    public String getUserName(){
+    	return nameTextField.getText();
+    }
+    
+    public String getCarrier(){
+    	return (String) carrierChoiceBox.getValue();
+    }
+    
+
+    
 	@FXML private void selectPirate(){
 		ControllerSingleton.getInstance().getMapRootPane().isPirateMode = pirateCheckbox.isSelected() ? true : false;
 		System.out.println(ControllerSingleton.getInstance().getMapRootPane().isPirateMode);
@@ -139,5 +172,18 @@ public class SettingsMenuPane extends BorderPane {
 
     public void setIsEmailVaild(boolean b){
         //isEmailValidProperty.set(b);
+    }
+    
+    public boolean isNumberValid(){
+    	boolean isValid;
+    	String number = getUserNumber();
+    	Pattern pattern = Pattern.compile("\\d{10}");
+    	Matcher matcher = pattern.matcher(number);
+    	if (matcher.matches()){
+    		isValid = true;
+    	}else{
+    		isValid = false;
+    	}
+    	return isValid;
     }
 }
