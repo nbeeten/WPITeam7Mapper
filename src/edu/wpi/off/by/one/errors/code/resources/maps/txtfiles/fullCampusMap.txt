@@ -2587,8 +2587,8 @@ m Alden0.png 882.667 1339.1445 0.0 190.0 0.19 Alden_Hall_0
 m Alden1.png 820.6096 1198.374 1.0 10.0 0.075 Alden_Hall_1
 m Alden2.png 887.6782 1334.9191 2.0 190.0 0.19 Alden_Hall_2
 m ak0.png 1042.8943 1000.479 0.0 210.0 0.13 Atwater_Kent_0
-m AtwaterKent1.png 1045.2695 1005.2704 1.0 210.0 0.109000005 Atwater_Kent_1
-m ak2.png 1046.116 1010.0663 2.0 210.0 0.11499994 Atwater_Kent_2
+m AtwaterKent1.png 1045.7278 1012.07275 1.0 210.0 0.117 Atwater_Kent_1
+m ak2.png 1045.7278 1012.07275 2.0 210.0 0.117 Atwater_Kent_2
 m ak3.png 1045.7278 1012.07275 3.0 210.0 0.117 Atwater_Kent_3
 m Bartlett1.png 732.9818 1248.3472 1.0 278.0 0.075 Bartlett_Center_1
 m Bartlett2.png 732.9818 1248.3472 2.0 278.0 0.075 Bartlett_Center_2
@@ -2597,7 +2597,7 @@ m BoyntonHall1.png 947.6036 1199.623 1.0 9.0 0.07 Boynton_Hall_1
 m BoyntonHall2.png 946.9095 1200.5587 2.0 9.0 0.07 Boynton_Hall_2
 m BoyntonHall3.png 946.9095 1200.5587 3.0 9.0 0.07 Boynton_Hall_3
 m CampusCenter1.png 780.0 1035.0 0.0 280.0 0.11 Campus_Center_1
-m CampusCenter2.png 779.9129 1036.9667 1.0 280.0 0.11 Campus_Center_2
+m CampusCenter2.png 780.0 1035.0 1.0 280.0 0.11 Campus_Center_2
 m CampusCenter3.png 780.0 1035.0 2.0 280.0 0.11 Campus_Center_3
 m fullerlabs2.png 1025.1837 946.7641 1.0 334.0 0.105 Fuller_Labs_2
 m fullerlabs1.png 1024.818 946.1912 0.0 334.0 0.105 Fuller_Labs_1
@@ -2616,13 +2616,13 @@ m Harrington4.png 641.6455 1014.17236 2.0 9.0 0.11 Harrington_Upper_Stands_and_B
 m hh0.png 860.0 890.0 0.0 124.0 0.1 Higgins_House_0
 m hh1.png 860.0 890.0 1.0 124.0 0.1 Higgins_House_1
 m hh2.png 860.0 890.0 2.0 124.0 0.1 Higgins_House_2
-m hh3.png 860.0 895.0 3.0 124.0 0.1 Higgins_House_3
+m hh3.png 860.0 890.0 3.0 124.0 0.1 Higgins_House_3
 m higgins0.png 835.06256 1048.5577 0.0 10.0 0.11 Higgins_Labs_Basement
 m higgins1.png 835.06256 1048.5577 1.0 10.0 0.11 Higgins_Labs_1
 m higgins2.png 835.06256 1048.5577 2.0 10.0 0.11 Higgins_Labs_2
 m higgins3.png 835.06256 1048.5577 3.0 10.0 0.11 Higgins_Labs_3
 m pc1.png 979.44214 1074.7853 1.0 100.0 0.06 Project_Center_1
-m pc2.png 987.0 1070.0 2.0 100.0 0.05 Project_Center_2
+m pc2.png 979.44214 1074.7853 2.0 100.0 0.06 Project_Center_2
 m StrattonHall0.png 968.03357 1137.5441 1.0 100.0 0.059999973 Stratton_Hall_0
 m StrattonHall1.png 967.9269 1138.1487 2.0 99.6 0.06 Stratton_Hall_1
 m StrattonHall2.png 970.0 1137.0 3.0 100.0 0.06 Stratton_Hall_2
