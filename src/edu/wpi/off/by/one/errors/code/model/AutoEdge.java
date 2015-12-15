@@ -4,6 +4,7 @@ package edu.wpi.off.by.one.errors.code.model;
  * Created by roboman2444 on 12/8/15.
  */
 public class AutoEdge {
+    /*
     public static void doAuto(Display dpy, Id nodeid){
         Node s = dpy.getGraph().returnNodeById(nodeid);
         Graph ge = dpy.getGraph();
@@ -38,4 +39,5 @@ public class AutoEdge {
             System.out.println("added!");
         }
     }
+    */
 }
