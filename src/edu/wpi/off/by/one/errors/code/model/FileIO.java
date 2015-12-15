@@ -52,7 +52,7 @@ public class FileIO {
 			String[] args = mapbuf.get(i);
 			parsemapline(args, dpy);
 		}
-		for (i = 0; i < imgbuf.size(); i++) {
+		for (i = 0; i < imgbuf.size(); i++){
 			String[] args = imgbuf.get(i);
 			parseimgline(args, dpy);
 		}
@@ -120,10 +120,20 @@ public class FileIO {
 			String[] tags = getTags(args[3]);
 			n.setName(tags[0]);
 			for(int i = 1; i < tags.length; i++){ 
-				if(tags[0].equals(tags[i])) continue;
+				if(tags[0].equals(tags[i]) || tags[0].equals(" ")) continue;
 				else n.addTag(tags[i]);
 			}
 			//for(String j : getTags(args[3])) n.addTag(j);
+		}
+		if(args.length >=5){
+			String flags = args[4];
+			if(flags.contains("a"))n.setAccessible(true);
+			if(flags.contains("e"))n.setElevator(true);
+			if(flags.contains("f"))n.setFood(true);
+			if(flags.contains("g"))n.setGenderNeutral(true);
+			if(flags.contains("m"))n.setMens(true);
+			if(flags.contains("w"))n.setWomens(true);
+			if(flags.contains("s"))n.setStairs(true);
 		}
 		return n.getId();
 	}
@@ -260,12 +270,21 @@ public class FileIO {
 			if(!n.GetTags().isEmpty()) tagList.addAll(n.GetTags());
 			if(!tagList.isEmpty()){
 				String[] tagListReborn = tagList.toArray(new String[tagList.size()]);
-				writer.printf(" %s", toTags(tagListReborn));
+				writer.printf(" %s ", toTags(tagListReborn));
+			} else {
+				writer.printf(" _ ");
 			}
+			if(n.isAccessible()) writer.printf("a");
+			if(n.isElevator()) writer.printf("e");
+			if(n.isFood()) writer.printf("f");
+			if(n.isGenderNeutral()) writer.printf("g");
+			if(n.isMens()) writer.printf("m");
+			if(n.isWomens()) writer.printf("w");
+			if(n.isStairs()) writer.printf("s");
 			writer.printf("\n");
 			i++;
 		}
-		for( Edge e : g.getEdges()){
+		for(Edge e : g.getEdges()){
 			if(e == null) continue;
 			Node na = g.returnNodeById(e.getNodeA());
 			Node nb = g.returnNodeById(e.getNodeB());
@@ -289,15 +308,15 @@ public class FileIO {
 				String[] aaa = new String[1];
 				aaa[0] = map.getName();
 				String[] aab = new String[1];
-				if(map.getPaths().size() > 0) {
+				if(map.getPaths() != null &&map.getPaths().size() > 0){
 					aab[0] = map.getPaths().get(0);
-					writer.println("m " + aab + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
+					writer.println("m " + aab[0] + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
 				} else {
 					writer.println("m " + "no" + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
 
 				}
 				int k;
-				for(k = 0; k < map.getPaths().size(); k++){
+				for(k = 0;  map.getPaths() != null && k < map.getPaths().size(); k++){
 					aab[0] = map.getPaths().get(k);
 					if(aab[0] == null) continue;
 					writer.println("i " + toTags(aaa) + " " +  aab + " ");

@@ -22,6 +22,7 @@ public class Map {
 			return;
 		}
 		imagePaths.add(s);
+		System.out.println(" blah "  + s);
 		myimgs.add(new Image("/edu/wpi/off/by/one/errors/code/resources/maps/images/" + s));
 	}
 	/*
@@ -117,7 +118,7 @@ public class Map {
 		this.center = coordinate;
 		this.rotation = rotation;
 		this.scale = scale;
-			addImg(path);
+		addImg(path);
 
 	}
 	
