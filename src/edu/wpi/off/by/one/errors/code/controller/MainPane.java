@@ -157,9 +157,8 @@ public class MainPane extends BorderPane {
         zotl.setCycleCount(Timeline.INDEFINITE);
         dropzoom.setCycleCount(Timeline.INDEFINITE);
         addListeners();
-
+		this.navigationPane.setIsExpandedProperty(false);
         this.getStylesheets().add(getClass().getResource("../resources/stylesheets/MainPaneStyleSheet.css").toExternalForm());
-
     }
 
 	private void addListeners(){

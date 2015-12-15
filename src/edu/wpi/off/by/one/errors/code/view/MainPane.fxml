@@ -37,7 +37,7 @@
                 </StackPane>
             </center>
             <bottom>
-                <NavigationPane fx:id="navigationPane" minHeight="0"/>
+                <NavigationPane fx:id="navigationPane" minHeight="0" prefHeight="0" maxHeight="150"/>
             </bottom>
         </BorderPane>
     </center>
