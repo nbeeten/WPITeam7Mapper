@@ -1,6 +1,7 @@
 package edu.wpi.off.by.one.errors.code.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
@@ -11,6 +12,7 @@ public class Display extends Pane{
 	
 	ArrayList<Map> Maps;
 	Graph currentGraph;
+	HashMap<String, Mapstack> mapstecks;
 
 	/**
 	 * Display Constructor
@@ -37,6 +39,31 @@ public class Display extends Pane{
 	public void setGraph(Graph g) { this.currentGraph = g; }
 	public ArrayList<Map> getMaps() { return Maps; }
 	public Graph getGraph() { return currentGraph; }
+
+	public Mapstack addmapstack(String name){
+		if(mapstecks == null) mapstecks = new HashMap<>();
+		if(mapstecks.containsKey(name)) return mapstecks.get(name);
+		Mapstack m = new Mapstack(name);
+		mapstecks.put(name, m);
+		return mapstecks.get(name);
+	}
+	public void addmaptostack(String sname, String mname){
+		Mapstack ms = addmapstack(sname);
+		int indice = -1;
+		int i;
+		for(i = 0; i < Maps.size(); i++ ){
+			Map m = Maps.get(i);
+			if(m == null) continue;
+			if(m.getName() == null) continue;
+			if(m.getName().equals(mname))break;
+		}
+		if(i < Maps.size()){
+			//found it
+			ms.addm(i);
+			Map m = Maps.get(i);
+			m.setmapstack(sname);
+		}
+	}
 	
 	public Map getNearestMap(Coordinate coord, int cz){
 		float distsq = Float.MAX_VALUE;
