@@ -643,7 +643,7 @@ public class MapRootPane extends AnchorPane{
 							if(i > display.getMaps().size()) continue;
 							Map j = display.getMaps().get(i);
 							if(j == null) continue;
-							j.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), c.getZ());
+							j.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), j.getCenter().getZ());
 						}
 					}
 					render();
