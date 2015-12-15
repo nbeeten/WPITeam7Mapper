@@ -119,6 +119,7 @@ public class test extends TestCase{
     }
     */
     //test Path
+	/*
     @Test
     public void testAStar(){
 
@@ -161,4 +162,5 @@ public class test extends TestCase{
     	assertEquals(nonTraversablePath.getRoute(), expNTPath);
 
     }
+    */
 }
