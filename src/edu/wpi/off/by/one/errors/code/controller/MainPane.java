@@ -193,12 +193,17 @@ public class MainPane extends BorderPane {
     public Window getWindow() { return this.window; }
     public NodeDevToolPane getNodeTool() { return this.menuPane.getDevToolsMenuPane().getNodeDevToolPane(); }
 
+    
+    public void setFloorSlider(int val){
+    	floorSlider.setValue(val);
+    }
+    
     /**
      * Listener for when mouse is clicked on the floor slider
      */
     @FXML private void onFloorSliderMouseCLicked(){
         int floor = (int) floorSlider.getValue();
-        mapRootPane.currentLevel = floor;
+        mapRootPane.currentLevel.set(floor);;
         mapRootPane.getMapRootPane().translate.setAll(mapRootPane.translate.getX(), mapRootPane.translate.getY(), floor);
         mapRootPane.getMapRootPane().render();
     }

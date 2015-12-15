@@ -78,11 +78,12 @@
         </rowConstraints>
          <children>
             <CheckBox fx:id="accessibleCheckbox" mnemonicParsing="false" onAction="#toggleIsAccessible" text="Accessibility" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-            <CheckBox fx:id="foodCheckbox" mnemonicParsing="false" onAction="#toggleIsFood" text="Food" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <CheckBox fx:id="mensCheckbox" mnemonicParsing="false" onAction="#toggleIsMens" text="Men's Restroom" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <CheckBox fx:id="womensCheckbox" mnemonicParsing="false" onAction="#toggleIsWomens" text="Women's Restroom" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-            <CheckBox fx:id="genderNeutralCheckbox" mnemonicParsing="false" onAction="#toggleIsGenderNeutral" text="Gender Neutral Restroom" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-
+            <CheckBox fx:id="stairsCheckbox" mnemonicParsing="false" onAction="#toggleIsStairs" text="Stairs" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <CheckBox fx:id="elevatorCheckbox" mnemonicParsing="false" onAction="#toggleIsElevator" text="Elevator" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <CheckBox fx:id="foodCheckbox" mnemonicParsing="false" onAction="#toggleIsFood" text="Food" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <CheckBox fx:id="mensCheckbox" mnemonicParsing="false" onAction="#toggleIsMens" text="Men's Restroom" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <CheckBox fx:id="womensCheckbox" mnemonicParsing="false" onAction="#toggleIsWomens" text="Women's Restroom" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <CheckBox fx:id="genderNeutralCheckbox" mnemonicParsing="false" onAction="#toggleIsGenderNeutral" text="Gender Neutral Restroom" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
          </children>
       </GridPane>
       <BorderPane minWidth="0.0">
