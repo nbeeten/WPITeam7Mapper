@@ -22,7 +22,7 @@ public class Main extends Application{
         primaryStage.setScene(new Scene(root, 1600, 1000));
         
         primaryStage.show();
-        ControllerSingleton.getInstance().getMenuPane().searchMenuPane.spinnyZoom(1);
+        ControllerSingleton.getInstance().getMenuPane().getSearchMenuPane().spinnyZoom(1);
     }
 
 }

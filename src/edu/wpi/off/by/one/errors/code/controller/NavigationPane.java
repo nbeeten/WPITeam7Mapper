@@ -22,15 +22,20 @@ import javafx.util.Duration;
  */
 public class NavigationPane extends GridPane{
     //region FXML attributes
-	@FXML private Label InstructionLabel;
+	@FXML protected Label InstructionLabel;
     //endregion
 
     //region Properties
+    /**
+     * Property to keep track of whether or not this pane is expanded or is collapsed/compacted
+     */
     private BooleanProperty isExpandedProperty;
     //endregion
 
-    //region attributes
-
+    //region Other attributes
+    /**
+     * Animation object to collapse this pane by setting its height to 0
+     */
     private final Animation collapseAnimation = new Transition() {
         {
             setCycleDuration(Duration.millis(100));
@@ -42,13 +47,15 @@ public class NavigationPane extends GridPane{
         }
     };
 
+    /**
+     * Animation object to expand this pane by setting its height to 0
+     */
     private final Animation expandAnimation = new Transition() {
         {
             setCycleDuration(Duration.millis(100));
         }
         protected void interpolate(double frac) {
             final double currentHeight = getMaxHeight() * frac;
-
             setPrefHeight(currentHeight);
             setTranslateY(getMaxHeight() - currentHeight);
         }
@@ -56,54 +63,76 @@ public class NavigationPane extends GridPane{
     //endregion
 
     //region Constructor
+
+    /**
+     * Constructor to initialize attributes and this object
+     */
     public NavigationPane(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/NavigationPane.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try{
             loader.load();
+            this.getStylesheets().add(getClass().getResource("../resources/stylesheets/NavigationPaneStyleSheet.css").toExternalForm());
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
         ControllerSingleton.getInstance().registerNavigationPane(this);
-        this.getStylesheets().add(getClass().getResource("../resources/stylesheets/NavigationPaneStyleSheet.css").toExternalForm());
         this.isExpandedProperty = new SimpleBooleanProperty(true);
-        setExpandAnimationOnFinishedProperty();
-        setCollapseAnimationOnFinsishedProperty();
+        setListeners();
     }
     //endregion
 
-    //region Getters, Setters
+    //region Getters
+
+    /**
+     * Gets the isExpandedProperty
+     * @return The isExpandedProperty
+     */
     public BooleanProperty getIsExpandedProperty(){
         return this.isExpandedProperty;
     }
+    //endregion
+
+    //region setters
+
+    /**
+     * Sets the isExpandedProperty value
+     * @param newValue The new boolean value for the isExpectedProperty
+     */
     public void setIsExpandedProperty(boolean newValue){
         isExpandedProperty.set(newValue);
     }
     //endregion
 
+    //region Listener Methods
+
+    /**
+     * Collapses this pane when the user clicks the close pane button
+     */
+    @FXML protected void onClosePaneButtonClick(){
+        collapseAnimation.play();
+    }
+
+    /**
+     * adds listeners to the necessary controls.
+     */
+    private void setListeners(){
+        expandAnimation.onFinishedProperty().set(e -> isExpandedProperty.set(true));
+        collapseAnimation.onFinishedProperty().set(e -> isExpandedProperty.set(false));
+    }
+    //endregion
+
     //region Helper Methods
+
+    /**
+     * Expands the pane by playing the animation to set the size of this pane to its max height
+     */
     public void expand(){
         expandAnimation.play();
     }
-
-    private void setExpandAnimationOnFinishedProperty(){
-        expandAnimation.onFinishedProperty().set(e -> {
-            isExpandedProperty.set(true);
-        });
-    }
-
-    private void setCollapseAnimationOnFinsishedProperty(){
-        collapseAnimation.onFinishedProperty().set(e -> {
-            isExpandedProperty.set(false);
-        });
-    }
     //endregion
 
-    //region Listener Methods
-    @FXML private void onClosePaneButtonClick(){
-        collapseAnimation.play();
-    }
-    //endregion
+
 
 }
