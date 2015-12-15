@@ -150,7 +150,7 @@ p 1111.000000 1199.000000 1.000000 _ a
 p 1132.000000 1271.000000 1.000000 _ a
 p 1107.000000 1236.000000 1.000000 _ a
 p 1138.000000 1325.000000 1.000000 _ a
-p 1097.000000 1016.000000 1.000000 _ a
+p 1097.000000 1016.000000 1.000000 _ 
 p 1127.000000 1004.000000 1.000000 _ a
 p 579.000000 1032.000000 1.000000 _ a
 p 571.000000 1051.000000 1.000000 _ a
@@ -294,7 +294,7 @@ p 1025.705688 963.729614 1.000000 _ a
 p 1006.729248 932.211792 1.000000 _ a
 p 980.055847 950.608948 1.000000 _ a
 p 982.979675 945.303650 1.000000 _ a
-p 984.760254 946.490723 1.000000 _ a
+p 984.760254 946.490723 1.000000 _ 
 p 986.837585 947.875610 2.000000 _ a
 p 988.115417 945.547363 2.000000 _ a
 p 991.210388 947.334229 2.000000 _ a
@@ -314,8 +314,8 @@ p 1005.000427 933.412354 2.000000 _ a
 p 1003.205017 929.374634 2.000000 _ a
 p 999.937012 927.237732 2.000000 _ a
 p 1006.126892 930.811462 2.000000 _ a
-p 819.111572 1033.231567 1.000000 _ a
-p 826.567749 1034.547363 1.000000 Women's_Bathroom,cc,Campus_Center a
+p 819.111572 1033.231567 1.000000 _ am
+p 826.567749 1034.547363 1.000000 Women's_Bathroom,cc,Campus_Center aw
 p 822.971252 1033.933228 1.000000 _ a
 p 823.234375 1031.564819 1.000000 _ a
 p 824.287048 1026.564819 1.000000 _ a
@@ -345,11 +345,11 @@ p 835.523743 1026.684082 1.000000 _ a
 p 838.681641 1016.596313 1.000000 _ a
 p 837.629028 1018.789307 1.000000 _ a
 p 827.892212 1008.701599 1.000000 _ a
-p 829.295715 1006.333130 1.000000 _ a
+p 829.295715 1006.333130 1.000000 _ 
 p 830.260620 1032.912109 1.000000 _ a
 p 843.593933 1011.947205 1.000000 _ a
 p 851.225464 978.526184 1.000000 Dunkin'_Donuts,cc,Campus_Center,dunkin_donuts a
-p 846.268005 986.148438 1.000000 _ a
+p 846.268005 986.148438 1.000000 _ af
 p 855.660156 987.674683 1.000000 Bookstore,barnes&noble,bookstore,cc,Campus_Center a
 p 986.168884 941.031433 1.000000 _ a
 p 985.554871 934.013916 1.000000 _ a
@@ -372,7 +372,7 @@ p 980.993469 918.136719 1.000000 _ a
 p 984.414551 923.663025 1.000000 _ a
 p 989.765381 921.206909 1.000000 _ a
 p 981.432068 923.487610 1.000000 _ a
-p 993.625061 917.610413 1.000000 _ a
+p 993.625061 917.610413 1.000000 _ 
 p 1001.607483 922.522644 1.000000 _ a
 p 1003.011047 919.364807 1.000000 _ a
 p 1004.765381 915.680542 1.000000 ak116,ak,Atwater_Kent a
@@ -771,14 +771,14 @@ p 1064.533569 998.080078 1.000000 _ a
 p 1067.012573 1003.038147 1.000000 _ a
 p 1070.826416 1001.703247 1.000000 _ a
 p 1071.017090 1003.228821 1.000000 _ a
-p 1068.919434 1004.754395 1.000000 _ a
+p 1068.919434 1004.754395 1.000000 _ 
 p 1065.486938 1004.945068 1.000000 _ a
 p 1067.775269 1009.521729 1.000000 _ a
 p 1068.779175 995.845337 1.000000 _ a
 p 1072.403931 995.214966 1.000000 _ a
-p 1076.028809 992.220581 1.000000 _ a
+p 1076.028809 992.220581 1.000000 _ 
 p 1079.653564 991.117371 1.000000 _ a
-p 1083.751099 988.753418 1.000000 _ a
+p 1083.751099 988.753418 1.000000 _ 
 p 1090.263428 984.790649 0.000000 _ a
 p 1093.255737 983.558533 0.000000 _ a
 p 1074.707153 989.003479 1.000000 _ a
@@ -1069,7 +1069,7 @@ p 1044.971680 1070.483643 1.000000 _ a
 p 1069.668457 1067.097534 1.000000 _ a
 p 1072.520020 1044.000244 1.000000 _ a
 p 1067.672485 1074.796631 1.000000 _ a
-p 1063.733154 1162.745728 1.000000 _ a
+p 1063.733154 1162.745728 1.000000 _ 
 p 973.866760 1065.920532 1.000000 _ a
 p 996.425354 1069.411743 1.000000 _ a
 p 915.321838 1036.648071 1.000000 _ a
@@ -1173,6 +1173,8 @@ p 870.254272 1088.233398 1.000000 _ a
 p 880.881165 1080.171509 0.000000 _ a
 p 980.524536 946.981873 2.000000 _ a
 p 981.681580 944.778992 2.000000 _ a
+p 1117.954102 1200.853027 1.000000 _ 
+p 1127.616943 1203.613770 1.000000 _ a
 e 17 22
 e 22 21
 e 21 86
@@ -1319,7 +1321,7 @@ e 24 35
 e 35 37
 e 37 36
 e 36 38
-e 47 46
+e 148 1175
 e 46 49
 e 49 52
 e 53 1067
@@ -1369,7 +1371,7 @@ e 121 123
 e 123 124
 e 124 125
 e 100 99
-e 99 148
+e 1175 1176
 e 107 106
 e 106 102
 e 102 104
@@ -2545,124 +2547,57 @@ e 1131 33
 e 463 461
 e 1173 1174
 e 1174 621
+e 1176 99
+e 1176 125
 m no 0.0 0.0 0.0 0.0 0.0 
 m campusmap.png -1.0464134 2.3540468 1.0 0.0 1.0 Campus_Map
-i Campus_Map [Ljava.lang.String;@2c670b12 
 m Alden00.png 890.23303 1334.5698 -1.0 190.0 0.19 Alden_Hall_00
-i Alden_Hall_00 [Ljava.lang.String;@65dcd423 
 m Alden0.png 882.667 1339.1445 0.0 190.0 0.19 Alden_Hall_0
-i Alden_Hall_0 [Ljava.lang.String;@3a224ee6 
 m Alden1.png 820.6096 1198.374 1.0 10.0 0.075 Alden_Hall_1
-i Alden_Hall_1 [Ljava.lang.String;@5bc18d6b 
 m Alden2.png 887.6782 1334.9191 2.0 190.0 0.19 Alden_Hall_2
-i Alden_Hall_2 [Ljava.lang.String;@4f6a229a 
 m ak0.png 1042.8943 1000.479 0.0 210.0 0.13 Atwater_Kent_0
-i Atwater_Kent_0 [Ljava.lang.String;@4c948a98 
 m AtwaterKent1.png 1045.2695 1005.2704 1.0 210.0 0.109000005 Atwater_Kent_1
-i Atwater_Kent_1 [Ljava.lang.String;@6469a892 
 m ak2.png 1046.116 1010.0663 2.0 210.0 0.11499994 Atwater_Kent_2
-i Atwater_Kent_2 [Ljava.lang.String;@3394cba1 
 m ak3.png 1045.7278 1012.07275 3.0 210.0 0.117 Atwater_Kent_3
-i Atwater_Kent_3 [Ljava.lang.String;@2d7451bb 
 m Bartlett1.png 732.9818 1248.3472 1.0 278.0 0.075 Bartlett_Center_1
-i Bartlett_Center_1 [Ljava.lang.String;@455cdec7 
 m Bartlett2.png 732.9818 1248.3472 2.0 278.0 0.075 Bartlett_Center_2
-i Bartlett_Center_2 [Ljava.lang.String;@6cd8d3c6 
 m BoyntonHall0.png 946.9095 1200.5587 0.0 9.0 0.07 Boynton_Hall_Basement
-i Boynton_Hall_Basement [Ljava.lang.String;@7904d43f 
 m BoyntonHall1.png 947.6036 1199.623 1.0 9.0 0.07 Boynton_Hall_1
-i Boynton_Hall_1 [Ljava.lang.String;@7672ab2d 
 m BoyntonHall2.png 946.9095 1200.5587 2.0 9.0 0.07 Boynton_Hall_2
-i Boynton_Hall_2 [Ljava.lang.String;@55fbf9c2 
 m BoyntonHall3.png 946.9095 1200.5587 3.0 9.0 0.07 Boynton_Hall_3
-i Boynton_Hall_3 [Ljava.lang.String;@7f174658 
 m CampusCenter1.png 780.0 1035.0 0.0 280.0 0.11 Campus_Center_1
-i Campus_Center_1 [Ljava.lang.String;@20edc0a9 
 m CampusCenter2.png 779.9129 1036.9667 1.0 280.0 0.11 Campus_Center_2
-i Campus_Center_2 [Ljava.lang.String;@43a52c5a 
 m CampusCenter3.png 780.0 1035.0 2.0 280.0 0.11 Campus_Center_3
-i Campus_Center_3 [Ljava.lang.String;@499af805 
 m fullerlabs2.png 1025.1837 946.7641 1.0 334.0 0.105 Fuller_Labs_2
-i Fuller_Labs_2 [Ljava.lang.String;@c7a52e8 
 m fullerlabs1.png 1024.818 946.1912 0.0 334.0 0.105 Fuller_Labs_1
-i Fuller_Labs_1 [Ljava.lang.String;@42dc2346 
 m fullerlabs0.png 1027.0052 946.85626 -1.0 334.0 0.105 Fuller_Labs_Basement
-i Fuller_Labs_Basement [Ljava.lang.String;@287100bb 
 m fullerlabsA.png 1032.8525 941.3205 -2.0 334.0 0.105 Fuller_Labs_Subbasement
-i Fuller_Labs_Subbasement [Ljava.lang.String;@36b59f60 
 m fullerlabs3.png 1022.6156 945.092 2.0 334.0 0.105 Fuller_Labs_3
-i Fuller_Labs_3 [Ljava.lang.String;@6806664c 
 m GordonLibraryS.png 1131.2747 1074.6958 -1.0 102.0 0.08 Gordon_Library_Subfloor
-i Gordon_Library_Subfloor [Ljava.lang.String;@4be3be19 
 m GordonLibrary0.png 1133.0 1075.0 -1.0 102.0 0.08 Gordon_Library_0
-i Gordon_Library_0 [Ljava.lang.String;@6bb71b06 
 m GordonLibrary1.png 1132.0106 1078.0215 0.0 102.0 0.08 Gordon_Library_1
-i Gordon_Library_1 [Ljava.lang.String;@7163c78f 
 m gl2.png 1120.0 1167.0 1.0 191.0 0.085 Gordon_Library_2
-i Gordon_Library_2 [Ljava.lang.String;@2a0cebe9 
 m GordonLibrary3.png 1143.0 1075.0 2.0 102.0 0.09 Gordon_Library_3
-i Gordon_Library_3 [Ljava.lang.String;@7c499bc7 
 m Harrington1.png 641.6455 1014.17236 -1.0 9.0 0.11 Harrington_Basement
-i Harrington_Basement [Ljava.lang.String;@2ff5c063 
 m Harrington2.png 641.6455 1014.17236 0.0 9.0 0.11 Harrington_Gymnasium
-i Harrington_Gymnasium [Ljava.lang.String;@404525ad 
 m Harrington3.png 641.6455 1014.17236 1.0 9.0 0.11 Harrington_Entrance_Level
-i Harrington_Entrance_Level [Ljava.lang.String;@ddbcdef 
 m Harrington4.png 641.6455 1014.17236 2.0 9.0 0.11 Harrington_Upper_Stands_and_Balcony
-i Harrington_Upper_Stands_and_Balcony [Ljava.lang.String;@3dfcf830 
 m hh0.png 860.0 890.0 0.0 124.0 0.1 Higgins_House_0
-i Higgins_House_0 [Ljava.lang.String;@3c8bc134 
 m hh1.png 860.0 890.0 1.0 124.0 0.1 Higgins_House_1
-i Higgins_House_1 [Ljava.lang.String;@550ae345 
 m hh2.png 860.0 890.0 2.0 124.0 0.1 Higgins_House_2
-i Higgins_House_2 [Ljava.lang.String;@66df8be 
 m hh3.png 860.0 895.0 3.0 124.0 0.1 Higgins_House_3
-i Higgins_House_3 [Ljava.lang.String;@5c0abd3b 
 m higgins0.png 835.06256 1048.5577 0.0 10.0 0.11 Higgins_Labs_Basement
-i Higgins_Labs_Basement [Ljava.lang.String;@3eea55ef 
 m higgins1.png 835.06256 1048.5577 1.0 10.0 0.11 Higgins_Labs_1
-i Higgins_Labs_1 [Ljava.lang.String;@3c7889bc 
 m higgins2.png 835.06256 1048.5577 2.0 10.0 0.11 Higgins_Labs_2
-i Higgins_Labs_2 [Ljava.lang.String;@55b93e85 
 m higgins3.png 835.06256 1048.5577 3.0 10.0 0.11 Higgins_Labs_3
-i Higgins_Labs_3 [Ljava.lang.String;@5c53a26c 
 m pc1.png 979.44214 1074.7853 1.0 100.0 0.06 Project_Center_1
-i Project_Center_1 [Ljava.lang.String;@307ad124 
 m pc2.png 987.0 1070.0 2.0 100.0 0.05 Project_Center_2
-i Project_Center_2 [Ljava.lang.String;@48379bfe 
 m StrattonHall0.png 968.03357 1137.5441 1.0 100.0 0.059999973 Stratton_Hall_0
-i Stratton_Hall_0 [Ljava.lang.String;@5466d96b 
 m StrattonHall1.png 967.9269 1138.1487 2.0 99.6 0.06 Stratton_Hall_1
-i Stratton_Hall_1 [Ljava.lang.String;@15674149 
 m StrattonHall2.png 970.0 1137.0 3.0 100.0 0.06 Stratton_Hall_2
-i Stratton_Hall_2 [Ljava.lang.String;@73f25130 
 m StrattonHall3.png 970.0 1137.0 4.0 100.0 0.06 Stratton_Hall_3
-i Stratton_Hall_3 [Ljava.lang.String;@76eccdb 
-m fullerlabs2.png 1025.1837 946.7641 1.0 334.0 0.105 Fuller_Labs_2
-i Fuller_Labs_2 [Ljava.lang.String;@6521f0dc 
-m fullerlabs1.png 1024.818 946.1912 0.0 334.0 0.105 Fuller_Labs_1
-i Fuller_Labs_1 [Ljava.lang.String;@4ae39838 
-m fullerlabs0.png 1027.0052 946.85626 -1.0 334.0 0.105 Fuller_Labs_Basement
-i Fuller_Labs_Basement [Ljava.lang.String;@2bf92b85 
-m fullerlabsA.png 1032.8525 941.3205 -2.0 334.0 0.105 Fuller_Labs_Subbasement
-i Fuller_Labs_Subbasement [Ljava.lang.String;@5a002235 
-m fullerlabs3.png 1022.6156 945.092 2.0 334.0 0.105 Fuller_Labs_3
-i Fuller_Labs_3 [Ljava.lang.String;@30cd9eb9 
-m Alden00.png 890.23303 1334.5698 -1.0 190.0 0.19 Alden_Hall_00
-i Alden_Hall_00 [Ljava.lang.String;@6639e2c0 
-m Alden0.png 882.667 1339.1445 0.0 190.0 0.19 Alden_Hall_0
-i Alden_Hall_0 [Ljava.lang.String;@4fe5881 
-m Alden1.png 820.6096 1198.374 1.0 10.0 0.075 Alden_Hall_1
-i Alden_Hall_1 [Ljava.lang.String;@5fb4d3a1 
-m Alden2.png 887.6782 1334.9191 2.0 190.0 0.19 Alden_Hall_2
-i Alden_Hall_2 [Ljava.lang.String;@3d0a6b8 
 m salisburylabs0.png 972.3327 979.4093 0.0 10.0 0.11 Salisbury_Labs_Basement
-i Salisbury_Labs_Basement [Ljava.lang.String;@2ad67be0 
 m salisburylabs1.png 971.94727 980.2014 1.0 10.0 0.11 Salisbury_Labs_1
-i Salisbury_Labs_1 [Ljava.lang.String;@5c9a046b 
 m salisburylabs2.png 972.3327 979.4093 2.0 10.0 0.11 Salisbury_Labs_2
-i Salisbury_Labs_2 [Ljava.lang.String;@25caed82 
 m salisburylabs3.png 971.05383 990.27954 3.0 10.0 0.11 Salisbury_Labs_3
-i Salisbury_Labs_3 [Ljava.lang.String;@23297ae5 
 m salisburylabs4.png 971.05383 991.87805 4.0 10.0 0.11 Salisbury_Labs_4
-i Salisbury_Labs_4 [Ljava.lang.String;@3a391c1b 

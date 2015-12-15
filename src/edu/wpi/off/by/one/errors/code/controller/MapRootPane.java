@@ -242,6 +242,16 @@ public class MapRootPane extends AnchorPane{
 
 
 	int renderavgcount = 0;
+	float almostIdentity( float x, float m, float n )
+	{
+	    if( x>m ) return x;
+
+	    float a = 2.0f*n - m;
+	    float b = 2.0f*m - 3.0f*n;
+	    float t = x/m;
+
+	    return (a*t + b)*t*t + n;
+	}
 	/**
 	 * Handles all the zoom/rotation/translation of objects on the map
 	 * and draws them onto map
@@ -265,14 +275,13 @@ public class MapRootPane extends AnchorPane{
 			
 			mygc.save();
 			if(m == null) continue;
-			if(m.getImages() == null) continue;
-			//if(currentLevel != 1 && m.getName().equals("Campus Map")) mygc.setGlobalAlpha(0.4);
-			//else
-				mygc.setGlobalAlpha(1);
+			if(m.getImage() == null) continue;
+			if(currentLevel.get() != 1 && m.getName().equals("Campus Map")) mygc.setGlobalAlpha(0.4);
+			else mygc.setGlobalAlpha(1);
 			
-			//if(translate.getZ() > m.getCenter().getZ() + 0.1 || translate.getZ() < m.getCenter().getZ() - 0.1){
-			//	if(!m.getName().equals("Campus Map")) continue;
-			//}
+			if(translate.getZ() > m.getCenter().getZ() + 0.1 || translate.getZ() < m.getCenter().getZ() - 0.1){
+				if(!m.getName().equals("Campus Map")) continue;
+			}
 			Coordinate c = view.transform(m.getCenter());
 			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
 			mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
@@ -286,13 +295,7 @@ public class MapRootPane extends AnchorPane{
 				ds.setSpread(0.5);
 				mygc.setEffect(ds);
 			}
-			for(String s : m.getPaths()){
-				//System.out.println ("image " + m.getName() + " " + s);
-			}
-			for(Image im : m.getImages()) {
-				//System.out.println ("image " + m.getName() + " " + m.getPaths().get(0));
-				mygc.drawImage(im, 0, 0);
-			}
+			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
 		long time4 = System.nanoTime();
@@ -328,7 +331,7 @@ public class MapRootPane extends AnchorPane{
 //						if(zoom > max) mygc.scale(max/2, max/2);
 //						else if(zoom < min) mygc.scale(min/2, min/2);
 //						else mygc.scale((zoom/2), (zoom/2));
-						mygc.scale(0.3, 0.3);
+						mygc.scale(almostIdentity(zoom, 5, (float)3)/25, almostIdentity(zoom, 5, (float)3)/25);
 						mygc.drawImage(icon, -(icon.getWidth()/2), -(icon.getHeight())/2);
 					}
 				}
