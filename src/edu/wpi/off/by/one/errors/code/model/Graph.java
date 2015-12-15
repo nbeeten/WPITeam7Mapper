@@ -378,4 +378,5 @@ public class Graph {
 	public ArrayList<Id> search(String searchTerm){
 		return tagMap.findTag(searchTerm);
 	}
+
 }
