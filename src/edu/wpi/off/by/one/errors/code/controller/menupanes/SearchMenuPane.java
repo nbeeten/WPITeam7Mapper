@@ -42,7 +42,7 @@ public class SearchMenuPane extends BorderPane {
 	int currentLevel;
 	
     public SearchMenuPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/SearchMenuPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/menupanes/SearchMenuPane.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -52,7 +52,7 @@ public class SearchMenuPane extends BorderPane {
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
-        this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/SearchPaneStyleSheet.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("/edu/wpi/off/by/one/errors/code/resources/stylesheets/menupanes/SearchPaneStyleSheet.css").toExternalForm());
         setListeners();
         //SortedSet<String> entries = new TreeSet<String>();
         /*

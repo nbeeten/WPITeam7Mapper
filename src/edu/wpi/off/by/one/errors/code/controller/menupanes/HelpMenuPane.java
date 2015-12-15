@@ -15,7 +15,7 @@ public class HelpMenuPane extends AnchorPane {
     @FXML private Label label;
 
     public HelpMenuPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/HelpMenuPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/menupanes/HelpMenuPane.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

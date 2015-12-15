@@ -52,7 +52,7 @@ public class NodeDevToolPane extends VBox {
 	
 	
     public NodeDevToolPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../../view/menupanes/devtoolspanes/NodeDevToolPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/menupanes/devtoolspanes/NodeDevToolPane.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 public class FavoritesMenuPane extends AnchorPane {
 
     public FavoritesMenuPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/FavoritesMenuPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/menupanes/FavoritesMenuPane.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
