@@ -8,7 +8,7 @@
 
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <left>
-        <MenuPane fx:id="menuPane" maxWidth="300" minWidth="50" />
+        <MenuPane fx:id="menuPane" prefWidth="50" maxWidth="300" minWidth="50" />
     </left>
     <center>
         <BorderPane BorderPane.alignment="CENTER">
@@ -32,12 +32,12 @@
                                 <Button fx:id="zoomOutButton" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="-" />
                             </children>
                         </VBox>
-                        <Button visible="false" fx:id="openNavigationPaneButton" onAction="#onOpenNavigationPaneButtonClick" prefWidth="75" text="^" StackPane.alignment="BOTTOM_CENTER" />
+                        <Button fx:id="openNavigationPaneButton" onAction="#onOpenNavigationPaneButtonClick" prefWidth="75" text="^" StackPane.alignment="BOTTOM_CENTER" />
                     </children>
                 </StackPane>
             </center>
             <bottom>
-                <!--NavigationPane fx:id="navigationPane" minHeight="0" prefHeight="0" prefWidth="Infinity" visible="false" /-->
+                <NavigationPane fx:id="navigationPane" minHeight="0" prefHeight="0" maxHeight="150"/>
             </bottom>
         </BorderPane>
     </center>

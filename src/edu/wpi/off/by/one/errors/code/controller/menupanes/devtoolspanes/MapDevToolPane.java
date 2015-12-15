@@ -185,7 +185,7 @@ public class MapDevToolPane extends VBox {
 			this.mapList = maps;
 			mapChoiceBox.getItems().clear();
 			for(Map m : maps){
-				String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
+				String name = (m.getName() == null) ? ((m.getImgUrl() == null) ? "unnamed" : m.getImgUrl() ): m.getName();
 				mapChoiceBox.getItems().add(name);
 			}
 		}

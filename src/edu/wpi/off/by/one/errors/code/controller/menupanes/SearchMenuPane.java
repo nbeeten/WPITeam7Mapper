@@ -65,8 +65,8 @@ public class SearchMenuPane extends BorderPane {
 	public void updateMapList(ArrayList<Map> maps){
 		buildingChoiceBox.getItems().clear();
 		for(Map m : ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps()){
-        	String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
-        	buildingChoiceBox.getItems().add(name);
+			String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
+			buildingChoiceBox.getItems().add(name);
         }
 	}
 	

@@ -5,6 +5,7 @@ import java.io.IOException;
 import edu.wpi.off.by.one.errors.code.controller.menupanes.devtoolspanes.NodeDevToolPane;
 import edu.wpi.off.by.one.errors.code.model.Coordinate;
 import edu.wpi.off.by.one.errors.code.model.Display;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -40,12 +41,12 @@ public class MainPane extends BorderPane {
 	@FXML private Button rotateRightButton;
 	@FXML private Button zoomInButton;
 	@FXML private Button zoomOutButton;
-    //@FXML private Button openNavigationPaneButton;
+    @FXML private Button openNavigationPaneButton;
 	@FXML private ScrollPane mapScrollPane;
 	@FXML private MenuPane menuPane;
 	@FXML private MapRootPane mapRootPane;
-	//@FXML private NavigationPane navigationPane;
-	
+	@FXML private NavigationPane navigationPane;
+
 	public Coordinate dropStartC;
 	public	Coordinate dropEndC; 
 	public float dropStartR = 0.0f;
@@ -156,12 +157,14 @@ public class MainPane extends BorderPane {
         zotl.setCycleCount(Timeline.INDEFINITE);
         dropzoom.setCycleCount(Timeline.INDEFINITE);
         addListeners();
-
+        
         this.getStylesheets().add(getClass().getResource("/edu/wpi/off/by/one/errors/code/resources/stylesheets/MainPaneStyleSheet.css").toExternalForm());
+		this.navigationPane.setIsExpandedProperty(false);
+
     }
 
 	private void addListeners(){
-        //openNavigationPaneButton.visibleProperty().bind(navigationPane.visibleProperty().not());
+        openNavigationPaneButton.visibleProperty().bind(navigationPane.getIsExpandedProperty().not());
     	rotateLeftButton.setOnMousePressed(e -> lttl.play());
     	rotateLeftButton.setOnMouseReleased(e -> lttl.stop());
     	rotateRightButton.setOnMousePressed(e -> rttl.play());
@@ -175,7 +178,7 @@ public class MainPane extends BorderPane {
     }
 
     @FXML private void onOpenNavigationPaneButtonClick(){
-        //navigationPane.open();
+        navigationPane.expand();
     }
     public void setWindow(Window window) { 
     	this.window = window; 

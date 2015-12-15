@@ -249,6 +249,16 @@ public class MapRootPane extends AnchorPane{
 
 
 	int renderavgcount = 0;
+	float almostIdentity( float x, float m, float n )
+	{
+	    if( x>m ) return x;
+
+	    float a = 2.0f*n - m;
+	    float b = 2.0f*m - 3.0f*n;
+	    float t = x/m;
+
+	    return (a*t + b)*t*t + n;
+	}
 	/**
 	 * Handles all the zoom/rotation/translation of objects on the map
 	 * and draws them onto map
@@ -328,7 +338,7 @@ public class MapRootPane extends AnchorPane{
 //						if(zoom > max) mygc.scale(max/2, max/2);
 //						else if(zoom < min) mygc.scale(min/2, min/2);
 //						else mygc.scale((zoom/2), (zoom/2));
-						mygc.scale(0.3, 0.3);
+						mygc.scale(almostIdentity(zoom, 5, (float)3)/25, almostIdentity(zoom, 5, (float)3)/25);
 						mygc.drawImage(icon, -(icon.getWidth()/2), -(icon.getHeight())/2);
 					}
 				}
@@ -584,7 +594,7 @@ public class MapRootPane extends AnchorPane{
 				if(nearestMap == null) return;
 				if(isEyedrop){
 					System.out.println("EYEDROP");
-					int eyedroppedColor = nearestMap.getColor(click);
+					int eyedroppedColor = 0;//nearestMap.getColor(click);
 					//ControllerSingleton.getInstance().getMapDevToolPane().setEyedroppedColor(eyedroppedColor);
 				} else {
 					

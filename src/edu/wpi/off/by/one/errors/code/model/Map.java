@@ -14,8 +14,10 @@ public class Map {
 	private Image myimg;
 
 	private void updateImg(){
+		
 		myimg = new Image("/edu/wpi/off/by/one/errors/code/resources/maps/images/" + imagePath);
 	}
+	/*
 	public void addColor(int color){
 		if(goodcolors == null) goodcolors = new ArrayList<Integer>();
 		if(goodcolors.contains(Integer.valueOf(color))) return;
@@ -103,26 +105,26 @@ public class Map {
 		}
 		return true;
 	}
-	
+	*/
 	public Map(String path, Coordinate coordinate, float rotation, float scale){
-		this.imagePath = path;
+		this.imagePath=path;
 		this.center = coordinate;
 		this.rotation = rotation;
 		this.scale = scale;
 		updateImg();
+
 	}
 	
 	public Map(){
-		this.imagePath = "";
+		this.imagePath="";
 		this.center = new Coordinate(0);
 		this.rotation = 0;
 		this.scale = 0;
-		//updateImg();
 	}
 	
 	public Map (String name, String imagePath, float rotation, float scale){
 		this.name = name;
-		this.imagePath = imagePath;
+		this.imagePath=imagePath;
 		this.center = new Coordinate(0, 0, 0);
 		this.rotation = rotation;
 		this.scale = scale;
@@ -142,12 +144,13 @@ public class Map {
 	public void setImgUrl(String path) { this.imagePath = path; updateImg();}
 	public void setCenter(Coordinate coordinate) { this.center = coordinate; }
 	public void setRotation(float rotationIn) { this.rotation = rotationIn; }
+	public String getImgUrl() { return this.imagePath;}
 	public void setScale(float scale) { this.scale = scale; }
 	public String getName() { return this.name; }
-	public String getImgUrl() { return this.imagePath; }
 	public Coordinate getCenter() { return this.center;}
 	public float getRotation() { return this.rotation;  }
 	public float getScale() { return this.scale; }
-	public Image getImage() { return this.myimg; }
+	public Image getImage() {return this.myimg; }
+
 
 }
