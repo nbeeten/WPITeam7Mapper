@@ -139,7 +139,7 @@ public class MainPane extends BorderPane {
 				mapRootPane.render();
 			}));
     public MainPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MainPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/MainPane.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -157,7 +157,7 @@ public class MainPane extends BorderPane {
         dropzoom.setCycleCount(Timeline.INDEFINITE);
         addListeners();
 
-        this.getStylesheets().add(getClass().getResource("../resources/stylesheets/MainPaneStyleSheet.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("/edu/wpi/off/by/one/errors/code/resources/stylesheets/MainPaneStyleSheet.css").toExternalForm());
     }
 
 	private void addListeners(){

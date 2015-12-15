@@ -1,10 +1,18 @@
 package edu.wpi.off.by.one.errors.code.model;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -169,28 +177,47 @@ public class FileIO {
 	 * @param inpath: input path for the file
 	 * @param indpy: input display class
 	 * @return current display
+	 * @throws URISyntaxException 
 	 */
-	public static Display load(String inpath, Display indpy) {
+	public static Display load(InputStream inputStream, Display indpy) throws URISyntaxException {
 		Display curdpy = indpy;
 		if (curdpy == null)
 			curdpy = new Display(); // CONTRUCTOOOOOOOOOR needed plz
 
 		// read in all lines
-		Path pty = Paths.get(inpath);
-		if (!Files.exists(pty)) {
-			System.out.printf("File %s does not exist, unable to load\n", inpath);
-		}
+		Path pty = null;
+		BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
+//		if (!Files.exists(pty)) {
+//			System.out.printf("File %s does not exist, unable to load\n", inputStream);
+//		}
 		edgebuf = new ArrayList<String[]>();
 		nodebuf = new ArrayList<String[]>();
 		mapbuf = new ArrayList<String[]>();
-		List<String> lines = null;
+		List<String> lines = new ArrayList<String>();
 		// todo should fix this try catch BS
+		String l = null;
 		try {
-			lines = Files.readAllLines(pty, Charset.defaultCharset());
+			l = input.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		while (l != null){
+			lines.add(l);
+			try {
+				l = input.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+//		try {
+//			input.
+//			lines = Files.readAllLines(pty, Charset.defaultCharset());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		int i = 0;
 		for (String line : lines) {
 			parseline(line, curdpy);

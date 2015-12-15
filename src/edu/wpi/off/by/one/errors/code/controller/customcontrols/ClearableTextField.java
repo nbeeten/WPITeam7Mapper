@@ -28,12 +28,12 @@ public class ClearableTextField extends BorderPane {
 
     //region constructor/s
     public ClearableTextField(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/customcontrols/ClearableTextField.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/customcontrols/ClearableTextField.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try{
             loader.load();
-            this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/customcontrols/ClearableTextFieldStyleSheet.css").toExternalForm());
+            this.getStylesheets().add(getClass().getResource("/edu/wpi/off/by/one/errors/code/resources/stylesheets/customcontrols/ClearableTextFieldStyleSheet.css").toExternalForm());
         }
         catch(IOException excpt){
             throw new RuntimeException(excpt);

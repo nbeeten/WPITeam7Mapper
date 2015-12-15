@@ -14,7 +14,7 @@ public class NavigationPane extends GridPane {
 	@FXML private IconedLabel InstructionLabel;
 
     public NavigationPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/NavigationPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/NavigationPane.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -24,7 +24,7 @@ public class NavigationPane extends GridPane {
             throw new RuntimeException(excpt);
         }
         ControllerSingleton.getInstance().registerNavigationPane(this);
-        this.getStylesheets().add(getClass().getResource("../resources/stylesheets/NavigationPaneStyleSheet.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("/edu/wpi/off/by/one/errors/code/resources/stylesheets/NavigationPaneStyleSheet.css").toExternalForm());
     }
 
     public void open(){

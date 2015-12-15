@@ -56,7 +56,7 @@ public class MenuPane extends HBox {
      * @exception RuntimeException Thrown if file cannot be loaded.
      */
     public MenuPane() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MenuPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/MenuPane.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -69,7 +69,7 @@ public class MenuPane extends HBox {
 
         removeRadioButtonStyles();
         addListeners();
-        this.getStylesheets().add(getClass().getResource("../resources/stylesheets/MenuPaneStyleSheet.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("/edu/wpi/off/by/one/errors/code/resources/stylesheets/MenuPaneStyleSheet.css").toExternalForm());
         ControllerSingleton.getInstance().registerMenuPane(this);
 
         compact();

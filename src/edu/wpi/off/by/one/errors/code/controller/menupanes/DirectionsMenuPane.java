@@ -38,7 +38,7 @@ public class DirectionsMenuPane extends BorderPane {
     Node destinationNode;
 	
     public DirectionsMenuPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/DirectionsMenuPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/menupanes/DirectionsMenuPane.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -49,7 +49,7 @@ public class DirectionsMenuPane extends BorderPane {
             throw new RuntimeException(excpt);
         }
         settingsMenuPane = ControllerSingleton.getInstance().getSettingsMenuPane();
-        this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/DirectionsPaneStyleSheet.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("/edu/wpi/off/by/one/errors/code/resources/stylesheets/menupanes/DirectionsPaneStyleSheet.css").toExternalForm());
     }
 
 	private void setListeners(){ 

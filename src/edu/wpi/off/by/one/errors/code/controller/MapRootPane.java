@@ -1,6 +1,7 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -113,7 +114,7 @@ public class MapRootPane extends AnchorPane{
 
     
     public MapRootPane() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MapRootPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/MapRootPane.fxml"));
         
         loader.setRoot(this);
         loader.setController(this);
@@ -146,7 +147,13 @@ public class MapRootPane extends AnchorPane{
     
     private void initialize(){
     	//Load campus map from display list
-		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
+    	
+		try {
+			display = FileIO.load(getClass().getResourceAsStream("/edu/wpi/off/by/one/errors/code/resources/maps/txtfiles/fullCampusMap.txt"), display);
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		// Put all these sets into fxml
         pathPane.setMouseTransparent(true);
         markerPane.setMouseTransparent(false);
