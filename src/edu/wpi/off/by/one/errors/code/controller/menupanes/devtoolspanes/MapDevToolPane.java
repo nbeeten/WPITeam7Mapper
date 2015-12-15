@@ -44,6 +44,7 @@ public class MapDevToolPane extends VBox {
 	@FXML TextField zTextField;
 	@FXML TextField rotationTextField;
 	@FXML TextField scaleTextField;
+	@FXML TextField mapTagTextField;
 	@FXML Label pathLabel;
 	@FXML Button changeImageButton;
 	@FXML ToggleButton selectColorButton;
@@ -77,8 +78,6 @@ public class MapDevToolPane extends VBox {
 			//should be change map info
 			changeDisplay();
 		});
-		
-		this.selectColorButton.setStyle("-fx-background-color: #CC3341;");
 		
 		this.mapChoiceBox.setOnContextMenuRequested(e->{
 			MapRootPane mapRoot = ControllerSingleton.getInstance().getMapRootPane();
@@ -191,27 +190,40 @@ public class MapDevToolPane extends VBox {
 			}
 		}
 	}
+	
+	@FXML private void assignMapTag(){
+		//TODO do something to map
+	}
+	
+	@FXML private void reaffiliateNodes(){
+		//TODO do something to map
+	}
+	
+	@FXML private void disaffiliateNodes(){
+		//TODO do something to map
+	}
+	
 
-	@FXML private void toggleAutoEdge(){
-		autoEdgeSelector.isSelected();
-		//TODO do stuff w this
-	}
-	
-	@FXML private void setWalkableColor(){
-		Color color = walkableColorSelector.getValue();
-		//TODO do stuff w this
-	}
-	
-	@FXML private void selectColorOnMap(){
-		ControllerSingleton.getInstance().getMapRootPane().isEyedrop = selectColorButton.isSelected() ? true : false;
-	}
-	
-	public void setEyedroppedColor(int color){
-		this.eyedroppedColor = color;
-		System.out.println(color);
-		//walkableColorSelector.setValue();
-	}
-	
+//	@FXML private void toggleAutoEdge(){
+//		autoEdgeSelector.isSelected();
+//		//TODO do stuff w this
+//	}
+//	
+//	@FXML private void setWalkableColor(){
+//		Color color = walkableColorSelector.getValue();
+//		//TODO do stuff w this
+//	}
+//	
+//	@FXML private void selectColorOnMap(){
+//		ControllerSingleton.getInstance().getMapRootPane().isEyedrop = selectColorButton.isSelected() ? true : false;
+//	}
+//	
+//	public void setEyedroppedColor(int color){
+//		this.eyedroppedColor = color;
+//		System.out.println(color);
+//		//walkableColorSelector.setValue();
+//	}
+//	
 	/**
 	 * Parses/cleans input string to only contain
 	 * numerical values
