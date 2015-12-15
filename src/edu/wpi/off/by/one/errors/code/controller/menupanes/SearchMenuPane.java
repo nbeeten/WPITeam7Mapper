@@ -182,7 +182,7 @@ public class SearchMenuPane extends BorderPane {
 		if(m == null) return;
 		ControllerSingleton.getInstance().getMapRootPane().currentLevel.setValue(m.getCenter().getZ());
 		mainPane.dropStartC = ControllerSingleton.getInstance().getMapRootPane().translate;
-		//mainPane.dropStartR = ControllerSingleton.getInstance().getMapRootPane().rot;
+		mainPane.dropStartR = ControllerSingleton.getInstance().getMapRootPane().rot;
 		mainPane.dropStartS = ControllerSingleton.getInstance().getMapRootPane().zoom;
 		
 		//float zx = (float) (m.getCenter().getX() + m.getImage().getWidth() * 0.5f * m.getScale());
