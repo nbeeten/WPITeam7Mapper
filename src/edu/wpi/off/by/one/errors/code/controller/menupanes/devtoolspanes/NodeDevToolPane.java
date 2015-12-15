@@ -47,6 +47,8 @@ public class NodeDevToolPane extends VBox {
 	@FXML CheckBox mensCheckbox;
 	@FXML CheckBox womensCheckbox;
 	@FXML CheckBox genderNeutralCheckbox;
+	@FXML CheckBox stairsCheckbox;
+	@FXML CheckBox elevatorCheckbox;
 	
 	
     public NodeDevToolPane(){
@@ -85,6 +87,8 @@ public class NodeDevToolPane extends VBox {
     	mensCheckbox.setSelected(g.returnNodeById(nd.getNode()).isMens());
     	womensCheckbox.setSelected(g.returnNodeById(nd.getNode()).isWomens());
     	genderNeutralCheckbox.setSelected(g.returnNodeById(nd.getNode()).isGenderNeutral());
+    	stairsCheckbox.setSelected(g.returnNodeById(nd.getNode()).isStairs());
+    	elevatorCheckbox.setSelected(g.returnNodeById(nd.getNode()).isElevator());
     }
     
     private void setListeners(){
