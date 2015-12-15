@@ -635,6 +635,16 @@ public class MapRootPane extends AnchorPane{
 					m.setRotation(m.getRotation() + deltaRot);
 					m.setScale(m.getScale() + deltaZoom);
 					m.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), c.getZ());
+					//find all connected maps
+					if(m.mapstackname != null){
+						Mapstack ms = display.addmapstack(m.mapstackname);
+						for(int i : ms.meps){
+							if(i > display.getMaps().size()) continue;
+							Map j = display.getMaps().get(i);
+							if(j == null) continue;
+							j.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), j.getCenter().getZ());
+						}
+					}
 					render();
 				}
 				lastdragged.setAll(in.getX(), in.getY(), 0);
