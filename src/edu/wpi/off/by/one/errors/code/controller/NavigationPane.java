@@ -68,18 +68,21 @@ public class NavigationPane extends GridPane{
      * Constructor to initialize attributes and this object
      */
     public NavigationPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/NavigationPane.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/NavigationPane.fxml"));
+
         loader.setRoot(this);
         loader.setController(this);
         try{
             loader.load();
-            this.getStylesheets().add(getClass().getResource("../resources/stylesheets/NavigationPaneStyleSheet.css").toExternalForm());
+            this.getStylesheets().add(getClass().getResource("/edu/wpi/off/by/one/errors/code/resources/stylesheets/NavigationPaneStyleSheet.css").toExternalForm());
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
         ControllerSingleton.getInstance().registerNavigationPane(this);
         this.isExpandedProperty = new SimpleBooleanProperty(true);
         setListeners();
+
     }
     //endregion
 

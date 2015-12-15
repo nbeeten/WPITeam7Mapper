@@ -58,7 +58,7 @@ public class MapDevToolPane extends VBox {
 
 
 	public MapDevToolPane() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../../../view/menupanes/devtoolspanes/MapDevToolPane.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/menupanes/devtoolspanes/MapDevToolPane.fxml"));
 		loader.setRoot(this);
 		loader.setController(this);
 

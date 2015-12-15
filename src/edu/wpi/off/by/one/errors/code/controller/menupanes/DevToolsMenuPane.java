@@ -36,7 +36,7 @@ public class DevToolsMenuPane extends BorderPane {
 	
 
     public DevToolsMenuPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/DevToolsMenuPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/menupanes/DevToolsMenuPane.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -48,7 +48,7 @@ public class DevToolsMenuPane extends BorderPane {
             throw new RuntimeException(excpt);
         }
         setListeners();
-        this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/DevToolsPaneStyleSheet.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("/edu/wpi/off/by/one/errors/code/resources/stylesheets/menupanes/DevToolsPaneStyleSheet.css").toExternalForm());
 
     }
     
