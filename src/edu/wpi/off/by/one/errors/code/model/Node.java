@@ -206,16 +206,16 @@ public class Node {
     	return stairs;
     }
     
-    public void setStairs(boolean stairs){
-    	this.stairs = stairs;
+    public void setStairs(boolean stairsIn){
+    	stairs = stairsIn;
     }
     
     public boolean isElevator(){
     	return elevator;
     }
     
-    public void setElevator(boolean elevator){
-    	this.elevator = elevator;
+    public void setElevator(boolean elevatorIn){
+    	elevator = elevatorIn;
     }
     
     public boolean isFood(){
