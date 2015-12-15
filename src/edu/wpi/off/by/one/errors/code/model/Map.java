@@ -14,7 +14,10 @@ public class Map {
 	private ArrayList<Image> myimgs;
 
 	public void addImg(String s){
+		if(s == null) return;
+		if(s.equals("no")) return;
 		if(myimgs == null) myimgs = new ArrayList<Image>();
+		if(imagePaths == null) imagePaths = new ArrayList<String>();
 		if(imagePaths.contains(s)){
 			return;
 		}
@@ -114,7 +117,8 @@ public class Map {
 		this.center = coordinate;
 		this.rotation = rotation;
 		this.scale = scale;
-		addImg(path);
+			addImg(path);
+
 	}
 	
 	public Map(){
@@ -129,7 +133,7 @@ public class Map {
 		this.center = new Coordinate(0, 0, 0);
 		this.rotation = rotation;
 		this.scale = scale;
-		addImg(imagePath);
+			addImg(imagePath);
 	}
 	
 	public Map (String name, String imagePath, Coordinate center, float rotation, float scale){
@@ -137,7 +141,7 @@ public class Map {
 		this.center = center;
 		this.rotation = rotation;
 		this.scale = scale;
-		addImg(imagePath);
+			addImg(imagePath);
 	}
 	
 	public void setName(String name) { this.name = name; }

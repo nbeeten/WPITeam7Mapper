@@ -69,6 +69,7 @@ public class FileIO {
 		//for(String s : args) System.out.println("arg:" + s);
 		Coordinate c = new Coordinate(Float.parseFloat(args[1]), Float.parseFloat(args[2]), Float.parseFloat(args[3]));
 		Map m = new Map(args[0], c, Float.parseFloat(args[4]), Float.parseFloat(args[5]));
+		System.out.println(m.getPaths().get(0));
 		if(args.length > 6) m.setName(getTags(args[6])[0]);
 		dpy.addMap(m);
 		return 1;
@@ -287,9 +288,19 @@ public class FileIO {
 				//writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
 				String[] aaa = new String[1];
 				aaa[0] = map.getName();
-				writer.println("m " + "no"+ " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
-				for(String s : map.getPaths()){
-					writer.println("i " + toTags(aaa) + " " + s + " ");
+				String[] aab = new String[1];
+				if(map.getPaths().size() > 0) {
+					aab[0] = map.getPaths().get(0);
+					writer.println("m " + aab + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
+				} else {
+					writer.println("m " + "no" + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
+
+				}
+				int k;
+				for(k = 0; k < map.getPaths().size(); k++){
+					aab[0] = map.getPaths().get(k);
+					if(aab[0] == null) continue;
+					writer.println("i " + toTags(aaa) + " " +  aab + " ");
 				}
 			}
 		if (writer != null) writer.close();

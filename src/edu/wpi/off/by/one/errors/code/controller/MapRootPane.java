@@ -260,12 +260,11 @@ public class MapRootPane extends AnchorPane{
 			mygc.save();
 			if(m == null) continue;
 			if(m.getImages() == null) continue;
-			
 			if(currentLevel != 1 && m.getName().equals("Campus Map")) mygc.setGlobalAlpha(0.4);
 			else mygc.setGlobalAlpha(1);
 			
 			//if(translate.getZ() > m.getCenter().getZ() + 0.1 || translate.getZ() < m.getCenter().getZ() - 0.1){
-				if(!m.getName().equals("Campus Map")) continue;
+			//	if(!m.getName().equals("Campus Map")) continue;
 			//}
 			Coordinate c = view.transform(m.getCenter());
 			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
@@ -280,7 +279,11 @@ public class MapRootPane extends AnchorPane{
 				ds.setSpread(0.5);
 				mygc.setEffect(ds);
 			}
+			for(String s : m.getPaths()){
+				//System.out.println ("image " + m.getName() + " " + s);
+			}
 			for(Image im : m.getImages()) {
+				//System.out.println ("image " + m.getName() + " " + m.getPaths().get(0));
 				mygc.drawImage(im, 0, 0);
 			}
 			mygc.restore();
