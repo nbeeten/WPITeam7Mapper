@@ -241,6 +241,9 @@ public class MapRootPane extends AnchorPane{
 			this.display = newdisplay;
 			updateDisplay(newdisplay.getGraph());
 		}
+		if(option.equals("NEW")){
+			this.display = newdisplay;
+		}
 	}
 
 
