@@ -294,7 +294,7 @@ p 1024.959961 968.273132 1.000000 _ a
 p 1013.750000 931.599487 1.000000 _ a
 p 975.399780 953.669434 1.000000 _ a
 p 978.654968 948.429077 1.000000 _ a
-p 981.215637 949.562988 1.000000 _ s
+p 981.215637 949.562988 1.000000 _ as
 p 981.301819 949.612671 2.000000 _ a
 p 983.133545 951.014771 2.000000 _ a
 p 985.178406 948.865173 2.000000 _ a
@@ -1265,7 +1265,7 @@ p 1095.935791 1104.123901 1.000000 _ a
 p 1097.981689 1104.513672 1.000000 _ a
 p 1099.248169 1097.693848 1.000000 _ a
 p 1103.145142 1098.375854 1.000000 _ a
-p 1102.073486 1105.292969 1.000000 _ s
+p 1102.073486 1105.292969 1.000000 _ as
 p 1103.242554 1113.866333 1.000000 _ a
 p 1103.827148 1110.359131 1.000000 _ a
 p 1090.382568 1150.205688 1.000000 _ a
@@ -1414,6 +1414,8 @@ p 1080.542603 1140.073486 0.000000 _ a
 p 1081.321899 1137.053345 0.000000 _ a
 p 1092.224731 943.103577 0.000000 _ a
 p 1093.901855 945.411865 0.000000 _ a
+p 1111.138550 1090.199463 1.000000 _ a
+p 1097.331055 1092.552979 1.000000 _ a
 e 17 22
 e 22 21
 e 21 86
@@ -3101,26 +3103,29 @@ e 981 980
 e 1414 1415
 e 1024 1415
 e 1025 1024
+e 1250 1417
+e 1417 1210
+e 1210 1416
+e 1417 1416
+e 1416 1250
+e 1250 1262
+e 1262 1417
 m  0.0 0.0 0.0 0.0 0.0 
 m campusmap.png -1.0464134 2.3540468 1.0 0.0 1.0 Campus_Map
 m Alden00.png 890.23303 1334.5698 -1.0 190.0 0.19 Alden_Hall_00
 m Alden0.png 882.667 1339.1445 0.0 190.0 0.19 Alden_Hall_0
 m Alden1.png 820.6096 1198.374 1.0 10.0 0.075 Alden_Hall_1
 m Alden2.png 887.6782 1334.9191 2.0 190.0 0.19 Alden_Hall_2
-s Alden_Hall Alden_Hall_00 Alden_Hall_0 Alden_Hall_1 Alden_Hall_2
 m ak0.png 1042.8943 1000.479 0.0 210.0 0.13 Atwater_Kent_0
 m AtwaterKent1.png 1045.7278 1012.07275 1.0 210.0 0.117 Atwater_Kent_1
 m ak2.png 1045.7278 1012.07275 2.0 210.0 0.117 Atwater_Kent_2
 m ak3.png 1045.7278 1012.07275 3.0 210.0 0.117 Atwater_Kent_3
-s Atwater_Kent Atwater_Kent_0 Atwater_Kent_1 Atwater_Kent_2 Atwater_Kent_3
 m Bartlett1.png 732.9818 1248.3472 1.0 278.0 0.075 Bartlett_Center_1
 m Bartlett2.png 732.9818 1248.3472 2.0 278.0 0.075 Bartlett_Center_2
-s Bartlett_Center Bartlett_Center_1 Bartlett_Center_2
 m BoyntonHall0.png 946.9095 1200.5587 0.0 9.0 0.07 Boynton_Hall_Basement
 m BoyntonHall1.png 947.6036 1199.623 1.0 9.0 0.07 Boynton_Hall_1
 m BoyntonHall2.png 946.9095 1200.5587 2.0 9.0 0.07 Boynton_Hall_2
 m BoyntonHall3.png 946.9095 1200.5587 3.0 9.0 0.07 Boynton_Hall_3
-s Boynton_Hall Boynton_Hall_Basement Boynton_Hall_1 Boynton_Hall_2 Boynton_Hall_3
 m CampusCenter1.png 794.0534 1039.2621 0.0 280.0 0.11 Campus_Center_1
 m CampusCenter2.png 794.0534 1039.2621 1.0 280.0 0.11 Campus_Center_2
 m CampusCenter3.png 794.0534 1039.2621 2.0 280.0 0.11 Campus_Center_3
@@ -3161,3 +3166,17 @@ m Wash0.png 974.23615 1101.8984 0.0 9.0 0.12 Washburn_Labs_Basement
 m Wash1.png 974.23615 1101.8984 1.0 9.0 0.12 Washburn_Labs_1
 m Wash2.png 974.23615 1101.8984 2.0 9.0 0.12 Washburn_Labs_2
 m Wash3.png 974.23615 1101.8984 3.0 9.0 0.12 Washburn_Labs_3
+s Bartlett_Center 
+s Gordon_Library 
+s Higgins_House 
+s Campus_Center 
+s Boynton_Hall 
+s Higgins_Labs 
+s Salisbury_Labs 
+s Washburn_Labs 
+s Atwater_Kent 
+s Harrington_Gym 
+s Alden_Hall 
+s Fuller_Labs 
+s Project_Center 
+s Stratton_Hall 
