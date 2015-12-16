@@ -43,6 +43,7 @@ public class Map {
 	}
 	public boolean checkLines(Coordinate start, Coordinate finish){
 		//get start/end x and y ints
+		//WARNING NOT THE PROPER
 		Matrix mat = new Matrix(new Coordinate(-center.getX(), -center.getY())).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
 		Coordinate sc = mat.transform(start);
 		Coordinate ec = mat.transform(finish);
