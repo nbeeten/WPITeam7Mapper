@@ -39,6 +39,7 @@ public class FileIO {
 	static ArrayList<String[]> edgebuf;
 	static ArrayList<String[]> mapbuf;
 	static ArrayList<String[]> steckbuf;
+	private Display curdpy;
 
 	/**
 	 * flush node and edge's buffer
@@ -144,6 +145,9 @@ public class FileIO {
 			if(flags.contains("m"))n.setMens(true);
 			if(flags.contains("w"))n.setWomens(true);
 			if(flags.contains("s"))n.setStairs(true);
+		}
+		if(args.length >=6){
+			String stackname = args[5];
 		}
 		return n.getId();
 	}
@@ -273,6 +277,7 @@ public class FileIO {
 	 * @return -1 if fail; otherwise, success
 	 */
 	public static int save(String inpath, Display indpy) {
+	//	indpy.autoaffiliate();
 		// todo fix this try catch BS
 		PrintWriter writer = null;
 		try {
@@ -311,6 +316,10 @@ public class FileIO {
 			if(n.isMens()) writer.printf("m");
 			if(n.isWomens()) writer.printf("w");
 			if(n.isStairs()) writer.printf("s");
+			writer.printf("_ ");
+			if(n.mapstackname != null){
+				writer.printf("%s ", n.mapstackname);
+			}
 			writer.printf("\n");
 			i++;
 		}
