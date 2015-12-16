@@ -512,6 +512,10 @@ public ArrayList<Step> getSteps(){
 						res += ("Walk for " + Math.round(distFromTurn) + " paces " + (!n.getName().isEmpty() ? "towards " : "") + n.getName());
 					}
 					res += ("Make a slight " + (dxangle>=0 ? "right" : "left")+ " turn");
+					step.setInstructions(res);
+					steps.add(step);
+					lastNode = n;
+					res = "";
 					distFromTurn = dist;
 				} else if (degreedangle <= 90){
 					if(!ControllerSingleton.getInstance().getMapRootPane().isPirateMode){
@@ -519,18 +523,29 @@ public ArrayList<Step> getSteps(){
 					}else res += ("Walk for " + Math.round(distFromTurn) + " paces");
 					res += ("Make a " + (dxangle>=0 ? "right" : "left")+ " turn");
 					distFromTurn = dist;
+					step.setInstructions(res);
+					steps.add(step);
+					lastNode = n;
+					res = "";
 				} else if (degreedangle <= 180){
 					if(!ControllerSingleton.getInstance().getMapRootPane().isPirateMode){
 						res += ("Walk for " + Math.round(distFromTurn) + " meters");
 					}else res += ("Walk for " + Math.round(distFromTurn) + " paces");
 					res += ("Make a hard " + (dxangle>=0 ? "right" : "left")+ " turn");
 					distFromTurn = dist;
+					step.setInstructions(res);
+					steps.add(step);
+					lastNode = n;
+					res = "";
 				} else {
 					if(!ControllerSingleton.getInstance().getMapRootPane().isPirateMode){
 						res += ("Walk for " + Math.round(distFromTurn) + " meters");
 					}else res += ("Walk for " + Math.round(distFromTurn) + " paces");
 					res += ("Make a sharp " + (dxangle>=0 ? "right" : "left")+ " turn");
 					distFromTurn = dist;
+					step.setInstructions(res);
+					steps.add(step);
+					lastNode = n;
 				}
 			} else {
 				if((-45 <= angle && angle < 45)){
@@ -542,17 +557,16 @@ public ArrayList<Step> getSteps(){
 				} else {
 					res += ("Face north");
 				}
+				step.setInstructions(res);
+				steps.add(step);
+				lastNode = n;
+				res = "";
 				distFromTurn = dist;
 			}
 			lastangle = angle;
 		}
 		lastcoord = thiscoord;
-		
-		step.setInstructions(res);
-		steps.add(step);
-		lastNode = n;
 		cnt++;
-		res = "";
 	}
 	res = "";
 	if(!ControllerSingleton.getInstance().getMapRootPane().isPirateMode){
