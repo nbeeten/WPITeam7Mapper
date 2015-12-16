@@ -39,6 +39,7 @@ public class FileIO {
 	static ArrayList<String[]> edgebuf;
 	static ArrayList<String[]> mapbuf;
 	static ArrayList<String[]> steckbuf;
+	private Display curdpy;
 
 	/**
 	 * flush node and edge's buffer
@@ -84,13 +85,13 @@ public class FileIO {
 		return 1;
 	}
 	static int parsesteckline(String[] args, Display dpy){
-		//for(String s : args) System.out.println("arg:" + s);
+		for(String s : args) System.out.println("arg:" + s);
 		if(args.length < 2) return 0;
 		if(args[0] == null) return 0;
 		dpy.addmapstack(args[0]);
 		int i;
 		for(i = 1; i < args.length; i++){
-			dpy.addmaptostack(args[0], args[i]);
+			dpy.addmaptostack(args[0], getTags(args[i])[0]);
 		}
 
 		return args.length;
@@ -144,6 +145,9 @@ public class FileIO {
 			if(flags.contains("m"))n.setMens(true);
 			if(flags.contains("w"))n.setWomens(true);
 			if(flags.contains("s"))n.setStairs(true);
+		}
+		if(args.length >=6){
+			String stackname = args[5];
 		}
 		return n.getId();
 	}
@@ -273,6 +277,7 @@ public class FileIO {
 	 * @return -1 if fail; otherwise, success
 	 */
 	public static int save(String inpath, Display indpy) {
+	//	indpy.autoaffiliate();
 		// todo fix this try catch BS
 		PrintWriter writer = null;
 		try {
@@ -311,6 +316,10 @@ public class FileIO {
 			if(n.isMens()) writer.printf("m");
 			if(n.isWomens()) writer.printf("w");
 			if(n.isStairs()) writer.printf("s");
+			writer.printf("_ ");
+			if(n.mapstackname != null){
+				writer.printf("%s ", n.mapstackname);
+			}
 			writer.printf("\n");
 			i++;
 		}
@@ -342,12 +351,14 @@ public class FileIO {
 			}
 		for(Mapstack ms : indpy.mapstecks.values()) {
 			if(ms == null) continue;
-			writer.printf("m %s ", ms.name);
+			writer.printf("s %s ", ms.name);
 			for (int k : ms.meps) {
 				if (k > indpy.getMaps().size()) continue;
 				Map j = indpy.getMaps().get(k);
 				if (j == null) continue;
-				writer.printf("%s ", j.getName());
+				String[] jimmy = new String[1];
+				jimmy[0] = j.getName();
+				writer.printf("%s ", toTags(jimmy));
 			}
 			writer.printf("\n");
 		}

@@ -237,7 +237,13 @@ public class MapRootPane extends AnchorPane{
 	 * @param option Additional options to clear first or append onto current
 	 */
 	public void updateDisplay(Display newdisplay, String option){
-		updateDisplay(this.display.getGraph());
+		if(option.equals("APPEND")){
+			this.display = newdisplay;
+			updateDisplay(newdisplay.getGraph());
+		}
+		if(option.equals("NEW")){
+			this.display = newdisplay;
+		}
 	}
 
 
@@ -532,6 +538,8 @@ public class MapRootPane extends AnchorPane{
 	 * @param g 
 	 */
 	private void updateDisplay(Graph g){
+		nodeLayer.getChildren().clear();
+		edgeLayer.getChildren().clear();
 		addNodeDisplayFromList(g.getNodes());
 		addEdgeDisplayFromList(g, g.getEdges());
 	}
@@ -636,13 +644,14 @@ public class MapRootPane extends AnchorPane{
 					m.setScale(m.getScale() + deltaZoom);
 					m.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), c.getZ());
 					//find all connected maps
-					if(m.mapstackname != null){
+					if(m.mapstackname != null) {
+						System.out.println("mapsteck " + m.mapstackname);
 						Mapstack ms = display.addmapstack(m.mapstackname);
-						for(int i : ms.meps){
-							if(i > display.getMaps().size()) continue;
+						for (int i : ms.meps) {
+							if (i > display.getMaps().size()) continue;
 							Map j = display.getMaps().get(i);
-							if(j == null) continue;
-							j.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), j.getCenter().getZ());
+							if (j == null) continue;
+							j.getCenter().setAll((float) c.getX() + delta.getX(), (float) c.getY() + delta.getY(), j.getCenter().getZ());
 						}
 					}
 					render();
