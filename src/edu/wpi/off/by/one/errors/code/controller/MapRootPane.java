@@ -112,6 +112,8 @@ public class MapRootPane extends AnchorPane{
     Image compass_pirate = new Image(Icon.compass_pirate);
     boolean isctrl = false;
 
+	ArrayList<Matrix> oldmapinv;
+
     
     public MapRootPane() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/MapRootPane.fxml"));
@@ -589,6 +591,12 @@ public class MapRootPane extends AnchorPane{
     	Coordinate lastdragged = new Coordinate(0);
 		Coordinate mydragged = new Coordinate(0);
     	canvas.setOnMousePressed(e -> {
+			oldmapinv = new ArrayList<>();
+					for(Map m : selectedMaps){
+						Matrix mat = new Matrix();
+						if(m != null)mat = mat.scale(1.0/m.getScale()).rotate(-m.getRotation(), 0.0, 0.0, 1.0).translate(new Coordinate(-m.getCenter().getX(), -m.getCenter().getY()));
+						oldmapinv.add(mat);
+					}
     		Map nearestMap = null;
     		if(!selectedMaps.isEmpty() && ControllerSingleton.getInstance().getMapDevToolPane().isVisible()) nearestMap = selectedMaps.get(0);
     		else selectedMaps.clear();
@@ -638,7 +646,10 @@ public class MapRootPane extends AnchorPane{
 					delta = new Coordinate(in.getX() - lastdragged.getX(), in.getY() - lastdragged.getY());
 					
 				}
-				for(Map m : selectedMaps){
+				int i;
+				for(i = 0; i < selectedMaps.size(); i++){
+					Map m = selectedMaps.get(i);
+					if(m == null)continue;
 					Coordinate c = m.getCenter();
 					m.setRotation(m.getRotation() + deltaRot);
 					m.setScale(m.getScale() + deltaZoom);
@@ -647,11 +658,13 @@ public class MapRootPane extends AnchorPane{
 					if(m.mapstackname != null) {
 						System.out.println("mapsteck " + m.mapstackname);
 						Mapstack ms = display.addmapstack(m.mapstackname);
-						for (int i : ms.meps) {
-							if (i > display.getMaps().size()) continue;
-							Map j = display.getMaps().get(i);
+						for (int ki : ms.meps) {
+							if (ki > display.getMaps().size()) continue;
+							Map j = display.getMaps().get(ki);
 							if (j == null) continue;
 							j.getCenter().setAll((float) c.getX() + delta.getX(), (float) c.getY() + delta.getY(), j.getCenter().getZ());
+							j.setScale(m.getScale());
+							j.setRotation(m.getRotation());
 						}
 					}
 					render();
@@ -666,6 +679,24 @@ public class MapRootPane extends AnchorPane{
 			if(e.getButton() == MouseButton.PRIMARY && isEditMode){
 				release.setAll((float)e.getX(), (float)e.getY(), 0);
 			}
+			int i;
+			for(i = 0; i <selectedMaps.size(); i++) {
+				Map m = selectedMaps.get(i);
+				if(m == null)continue;
+				Matrix mat = oldmapinv.get(i);
+				Matrix newmat = new Matrix(new Coordinate(m.getCenter().getX(), m.getCenter().getY())).scale(m.getScale()).rotate(m.getRotation(), 0.0, 0.0, 1.0);
+				Mapstack ms = display.addmapstack(m.mapstackname);
+				for(Id iddy : ms.nodes){
+					if(iddy == null)continue;
+					Node n = display.getGraph().returnNodeById(iddy);
+					if(n == null)continue;
+					//TIME FOR DA MAGIIICZ
+					Coordinate modelspace = mat.transform(n.getCoordinate());
+					Coordinate newspace = newmat.transform(modelspace);
+					n.getCoordinate().setAll(newspace.getX(), newspace.getY(), n.getCoordinate().getZ());
+				}
+			}
+			render();
 	     });
     	canvas.setOnMouseClicked(e -> {
     		//If user did not click-drag on map
