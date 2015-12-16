@@ -61,7 +61,10 @@ public class Display extends Pane{
 			//found it
 			ms.addm(i);
 			Map m = Maps.get(i);
+			System.out.println("addmap "+ m.getName() + " " +sname);
 			m.setmapstack(sname);
+		} else {
+			System.out.println("unable to find map " + mname);
 		}
 	}
 	
