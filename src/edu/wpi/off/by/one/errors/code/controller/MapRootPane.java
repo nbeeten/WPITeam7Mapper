@@ -237,7 +237,13 @@ public class MapRootPane extends AnchorPane{
 	 * @param option Additional options to clear first or append onto current
 	 */
 	public void updateDisplay(Display newdisplay, String option){
-		updateDisplay(this.display.getGraph());
+		if(option.equals("APPEND")){
+			this.display = newdisplay;
+			updateDisplay(newdisplay.getGraph());
+		}
+		if(option.equals("NEW")){
+			this.display = newdisplay;
+		}
 	}
 
 
@@ -334,7 +340,6 @@ public class MapRootPane extends AnchorPane{
 					if(icon != null) {
 						Rotate r = new Rotate(0, 0, 0);
 						mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
-
 //						if(zoom > max) mygc.scale(max/2, max/2);
 //						else if(zoom < min) mygc.scale(min/2, min/2);
 //						else mygc.scale((zoom/2), (zoom/2));
@@ -533,6 +538,8 @@ public class MapRootPane extends AnchorPane{
 	 * @param g 
 	 */
 	private void updateDisplay(Graph g){
+		nodeLayer.getChildren().clear();
+		edgeLayer.getChildren().clear();
 		addNodeDisplayFromList(g.getNodes());
 		addEdgeDisplayFromList(g, g.getEdges());
 	}

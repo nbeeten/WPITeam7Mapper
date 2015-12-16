@@ -120,6 +120,10 @@ public class Node {
     	return tags;
     }
     
+    public void SetTags(ArrayList<String> tags) {
+    	this.tags = tags;
+    }
+    
     /**
      * Given an index, returns the tag at that location in the array
      * @param i: index of the tag
