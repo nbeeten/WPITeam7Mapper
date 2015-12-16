@@ -67,8 +67,8 @@
         <ListView fx:id="directionsListView" minWidth="0.0" BorderPane.alignment="CENTER" />
     </center>
     <bottom>
-    	<Button fx:id="emailButton" text="Email" minWidth="0" maxWidth="Infinity" onAction="#onEmailButtonClick" />
-        <!--GridPane hgap="5">
+    	
+        <GridPane hgap="5">
             <columnConstraints>
                 <ColumnConstraints fillWidth="true" percentWidth="50"/>
                 <ColumnConstraints fillWidth="true" percentWidth="50"/>
@@ -77,14 +77,11 @@
                 <RowConstraints fillHeight="true" prefHeight="40"/>
             </rowConstraints>
             <children>
-                <Button text="SMS" minWidth="0" maxWidth="Infinity" GridPane.columnIndex="0"/>
-<<<<<<< HEAD
+                <Button fx:id="smsButton" text="SMS" minWidth="0" maxWidth="Infinity" GridPane.columnIndex="0" onAction="#onSMSButtonClick"/>
                 <Button fx:id="emailButton" text="Email" minWidth="0" maxWidth="Infinity" GridPane.columnIndex="1" onAction="#onEmailButtonClick" />
-=======
-                
->>>>>>> upstream/dev
+
             </children>
-        </GridPane-->
+        </GridPane>
     </bottom>
     <padding>
         <Insets bottom="0" left="10.0" right="10.0" top="0" />

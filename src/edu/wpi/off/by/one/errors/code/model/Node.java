@@ -17,6 +17,7 @@ public class Node {
     private boolean womens = false;
     private boolean genderNeutral = false;
     private String name = "";
+    public String mapstackname;
     
     /**
      *
@@ -117,6 +118,10 @@ public class Node {
      */
     public ArrayList<String> GetTags(){
     	return tags;
+    }
+    
+    public void SetTags(ArrayList<String> tags) {
+    	this.tags = tags;
     }
     
     /**

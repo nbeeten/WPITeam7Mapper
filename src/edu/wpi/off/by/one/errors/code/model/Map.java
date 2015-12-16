@@ -5,40 +5,40 @@ import java.util.ArrayList;
 
 public class Map {
 	public ArrayList<Integer> goodcolors;
+	public String mapstackname;
 	
 	String name;
+	String imagePath;
 	Coordinate center;
 	float rotation;
 	float scale;
-	private ArrayList<String> imagePaths;
-	private ArrayList<Image> myimgs;
+	private Image myimg;
 
-	public void addImg(String s){
-		if(s == null) return;
-		if(s.equals("no")) return;
-		if(myimgs == null) myimgs = new ArrayList<Image>();
-		if(imagePaths == null) imagePaths = new ArrayList<String>();
-		if(imagePaths.contains(s)){
-			return;
-		}
-		imagePaths.add(s);
-		System.out.println(" blah "  + s);
-		myimgs.add(new Image("/edu/wpi/off/by/one/errors/code/resources/maps/images/" + s));
+	public void setmapstack(String name){
+		mapstackname = name;
 	}
-	/*
+
+	private void updateImg(){
+		
+		myimg = new Image("/edu/wpi/off/by/one/errors/code/resources/maps/images/" + imagePath);
+	}
 	public void addColor(int color){
 		if(goodcolors == null) goodcolors = new ArrayList<Integer>();
 		if(goodcolors.contains(Integer.valueOf(color))) return;
 		goodcolors.add(Integer.valueOf(color));
 	}
 	public int getColor(Coordinate c){
-		Matrix mat = new Matrix(new Coordinate(-center.getX(), -center.getY())).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
+//		Matrix mat = new Matrix(new Coordinate(-center.getX(), -center.getY())).scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0);// may not be proper inverse
+		Matrix mat = new Matrix().scale(1.0/scale).rotate(-rotation, 0.0, 0.0, 1.0).translate(new Coordinate(-center.getX(), -center.getY()));// may not be proper inverse
 		Coordinate sc = mat.transform(c);
 		int sx = Math.round(sc.getX());
 		int sy = Math.round(sc.getY());
-		System.out.printf(" %s Eyedrop X %d Eyedrop Y %d, coord X %f coord Y %f, center X %f, center Y %f\n", name, sx, sy, c.getX(), c.getY(), center.getX(), center.getY());
+		//System.out.printf(" %s Eyedrop X %d Eyedrop Y %d, coord X %f coord Y %f, center X %f, center Y %f\n", name, sx, sy, c.getX(), c.getY(), center.getX(), center.getY());
 		if(sx < 0 || sx >= myimg.getWidth()) return 0;
+//		System.out.println("got here");
 		if(sy < 0 || sy >= myimg.getHeight()) return 0;
+		//System.out.printf(" %s Eyedrop X %d Eyedrop Y %d, coord X %f coord Y %f, center X %f, center Y %f\n", name, sx, sy, c.getX(), c.getY(), center.getX(), center.getY());
+
 		return myimg.getPixelReader().getArgb(sx, sy);
 	}
 	public boolean checkLines(Coordinate start, Coordinate finish){
@@ -113,47 +113,51 @@ public class Map {
 		}
 		return true;
 	}
-	*/
 	public Map(String path, Coordinate coordinate, float rotation, float scale){
+		this.imagePath=path;
 		this.center = coordinate;
 		this.rotation = rotation;
 		this.scale = scale;
-		addImg(path);
+		updateImg();
 
 	}
 	
 	public Map(){
+		this.imagePath="";
 		this.center = new Coordinate(0);
 		this.rotation = 0;
 		this.scale = 0;
-		//updateImg();
 	}
 	
 	public Map (String name, String imagePath, float rotation, float scale){
 		this.name = name;
+		this.imagePath=imagePath;
 		this.center = new Coordinate(0, 0, 0);
 		this.rotation = rotation;
 		this.scale = scale;
-			addImg(imagePath);
+		updateImg();
 	}
 	
 	public Map (String name, String imagePath, Coordinate center, float rotation, float scale){
 		this.name = name;
+		this.imagePath = imagePath;
 		this.center = center;
 		this.rotation = rotation;
 		this.scale = scale;
-			addImg(imagePath);
+		updateImg();
 	}
 	
 	public void setName(String name) { this.name = name; }
+	public void setImgUrl(String path) { this.imagePath = path; updateImg();}
 	public void setCenter(Coordinate coordinate) { this.center = coordinate; }
 	public void setRotation(float rotationIn) { this.rotation = rotationIn; }
+	public String getImgUrl() { return this.imagePath;}
 	public void setScale(float scale) { this.scale = scale; }
 	public String getName() { return this.name; }
 	public Coordinate getCenter() { return this.center;}
 	public float getRotation() { return this.rotation;  }
 	public float getScale() { return this.scale; }
-	public ArrayList<Image> getImages() {return this.myimgs;}
-	public ArrayList<String> getPaths() {return this.imagePaths;}
+	public Image getImage() {return this.myimg; }
+
 
 }

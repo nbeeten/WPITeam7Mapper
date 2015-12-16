@@ -42,7 +42,7 @@ public class SearchMenuPane extends BorderPane {
 	int currentLevel;
 	
     public SearchMenuPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/menupanes/SearchMenuPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/menupanes/SearchMenuPane.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -52,7 +52,7 @@ public class SearchMenuPane extends BorderPane {
         }catch(IOException excpt){
             throw new RuntimeException(excpt);
         }
-        this.getStylesheets().add(getClass().getResource("../../resources/stylesheets/menupanes/SearchPaneStyleSheet.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("/edu/wpi/off/by/one/errors/code/resources/stylesheets/menupanes/SearchPaneStyleSheet.css").toExternalForm());
         setListeners();
         //SortedSet<String> entries = new TreeSet<String>();
         /*
@@ -65,13 +65,7 @@ public class SearchMenuPane extends BorderPane {
 	public void updateMapList(ArrayList<Map> maps){
 		buildingChoiceBox.getItems().clear();
 		for(Map m : ControllerSingleton.getInstance().getMapRootPane().getDisplay().getMaps()){
-			String name = m.getName();
-			if(name == null){
-				name = "unnamed";
-				if(m.getPaths() != null && m.getPaths().size() > 0){
-					name = m.getPaths().get(0);
-				}
-			}
+			String name = (m.getName() == null) ? m.getImgUrl() : m.getName();
 			buildingChoiceBox.getItems().add(name);
         }
 	}
@@ -188,21 +182,21 @@ public class SearchMenuPane extends BorderPane {
 		if(m == null) return;
 		ControllerSingleton.getInstance().getMapRootPane().currentLevel.setValue(m.getCenter().getZ());
 		mainPane.dropStartC = ControllerSingleton.getInstance().getMapRootPane().translate;
-		//mainPane.dropStartR = ControllerSingleton.getInstance().getMapRootPane().rot;
+		mainPane.dropStartR = ControllerSingleton.getInstance().getMapRootPane().rot;
 		mainPane.dropStartS = ControllerSingleton.getInstance().getMapRootPane().zoom;
 		
 		//float zx = (float) (m.getCenter().getX() + m.getImage().getWidth() * 0.5f * m.getScale());
 		//float zy = (float) (m.getCenter().getY() + m.getImage().getHeight() * 0.5f * m.getScale());
 	
 		Matrix matrix = new Matrix(m.getRotation(),0,0,1).scale(m.getScale());
-		Coordinate coord = new Coordinate((float)m.getImages().get(0).getWidth()/2, (float)m.getImages().get(0).getHeight()/2, 0);
+		Coordinate coord = new Coordinate((float)m.getImage().getWidth()/2, (float)m.getImage().getHeight()/2, 0);
 		coord = matrix.transform(coord);
 			
 		mainPane.dropEndC = new Coordinate(-m.getCenter().getX()-coord.getX(), -m.getCenter().getY()-coord.getY(), m.getCenter().getZ());
 		
 		mainPane.dropEndR = -m.getRotation();
-		float mx = (float)(ControllerSingleton.getInstance().getMapRootPane().canvas.getWidth()/(m.getImages().get(0).getWidth() * m.getScale()) );
-		float my = (float)(ControllerSingleton.getInstance().getMapRootPane().canvas.getHeight()/(m.getImages().get(0).getHeight() * m.getScale()));
+		float mx = (float)(ControllerSingleton.getInstance().getMapRootPane().canvas.getWidth()/(m.getImage().getWidth() * m.getScale()) );
+		float my = (float)(ControllerSingleton.getInstance().getMapRootPane().canvas.getHeight()/(m.getImage().getHeight() * m.getScale()));
 		mainPane.dropEndS = mx < my ? mx : my;
 		if(mainPane.dropEndS <= 0.05f) mainPane.dropEndS = 1.0f;
 		mainPane.dropzoom.play();

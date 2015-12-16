@@ -1,10 +1,18 @@
 package edu.wpi.off.by.one.errors.code.model;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,7 +38,8 @@ public class FileIO {
 	static ArrayList<String[]> nodebuf;
 	static ArrayList<String[]> edgebuf;
 	static ArrayList<String[]> mapbuf;
-	static ArrayList<String[]> imgbuf;
+	static ArrayList<String[]> steckbuf;
+	private Display curdpy;
 
 	/**
 	 * flush node and edge's buffer
@@ -40,6 +49,14 @@ public class FileIO {
 		ArrayList<Id> nodeids = new ArrayList<Id>();
 		Graph g = dpy.getGraph();
 		int i;
+		for (i = 1; i < mapbuf.size(); i++) {//why do we do 1?
+			String[] args = mapbuf.get(i);
+			parsemapline(args, dpy);
+		}
+		for (i = 0; i < steckbuf.size(); i++) {
+			String[] args = steckbuf.get(i);
+			parsesteckline(args, dpy);
+		}
 		for (i = 0; i < nodebuf.size(); i++) {
 			String[] args = nodebuf.get(i);
 			nodeids.add(parsepointline(args, g));
@@ -48,14 +65,8 @@ public class FileIO {
 			String[] args = edgebuf.get(i);
 			parseedgeline(args, g, nodeids);
 		}
-		for (i = 1; i < mapbuf.size(); i++) {//why do we do 1?
-			String[] args = mapbuf.get(i);
-			parsemapline(args, dpy);
-		}
-		for (i = 0; i < imgbuf.size(); i++){
-			String[] args = imgbuf.get(i);
-			parseimgline(args, dpy);
-		}
+
+
 		nodeids = null;// best i can do to "free" it
 	}
 	
@@ -69,23 +80,23 @@ public class FileIO {
 		//for(String s : args) System.out.println("arg:" + s);
 		Coordinate c = new Coordinate(Float.parseFloat(args[1]), Float.parseFloat(args[2]), Float.parseFloat(args[3]));
 		Map m = new Map(args[0], c, Float.parseFloat(args[4]), Float.parseFloat(args[5]));
-		System.out.println(m.getPaths().get(0));
 		if(args.length > 6) m.setName(getTags(args[6])[0]);
 		dpy.addMap(m);
 		return 1;
 	}
-	static int parseimgline(String[] args, Display dpy){
-		//arg map name
-		//arg filename
-		//for(String s : args) System.out.println("arg:" + s);
-		for(Map m : dpy.getMaps()){
-			if(m.name == getTags(args[0])[0]){
-				m.addImg(args[1]);
-				return 1;
-			}
+	static int parsesteckline(String[] args, Display dpy){
+		for(String s : args) System.out.println("arg:" + s);
+		if(args.length < 2) return 0;
+		if(args[0] == null) return 0;
+		dpy.addmapstack(args[0]);
+		int i;
+		for(i = 1; i < args.length; i++){
+			dpy.addmaptostack(args[0], getTags(args[i])[0]);
 		}
-		return 0;
+
+		return args.length;
 	}
+
 	/**
 	 * 
 	 * @param args
@@ -134,6 +145,9 @@ public class FileIO {
 			if(flags.contains("m"))n.setMens(true);
 			if(flags.contains("w"))n.setWomens(true);
 			if(flags.contains("s"))n.setStairs(true);
+		}
+		if(args.length >=6){
+			String stackname = args[5];
 		}
 		return n.getId();
 	}
@@ -185,9 +199,11 @@ public class FileIO {
 			mapbuf.add(line.substring(i + 1).trim().split("\\s"));
 			//parsemapline(line.substring(i + 1).trim().split("\\s"), dpy);
 			break;
-		case 'i': // map image;
-			imgbuf.add(line.substring(i + 1).trim().split("\\s"));
-			break;
+		case 's': // steck;
+			steckbuf.add(line.substring(i + 1).trim().split("\\s"));
+			//parsemapline(line.substring(i + 1).trim().split("\\s"), dpy);
+			 break;
+
 		default: // some sorta error, or unrecognized element type
 			break;
 		}
@@ -196,33 +212,51 @@ public class FileIO {
 	// when calling load, you should ALWAYS keep track of the return display. It
 	// may create a new one.
 	/**
-	 * load the information about display 
-	 * @param inpath: input path for the file
+	 * load the information about display
 	 * @param indpy: input display class
 	 * @return current display
+	 * @throws URISyntaxException 
 	 */
-	public static Display load(String inpath, Display indpy) {
+	public static Display load(InputStream inputStream, Display indpy) throws URISyntaxException {
 		Display curdpy = indpy;
 		if (curdpy == null)
 			curdpy = new Display(); // CONTRUCTOOOOOOOOOR needed plz
 
 		// read in all lines
-		Path pty = Paths.get(inpath);
-		if (!Files.exists(pty)) {
-			System.out.printf("File %s does not exist, unable to load\n", inpath);
-		}
+		Path pty = null;
+		BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
+//		if (!Files.exists(pty)) {
+//			System.out.printf("File %s does not exist, unable to load\n", inputStream);
+//		}
 		edgebuf = new ArrayList<String[]>();
 		nodebuf = new ArrayList<String[]>();
 		mapbuf = new ArrayList<String[]>();
-		imgbuf = new ArrayList<String[]>();
-		List<String> lines = null;
+		steckbuf = new ArrayList<String[]>();
+		List<String> lines = new ArrayList<String>();
 		// todo should fix this try catch BS
+		String l = null;
 		try {
-			lines = Files.readAllLines(pty, Charset.defaultCharset());
+			l = input.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		while (l != null){
+			lines.add(l);
+			try {
+				l = input.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+//		try {
+//			input.
+//			lines = Files.readAllLines(pty, Charset.defaultCharset());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		int i = 0;
 		for (String line : lines) {
 			parseline(line, curdpy);
@@ -243,6 +277,7 @@ public class FileIO {
 	 * @return -1 if fail; otherwise, success
 	 */
 	public static int save(String inpath, Display indpy) {
+	//	indpy.autoaffiliate();
 		// todo fix this try catch BS
 		PrintWriter writer = null;
 		try {
@@ -281,6 +316,10 @@ public class FileIO {
 			if(n.isMens()) writer.printf("m");
 			if(n.isWomens()) writer.printf("w");
 			if(n.isStairs()) writer.printf("s");
+			writer.printf("_ ");
+			if(n.mapstackname != null){
+				writer.printf("%s ", n.mapstackname);
+			}
 			writer.printf("\n");
 			i++;
 		}
@@ -307,21 +346,22 @@ public class FileIO {
 				//writer.printf("m %s %f %f %f %f %f\n", m.imagePath, c.getX(), c.getY(), c.getZ(), m.rotation, m.scale);
 				String[] aaa = new String[1];
 				aaa[0] = map.getName();
-				String[] aab = new String[1];
-				if(map.getPaths() != null &&map.getPaths().size() > 0){
-					aab[0] = map.getPaths().get(0);
-					writer.println("m " + aab[0] + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
-				} else {
-					writer.println("m " + "no" + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
+				writer.println("m " + map.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
 
-				}
-				int k;
-				for(k = 0;  map.getPaths() != null && k < map.getPaths().size(); k++){
-					aab[0] = map.getPaths().get(k);
-					if(aab[0] == null) continue;
-					writer.println("i " + toTags(aaa) + " " +  aab + " ");
-				}
 			}
+		for(Mapstack ms : indpy.mapstecks.values()) {
+			if(ms == null) continue;
+			writer.printf("s %s ", ms.name);
+			for (int k : ms.meps) {
+				if (k > indpy.getMaps().size()) continue;
+				Map j = indpy.getMaps().get(k);
+				if (j == null) continue;
+				String[] jimmy = new String[1];
+				jimmy[0] = j.getName();
+				writer.printf("%s ", toTags(jimmy));
+			}
+			writer.printf("\n");
+		}
 		if (writer != null) writer.close();
 		System.out.println("Writing completed");
 		return i;
