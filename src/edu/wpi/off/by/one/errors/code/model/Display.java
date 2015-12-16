@@ -34,6 +34,55 @@ public class Display extends Pane{
 		Maps.add(new Map());
 		this.currentGraph = new Graph();
 	}
+
+	public void autoaffiliatenode(Id nid){
+		Node n = currentGraph.returnNodeById(nid);
+		if(n == null) return;
+		for(Map m : Maps){
+			if(m == null || m.getName() == null) continue;
+			if(m.getName().equals("Campus Map")) continue;
+			if(m.mapstackname == null) continue;
+			int col = m.getColor(n.getCoordinate());
+			if(col != 0){
+				System.out.println(col + " " + m.getName());
+				Mapstack ms = mapstecks.get(m.mapstackname);
+				if(ms != null) {
+					if(n.mapstackname != null){
+						Mapstack ns = mapstecks.get(n.mapstackname);
+						ns.remn(n.getId());
+					}
+					ms.addn(n.getId());
+					n.mapstackname = m.mapstackname;
+					break;
+				}
+			}
+		}
+	}
+	public void autoaffiliate(){
+		//todo
+		for(Node n : currentGraph.getNodes()){
+			if(n == null) continue;
+			for(Map m : Maps){
+				if(m == null || m.getName() == null) continue;
+				if(m.getName().equals("Campus Map")) continue;
+				if(m.mapstackname == null) continue;
+				int col = m.getColor(n.getCoordinate());
+				if(col != 0){
+					System.out.println(col + " " + m.getName());
+					Mapstack ms = mapstecks.get(m.mapstackname);
+					if(ms != null) {
+						if(n.mapstackname != null){
+							Mapstack ns = mapstecks.get(n.mapstackname);
+							ns.remn(n.getId());
+						}
+						ms.addn(n.getId());
+						n.mapstackname = m.mapstackname;
+						break;
+					}
+				}
+			}
+		}
+	}
 	
 	public void addMap(Map m){ Maps.add(m);}
 	public void setGraph(Graph g) { this.currentGraph = g; }
@@ -61,7 +110,10 @@ public class Display extends Pane{
 			//found it
 			ms.addm(i);
 			Map m = Maps.get(i);
+			System.out.println("addmap "+ m.getName() + " " +sname);
 			m.setmapstack(sname);
+		} else {
+			System.out.println("unable to find map " + mname);
 		}
 	}
 	

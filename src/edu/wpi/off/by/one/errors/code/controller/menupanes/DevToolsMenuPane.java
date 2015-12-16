@@ -1,7 +1,10 @@
 package edu.wpi.off.by.one.errors.code.controller.menupanes;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import edu.wpi.off.by.one.errors.code.controller.ControllerSingleton;
 import edu.wpi.off.by.one.errors.code.controller.MapRootPane;
@@ -30,8 +33,9 @@ public class DevToolsMenuPane extends BorderPane {
 	@FXML NodeDevToolPane nodeDevToolPane;
 	@FXML EdgeDevToolPane edgeDevToolPane;
 	//@FXML Button loadNewImageButton;
-	//@FXML Button loadNewMapButton;
-	//@FXML Button appendMapButton;
+	@FXML Button newMapButton;
+	@FXML Button loadMapButton;
+	@FXML Button appendMapButton;
 	@FXML Button saveCurrentMapButton;
 	
 
@@ -91,31 +95,38 @@ public class DevToolsMenuPane extends BorderPane {
             }
     	});*/
     	/*
-    	this.loadNewMapButton.setOnAction(e -> {
+    	this.newMapButton.setOnAction(e -> {
+    		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
     		Display newdisp = null;
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Map File");
+            fileChooser.setTitle("Select new file location");
             fileChooser.getExtensionFilters().addAll(
                                                      new ExtensionFilter("Text Files", "*.txt"),
                                                      new ExtensionFilter("All Files", "*.*"));
-            File selectedFile = fileChooser.showOpenDialog(mainPane.getWindow());
+            File selectedFile = fileChooser.showOpenDialog(ControllerSingleton.getInstance().getMainPane().getWindow());
             if (selectedFile != null) {
                 String inpath = selectedFile.getPath();
                 //System.out.println(inpath);
-                newdisp = FileIO.load(inpath, null);
-                //mainPane.getMapRootPane().updateDisplay(newdisp, "NEW");
+                InputStream input;
+				try {
+					input = new FileInputStream(selectedFile);
+					newdisp = FileIO.load(input, newdisp);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				maproot.updateDisplay(newdisp, "NEW");
+                mapDevToolPane.updateMapList(maproot.getDisplay().getMaps());
+                //mapDevToolPane.setMap(newdisp.getMap());
+                ControllerSingleton.getInstance().getMenuPane().getSearchMenuPane().updateMapList(maproot.getDisplay().getMaps());
                 mapDevToolPane.setMap(newdisp.getMaps().get(0));
             }
     	});
-    	*/
-    	/*
-    	// TODO Append new map onto current map on a separate pane layer
-    	this.appendMapButton.setOnAction(e -> {
+    	
+    	this.loadMapButton.setOnAction(e -> {
     		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
-            Display newdisp = maproot.getDisplay();
-    		
-       
-    		FileChooser fileChooser = new FileChooser();
+    		Display newdisp = null;
+            FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Map File");
             fileChooser.getExtensionFilters().addAll(
                                                      new ExtensionFilter("Text Files", "*.txt"),
@@ -123,14 +134,48 @@ public class DevToolsMenuPane extends BorderPane {
             File selectedFile = fileChooser.showOpenDialog(ControllerSingleton.getInstance().getMainPane().getWindow());
             if (selectedFile != null) {
                 String inpath = selectedFile.getPath();
-                newdisp = FileIO.load(inpath, newdisp);
+                //System.out.println(inpath);
+                InputStream input;
+				try {
+					input = new FileInputStream(selectedFile);
+					newdisp = FileIO.load(input, newdisp);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				maproot.updateDisplay(newdisp, "NEW");
+                mapDevToolPane.updateMapList(maproot.getDisplay().getMaps());
+                //mapDevToolPane.setMap(newdisp.getMap());
+                ControllerSingleton.getInstance().getMenuPane().getSearchMenuPane().updateMapList(maproot.getDisplay().getMaps());
+                mapDevToolPane.setMap(newdisp.getMaps().get(0));
+            }
+    	});
+    	*/
+    	// TODO Append new map onto current map on a separate pane layer
+    	this.appendMapButton.setOnAction(e -> {
+    		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
+            Display newdisp = maproot.getDisplay();
+    		FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Map File");
+            fileChooser.getExtensionFilters().addAll(
+                                                     new ExtensionFilter("Text Files", "*.txt"),
+                                                     new ExtensionFilter("All Files", "*.*"));
+            File selectedFile = fileChooser.showOpenDialog(ControllerSingleton.getInstance().getMainPane().getWindow());
+            if (selectedFile != null) {
+                try {
+                	InputStream input = new FileInputStream(selectedFile);
+					newdisp = FileIO.load(input, newdisp);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 maproot.updateDisplay(newdisp, "APPEND");
                 mapDevToolPane.updateMapList(maproot.getDisplay().getMaps());
                 //mapDevToolPane.setMap(newdisp.getMap());
                 ControllerSingleton.getInstance().getMenuPane().getSearchMenuPane().updateMapList(maproot.getDisplay().getMaps());
             }
     	});
-    	*/
+
     	this.saveCurrentMapButton.setOnAction(e -> {
     		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
             FileIO.save(maproot.getFilePath(), maproot.getDisplay());

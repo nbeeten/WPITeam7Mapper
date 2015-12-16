@@ -231,6 +231,10 @@ public class Graph {
 		return e;
 	}
 	
+	public void addListOfEdges(ArrayList<Edge> edges){
+		
+	}
+	
 	public Vector<Node> getNodes(){//gets the list of nodes
 		return this.listOfNodes;
 	}
