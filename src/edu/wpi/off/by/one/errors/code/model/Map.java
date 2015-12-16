@@ -5,25 +5,22 @@ import java.util.ArrayList;
 
 public class Map {
 	public ArrayList<Integer> goodcolors;
+	public String mapstackname;
 	
 	String name;
+	String imagePath;
 	Coordinate center;
 	float rotation;
 	float scale;
-	private ArrayList<String> imagePaths;
-	private ArrayList<Image> myimgs;
+	private Image myimg;
 
-	public void addImg(String s){
-		if(s == null) return;
-		if(s.equals("no")) return;
-		if(myimgs == null) myimgs = new ArrayList<Image>();
-		if(imagePaths == null) imagePaths = new ArrayList<String>();
-		if(imagePaths.contains(s)){
-			return;
-		}
-		imagePaths.add(s);
-		System.out.println(" blah "  + s);
-		myimgs.add(new Image("/edu/wpi/off/by/one/errors/code/resources/maps/images/" + s));
+	public void setmapstack(String name){
+		mapstackname = name;
+	}
+
+	private void updateImg(){
+		
+		myimg = new Image("/edu/wpi/off/by/one/errors/code/resources/maps/images/" + imagePath);
 	}
 	/*
 	public void addColor(int color){
@@ -115,45 +112,50 @@ public class Map {
 	}
 	*/
 	public Map(String path, Coordinate coordinate, float rotation, float scale){
+		this.imagePath=path;
 		this.center = coordinate;
 		this.rotation = rotation;
 		this.scale = scale;
-		addImg(path);
+		updateImg();
 
 	}
 	
 	public Map(){
+		this.imagePath="";
 		this.center = new Coordinate(0);
 		this.rotation = 0;
 		this.scale = 0;
-		//updateImg();
 	}
 	
 	public Map (String name, String imagePath, float rotation, float scale){
 		this.name = name;
+		this.imagePath=imagePath;
 		this.center = new Coordinate(0, 0, 0);
 		this.rotation = rotation;
 		this.scale = scale;
-			addImg(imagePath);
+		updateImg();
 	}
 	
 	public Map (String name, String imagePath, Coordinate center, float rotation, float scale){
 		this.name = name;
+		this.imagePath = imagePath;
 		this.center = center;
 		this.rotation = rotation;
 		this.scale = scale;
-			addImg(imagePath);
+		updateImg();
 	}
 	
 	public void setName(String name) { this.name = name; }
+	public void setImgUrl(String path) { this.imagePath = path; updateImg();}
 	public void setCenter(Coordinate coordinate) { this.center = coordinate; }
 	public void setRotation(float rotationIn) { this.rotation = rotationIn; }
+	public String getImgUrl() { return this.imagePath;}
 	public void setScale(float scale) { this.scale = scale; }
 	public String getName() { return this.name; }
 	public Coordinate getCenter() { return this.center;}
 	public float getRotation() { return this.rotation;  }
 	public float getScale() { return this.scale; }
-	public ArrayList<Image> getImages() {return this.myimgs;}
-	public ArrayList<String> getPaths() {return this.imagePaths;}
+	public Image getImage() {return this.myimg; }
+
 
 }

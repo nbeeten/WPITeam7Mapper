@@ -52,7 +52,7 @@ public class NodeDevToolPane extends VBox {
 	
 	
     public NodeDevToolPane(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../../view/menupanes/devtoolspanes/NodeDevToolPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/menupanes/devtoolspanes/NodeDevToolPane.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 
@@ -169,11 +169,11 @@ public class NodeDevToolPane extends VBox {
     }
     @FXML private void toggleIsStairs() {
     	Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
-    	n.setFood(foodCheckbox.isSelected() ? true : false);
+    	n.setStairs(stairsCheckbox.isSelected() ? true : false);
     }
     @FXML private void toggleIsElevator() {
     	Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());
-    	n.setFood(foodCheckbox.isSelected() ? true : false);
+    	n.setElevator(elevatorCheckbox.isSelected() ? true : false);
     }
     @FXML private void toggleIsFood() {
     	Node n = currentDisplay.getGraph().returnNodeById(currentNd.getNode());

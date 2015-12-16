@@ -1,6 +1,7 @@
 package edu.wpi.off.by.one.errors.code.controller;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -113,7 +114,7 @@ public class MapRootPane extends AnchorPane{
 
     
     public MapRootPane() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MapRootPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/off/by/one/errors/code/view/MapRootPane.fxml"));
         
         loader.setRoot(this);
         loader.setController(this);
@@ -146,7 +147,13 @@ public class MapRootPane extends AnchorPane{
     
     private void initialize(){
     	//Load campus map from display list
-		display = FileIO.load("src" + resourceDir + "maps/txtfiles/fullCampusMap.txt", display);
+    	
+		try {
+			display = FileIO.load(getClass().getResourceAsStream("/edu/wpi/off/by/one/errors/code/resources/maps/txtfiles/fullCampusMap.txt"), display);
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		// Put all these sets into fxml
         pathPane.setMouseTransparent(true);
         markerPane.setMouseTransparent(false);
@@ -242,6 +249,16 @@ public class MapRootPane extends AnchorPane{
 
 
 	int renderavgcount = 0;
+	float almostIdentity( float x, float m, float n )
+	{
+	    if( x>m ) return x;
+
+	    float a = 2.0f*n - m;
+	    float b = 2.0f*m - 3.0f*n;
+	    float t = x/m;
+
+	    return (a*t + b)*t*t + n;
+	}
 	/**
 	 * Handles all the zoom/rotation/translation of objects on the map
 	 * and draws them onto map
@@ -265,14 +282,13 @@ public class MapRootPane extends AnchorPane{
 			
 			mygc.save();
 			if(m == null) continue;
-			if(m.getImages() == null) continue;
-			//if(currentLevel != 1 && m.getName().equals("Campus Map")) mygc.setGlobalAlpha(0.4);
-			//else
-				mygc.setGlobalAlpha(1);
+			if(m.getImage() == null) continue;
+			if(currentLevel.get() != 1 && m.getName().equals("Campus Map")) mygc.setGlobalAlpha(0.4);
+			else mygc.setGlobalAlpha(1);
 			
-			//if(translate.getZ() > m.getCenter().getZ() + 0.1 || translate.getZ() < m.getCenter().getZ() - 0.1){
-			//	if(!m.getName().equals("Campus Map")) continue;
-			//}
+			if(translate.getZ() > m.getCenter().getZ() + 0.1 || translate.getZ() < m.getCenter().getZ() - 0.1){
+				if(!m.getName().equals("Campus Map")) continue;
+			}
 			Coordinate c = view.transform(m.getCenter());
 			Rotate r = new Rotate(m.getRotation() + rot, 0, 0);
 			mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
@@ -286,13 +302,7 @@ public class MapRootPane extends AnchorPane{
 				ds.setSpread(0.5);
 				mygc.setEffect(ds);
 			}
-			for(String s : m.getPaths()){
-				//System.out.println ("image " + m.getName() + " " + s);
-			}
-			for(Image im : m.getImages()) {
-				//System.out.println ("image " + m.getName() + " " + m.getPaths().get(0));
-				mygc.drawImage(im, 0, 0);
-			}
+			mygc.drawImage(m.getImage(), 0, 0);
 			mygc.restore();
 		}
 		long time4 = System.nanoTime();
@@ -324,11 +334,10 @@ public class MapRootPane extends AnchorPane{
 					if(icon != null) {
 						Rotate r = new Rotate(0, 0, 0);
 						mygc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx() + c.getX(), r.getTy() + c.getY());
-						System.out.println("Zoom: " + zoom);
 //						if(zoom > max) mygc.scale(max/2, max/2);
 //						else if(zoom < min) mygc.scale(min/2, min/2);
 //						else mygc.scale((zoom/2), (zoom/2));
-						mygc.scale(0.3, 0.3);
+						mygc.scale(almostIdentity(zoom, 5, (float)3)/25, almostIdentity(zoom, 5, (float)3)/25);
 						mygc.drawImage(icon, -(icon.getWidth()/2), -(icon.getHeight())/2);
 					}
 				}
@@ -626,6 +635,16 @@ public class MapRootPane extends AnchorPane{
 					m.setRotation(m.getRotation() + deltaRot);
 					m.setScale(m.getScale() + deltaZoom);
 					m.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), c.getZ());
+					//find all connected maps
+					if(m.mapstackname != null){
+						Mapstack ms = display.addmapstack(m.mapstackname);
+						for(int i : ms.meps){
+							if(i > display.getMaps().size()) continue;
+							Map j = display.getMaps().get(i);
+							if(j == null) continue;
+							j.getCenter().setAll((float) c.getX() + delta.getX(), (float)c.getY() + delta.getY(), j.getCenter().getZ());
+						}
+					}
 					render();
 				}
 				lastdragged.setAll(in.getX(), in.getY(), 0);
