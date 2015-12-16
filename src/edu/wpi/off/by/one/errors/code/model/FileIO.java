@@ -267,6 +267,7 @@ public class FileIO {
 		edgebuf = null;
 		nodebuf = null; // best i can do to "free" it
 		mapbuf = null;
+		curdpy.autoaffiliate();
 		return curdpy;
 	}
 
