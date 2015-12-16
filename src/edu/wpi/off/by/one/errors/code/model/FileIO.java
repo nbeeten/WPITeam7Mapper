@@ -38,7 +38,7 @@ public class FileIO {
 	static ArrayList<String[]> nodebuf;
 	static ArrayList<String[]> edgebuf;
 	static ArrayList<String[]> mapbuf;
-	static ArrayList<String[]> imgbuf;
+	static ArrayList<String[]> steckbuf;
 
 	/**
 	 * flush node and edge's buffer
@@ -48,6 +48,14 @@ public class FileIO {
 		ArrayList<Id> nodeids = new ArrayList<Id>();
 		Graph g = dpy.getGraph();
 		int i;
+		for (i = 1; i < mapbuf.size(); i++) {//why do we do 1?
+			String[] args = mapbuf.get(i);
+			parsemapline(args, dpy);
+		}
+		for (i = 0; i < steckbuf.size(); i++) {
+			String[] args = steckbuf.get(i);
+			parsesteckline(args, dpy);
+		}
 		for (i = 0; i < nodebuf.size(); i++) {
 			String[] args = nodebuf.get(i);
 			nodeids.add(parsepointline(args, g));
@@ -56,10 +64,7 @@ public class FileIO {
 			String[] args = edgebuf.get(i);
 			parseedgeline(args, g, nodeids);
 		}
-		for (i = 1; i < mapbuf.size(); i++) {//why do we do 1?
-			String[] args = mapbuf.get(i);
-			parsemapline(args, dpy);
-		}
+
 
 		nodeids = null;// best i can do to "free" it
 	}
@@ -77,6 +82,18 @@ public class FileIO {
 		if(args.length > 6) m.setName(getTags(args[6])[0]);
 		dpy.addMap(m);
 		return 1;
+	}
+	static int parsesteckline(String[] args, Display dpy){
+		for(String s : args) System.out.println("arg:" + s);
+		if(args.length < 2) return 0;
+		if(args[0] == null) return 0;
+		dpy.addmapstack(args[0]);
+		int i;
+		for(i = 1; i < args.length; i++){
+			dpy.addmaptostack(args[0], getTags(args[i])[0]);
+		}
+
+		return args.length;
 	}
 
 	/**
@@ -178,6 +195,10 @@ public class FileIO {
 			mapbuf.add(line.substring(i + 1).trim().split("\\s"));
 			//parsemapline(line.substring(i + 1).trim().split("\\s"), dpy);
 			break;
+		case 's': // steck;
+			steckbuf.add(line.substring(i + 1).trim().split("\\s"));
+			//parsemapline(line.substring(i + 1).trim().split("\\s"), dpy);
+			 break;
 
 		default: // some sorta error, or unrecognized element type
 			break;
@@ -187,8 +208,7 @@ public class FileIO {
 	// when calling load, you should ALWAYS keep track of the return display. It
 	// may create a new one.
 	/**
-	 * load the information about display 
-	 * @param inpath: input path for the file
+	 * load the information about display
 	 * @param indpy: input display class
 	 * @return current display
 	 * @throws URISyntaxException 
@@ -207,6 +227,7 @@ public class FileIO {
 		edgebuf = new ArrayList<String[]>();
 		nodebuf = new ArrayList<String[]>();
 		mapbuf = new ArrayList<String[]>();
+		steckbuf = new ArrayList<String[]>();
 		List<String> lines = new ArrayList<String>();
 		// todo should fix this try catch BS
 		String l = null;
@@ -319,6 +340,17 @@ public class FileIO {
 				writer.println("m " + map.imagePath + " " + c.getX() + " " + c.getY() + " " + c.getZ() + " " + map.rotation + " " + map.scale + " " + toTags(aaa));
 
 			}
+		for(Mapstack ms : indpy.mapstecks.values()) {
+			if(ms == null) continue;
+			writer.printf("s %s ", ms.name);
+			for (int k : ms.meps) {
+				if (k > indpy.getMaps().size()) continue;
+				Map j = indpy.getMaps().get(k);
+				if (j == null) continue;
+				writer.printf("%s ", j.getName());
+			}
+			writer.printf("\n");
+		}
 		if (writer != null) writer.close();
 		System.out.println("Writing completed");
 		return i;

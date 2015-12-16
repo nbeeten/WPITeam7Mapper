@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Map {
 	public ArrayList<Integer> goodcolors;
+	public String mapstackname;
 	
 	String name;
 	String imagePath;
@@ -12,6 +13,10 @@ public class Map {
 	float rotation;
 	float scale;
 	private Image myimg;
+
+	public void setmapstack(String name){
+		mapstackname = name;
+	}
 
 	private void updateImg(){
 		

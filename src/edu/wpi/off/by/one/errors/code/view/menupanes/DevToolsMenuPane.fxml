@@ -42,8 +42,7 @@
         </AnchorPane>
     </center>
     <bottom>
-    <Button fx:id="saveCurrentMapButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" text="Save"/>
-        <!--GridPane minWidth="0.0" BorderPane.alignment="CENTER">
+        <GridPane minWidth="0.0" BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints fillWidth="true" hgrow="SOMETIMES" minWidth="0" percentWidth="33" />
                 <ColumnConstraints fillWidth="true" hgrow="SOMETIMES" minWidth="0" percentWidth="34" />
@@ -53,10 +52,10 @@
                 <RowConstraints fillHeight="true" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-            	< Button fx:id="loadNewImageButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" text="New Image" GridPane.columnIndex="0" />
-                <Button fx:id="appendMapButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" text="Append" GridPane.columnIndex="1" />
-                
+            	<!--Button fx:id="loadNewImageButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" text="New Image" GridPane.columnIndex="0" /-->
+                <Button fx:id="appendMapButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" text="Append" GridPane.columnIndex="0" />
+                <Button fx:id="saveCurrentMapButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" text="Save" GridPane.columnIndex="1"/>
             </children>
-        </GridPane-->
+        </GridPane>
     </bottom>
 </fx:root>

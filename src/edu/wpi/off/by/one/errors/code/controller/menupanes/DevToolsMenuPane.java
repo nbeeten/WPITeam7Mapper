@@ -31,7 +31,7 @@ public class DevToolsMenuPane extends BorderPane {
 	@FXML EdgeDevToolPane edgeDevToolPane;
 	//@FXML Button loadNewImageButton;
 	//@FXML Button loadNewMapButton;
-	//@FXML Button appendMapButton;
+	@FXML Button appendMapButton;
 	@FXML Button saveCurrentMapButton;
 	
 
@@ -108,13 +108,10 @@ public class DevToolsMenuPane extends BorderPane {
             }
     	});
     	*/
-    	/*
     	// TODO Append new map onto current map on a separate pane layer
     	this.appendMapButton.setOnAction(e -> {
     		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
             Display newdisp = maproot.getDisplay();
-    		
-       
     		FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Map File");
             fileChooser.getExtensionFilters().addAll(
@@ -123,14 +120,19 @@ public class DevToolsMenuPane extends BorderPane {
             File selectedFile = fileChooser.showOpenDialog(ControllerSingleton.getInstance().getMainPane().getWindow());
             if (selectedFile != null) {
                 String inpath = selectedFile.getPath();
-                newdisp = FileIO.load(inpath, newdisp);
+                try {
+					newdisp = FileIO.load(getClass().getResourceAsStream(inpath), newdisp);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 maproot.updateDisplay(newdisp, "APPEND");
                 mapDevToolPane.updateMapList(maproot.getDisplay().getMaps());
                 //mapDevToolPane.setMap(newdisp.getMap());
                 ControllerSingleton.getInstance().getMenuPane().getSearchMenuPane().updateMapList(maproot.getDisplay().getMaps());
             }
     	});
-    	*/
+
     	this.saveCurrentMapButton.setOnAction(e -> {
     		MapRootPane maproot = ControllerSingleton.getInstance().getMapRootPane();
             FileIO.save(maproot.getFilePath(), maproot.getDisplay());
