@@ -490,7 +490,7 @@ public ArrayList<Step> getSteps(){
 	
 	for(Id cur : route){
 		Node n = theGraph.returnNodeById(cur);
-		Step step = new Step(n, lastNode);
+		
 		if(n == null) continue;
 		Coordinate thiscoord = n.getCoordinate();
 		if(lastcoord != null){
@@ -512,6 +512,7 @@ public ArrayList<Step> getSteps(){
 						res += ("Walk for " + Math.round(distFromTurn) + " paces " + (!n.getName().isEmpty() ? "towards " : "") + n.getName());
 					}
 					res += ("Make a slight " + (dxangle>=0 ? "right" : "left")+ " turn");
+					Step step = new Step(n, lastNode);
 					step.setInstructions(res);
 					steps.add(step);
 					lastNode = n;
@@ -523,6 +524,7 @@ public ArrayList<Step> getSteps(){
 					}else res += ("Walk for " + Math.round(distFromTurn) + " paces");
 					res += ("Make a " + (dxangle>=0 ? "right" : "left")+ " turn");
 					distFromTurn = dist;
+					Step step = new Step(n, lastNode);
 					step.setInstructions(res);
 					steps.add(step);
 					lastNode = n;
@@ -533,6 +535,7 @@ public ArrayList<Step> getSteps(){
 					}else res += ("Walk for " + Math.round(distFromTurn) + " paces");
 					res += ("Make a hard " + (dxangle>=0 ? "right" : "left")+ " turn");
 					distFromTurn = dist;
+					Step step = new Step(n, lastNode);
 					step.setInstructions(res);
 					steps.add(step);
 					lastNode = n;
@@ -543,6 +546,7 @@ public ArrayList<Step> getSteps(){
 					}else res += ("Walk for " + Math.round(distFromTurn) + " paces");
 					res += ("Make a sharp " + (dxangle>=0 ? "right" : "left")+ " turn");
 					distFromTurn = dist;
+					Step step = new Step(n, lastNode);
 					step.setInstructions(res);
 					steps.add(step);
 					lastNode = n;
@@ -557,6 +561,7 @@ public ArrayList<Step> getSteps(){
 				} else {
 					res += ("Face north");
 				}
+				Step step = new Step(n, lastNode);
 				step.setInstructions(res);
 				steps.add(step);
 				lastNode = n;
