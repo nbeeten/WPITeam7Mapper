@@ -356,7 +356,9 @@ public class FileIO {
 				if (k > indpy.getMaps().size()) continue;
 				Map j = indpy.getMaps().get(k);
 				if (j == null) continue;
-				writer.printf("%s ", j.getName());
+				String[] jimmy = new String[1];
+				jimmy[0] = j.getName();
+				writer.printf("%s ", toTags(jimmy));
 			}
 			writer.printf("\n");
 		}
