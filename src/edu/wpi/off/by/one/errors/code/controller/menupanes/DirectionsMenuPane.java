@@ -174,20 +174,27 @@ public class DirectionsMenuPane extends BorderPane {
         String output = "";
         int count = 0;
 
-        for (int i=0; i< numMessage; i++){   
-	        body.getChars(count, count+300, message, 0);
-	        output = new String(message);
-	        sendMessage(output);
-	        count = count + 300;
+        sendMessage(body);
+        /*
+        if (body.length() % 300 == 0){
+	        for (int i=0; i< numMessage; i++){   
+		        body.getChars(count, count+300, message, 0);
+		        output = new String(message);
+		        sendMessage(output);
+		        count = count + 300;
+	        }
+        }else{
+        	for (int i=0; i< numMessage; i++){   
+		        body.getChars(count, count+300, message, 0);
+		        output = new String(message);
+		        sendMessage(output);
+		        count = count + 300;
+	        }
+        	body.getChars(count, body.length(), message, 0);
+        	output = new String(message);
+        	sendMessage(output);
         }
-
-        if (body.length() % 300 != 0){
-	        body.getChars(count, body.length(), message, 0);
-	        output = new String(message);
-	        sendMessage(output);
-        }      
-
-        //cannot place starting point on 4th level        
+        */
 
     }
 
