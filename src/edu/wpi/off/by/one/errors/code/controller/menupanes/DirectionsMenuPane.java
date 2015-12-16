@@ -136,21 +136,6 @@ public class DirectionsMenuPane extends BorderPane {
         originNode = destinationNode;
         destinationNode = buffer;
     }
-
-    public void saveAsPng() {
-    	MapRootPane mrp = new MapRootPane();
-        WritableImage image = mrp.snapshot(new SnapshotParameters(), null);
-
-        // TODO: probably use a file chooser here
-        File file = new File("screenshot.png");
-
-        try {
-            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-            System.out.println("shoted");
-        } catch (IOException e) {
-            // TODO: handle exception here
-        }
-    }
     
     @FXML private void onEmailButtonClick(){
         settingsMenuPane = ControllerSingleton.getInstance().getSettingsMenuPane();
@@ -161,7 +146,6 @@ public class DirectionsMenuPane extends BorderPane {
         for (String s : directions){
             body += (s + "\n");
         }
-        saveAsPng();
         GoogleMail googleMail = new GoogleMail();
         googleMail.send(userEmail, "Directions from goatThere()", body);
     }
@@ -190,20 +174,27 @@ public class DirectionsMenuPane extends BorderPane {
         String output = "";
         int count = 0;
 
-        for (int i=0; i< numMessage; i++){   
-	        body.getChars(count, count+300, message, 0);
-	        output = new String(message);
-	        sendMessage(output);
-	        count = count + 300;
+        sendMessage(body);
+        /*
+        if (body.length() % 300 == 0){
+	        for (int i=0; i< numMessage; i++){   
+		        body.getChars(count, count+300, message, 0);
+		        output = new String(message);
+		        sendMessage(output);
+		        count = count + 300;
+	        }
+        }else{
+        	for (int i=0; i< numMessage; i++){   
+		        body.getChars(count, count+300, message, 0);
+		        output = new String(message);
+		        sendMessage(output);
+		        count = count + 300;
+	        }
+        	body.getChars(count, body.length(), message, 0);
+        	output = new String(message);
+        	sendMessage(output);
         }
-
-        if (body.length() % 300 != 0){
-	        body.getChars(count, body.length(), message, 0);
-	        output = new String(message);
-	        sendMessage(output);
-        }      
-
-        //cannot place starting point on 4th level        
+        */
 
     }
 
