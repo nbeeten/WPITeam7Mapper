@@ -17,6 +17,7 @@ public class Node {
     private boolean womens = false;
     private boolean genderNeutral = false;
     private String name = "";
+    public String mapstackname;
     
     /**
      *
