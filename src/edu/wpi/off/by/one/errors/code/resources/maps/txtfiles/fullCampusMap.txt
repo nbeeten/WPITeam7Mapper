@@ -3157,3 +3157,4 @@ m Wash0.png 974.23615 1101.8984 0.0 9.0 0.12 Washburn_Labs_Basement
 m Wash1.png 974.23615 1101.8984 1.0 9.0 0.12 Washburn_Labs_1
 m Wash2.png 974.23615 1101.8984 2.0 9.0 0.12 Washburn_Labs_2
 m Wash3.png 974.23615 1101.8984 3.0 9.0 0.12 Washburn_Labs_3
+s Wash Washburn_Labs_Basement Washburn_Labs_1 Washburn_Labs_2 Washburn_Labs_3

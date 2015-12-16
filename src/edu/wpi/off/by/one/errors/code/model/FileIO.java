@@ -90,7 +90,7 @@ public class FileIO {
 		dpy.addmapstack(args[0]);
 		int i;
 		for(i = 1; i < args.length; i++){
-			dpy.addmaptostack(args[0], args[i]);
+			dpy.addmaptostack(args[0], getTags(args[i])[0]);
 		}
 
 		return args.length;
@@ -342,7 +342,7 @@ public class FileIO {
 			}
 		for(Mapstack ms : indpy.mapstecks.values()) {
 			if(ms == null) continue;
-			writer.printf("m %s ", ms.name);
+			writer.printf("s %s ", ms.name);
 			for (int k : ms.meps) {
 				if (k > indpy.getMaps().size()) continue;
 				Map j = indpy.getMaps().get(k);
