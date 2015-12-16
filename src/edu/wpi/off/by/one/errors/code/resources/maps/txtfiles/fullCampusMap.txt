@@ -3116,67 +3116,67 @@ m Alden00.png 890.23303 1334.5698 -1.0 190.0 0.19 Alden_Hall_00
 m Alden0.png 882.667 1339.1445 0.0 190.0 0.19 Alden_Hall_0
 m Alden1.png 820.6096 1198.374 1.0 10.0 0.075 Alden_Hall_1
 m Alden2.png 887.6782 1334.9191 2.0 190.0 0.19 Alden_Hall_2
+s Alden_Hall Alden_Hall_00 Alden_Hall_0 Alden_Hall_1 Alden_Hall_2
 m ak0.png 1042.8943 1000.479 0.0 210.0 0.13 Atwater_Kent_0
 m AtwaterKent1.png 1045.7278 1012.07275 1.0 210.0 0.117 Atwater_Kent_1
 m ak2.png 1045.7278 1012.07275 2.0 210.0 0.117 Atwater_Kent_2
 m ak3.png 1045.7278 1012.07275 3.0 210.0 0.117 Atwater_Kent_3
+s Atwater_Kent Atwater_Kent_0 Atwater_Kent_1 Atwater_Kent_2 Atwater_Kent_3
 m Bartlett1.png 732.9818 1248.3472 1.0 278.0 0.075 Bartlett_Center_1
 m Bartlett2.png 732.9818 1248.3472 2.0 278.0 0.075 Bartlett_Center_2
+s Bartlett_Center Bartlett_Center_1 Bartlett_Center_2
 m BoyntonHall0.png 946.9095 1200.5587 0.0 9.0 0.07 Boynton_Hall_Basement
 m BoyntonHall1.png 947.6036 1199.623 1.0 9.0 0.07 Boynton_Hall_1
 m BoyntonHall2.png 946.9095 1200.5587 2.0 9.0 0.07 Boynton_Hall_2
 m BoyntonHall3.png 946.9095 1200.5587 3.0 9.0 0.07 Boynton_Hall_3
+s Boynton_Hall Boynton_Hall_Basement Boynton_Hall_1 Boynton_Hall_2 Boynton_Hall_3
 m CampusCenter1.png 794.0534 1039.2621 0.0 280.0 0.11 Campus_Center_1
 m CampusCenter2.png 794.0534 1039.2621 1.0 280.0 0.11 Campus_Center_2
 m CampusCenter3.png 794.0534 1039.2621 2.0 280.0 0.11 Campus_Center_3
+s Campus_Center Campus_Center_1 Campus_Center_2 Campus_Center_3
 m fullerlabs2.png 1025.1837 946.7641 1.0 334.0 0.105 Fuller_Labs_2
 m fullerlabs1.png 1024.818 946.1912 0.0 334.0 0.105 Fuller_Labs_1
 m fullerlabs0.png 1027.0052 946.85626 -1.0 334.0 0.105 Fuller_Labs_Basement
 m fullerlabsA.png 1032.8525 941.3205 -2.0 334.0 0.105 Fuller_Labs_Subbasement
 m fullerlabs3.png 1022.6156 945.092 2.0 334.0 0.105 Fuller_Labs_3
+s Fuller_Labs Fuller_Labs_Subbasement Fuller_Labs_Basement Fuller_Labs_1 Fuller_Labs_2 Fuller_Labs_3
 m GordonLibraryS.png 1131.4902 1075.3694 -2.0 102.0 0.08 Gordon_Library_Subfloor
 m GordonLibrary0.png 1133.0 1075.0 -1.0 102.0 0.08 Gordon_Library_0
 m GordonLibrary1.png 1132.0106 1078.0215 0.0 102.0 0.08 Gordon_Library_1
 m gl2.png 1120.0 1167.0 1.0 191.0 0.085 Gordon_Library_2
 m GordonLibrary3.png 1143.0 1075.0 2.0 102.0 0.09 Gordon_Library_3
+s Gordon_Library Gordon_Library_Subfloor Gordon_Library_0 Gordon_Library_1 Gordon_Library_2 Gordon_Library_3
 m Harrington1.png 641.6455 1014.17236 -1.0 9.0 0.11 Harrington_Basement
 m Harrington2.png 641.6455 1014.17236 0.0 9.0 0.11 Harrington_Gymnasium
 m Harrington3.png 641.6455 1014.17236 1.0 9.0 0.11 Harrington_Entrance_Level
 m Harrington4.png 641.6455 1014.17236 2.0 9.0 0.11 Harrington_Upper_Stands_and_Balcony
+s Harrington_Gym Harrington_Basement Harrington_Gymnasium Harrington_Entrance_Level Harrington_Upper_Stands_and_Balcony
 m hh0.png 837.6345 886.76483 0.0 124.0 0.1 Higgins_House_0
 m hh1.png 837.6345 886.76483 1.0 124.0 0.1 Higgins_House_1
 m hh2.png 837.6345 886.76483 2.0 124.0 0.1 Higgins_House_2
 m hh3.png 837.6345 886.76483 3.0 124.0 0.1 Higgins_House_3
+s Higgins_House  Higgins_House_0 Higgins_House_1 Higgins_House_2 Higgins_House_3
 m higgins0.png 835.06256 1048.5577 0.0 10.0 0.11 Higgins_Labs_Basement
 m higgins1.png 835.06256 1048.5577 1.0 10.0 0.11 Higgins_Labs_1
 m higgins2.png 835.06256 1048.5577 2.0 10.0 0.11 Higgins_Labs_2
 m higgins3.png 835.06256 1048.5577 3.0 10.0 0.11 Higgins_Labs_3
+s Higgins_Labs Higgins_Labs_Basement Higgins_Labs_1 Higgins_Labs_2 Higgins_Labs_3
 m pc1.png 979.60486 1075.8828 1.0 100.0 0.06 Project_Center_1
 m pc2.png 979.60486 1075.8828 2.0 100.0 0.06 Project_Center_2
+s Project_Center Project_Center_1 Project_Center_2
 m StrattonHall0.png 968.03357 1137.5441 1.0 100.0 0.059999973 Stratton_Hall_0
 m StrattonHall1.png 967.9269 1138.1487 2.0 99.6 0.06 Stratton_Hall_1
 m StrattonHall2.png 970.0 1137.0 3.0 100.0 0.06 Stratton_Hall_2
 m StrattonHall3.png 970.0 1137.0 4.0 100.0 0.06 Stratton_Hall_3
+s Stratton_Hall  Stratton_Hall_0 Stratton_Hall_1 Stratton_Hall_2
 m salisburylabs0.png 972.3327 979.4093 0.0 10.0 0.11 Salisbury_Labs_Basement
 m salisburylabs1.png 971.94727 980.2014 1.0 10.0 0.11 Salisbury_Labs_1
 m salisburylabs2.png 972.3327 979.4093 2.0 10.0 0.11 Salisbury_Labs_2
 m salisburylabs3.png 971.05383 990.27954 3.0 10.0 0.11 Salisbury_Labs_3
 m salisburylabs4.png 971.05383 991.87805 4.0 10.0 0.11 Salisbury_Labs_4
+s Salisbury_Labs Salisbury_Labs_Basement Salisbury_Labs_1 Salisbury_Labs_2 Salisbury_Labs_3 Salisbury_Labs_4
 m Wash0.png 974.23615 1101.8984 0.0 9.0 0.12 Washburn_Labs_Basement
 m Wash1.png 974.23615 1101.8984 1.0 9.0 0.12 Washburn_Labs_1
 m Wash2.png 974.23615 1101.8984 2.0 9.0 0.12 Washburn_Labs_2
 m Wash3.png 974.23615 1101.8984 3.0 9.0 0.12 Washburn_Labs_3
-s Bartlett_Center 
-s Gordon_Library 
-s Higgins_House 
-s Campus_Center 
-s Boynton_Hall 
-s Higgins_Labs 
-s Salisbury_Labs 
-s Washburn_Labs 
-s Atwater_Kent 
-s Harrington_Gym 
-s Alden_Hall 
-s Fuller_Labs 
-s Project_Center 
-s Stratton_Hall 
+s Washburn_Labs Washburn_Labs_Basement Washburn_Labs_1 Washburn_Labs_2 Washburn_Labs_3
