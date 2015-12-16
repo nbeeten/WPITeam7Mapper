@@ -136,21 +136,6 @@ public class DirectionsMenuPane extends BorderPane {
         originNode = destinationNode;
         destinationNode = buffer;
     }
-
-    public void saveAsPng() {
-    	MapRootPane mrp = new MapRootPane();
-        WritableImage image = mrp.snapshot(new SnapshotParameters(), null);
-
-        // TODO: probably use a file chooser here
-        File file = new File("screenshot.png");
-
-        try {
-            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-            System.out.println("shoted");
-        } catch (IOException e) {
-            // TODO: handle exception here
-        }
-    }
     
     @FXML private void onEmailButtonClick(){
         settingsMenuPane = ControllerSingleton.getInstance().getSettingsMenuPane();
@@ -161,7 +146,6 @@ public class DirectionsMenuPane extends BorderPane {
         for (String s : directions){
             body += (s + "\n");
         }
-        saveAsPng();
         GoogleMail googleMail = new GoogleMail();
         googleMail.send(userEmail, "Directions from goatThere()", body);
     }
